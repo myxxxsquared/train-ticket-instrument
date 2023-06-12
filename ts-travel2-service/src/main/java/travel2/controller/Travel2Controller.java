@@ -25,7 +25,6 @@ public class Travel2Controller {
     @Autowired
     private TravelService service;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Travel2Controller.class);
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
@@ -36,14 +35,12 @@ public class Travel2Controller {
     public HttpEntity getTrainTypeByTripId(@PathVariable String tripId,
                                            @RequestHeader HttpHeaders headers) {
         // TrainType
-        Travel2Controller.LOGGER.info("[getTrainTypeByTripId][Get train by Trip id][TripId: {}]",tripId);
         return ok(service.getTrainTypeByTripId(tripId, headers));
     }
 
     @GetMapping(value = "/routes/{tripId}")
     public HttpEntity getRouteByTripId(@PathVariable String tripId,
                                        @RequestHeader HttpHeaders headers) {
-        Travel2Controller.LOGGER.info("[getRouteByTripId][Get Route By Trip ID][TripId: {}]", tripId);
         //Route
         return ok(service.getRouteByTripId(tripId, headers));
     }
@@ -52,7 +49,6 @@ public class Travel2Controller {
     public HttpEntity getTripsByRouteId(@RequestBody ArrayList<String> routeIds,
                                         @RequestHeader HttpHeaders headers) {
         // ArrayList<ArrayList<Trip>>
-        Travel2Controller.LOGGER.info("[getTripByRoute][Get trips by Route id][RouteIdNumber: {}]",routeIds.size());
         return ok(service.getTripByRoute(routeIds, headers));
     }
 
@@ -60,7 +56,6 @@ public class Travel2Controller {
     @PostMapping(value = "/trips")
     public HttpEntity<?> createTrip(@RequestBody edu.fudan.common.entity.TravelInfo routeIds, @RequestHeader HttpHeaders headers) {
         // null
-        Travel2Controller.LOGGER.info("[create][Create trip][TripId: {}]", routeIds.getTripId());
         return new ResponseEntity<>(service.create(routeIds, headers), HttpStatus.CREATED);
     }
 
@@ -75,7 +70,6 @@ public class Travel2Controller {
     @GetMapping(value = "/trips/{tripId}")
     public HttpEntity retrieve(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
         // Trip
-        Travel2Controller.LOGGER.info("[retrieve][Retrieve trip][TripId: {}]",tripId);
         return ok(service.retrieve(tripId, headers));
     }
 
@@ -83,7 +77,6 @@ public class Travel2Controller {
     @PutMapping(value = "/trips")
     public HttpEntity updateTrip(@RequestBody edu.fudan.common.entity.TravelInfo info, @RequestHeader HttpHeaders headers) {
         // Trip
-        Travel2Controller.LOGGER.info("[update][Update trip][TripId: {}]",info.getTripId());
         return ok(service.update(info, headers));
     }
 
@@ -91,7 +84,6 @@ public class Travel2Controller {
     @DeleteMapping(value = "/trips/{tripId}")
     public HttpEntity deleteTrip(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
         // string
-        Travel2Controller.LOGGER.info("[delete][Delete trip][TripId: {}]",tripId);
         return ok(service.delete(tripId, headers));
     }
 
@@ -108,11 +100,9 @@ public class Travel2Controller {
         if (info.getStartPlace() == null || info.getStartPlace().length() == 0 ||
                 info.getEndPlace() == null || info.getEndPlace().length() == 0 ||
                 info.getDepartureTime() == null) {
-            Travel2Controller.LOGGER.info("[query][Travel Query Fail][Something null]");
             ArrayList<TripResponse> errorList = new ArrayList<>();
             return ok(errorList);
         }
-        Travel2Controller.LOGGER.info("[query][Query TripResponse]");
         return ok(service.queryByBatch(info, headers));
     }
 
@@ -126,7 +116,6 @@ public class Travel2Controller {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trip_detail")
     public HttpEntity getTripAllDetailInfo(@RequestBody edu.fudan.common.entity.TripAllDetailInfo gtdi, @RequestHeader HttpHeaders headers) {
-        Travel2Controller.LOGGER.info("[getTripAllDetailInfo][Get trip detail][TripId: {}]",gtdi.getTripId());
         return ok(service.getTripAllDetailInfo(gtdi, headers));
     }
 
@@ -134,7 +123,6 @@ public class Travel2Controller {
     @GetMapping(value = "/trips")
     public HttpEntity queryAll(@RequestHeader HttpHeaders headers) {
         // List<Trip>
-        Travel2Controller.LOGGER.info("[queryAll][Query all trips]");
         return ok(service.queryAll(headers));
     }
 
@@ -142,7 +130,6 @@ public class Travel2Controller {
     @GetMapping(value = "/admin_trip")
     public HttpEntity adminQueryAll(@RequestHeader HttpHeaders headers) {
         // ArrayList<AdminTrip>
-        Travel2Controller.LOGGER.info("[adminQueryAll][Admin query all trips]");
         return ok(service.adminQueryAll(headers));
     }
 

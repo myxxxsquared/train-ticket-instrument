@@ -30,7 +30,6 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminBasicInfoServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;

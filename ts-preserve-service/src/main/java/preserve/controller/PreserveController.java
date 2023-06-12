@@ -21,7 +21,6 @@ public class PreserveController {
     @Autowired
     private PreserveService preserveService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PreserveController.class);
 
     @GetMapping(path = "/welcome")
     public String home() {
@@ -32,7 +31,6 @@ public class PreserveController {
     @PostMapping(value = "/preserve")
     public HttpEntity preserve(@RequestBody OrderTicketsInfo oti,
                                @RequestHeader HttpHeaders headers) {
-        PreserveController.LOGGER.info("[preserve][Preserve Account order][from {} to {} at {}]", oti.getFrom(), oti.getTo(), oti.getDate());
         return ok(preserveService.preserve(oti, headers));
     }
 

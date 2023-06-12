@@ -22,7 +22,6 @@ public class CancelController {
     @Autowired
     CancelService cancelService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CancelController.class);
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
@@ -32,7 +31,6 @@ public class CancelController {
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/cancel/refound/{orderId}")
     public HttpEntity calculate(@PathVariable String orderId, @RequestHeader HttpHeaders headers) {
-        CancelController.LOGGER.info("[calculate][Calculate Cancel Refund][OrderId: {}]", orderId);
         return ok(cancelService.calculateRefund(orderId, headers));
     }
 
@@ -41,12 +39,9 @@ public class CancelController {
     public HttpEntity cancelTicket(@PathVariable String orderId, @PathVariable String loginId,
                                    @RequestHeader HttpHeaders headers) {
 
-        CancelController.LOGGER.info("[cancelTicket][Cancel Ticket][info: {}]", orderId);
         try {
-            CancelController.LOGGER.info("[cancelTicket][Cancel Ticket, Verify Success]");
             return ok(cancelService.cancelOrder(orderId, loginId, headers));
         } catch (Exception e) {
-            CancelController.LOGGER.error(e.getMessage());
             return ok(new Response<>(1, "error", null));
         }
     }

@@ -36,7 +36,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PreserveOtherServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
@@ -45,29 +44,21 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     @Override
     public Response preserve(OrderTicketsInfo oti, HttpHeaders httpHeaders) {
 
-        PreserveOtherServiceImpl.LOGGER.info("[preserve][Verify Login] Success");
         //1.detect ticket scalper
-        //PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 1][Check Security]");
 
         Response result = checkSecurity(oti.getAccountId(), httpHeaders);
 
         if (result.getStatus() == 0) {
-            PreserveOtherServiceImpl.LOGGER.error("[preserve][Step 1][Check Security Fail][AccountId: {}]",oti.getAccountId());
             return new Response<>(0, result.getMsg(), null);
         }
-        PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 1][Check Security Complete][AccountId: {}]",oti.getAccountId());
         //2.Querying contact information -- modification, mediated by the underlying information micro service
-        //PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 2][Find contacts][Contacts Id: {}]", oti.getContactsId());
 
         Response<Contacts> gcr = getContactsById(oti.getContactsId(), httpHeaders);
         if (gcr.getStatus() == 0) {
-            PreserveOtherServiceImpl.LOGGER.error("[preserve][Step 2][Find Contacts Fail][ContactsId: {},message: {}]",oti.getContactsId(),gcr.getMsg());
             return new Response<>(0, gcr.getMsg(), null);
         }
 
-        PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 2][Find contacts Complete][ContactsId: {}]",oti.getContactsId());
         //3.Check the info of train and the number of remaining tickets
-        //PreserveOtherServiceImpl.LOGGER.info("[Step 3] Check tickets num");
         TripAllDetailInfo gtdi = new TripAllDetailInfo();
 
         gtdi.setFrom(oti.getFrom());
@@ -75,32 +66,24 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
 
         gtdi.setTravelDate(oti.getDate());
         gtdi.setTripId(oti.getTripId());
-        PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 3][Check tickets num][TripId: {}]", oti.getTripId());
         Response<TripAllDetail> response = getTripAllDetailInformation(gtdi, httpHeaders);
         TripAllDetail gtdr = response.getData();
-        //LOGGER.info("TripAllDetail : " + gtdr.toString());
         if (response.getStatus() == 0) {
-            PreserveOtherServiceImpl.LOGGER.error("[preserve][Step 3][Check tickets num][Search For Trip Detail Information error][TripId: {}, message: {}]", gtdi.getTripId(), response.getMsg());
             return new Response<>(0, response.getMsg(), null);
         } else {
             TripResponse tripResponse = gtdr.getTripResponse();
-            //LOGGER.info("TripResponse : " + tripResponse.toString());
             if (oti.getSeatType() == SeatClass.FIRSTCLASS.getCode()) {
                 if (tripResponse.getConfortClass() == 0) {
-                    PreserveOtherServiceImpl.LOGGER.warn("[preserve][Step 3][Check seat][Check seat is enough][TripId: {}]",oti.getTripId());
                     return new Response<>(0, "Seat Not Enough", null);
                 }
             } else {
                 if (tripResponse.getEconomyClass() == SeatClass.SECONDCLASS.getCode() && tripResponse.getConfortClass() == 0) {
-                    PreserveOtherServiceImpl.LOGGER.warn("[preserve][Step 3][Check seat][Check seat is Not enough][TripId: {}]",oti.getTripId());
                     return new Response<>(0, "Check Seat Not Enough", null);
                 }
             }
         }
         Trip trip = gtdr.getTrip();
-        PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 3][Check tickets num][Tickets Enough]");
         //4.send the order request and set the order information
-        //PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 4][Do Order]");
         Contacts contacts = gcr.getData();
         Order order = new Order();
         String orderId = UUID.randomUUID().toString();
@@ -136,13 +119,11 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
                 new ParameterizedTypeReference<Response<TravelResult>>() {
                 });
         if(re.getBody().getStatus() == 0){
-            PreserveOtherServiceImpl.LOGGER.info("[Preserve 3][Get basic travel response status is 0][response is: {}]", re.getBody());
             return new Response<>(0, re.getBody().getMsg(), null);
         }
         TravelResult resultForTravel = re.getBody().getData();
 
         order.setSeatClass(oti.getSeatType());
-        PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 4][Do Order][Travel Date][Date is: {}]", oti.getDate().toString());
         order.setTravelDate(oti.getDate());
         order.setTravelTime(gtdr.getTripResponse().getStartTime());
 
@@ -168,26 +149,20 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
 
             order.setPrice(resultForTravel.getPrices().get("economyClass"));
         }
-        PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 4][Do Order][Order Price][Price is: {}]", order.getPrice());
 
         Response<Order> cor = createOrder(order, httpHeaders);
         if (cor.getStatus() == 0) {
-            PreserveOtherServiceImpl.LOGGER.error("[preserve][Step 4][Do Order][Create Order Fail][OrderId: {},  Reason: {}]", order.getId(), cor.getMsg());
             return new Response<>(0, cor.getMsg(), null);
         }
 
-        PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 4][Do Order][Do Order Complete]");
         Response returnResponse = new Response<>(1, "Success.", cor.getMsg());
         //5.Check insurance options
         if (oti.getAssurance() == 0) {
-            PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 5][Buy Assurance][Do not need to buy assurance]");
         } else {
             Response<Assurance> addAssuranceResult = addAssuranceForOrder(
                     oti.getAssurance(), cor.getData().getId().toString(), httpHeaders);
             if (addAssuranceResult.getStatus() == 1) {
-                PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 5][Buy Assurance][Preserve Buy Assurance Success]");
             } else {
-                PreserveOtherServiceImpl.LOGGER.warn("[preserve][Step 5][Buy Assurance][Buy Assurance Fail][assurance: {}, OrderId: {}]", oti.getAssurance(),cor.getData().getId());
                 returnResponse.setMsg("Success.But Buy Assurance Fail.");
             }
         }
@@ -205,13 +180,10 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
             }
             Response afor = createFoodOrder(foodOrder, httpHeaders);
             if (afor.getStatus() == 1) {
-                PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 6][Buy Food][Buy Food Success]");
             } else {
-                PreserveOtherServiceImpl.LOGGER.error("[preserve][Step 6][Buy Food][Buy Food Fail][OrderId: {}]",cor.getData().getId());
                 returnResponse.setMsg("Success.But Buy Food Fail.");
             }
         } else {
-            PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 6][Buy Food][Do not need to buy food]");
         }
 
         //7.add consign
@@ -227,16 +199,12 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
             consignRequest.setPhone(oti.getConsigneePhone());
             consignRequest.setWeight(oti.getConsigneeWeight());
             consignRequest.setWithin(oti.isWithin());
-            //LOGGER.info("CONSIGN INFO : " + consignRequest.toString());
             Response icresult = createConsign(consignRequest, httpHeaders);
             if (icresult.getStatus() == 1) {
-                PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 7][Add Consign][Consign Success]");
             } else {
-                PreserveOtherServiceImpl.LOGGER.error("[preserve][Step 7][Add Consign][Preserve Consign Fail][OrderId: {}]", cor.getData().getId());
                 returnResponse.setMsg("Consign Fail.");
             }
         } else {
-            PreserveOtherServiceImpl.LOGGER.info("[preserve][Step 7][Add Consign][Do not need to consign]");
         }
 
         //8.send notification
@@ -288,9 +256,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
         try {
             String infoJson = JsonUtils.object2Json(notifyInfo);
             sendService.send(infoJson);
-            PreserveOtherServiceImpl.LOGGER.info("[sendEmail][Send email to mq success]");
         } catch (Exception e) {
-            PreserveOtherServiceImpl.LOGGER.error("[sendEmail][Send email to mq error] exception is:" + e);
             return false;
         }
 
@@ -298,7 +264,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     public User getAccount(String accountId, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[getAccount][Cancel Order Service][Get Order By Id]");
 
         HttpEntity requestEntitySendEmail = new HttpEntity(httpHeaders);
         String user_service_url = getServiceUrl("ts-user-service");
@@ -315,7 +280,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response<Assurance> addAssuranceForOrder(int assuranceType, String orderId, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[addAssuranceForOrder][Preserve Service][Add Assurance Type For Order]");
         HttpEntity requestAddAssuranceResult = new HttpEntity(httpHeaders);
         String assurance_service_url = getServiceUrl("ts-assurance-service");
         ResponseEntity<Response<Assurance>> reAddAssuranceResult = restTemplate.exchange(
@@ -330,7 +294,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
 
 
     private String queryForStationId(String stationName, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[queryForStationId][Preserve Other Service][Get Station By  Name]");
 
 
         HttpEntity requestQueryForStationId = new HttpEntity(httpHeaders);
@@ -345,7 +308,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response checkSecurity(String accountId, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[checkSecurity][Preserve Other Service][Check Account Security]");
 
         HttpEntity requestCheckResult = new HttpEntity(httpHeaders);
         String security_service_url = getServiceUrl("ts-security-service");
@@ -360,7 +322,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
 
 
     private Response<TripAllDetail> getTripAllDetailInformation(TripAllDetailInfo gtdi, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[getTripAllDetailInformation][Preserve Other Service][Get Trip All Detail Information]");
 
         HttpEntity requestGetTripAllDetailResult = new HttpEntity(gtdi, httpHeaders);
         String travel2_service_url = getServiceUrl("ts-travel2-service");
@@ -375,7 +336,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response<Contacts> getContactsById(String contactsId, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[getContactsById][Preserve Other Service][Get Contacts By Id is]");
 
         HttpEntity requestGetContactsResult = new HttpEntity(httpHeaders);
         String contacts_service_url = getServiceUrl("ts-contacts-service");
@@ -390,7 +350,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response<Order> createOrder(Order coi, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[createOrder][Preserve Other Service][Get Contacts By Id]");
 
         HttpEntity requestEntityCreateOrderResult = new HttpEntity(coi, httpHeaders);
         String order_other_service_url = getServiceUrl("ts-order-other-service");
@@ -406,7 +365,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response createFoodOrder(FoodOrder afi, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[createFoodOrder][Preserve Service][Add Preserve food Order]");
 
         HttpEntity requestEntityAddFoodOrderResult = new HttpEntity(afi, httpHeaders);
         String food_service_url = getServiceUrl("ts-food-service");
@@ -420,7 +378,6 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response createConsign(Consign cr, HttpHeaders httpHeaders) {
-        PreserveOtherServiceImpl.LOGGER.info("[createConsign][Preserve Service][Add Condign]");
 
         HttpEntity requestEntityResultForTravel = new HttpEntity(cr, httpHeaders);
         String consign_service_url = getServiceUrl("ts-consign-service");

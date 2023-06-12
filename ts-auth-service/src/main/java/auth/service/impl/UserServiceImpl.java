@@ -24,7 +24,6 @@ import java.util.*;
  */
 @Service
 public class UserServiceImpl implements UserService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -50,7 +49,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User createDefaultAuthUser(AuthDto dto) {
-        LOGGER.info("[createDefaultAuthUser][Register User Info][AuthDto name: {}]", dto.getUserName());
         User user = User.builder()
                 .userId(dto.getUserId())
                 .username(dto.getUserName())
@@ -60,7 +58,6 @@ public class UserServiceImpl implements UserService {
         try {
             checkUserCreateInfo(user);
         } catch (UserOperationException e) {
-            LOGGER.error("[createDefaultAuthUser][Create default auth user][UserOperationException][message: {}]", e.getMessage());
         }
         return userRepository.save(user);
     }
@@ -68,7 +65,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Response deleteByUserId(String userId, HttpHeaders headers) {
-        LOGGER.info("[deleteByUserId][DELETE USER][user id: {}]", userId);
         userRepository.deleteByUserId(userId);
         return new Response(1, "DELETE USER SUCCESS", null);
     }
@@ -79,7 +75,6 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     private void checkUserCreateInfo(User user) throws UserOperationException {
-        LOGGER.info("[checkUserCreateInfo][Check user create info][userId: {}, userName: {}]", user.getUserId(), user.getUsername());
         List<String> infos = new ArrayList<>();
 
         if (null == user.getUsername() || "".equals(user.getUsername())) {
@@ -98,7 +93,6 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!infos.isEmpty()) {
-            LOGGER.warn(infos.toString());
             throw new UserOperationException(infos.toString());
         }
     }

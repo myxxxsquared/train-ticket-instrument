@@ -20,7 +20,6 @@ public class ExecuteControlller {
     @Autowired
     private ExecuteService executeService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteControlller.class);
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
@@ -30,7 +29,6 @@ public class ExecuteControlller {
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/execute/execute/{orderId}")
     public HttpEntity executeTicket(@PathVariable String orderId, @RequestHeader HttpHeaders headers) {
-        ExecuteControlller.LOGGER.info("[executeTicket][Execute][Id: {}]", orderId);
         // null
         return ok(executeService.ticketExecute(orderId, headers));
     }
@@ -38,7 +36,6 @@ public class ExecuteControlller {
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/execute/collected/{orderId}")
     public HttpEntity collectTicket(@PathVariable String orderId, @RequestHeader HttpHeaders headers) {
-        ExecuteControlller.LOGGER.info("[collectTicket][Collect][Id: {}]", orderId);
         // null
         return ok(executeService.ticketCollect(orderId, headers));
     }

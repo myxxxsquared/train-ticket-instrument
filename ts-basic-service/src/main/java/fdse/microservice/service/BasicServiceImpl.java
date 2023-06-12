@@ -30,7 +30,6 @@ public class BasicServiceImpl implements BasicService {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BasicServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
@@ -53,14 +52,11 @@ public class BasicServiceImpl implements BasicService {
             response.setStatus(0);
             response.setMsg("Start place or end place not exist!");
             if (!startingPlaceExist)
-                BasicServiceImpl.LOGGER.warn("[queryForTravel][Start place not exist][start place: {}]", info.getStartPlace());
             if (!endPlaceExist)
-                BasicServiceImpl.LOGGER.warn("[queryForTravel][End place not exist][end place: {}]", info.getEndPlace());
         }
 
         TrainType trainType = queryTrainTypeByName(info.getTrip().getTrainTypeName(), headers);
         if (trainType == null) {
-            BasicServiceImpl.LOGGER.warn("[queryForTravel][traintype doesn't exist][trainTypeName: {}]", info.getTrip().getTrainTypeName());
             result.setStatus(false);
             response.setStatus(0);
             response.setMsg("Train type doesn't exist");
@@ -87,8 +83,6 @@ public class BasicServiceImpl implements BasicService {
                 route.getStations().indexOf(start) < route.getStations().indexOf(end)){
             indexStart = route.getStations().indexOf(start);
             indexEnd = route.getStations().indexOf(end);
-            LOGGER.info("[queryForTravel][query start index and end index][indexStart: {} indexEnd: {}]", indexStart, indexEnd);
-            LOGGER.info("[queryForTravel][query stations and distances][stations: {} distances: {}]", route.getStations(), route.getDistances());
         }else {
             result.setStatus(false);
             response.setStatus(0);
@@ -115,7 +109,6 @@ public class BasicServiceImpl implements BasicService {
         result.setPrices(prices);
         result.setPercent(1.0);
         response.setData(result);
-        BasicServiceImpl.LOGGER.info("[queryForTravel][all done][result: {}]", result);
 
         return response;
     }
@@ -316,13 +309,11 @@ public class BasicServiceImpl implements BasicService {
             trMap.put(tripNumber, result);
         }
         response.setData(trMap);
-        BasicServiceImpl.LOGGER.info("[queryForTravels][all done][result map: {}]", trMap);
         return response;
     }
 
     @Override
     public Response queryForStationId(String stationName, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[queryForStationId][Query For Station Id][stationName: {}]", stationName);
         HttpEntity requestEntity = new HttpEntity(null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -332,14 +323,12 @@ public class BasicServiceImpl implements BasicService {
                 Response.class);
         if (re.getBody().getStatus() != 1) {
             String msg = re.getBody().getMsg();
-            BasicServiceImpl.LOGGER.warn("[queryForStationId][Query for stationId error][stationName: {}, message: {}]", stationName, msg);
             return new Response<>(0, msg, null);
         }
         return  re.getBody();
     }
 
     public Map<String,String> checkStationsExists(List<String> stationNames, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[checkStationsExists][Check Stations Exists][stationNames: {}]", stationNames);
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -356,7 +345,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public boolean checkStationExists(String stationName, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[checkStationExists][Check Station Exists][stationName: {}]", stationName);
         HttpEntity requestEntity = new HttpEntity(null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -370,7 +358,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public List<TrainType> queryTrainTypeByNames(List<String> trainTypeNames, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[queryTrainTypeByNames][Query Train Type][Train Type names: {}]", trainTypeNames);
         HttpEntity requestEntity = new HttpEntity(trainTypeNames, null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -387,7 +374,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[queryTrainTypeByName][Query Train Type][Train Type name: {}]", trainTypeName);
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -401,7 +387,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     private List<Route> getRoutesByRouteIds(List<String> routeIds, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[getRoutesByRouteIds][Get Route By Ids][Route IDs：{}]", routeIds);
         HttpEntity requestEntity = new HttpEntity(routeIds, null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -411,17 +396,14 @@ public class BasicServiceImpl implements BasicService {
                 Response.class);
         Response<List<Route>> result = re.getBody();
         if ( result.getStatus() == 0) {
-            BasicServiceImpl.LOGGER.warn("[getRoutesByRouteIds][Get Route By Ids Failed][Fail msg: {}]", result.getMsg());
             return null;
         } else {
-            BasicServiceImpl.LOGGER.info("[getRoutesByRouteIds][Get Route By Ids][Success]");
             List<Route> routes = Arrays.asList(JsonUtils.conveterObject(result.getData(), Route[].class));;
             return routes;
         }
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[getRouteByRouteId][Get Route By Id][Route ID：{}]", routeId);
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -431,16 +413,13 @@ public class BasicServiceImpl implements BasicService {
                 Response.class);
         Response result = re.getBody();
         if ( result.getStatus() == 0) {
-            BasicServiceImpl.LOGGER.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());
             return null;
         } else {
-            BasicServiceImpl.LOGGER.info("[getRouteByRouteId][Get Route By Id][Success]");
             return JsonUtils.conveterObject(result.getData(), Route.class);
         }
     }
 
     private PriceConfig queryPriceConfigByRouteIdAndTrainType(String routeId, String trainType, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[queryPriceConfigByRouteIdAndTrainType][Query For Price Config][RouteId: {} ,TrainType: {}]", routeId, trainType);
         HttpEntity requestEntity = new HttpEntity(null, null);
         String price_service_url=getServiceUrl("ts-price-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -450,12 +429,10 @@ public class BasicServiceImpl implements BasicService {
                 Response.class);
         Response result = re.getBody();
 
-        BasicServiceImpl.LOGGER.info("[queryPriceConfigByRouteIdAndTrainType][Response Resutl to String][result: {}]", result.toString());
         return  JsonUtils.conveterObject(result.getData(), PriceConfig.class);
     }
 
     private Map<String, PriceConfig> queryPriceConfigByRouteIdsAndTrainTypes(List<String> routeIdsTypes, HttpHeaders headers) {
-        BasicServiceImpl.LOGGER.info("[queryPriceConfigByRouteIdsAndTrainTypes][Query For Price Config][RouteId and TrainType: {}]", routeIdsTypes);
         HttpEntity requestEntity = new HttpEntity(routeIdsTypes, null);
         String price_service_url=getServiceUrl("ts-price-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -467,17 +444,14 @@ public class BasicServiceImpl implements BasicService {
 
         Map<String, PriceConfig> pcMap;
         if ( result.getStatus() == 0) {
-            BasicServiceImpl.LOGGER.warn("[queryPriceConfigByRouteIdsAndTrainTypes][Get Price Config by routeId and trainType Failed][Fail msg: {}]", result.getMsg());
             return null;
         } else {
             ObjectMapper mapper = new ObjectMapper();
             try{
                 pcMap = mapper.readValue(JsonUtils.object2Json(result.getData()), new TypeReference<Map<String, PriceConfig>>(){});
             }catch(Exception e) {
-                BasicServiceImpl.LOGGER.warn("[queryPriceConfigByRouteIdsAndTrainTypes][Get Price Config by routeId and trainType Failed][Fail msg: {}]", e.getMessage());
                 return null;
             }
-            BasicServiceImpl.LOGGER.info("[queryPriceConfigByRouteIdsAndTrainTypes][Get Price Config by routeId and trainType][Success][priceConfigs: {}]", result.getData());
             return pcMap;
         }
     }

@@ -20,7 +20,6 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     String success = "Success";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConsignPriceServiceImpl.class);
 
     @Override
     public Response getPriceByWeightAndRegion(double weight, boolean isWithinRegion, HttpHeaders headers) {
@@ -58,7 +57,6 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response createAndModifyPrice(ConsignPrice config, HttpHeaders headers) {
-        ConsignPriceServiceImpl.LOGGER.info("[createAndModifyPrice][Create New Price Config]");
         //update price
         ConsignPrice originalConfig;
         if (repository.findByIndex(0) != null) {

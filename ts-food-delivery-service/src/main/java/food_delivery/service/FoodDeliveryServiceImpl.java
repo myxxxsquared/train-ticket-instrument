@@ -28,7 +28,6 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     @Autowired
     FoodDeliveryOrderRepository foodDeliveryOrderRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FoodDeliveryServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -62,7 +61,6 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
         for (Food food : orderFoodList) {
             Double fee = foodPrice.get(food.getFoodName());
             if (fee == null) {
-                LOGGER.error("{}:{} have no such food: {}", stationFoodStoreId, stationFoodStoreInfo.getStoreName(), food.getFoodName());
                 return new Response<>(0, "Food not in store", null);
             }
             deliveryFee += fee;
@@ -77,11 +75,9 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     public Response deleteFoodDeliveryOrder(String id, HttpHeaders headers) {
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[deleteFoodDeliveryOrder] No such food delivery order id: {}", id);
             return new Response<>(0, "No such food delivery order id", id);
         } else {
             foodDeliveryOrderRepository.deleteById(id);
-            LOGGER.info("[deleteFoodDeliveryOrder] Delete success, food delivery order id: {}", id);
             return new Response<>(1, "Delete success", null);
         }
     }
@@ -90,10 +86,8 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     public Response getFoodDeliveryOrderById(String id, HttpHeaders headers) {
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[deleteFoodDeliveryOrder] No such food delivery order id: {}", id);
             return new Response<>(0, "No such food delivery order id", id);
         } else {
-            LOGGER.info("[getFoodDeliveryOrderById] Get success, food delivery order id: {}", id);
             return new Response<>(1, "Get success", t);
         }
     }
@@ -102,10 +96,8 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     public Response getAllFoodDeliveryOrders(HttpHeaders headers) {
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findAll();
         if (foodDeliveryOrders == null) {
-            LOGGER.error("[getAllFoodDeliveryOrders] Food delivery orders query error");
             return new Response<>(0, "food delivery orders query error", null);
         } else {
-            LOGGER.info("[getAllFoodDeliveryOrders] Get all food delivery orders success");
             return new Response<>(1, "Get success", foodDeliveryOrders);
         }
     }
@@ -114,10 +106,8 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     public Response getFoodDeliveryOrderByStoreId(String storeId, HttpHeaders headers) {
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findByStationFoodStoreId(storeId);
         if (foodDeliveryOrders == null) {
-            LOGGER.error("[getAllFoodDeliveryOrders] Food delivery orders query error");
             return new Response<>(0, "food delivery orders query error", storeId);
         } else {
-            LOGGER.info("[getAllFoodDeliveryOrders] Get food delivery orders by storeId {} success", storeId);
             return new Response<>(1, "Get success", foodDeliveryOrders);
         }
     }
@@ -128,12 +118,10 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
         String tripId = tripInfo.getTripId();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[updateTripId] No such delivery order id: {}", id);
             return new Response<>(0, "No such delivery order id", id);
         } else {
             t.setTripId(tripId);
             foodDeliveryOrderRepository.save(t);
-            LOGGER.info("[updateTripId] update tripId success. id:{}, tripId:{}", id, tripId);
             return new Response<>(1, "update tripId success", t);
         }
     }
@@ -144,12 +132,10 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
         int seatNo = seatInfo.getSeatNo();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[updateSeatNo] No such delivery order id: {}", id);
             return new Response<>(0, "No such delivery order id", id);
         } else {
             t.setSeatNo(seatNo);
             foodDeliveryOrderRepository.save(t);
-            LOGGER.info("[updateSeatNo] update seatNo success. id:{}, seatNo:{}", id, seatNo);
             return new Response<>(1, "update seatNo success", t);
         }
     }
@@ -160,12 +146,10 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
         String deliveryTime = deliveryInfo.getDeliveryTime();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[updateDeliveryTime] No such delivery order id: {}", id);
             return new Response<>(0, "No such delivery order id", id);
         } else {
             t.setDeliveryTime(deliveryTime);
             foodDeliveryOrderRepository.save(t);
-            LOGGER.info("[updateDeliveryTime] update deliveryTime success. id:{}, deliveryTime:{}", id, deliveryTime);
             return new Response<>(1, "update deliveryTime success", t);
         }
     }

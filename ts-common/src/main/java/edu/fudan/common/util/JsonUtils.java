@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
  */
 public class JsonUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
 
     private JsonUtils() {
         throw new IllegalStateException("Utility class");
@@ -29,7 +28,6 @@ public class JsonUtils {
             ObjectMapper objectMapper = new ObjectMapper();
             result = objectMapper.writeValueAsString(obj);
         } catch (IOException e) {
-            JsonUtils.LOGGER.error("[object2Json][writeValueAsString][IOException: {}]", e.getMessage());
         }
         return result;
     }
@@ -61,9 +59,7 @@ public class JsonUtils {
             ObjectMapper objectMapper = new ObjectMapper();
             result = objectMapper.readValue(json, cls);
         } catch (NullPointerException e) {
-            JsonUtils.LOGGER.error("[json2Object][objectMapper.readValue][NullPointerException: {}]",e.getMessage());
         } catch (IOException e) {
-            JsonUtils.LOGGER.error("[json2Object][objectMapper.readValue][IOException: {}]",e.getMessage());
         }
 
         return result;

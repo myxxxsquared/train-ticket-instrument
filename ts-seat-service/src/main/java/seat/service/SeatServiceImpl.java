@@ -31,7 +31,6 @@ public class SeatServiceImpl implements SeatService {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SeatServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
@@ -51,7 +50,6 @@ public class SeatServiceImpl implements SeatService {
         String trainNumber = seatRequest.getTrainNumber();
 
         if (trainNumber.startsWith("G") || trainNumber.startsWith("D")) {
-            SeatServiceImpl.LOGGER.info("[distributeSeat][TrainNumber start][G or D]");
 
             HttpEntity requestEntity = new HttpEntity(null);
             //Call the microservice to query for residual Ticket information: the set of the Ticket sold for the specified seat type
@@ -63,10 +61,8 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-            SeatServiceImpl.LOGGER.info("[distributeSeat][Left ticket info][info is : {}]", re3.getBody().toString());
             leftTicketInfo = re3.getBody().getData();
         } else {
-            SeatServiceImpl.LOGGER.info("[distributeSeat][TrainNumber start][Other Capital Except D and G]");
             //Call the microservice to query for residual Ticket information: the set of the Ticket sold for the specified seat type
             HttpEntity requestEntity = new HttpEntity(seatRequest, null);
             String order_other_service_url=getServiceUrl("ts-order-other-service");
@@ -76,7 +72,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-            SeatServiceImpl.LOGGER.info("[distributeSeat][Left ticket info][info is : {}]", re3.getBody().toString());
             leftTicketInfo = re3.getBody().getData();
         }
 
@@ -102,7 +97,6 @@ public class SeatServiceImpl implements SeatService {
                 //Tickets can be allocated if the sold ticket's end station before the start station of the request
                 if (stationList.indexOf(soldTicketDestStation) < stationList.indexOf(startStation)) {
                     ticket.setSeatNo(soldTicket.getSeatNo());
-                    SeatServiceImpl.LOGGER.info("[distributeSeat][Assign new tickets][Use the previous distributed seat number][seat number:{}]", soldTicket.getSeatNo());
                     return new Response<>(1, "Use the previous distributed seat number!", ticket);
                 }
             }
@@ -111,7 +105,6 @@ public class SeatServiceImpl implements SeatService {
             }
         }
         ticket.setSeatNo(seat);
-        SeatServiceImpl.LOGGER.info("[distributeSeat][Assign new tickets][Use a new seat number][seat number:{}]", seat);
         return new Response<>(1, "Use a new seat number!", ticket);
     }
 
@@ -134,9 +127,7 @@ public class SeatServiceImpl implements SeatService {
 
         //Distinguish G\D from other trains
         String trainNumber = seatRequest.getTrainNumber();
-        SeatServiceImpl.LOGGER.info("[getLeftTicketOfInterval][Seat request][request:{}]", seatRequest.toString());
         if (trainNumber.startsWith("G") || trainNumber.startsWith("D")) {
-            SeatServiceImpl.LOGGER.info("[getLeftTicketOfInterval][TrainNumber start with G|D][trainNumber:{}]", trainNumber);
 
             //Call the micro service to query all the station information for the trains
             HttpEntity requestEntity = new HttpEntity(seatRequest, null);
@@ -148,10 +139,8 @@ public class SeatServiceImpl implements SeatService {
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
 
-            SeatServiceImpl.LOGGER.info("[getLeftTicketOfInterval][Get Order tickets result][result is {}]", re3);
             leftTicketInfo = re3.getBody().getData();
         } else {
-            SeatServiceImpl.LOGGER.info("[getLeftTicketOfInterval][TrainNumber start with other capital][trainNumber:{}]", trainNumber);
             //Call the micro service to query all the station information for the trains
             HttpEntity requestEntity = new HttpEntity(null);
             //Call the micro service to query for residual Ticket information: the set of the Ticket sold for the specified seat type
@@ -163,7 +152,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-            SeatServiceImpl.LOGGER.info("[getLeftTicketOfInterval][Get Order tickets result][result is {}]", re3);
             leftTicketInfo = re3.getBody().getData();
         }
 
@@ -180,7 +168,6 @@ public class SeatServiceImpl implements SeatService {
                 String soldTicketDestStation = soldTicket.getDestStation();
                 //Tickets can be allocated if the sold ticket's end station before the start station of the request
                 if (stationList.indexOf(soldTicketDestStation) < stationList.indexOf(startStation)) {
-                    SeatServiceImpl.LOGGER.info("[getLeftTicketOfInterval][Ticket available or sold][The previous distributed seat number is usable][{}]", soldTicket.getSeatNo());
                     numOfLeftTicket++;
                 }
             }
@@ -214,7 +201,6 @@ public class SeatServiceImpl implements SeatService {
                 new ParameterizedTypeReference<Response<Config>>() {
                 });
         Response<Config> configValue = re.getBody();
-        SeatServiceImpl.LOGGER.info("[getDirectProportion][Configs is : {}]", configValue.getData().toString());
         return Double.parseDouble(configValue.getData().getValue());
     }
 }

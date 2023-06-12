@@ -28,7 +28,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminUserServiceImpl.class);
 //    @Value("${user-service.url}")
 //    String user_service_url;
 //    private final String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
@@ -49,10 +48,8 @@ public class AdminUserServiceImpl implements AdminUserService {
                 new ParameterizedTypeReference<Response<List<User>>>() {
                 });
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
-            AdminUserServiceImpl.LOGGER.error("[getAllUsers][receive response][Get All Users error]");
             return new Response<>(0, "get all users error", null);
         }
-        AdminUserServiceImpl.LOGGER.info("[getAllUsers][Get All Users][success]");
         return re.getBody();
     }
 
@@ -73,16 +70,13 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 Response.class);
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
-            AdminUserServiceImpl.LOGGER.error("[deleteUser][receive response][Delete user error][userId: {}]", userId);
             return new Response<>(0, "delete user error", null);
         }
-        AdminUserServiceImpl.LOGGER.info("[deleteUser][Delete user success][userId: {}]", userId);
         return re.getBody();
     }
 
     @Override
     public Response updateUser(UserDto userDto, HttpHeaders headers) {
-        LOGGER.info("UPDATE USER: " + userDto.toString());
 
         HttpHeaders newHeaders = new HttpHeaders();
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
@@ -99,16 +93,13 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
-            AdminUserServiceImpl.LOGGER.error("[updateUser][receive response][Update user error][userName: {}]", userName);
             return new Response<>(0, "Update user error", null);
         }
-        AdminUserServiceImpl.LOGGER.info("[updateUser][Update user success][userName: {}]", userName);
         return re.getBody();
     }
 
     @Override
     public Response addUser(UserDto userDto, HttpHeaders headers) {
-        LOGGER.info("[addUser][ADD USER INFO][UserDto: {}]", userDto.toString());
         HttpEntity requestEntity = new HttpEntity(userDto, null);
         String user_service_url = getServiceUrl("ts-user-service");
         String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
@@ -121,10 +112,8 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
-            AdminUserServiceImpl.LOGGER.error("[addUser][receive response][Add user error][userName: {}]", userName);
             return new Response<>(0, "Add user error", null);
         }
-        AdminUserServiceImpl.LOGGER.info("[addUser][Add user success][userName: {}]", userName);
         return re.getBody();
     }
 }

@@ -32,7 +32,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WaitListOrderServiceImpl.class);
 
     String success = "Success";
 
@@ -40,11 +39,9 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response findOrderById(String id, HttpHeaders headers) {
         Optional<WaitListOrder> op = waitListOrderRepository.findById(id);
         if(!op.isPresent()){
-            LOGGER.warn("[findWaitOrderById][Find Order By Id Fail][No content][id: {}] ",id);
             return new Response<>(0, "No Content by this id", null);
         } else {
             WaitListOrder wo = op.get();
-            LOGGER.info("[findWaitOrderById][Find Order By Id Success][id: {}] ",id);
             return new Response<>(1, success, wo);
         }
     }
@@ -52,7 +49,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Transactional
     @Override
     public Response create(WaitListOrderVO orderVO, HttpHeaders headers) {
-        LOGGER.info("[create][Create Wait Order][Ready to Create Wait Order]");
         Response<WaitListOrder> response=saveNewOrder(orderVO,headers);
         if(response.getStatus()==0){
             //未能正常保存到数据库
@@ -67,10 +63,8 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response getAllOrders(HttpHeaders headers) {
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
         if (orderList != null && !orderList.isEmpty()) {
-            WaitListOrderServiceImpl.LOGGER.warn("[getAllOrders][Find all orders Success][size:{}]",orderList.size());
             return new Response<>(1, "Success.", orderList);
         } else {
-            LOGGER.warn("[getAllOrders][Find All Wait List Orders Fail][{}]","No content");
             return new Response<>(0, "No Content.", null);
         }
     }
@@ -79,7 +73,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response getAllWaitListOrders(HttpHeaders headers) {
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
         if (orderList != null && !orderList.isEmpty()) {
-            WaitListOrderServiceImpl.LOGGER.warn("[getAllWaitListOrders][Find all orders Success][size:{}]",orderList.size());
             List<Integer> filterList=new ArrayList<>();
             filterList.add(WaitListOrderStatus.NOTPAID.getCode());
             filterList.add(WaitListOrderStatus.PAID.getCode());
@@ -89,7 +82,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
                     .collect(Collectors.toList());
             return new Response<>(1, "Success.", orderList);
         } else {
-            LOGGER.warn("[getAllWaitListOrders][Find All Wait List Orders Fail][{}]","No content");
             return new Response<>(0, "No Content.", null);
         }
     }
@@ -97,16 +89,13 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Transactional
     @Override
     public Response updateOrder(WaitListOrder order, HttpHeaders headers) {
-        LOGGER.info("[updateOrder][Update Wait List Order][Order Info:{}] ", order.toString());
         Optional<WaitListOrder> op = waitListOrderRepository.findById(order.getId());
         if(!op.isPresent()){
-            LOGGER.error("[updateOrder][Update Order Info Fail][Order not found][OrderId: {}]",order.getId());
             return new Response<>(0, "Order Not Found, Can't update", null);
         } else {
             WaitListOrder old = op.get();
             BeanUtils.copyProperties(old,order);
             waitListOrderRepository.save(old);
-            LOGGER.info("[updateOrder][Update Wait List Order Info Success][OrderId: {}]",order.getId());
             return new Response<>(1, "Update Wait List Order Success", old);
         }
     }
@@ -114,16 +103,13 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Transactional
     @Override
     public Response modifyWaitListOrderStatus(int status, String orderId) {
-        LOGGER.info("[modifyWaitListOrderStatus][Modify Order Status][OrderId:{}] ", orderId);
         Optional<WaitListOrder> op = waitListOrderRepository.findById(orderId);
         if(!op.isPresent()){
-            LOGGER.error("[modifyWaitListOrderStatus][Modify Order Status Fail][Order not found][OrderId: {}]",orderId);
             return new Response<>(0, "Order Not Found, Can't update", null);
         } else {
             WaitListOrder old = op.get();
             old.setStatus(status);
             waitListOrderRepository.save(old);
-            LOGGER.info("[modifyWaitListOrderStatus][Modify Order Status Success][OrderId: {}]",orderId);
             return new Response<>(1, "Modify Wait List Order Status Success", old);
         }
     }
@@ -132,7 +118,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
         ArrayList<WaitListOrder> accountOrders= waitListOrderRepository.findByAccountId(orderVO.getAccountId());
         //if the order already exist
         if(WaitListOrderExist(accountOrders,orderVO)){
-            WaitListOrderServiceImpl.LOGGER.error("[create][Create Wait Order Fail][Order already exists][AccountId: {} , TripId: {}]", orderVO.getAccountId(),orderVO.getTripId());
             return new Response<>(0, "Order already exist", null);
         } else {
             WaitListOrder newWaitListOrder=new WaitListOrder();
@@ -140,7 +125,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
             BeanUtils.copyProperties(newWaitListOrder,orderVO);
             newWaitListOrder.setTrainNumber(orderVO.getTripId());
             waitListOrderRepository.save(newWaitListOrder);
-            WaitListOrderServiceImpl.LOGGER.info("[create][Create Wait Order Success][Order Price][AccountId: {} , TripId: {}]", orderVO.getAccountId(),orderVO.getTripId());
             return new Response<>(1,success,newWaitListOrder);
         }
     }

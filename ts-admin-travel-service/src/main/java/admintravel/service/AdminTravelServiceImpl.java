@@ -32,7 +32,6 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminTravelServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
@@ -43,7 +42,6 @@ public class AdminTravelServiceImpl implements AdminTravelService {
         Response<ArrayList<AdminTrip>> result;
         ArrayList<AdminTrip> trips = new ArrayList<>();
 
-        AdminTravelServiceImpl.LOGGER.info("[getAllTravels][Get All Travels]");
         HttpEntity requestEntity = new HttpEntity(headers);
         String travel_service_url = getServiceUrl("ts-travel-service");
         ResponseEntity<Response<ArrayList<AdminTrip>>> re = restTemplate.exchange(
@@ -56,10 +54,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
         if (result.getStatus() == 1) {
             ArrayList<AdminTrip> adminTrips = result.getData();
-            AdminTravelServiceImpl.LOGGER.info("[getAllTravels][Get Travel From ts-travel-service successfully!]");
             trips.addAll(adminTrips);
         } else {
-            AdminTravelServiceImpl.LOGGER.error("[getAllTravels][receive response][Get Travel From ts-travel-service fail!]");
         }
 
         HttpEntity requestEntity2 = new HttpEntity(headers);
@@ -73,11 +69,9 @@ public class AdminTravelServiceImpl implements AdminTravelService {
         result = re2.getBody();
 
         if (result.getStatus() == 1) {
-            AdminTravelServiceImpl.LOGGER.info("[getAllTravels][Get Travel From ts-travel2-service successfully!]");
             ArrayList<AdminTrip> adminTrips = result.getData();
             trips.addAll(adminTrips);
         } else {
-            AdminTravelServiceImpl.LOGGER.error("[getAllTravels][receive response][Get Travel From ts-travel2-service fail!]");
         }
         result.setData(trips);
 
@@ -112,10 +106,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
         result = re.getBody();
 
         if (result.getStatus() == 1) {
-            AdminTravelServiceImpl.LOGGER.info("[addTravel][Admin add new travel][success]");
             return new Response<>(1, "[Admin add new travel]", null);
         } else {
-            AdminTravelServiceImpl.LOGGER.error("[addTravel][receive response][Admin add new travel failed][trip id: {}]", request.getTripId());
             return new Response<>(0, "Admin add new travel failed", null);
         }
     }
@@ -147,11 +139,9 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
         result = re.getBody();
         if (result.getStatus() != 1)  {
-            AdminTravelServiceImpl.LOGGER.info("[updateTravel][Admin update travel failed]");
             return new Response<>(0, "Admin update travel failed", null);
         }
 
-        AdminTravelServiceImpl.LOGGER.info("[updateTravel][Admin update travel][success]");
         return result;
     }
 
@@ -176,11 +166,9 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
         result = re.getBody();
         if (result.getStatus() != 1) {
-            AdminTravelServiceImpl.LOGGER.error("[deleteTravel][receive response][Admin delete travel failed][trip id: {}]", tripId);
             return new Response<>(0, "Admin delete travel failed", null);
         }
 
-        AdminTravelServiceImpl.LOGGER.info("[deleteTravel][Admin delete travel success][trip id: {}]", tripId);
         return result;
     }
 
@@ -197,7 +185,6 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
         TrainType trainType = queryTrainTypeByName(info.getTrainTypeName(), headers);
         if (trainType == null) {
-            AdminTravelServiceImpl.LOGGER.warn(
                     "[queryForTravel][traintype doesn't exist][trainTypeName: {}]",
                     info.getTrainTypeName());
             response.setStatus(0);
@@ -227,7 +214,6 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     public Response checkStationsExists(List<String> stationNames, HttpHeaders headers) {
-        AdminTravelServiceImpl.LOGGER.info("[checkStationsExists][Check Stations Exists][stationNames: {}]", stationNames);
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -254,7 +240,6 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        AdminTravelServiceImpl.LOGGER.info("[queryTrainTypeByName][Query Train Type][Train Type name: {}]", trainTypeName);
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -268,7 +253,6 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
-        AdminTravelServiceImpl.LOGGER.info("[getRouteByRouteId][Get Route By Id][Route ID：{}]", routeId);
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -278,10 +262,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 Response.class);
         Response result = re.getBody();
         if ( result.getStatus() == 0) {
-            AdminTravelServiceImpl.LOGGER.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());
             return null;
         } else {
-            AdminTravelServiceImpl.LOGGER.info("[getRouteByRouteId][Get Route By Id][Success]");
             return JsonUtils.conveterObject(result.getData(), Route.class);
         }
     }

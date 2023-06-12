@@ -17,7 +17,6 @@ public class TrainFoodServiceImpl implements TrainFoodService{
     @Autowired
     TrainFoodRepository trainFoodRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TrainFoodServiceImpl.class);
 
     String success = "Success";
     String noContent = "No content";
@@ -27,7 +26,6 @@ public class TrainFoodServiceImpl implements TrainFoodService{
         TrainFood tfTemp = trainFoodRepository.findByTripId(tf.getTripId());
         if (tfTemp != null) {
             if(tfTemp.getFoodList().equals(tf.getFoodList())){
-                TrainFoodServiceImpl.LOGGER.error("[Init TrainFood] Already Exists TripId: {}", tf.getTripId());
             }else{
                 tfTemp.setFoodList(tf.getFoodList());
                 trainFoodRepository.save(tfTemp);
@@ -44,7 +42,6 @@ public class TrainFoodServiceImpl implements TrainFoodService{
         if (trainFoodList != null && !trainFoodList.isEmpty()) {
             return new Response<>(1, success, trainFoodList);
         } else {
-            TrainFoodServiceImpl.LOGGER.error("List train food error: {}", noContent);
             return new Response<>(0, noContent, null);
         }
     }

@@ -17,7 +17,6 @@ public class InitData implements CommandLineRunner {
     @Autowired
     FoodDeliveryService foodDeliveryService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InitData.class);
 
 
     @Override
@@ -46,8 +45,6 @@ public class InitData implements CommandLineRunner {
 //                foodDeliveryService.createFoodDeliveryOrder(foodDeliveryOrder, null);
 //            }
         } catch(Exception e) {
-            InitData.LOGGER.info("food_delivery_orders.txt has format error!");
-            InitData.LOGGER.error(e.getMessage());
             System.exit(1);
         }
     }

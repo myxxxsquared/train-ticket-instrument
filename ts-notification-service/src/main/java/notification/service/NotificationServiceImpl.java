@@ -23,7 +23,6 @@ public class NotificationServiceImpl implements NotificationService{
     @Autowired
     MailService mailService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
     String email = "trainticket_notify@163.com";
     String username = "username";
@@ -55,7 +54,6 @@ public class NotificationServiceImpl implements NotificationService{
             mailService.sendEmail(mail,"preserve_success.ftl");
             return true;
         } catch (Exception e) {
-            LOGGER.error("[preserveSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
             return false;
         }
     }
@@ -82,7 +80,6 @@ public class NotificationServiceImpl implements NotificationService{
             mailService.sendEmail(mail,"order_create_success.ftl");
             return true;
         } catch (Exception e) {
-            LOGGER.error("[orderCreateSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
             return false;
         }
     }
@@ -109,7 +106,6 @@ public class NotificationServiceImpl implements NotificationService{
             mailService.sendEmail(mail,"order_changed_success.ftl");
             return true;
         } catch (Exception e) {
-            LOGGER.error("[orderChangedSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
             return false;
         }
     }
@@ -130,7 +126,6 @@ public class NotificationServiceImpl implements NotificationService{
             mailService.sendEmail(mail,"order_cancel_success.ftl");
             return true;
         } catch (Exception e) {
-            LOGGER.error("[orderCancelSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
             return false;
         }
     }

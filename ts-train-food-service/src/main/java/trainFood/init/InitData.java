@@ -21,7 +21,6 @@ public class InitData implements CommandLineRunner{
     @Autowired
     TrainFoodService trainFoodService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InitData.class);
 
 
     @Override
@@ -43,14 +42,11 @@ public class InitData implements CommandLineRunner{
             }
 
         } catch(Exception e){
-            InitData.LOGGER.info("the trainfood.txt has format error!");
-            InitData.LOGGER.error(e.getMessage());
             System.exit(1);
         }
     }
 
     private List<Food> toFoodList(String s){
-        InitData.LOGGER.info("s= {}", s);
         String[] foodstring = s.split("_");
         List<Food> foodList = new ArrayList<>();
         for(int i = 0; i< foodstring.length; i++){
