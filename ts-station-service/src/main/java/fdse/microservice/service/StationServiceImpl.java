@@ -1,10 +1,11 @@
 package fdse.microservice.service;
 
 import edu.fudan.common.util.Response;
-import fdse.microservice.entity.*;
-import fdse.microservice.repository.StationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import fdse.microservice.entity.*;
+import fdse.microservice.repository.StationRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -13,19 +14,20 @@ import java.util.*;
 
 
 @Service
-public class StationServiceImpl implements StationService {
+public class StationServiceImpl implements StationService { 
+    private static final Logger logger = LoggerFactory.getLogger(StationServiceImpl.class);
+
 
     @Autowired
     private StationRepository repository;
 
     String success = "Success";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StationServiceImpl.class);
-
     @Override
     public Response create(Station station, HttpHeaders headers) {
+        logger.info("[function name:{}][station:{}, headers:{}]","create",station.toString(), headers.toString());
         if(station.getName().isEmpty()) {
-            StationServiceImpl.LOGGER.error("[create][Create station error][Name not specify]");
+            StationServiceImpl.logger.error("[create][Create station error][Name not specify]");
             return new Response<>(0, "Name not specify", station);
         }
         if (repository.findByName(station.getName()) == null) {
@@ -33,13 +35,14 @@ public class StationServiceImpl implements StationService {
             repository.save(station);
             return new Response<>(1, "Create success", station);
         }
-        StationServiceImpl.LOGGER.error("[create][Create station error][Already exists][StationId: {}]",station.getId());
+        StationServiceImpl.logger.error("[create][Create station error][Already exists][StationId: {}]",station.getId());
         return new Response<>(0, "Already exists", station);
     }
 
 
     @Override
     public boolean exist(String stationName, HttpHeaders headers) {
+        logger.info("[function name:{}][stationName:{}, headers:{}]","exist",stationName, headers.toString());
         boolean result = false;
         if (repository.findByName(stationName) != null) {
             result = true;
@@ -49,10 +52,11 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response update(Station info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","update",info.toString(), headers.toString());
 
         Optional<Station> op = repository.findById(info.getId());
         if (!op.isPresent()) {
-            StationServiceImpl.LOGGER.error("[update][Update station error][Station not found][StationId: {}]",info.getId());
+            StationServiceImpl.logger.error("[update][Update station error][Station not found][StationId: {}]",info.getId());
             return new Response<>(0, "Station not exist", null);
         } else {
             Station station = op.get();
@@ -65,35 +69,38 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response delete(String stationsId, HttpHeaders headers) {
+        logger.info("[function name:{}][stationsId:{}, headers:{}]","delete",stationsId, headers.toString());
         Optional<Station> op = repository.findById(stationsId);
         if (op.isPresent()) {
             Station station = op.get();
             repository.delete(station);
             return new Response<>(1, "Delete success", station);
         }
-        StationServiceImpl.LOGGER.error("[delete][Delete station error][Station not found][StationId: {}]",stationsId);
+        StationServiceImpl.logger.error("[delete][Delete station error][Station not found][StationId: {}]",stationsId);
         return new Response<>(0, "Station not exist", null);
     }
 
     @Override
     public Response query(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","query",headers.toString());
         List<Station> stations = repository.findAll();
         if (stations != null && !stations.isEmpty()) {
             return new Response<>(1, "Find all content", stations);
         } else {
-            StationServiceImpl.LOGGER.warn("[query][Query stations warn][Find all stations: {}]","No content");
+            StationServiceImpl.logger.warn("[query][Query stations warn][Find all stations: {}]","No content");
             return new Response<>(0, "No content", null);
         }
     }
 
     @Override
     public Response queryForId(String stationName, HttpHeaders headers) {
+        logger.info("[function name:{}][stationName:{}, headers:{}]","queryForId",stationName, headers.toString());
         Station station = repository.findByName(stationName);
 
         if (station  != null) {
             return new Response<>(1, success, station.getId());
         } else {
-            StationServiceImpl.LOGGER.warn("[queryForId][Find station id warn][Station not found][StationName: {}]",stationName);
+            StationServiceImpl.logger.warn("[queryForId][Find station id warn][Station not found][StationName: {}]",stationName);
             return new Response<>(0, "Not exists", stationName);
         }
     }
@@ -101,6 +108,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response queryForIdBatch(List<String> nameList, HttpHeaders headers) {
+        logger.info("[function name:{}][nameList:{}, headers:{}]","queryForIdBatch",nameList.toString(), headers.toString());
         Map<String, String> result = new HashMap<>();
         List<Station> stations = repository.findByNames(nameList);
         Map<String, String> stationMap = new HashMap<>();
@@ -115,7 +123,7 @@ public class StationServiceImpl implements StationService {
         if (!result.isEmpty()) {
             return new Response<>(1, success, result);
         } else {
-            StationServiceImpl.LOGGER.warn("[queryForIdBatch][Find station ids warn][Stations not found][StationNameNumber: {}]",nameList.size());
+            StationServiceImpl.logger.warn("[queryForIdBatch][Find station ids warn][Stations not found][StationNameNumber: {}]",nameList.size());
             return new Response<>(0, "No content according to name list", null);
         }
 
@@ -123,17 +131,19 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response queryById(String stationId, HttpHeaders headers) {
+        logger.info("[function name:{}][stationId:{}, headers:{}]","queryById",stationId, headers.toString());
         Optional<Station> station = repository.findById(stationId);
         if (station.isPresent()) {
             return new Response<>(1, success, station.get().getName());
         } else {
-            StationServiceImpl.LOGGER.error("[queryById][Find station name error][Station not found][StationId: {}]",stationId);
+            StationServiceImpl.logger.error("[queryById][Find station name error][Station not found][StationId: {}]",stationId);
             return new Response<>(0, "No that stationId", stationId);
         }
     }
 
     @Override
     public Response queryByIdBatch(List<String> idList, HttpHeaders headers) {
+        logger.info("[function name:{}][idList:{}, headers:{}]","queryByIdBatch",idList.toString(), headers.toString());
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < idList.size(); i++) {
             Optional<Station> stationOld = repository.findById(idList.get(i));
@@ -146,7 +156,7 @@ public class StationServiceImpl implements StationService {
         if (!result.isEmpty()) {
             return new Response<>(1, success, result);
         } else {
-            StationServiceImpl.LOGGER.error("[queryByIdBatch][Find station names error][Stations not found][StationIdNumber: {}]",idList.size());
+            StationServiceImpl.logger.error("[queryByIdBatch][Find station names error][Stations not found][StationIdNumber: {}]",idList.size());
             return new Response<>(0, "No stationNamelist according to stationIdList", result);
         }
 

@@ -1,9 +1,10 @@
 package contacts.controller;
 
 import contacts.entity.*;
-import edu.fudan.common.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import edu.fudan.common.util.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -18,23 +19,24 @@ import static org.springframework.http.ResponseEntity.ok;
  */
 @RestController
 @RequestMapping("api/v1/contactservice")
-public class ContactsController {
+public class ContactsController { 
+    private static final Logger logger = LoggerFactory.getLogger(ContactsController.class);
+
 
 
     @Autowired
     private ContactsService contactsService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ContactsController.class);
-
     @GetMapping(path = "/contacts/welcome")
     public String home() {
+        logger.info("[function name:home]");
         return "Welcome to [ Contacts Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/contacts")
     public HttpEntity getAllContacts(@RequestHeader HttpHeaders headers) {
-        ContactsController.LOGGER.info("[getAllContacts][Get All Contacts]");
+        logger.info("[function name:{}][HttpHeaders:{}]","getAllContacts",headers.toString());
         return ok(contactsService.getAllContacts(headers));
     }
 
@@ -42,7 +44,6 @@ public class ContactsController {
     @PostMapping(path = "/contacts")
     public ResponseEntity<Response> createNewContacts(@RequestBody Contacts aci,
                                                       @RequestHeader HttpHeaders headers) {
-        ContactsController.LOGGER.info("[createNewContacts][VerifyLogin Success]");
         return new ResponseEntity<>(contactsService.create(aci, headers), HttpStatus.CREATED);
     }
 
@@ -50,7 +51,6 @@ public class ContactsController {
     @PostMapping(path = "/contacts/admin")
     public HttpEntity<?> createNewContactsAdmin(@RequestBody Contacts aci, @RequestHeader HttpHeaders headers) {
         aci.setId(UUID.randomUUID().toString());
-        ContactsController.LOGGER.info("[createNewContactsAdmin][Create Contacts In Admin]");
         return new ResponseEntity<>(contactsService.createContacts(aci, headers), HttpStatus.CREATED);
     }
 
@@ -58,6 +58,7 @@ public class ContactsController {
     @CrossOrigin(origins = "*")
     @DeleteMapping(path = "/contacts/{contactsId}")
     public HttpEntity deleteContacts(@PathVariable String contactsId, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","deleteContacts",contactsId, headers.toString());
         return ok(contactsService.delete(contactsId, headers));
     }
 
@@ -65,23 +66,21 @@ public class ContactsController {
     @CrossOrigin(origins = "*")
     @PutMapping(path = "/contacts")
     public HttpEntity modifyContacts(@RequestBody Contacts info, @RequestHeader HttpHeaders headers) {
-        ContactsController.LOGGER.info("[Contacts modifyContacts][Modify Contacts] ContactsId: {}", info.getId());
+        logger.info("[function name:{}][Contacts:{}, HttpHeaders:{}]","modifyContacts",info.toString(), headers.toString());
         return ok(contactsService.modify(info, headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/contacts/account/{accountId}")
     public HttpEntity findContactsByAccountId(@PathVariable String accountId, @RequestHeader HttpHeaders headers) {
-        ContactsController.LOGGER.info("[findContactsByAccountId][Find Contacts By Account Id][accountId: {}]", accountId);
-        ContactsController.LOGGER.info("[ContactsService][VerifyLogin Success]");
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","findContactsByAccountId",accountId, headers.toString());
         return ok(contactsService.findContactsByAccountId(accountId, headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/contacts/{id}")
     public HttpEntity getContactsByContactsId(@PathVariable String id, @RequestHeader HttpHeaders headers) {
-        ContactsController.LOGGER.info("[ContactsService][Contacts Id Print][id: {}]", id);
-        ContactsController.LOGGER.info("[ContactsService][VerifyLogin Success]");
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getContactsByContactsId",id, headers.toString());
         return ok(contactsService.findContactsById(id, headers));
     }
 

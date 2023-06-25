@@ -1,9 +1,10 @@
 package admintravel.controller;
 
 import admintravel.service.AdminTravelService;
-import edu.fudan.common.entity.TravelInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import edu.fudan.common.entity.TravelInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,41 +17,40 @@ import static org.springframework.http.ResponseEntity.*;
  */
 @RestController
 @RequestMapping("/api/v1/admintravelservice")
-public class AdminTravelController {
+public class AdminTravelController { 
+    private static final Logger logger = LoggerFactory.getLogger(AdminTravelController.class);
+
     @Autowired
     AdminTravelService adminTravelService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AdminTravelController.class);
-
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][HttpHeaders:{}]","home",headers.toString());
         return "Welcome to [ AdminTravel Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/admintravel")
     public HttpEntity getAllTravels(@RequestHeader HttpHeaders headers) {
-        logger.info("[getAllTravels][Get all travels]");
+        logger.info("[function name:{}][HttpHeaders:{}]","getAllTravels",headers.toString());
         return ok(adminTravelService.getAllTravels(headers));
     }
 
     @PostMapping(value = "/admintravel")
     public HttpEntity addTravel(@RequestBody TravelInfo request, @RequestHeader HttpHeaders headers) {
-        logger.info("[addTravel][Add travel][trip id: {}, train type name: {}, form station {} to station {}, login id: {}]",
-                request.getTripId(), request.getTrainTypeName(), request.getStartStationName(), request.getStationsName(), request.getLoginId());
+        logger.info("[function name:{}][TravelInfo:{}, HttpHeaders:{}]","addTravel",request.toString(), headers.toString());
         return ok(adminTravelService.addTravel(request, headers));
     }
 
     @PutMapping(value = "/admintravel")
     public HttpEntity updateTravel(@RequestBody TravelInfo request, @RequestHeader HttpHeaders headers) {
-        logger.info("[updateTravel][Update travel][trip id: {}, train type id: {}, form station {} to station {}, login id: {}]",
-                request.getTripId(), request.getTrainTypeName(), request.getStartStationName(), request.getStationsName(), request.getLoginId());
+        logger.info("[function name:{}][TravelInfo:{}, HttpHeaders:{}]","updateTravel",request.toString(), headers.toString());
         return ok(adminTravelService.updateTravel(request, headers));
     }
 
     @DeleteMapping(value = "/admintravel/{tripId}")
     public HttpEntity deleteTravel(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
-        logger.info("[deleteTravel][Delete travel][trip id: {}]", tripId);
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","deleteTravel",tripId, headers.toString());
         return ok(adminTravelService.deleteTravel(tripId, headers));
     }
 

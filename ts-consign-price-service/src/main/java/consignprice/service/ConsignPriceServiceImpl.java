@@ -1,10 +1,11 @@
 package consignprice.service;
 
 import consignprice.entity.ConsignPrice;
-import consignprice.repository.ConsignPriceConfigRepository;
-import edu.fudan.common.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import consignprice.repository.ConsignPriceConfigRepository;
+import edu.fudan.common.util.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -13,18 +14,21 @@ import org.springframework.stereotype.Service;
  * @author fdse
  */
 @Service
-public class ConsignPriceServiceImpl implements ConsignPriceService {
+public class ConsignPriceServiceImpl implements ConsignPriceService { 
+    private static final Logger logger = LoggerFactory.getLogger(ConsignPriceServiceImpl.class);
+
 
     @Autowired
     private ConsignPriceConfigRepository repository;
 
     String success = "Success";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConsignPriceServiceImpl.class);
-
     @Override
     public Response getPriceByWeightAndRegion(double weight, boolean isWithinRegion, HttpHeaders headers) {
+        logger.info("[function name:{}][weight:{}, isWithinRegion:{}, headers:{}]","getPriceByWeightAndRegion",weight, isWithinRegion, headers.toString());
         ConsignPrice priceConfig = repository.findByIndex(0);
+      logger.info("the priceConfig is: {}", priceConfig.toString());
+      
         double price = 0;
         double initialPrice = priceConfig.getInitialPrice();
         if (weight <= priceConfig.getInitialWeight()) {
@@ -42,8 +46,11 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response queryPriceInformation(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","queryPriceInformation",headers.toString());
         StringBuilder sb = new StringBuilder();
         ConsignPrice price = repository.findByIndex(0);
+      logger.info("the price is: {}", price.toString());
+      
         sb.append("The price of weight within ");
         sb.append(price.getInitialWeight());
         sb.append(" is ");
@@ -58,10 +65,11 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response createAndModifyPrice(ConsignPrice config, HttpHeaders headers) {
-        ConsignPriceServiceImpl.LOGGER.info("[createAndModifyPrice][Create New Price Config]");
+        logger.info("[function name:{}][config:{}, headers:{}]","createAndModifyPrice",config.toString(), headers.toString());
         //update price
         ConsignPrice originalConfig;
         if (repository.findByIndex(0) != null) {
+        logger.info("the ConsignPrice is: {}", repository.findByIndex(0).toString());
             originalConfig = repository.findByIndex(0);
         } else {
             originalConfig = new ConsignPrice();
@@ -78,6 +86,7 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response getPriceConfig(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","getPriceConfig",headers.toString());
         return new Response<>(1, success, repository.findByIndex(0));
     }
 }

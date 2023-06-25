@@ -1,9 +1,10 @@
 package security.service;
 
 import edu.fudan.common.entity.OrderSecurity;
-import edu.fudan.common.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import edu.fudan.common.util.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -30,7 +31,9 @@ import java.util.UUID;
  * @author fdse
  */
 @Service
-public class SecurityServiceImpl implements SecurityService {
+public class SecurityServiceImpl implements SecurityService { 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+
 
     @Autowired
     private SecurityRepository securityRepository;
@@ -41,8 +44,6 @@ public class SecurityServiceImpl implements SecurityService {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityServiceImpl.class);
-
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
     }
@@ -51,19 +52,25 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response findAllSecurityConfig(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","findAllSecurityConfig",headers.toString());
         ArrayList<SecurityConfig> securityConfigs = securityRepository.findAll();
+      logger.info("the securityConfigs is: {}", securityConfigs.toString());
+      
         if (securityConfigs != null && !securityConfigs.isEmpty()) {
             return new Response<>(1, success, securityConfigs);
         }
-        SecurityServiceImpl.LOGGER.warn("[findAllSecurityConfig][Find all security config warn][{}]","No content");
+        SecurityServiceImpl.logger.warn("[findAllSecurityConfig][Find all security config warn][{}]","No content");
         return new Response<>(0, "No Content", null);
     }
 
     @Override
     public Response addNewSecurityConfig(SecurityConfig info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","addNewSecurityConfig",info.toString(), headers.toString());
         SecurityConfig sc = securityRepository.findByName(info.getName());
+      logger.info("the sc is: {}", sc.toString());
+      
         if (sc != null) {
-            SecurityServiceImpl.LOGGER.warn("[addNewSecurityConfig][Add new Security config warn][Security config already exist][SecurityConfigId: {},Name: {}]",sc.getId(),info.getName());
+            SecurityServiceImpl.logger.warn("[addNewSecurityConfig][Add new Security config warn][Security config already exist][SecurityConfigId: {},Name: {}]",sc.getId(),info.getName());
             return new Response<>(0, "Security Config Already Exist", null);
         } else {
             SecurityConfig config = new SecurityConfig();
@@ -78,15 +85,18 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response modifySecurityConfig(SecurityConfig info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","modifySecurityConfig",info.toString(), headers.toString());
         SecurityConfig sc = securityRepository.findById(info.getId()).orElse(null);
         if (sc == null) {
-            SecurityServiceImpl.LOGGER.error("[modifySecurityConfig][Modify Security config error][Security config not found][SecurityConfigId: {},Name: {}]",info.getId(),info.getName());
+            SecurityServiceImpl.logger.error("[modifySecurityConfig][Modify Security config error][Security config not found][SecurityConfigId: {},Name: {}]",info.getId(),info.getName());
             return new Response<>(0, "Security Config Not Exist", null);
         } else {
             sc.setName(info.getName());
             sc.setValue(info.getValue());
             sc.setDescription(info.getDescription());
-            securityRepository.save(sc);
+            
+      logger.info("the sc is: {}", sc.toString());
+      securityRepository.save(sc);
             return new Response<>(1, success, sc);
         }
     }
@@ -94,33 +104,40 @@ public class SecurityServiceImpl implements SecurityService {
     @Transactional
     @Override
     public Response deleteSecurityConfig(String id, HttpHeaders headers) {
+        logger.info("[function name:{}][id:{}, headers:{}]","deleteSecurityConfig",id, headers.toString());
         securityRepository.deleteById(id);
         SecurityConfig sc = securityRepository.findById(id).orElse(null);
+      logger.info("the sc is: {}", sc.toString());
+      
         if (sc == null) {
             return new Response<>(1, success, id);
         } else {
-            SecurityServiceImpl.LOGGER.error("[deleteSecurityConfig][Delete Security config error][Reason not clear][SecurityConfigId: {}]",id);
+            SecurityServiceImpl.logger.error("[deleteSecurityConfig][Delete Security config error][Reason not clear][SecurityConfigId: {}]",id);
             return new Response<>(0, "Reason Not clear", id);
         }
     }
 
     @Override
     public Response check(String accountId, HttpHeaders headers) {
+        logger.info("[function name:{}][accountId:{}, headers:{}]","check",accountId, headers.toString());
         //1.Get the orders in the past one hour and the total effective votes
-        SecurityServiceImpl.LOGGER.debug("[check][Get Order Num Info]");
+        SecurityServiceImpl.logger.debug("[check][Get Order Num Info]");
         OrderSecurity orderResult = getSecurityOrderInfoFromOrder(new Date(), accountId, headers);
         OrderSecurity orderOtherResult = getSecurityOrderOtherInfoFromOrder(new Date(), accountId, headers);
         int orderInOneHour = orderOtherResult.getOrderNumInLastOneHour() + orderResult.getOrderNumInLastOneHour();
         int totalValidOrder = orderOtherResult.getOrderNumOfValidOrder() + orderResult.getOrderNumOfValidOrder();
         //2. get critical configuration information
-        SecurityServiceImpl.LOGGER.debug("[check][Get Security Config Info]");
+        SecurityServiceImpl.logger.debug("[check][Get Security Config Info]");
         SecurityConfig configMaxInHour = securityRepository.findByName("max_order_1_hour");
+      logger.info("the configMaxInHour is: {}", configMaxInHour.toString());
+      
         SecurityConfig configMaxNotUse = securityRepository.findByName("max_order_not_use");
-        SecurityServiceImpl.LOGGER.info("[check][Max][Max In One Hour: {}  Max Not Use: {}]", configMaxInHour.getValue(), configMaxNotUse.getValue());
+      logger.info("the configMaxNotUse is: {}", configMaxNotUse.toString());
+      
         int oneHourLine = Integer.parseInt(configMaxInHour.getValue());
         int totalValidLine = Integer.parseInt(configMaxNotUse.getValue());
         if (orderInOneHour > oneHourLine || totalValidOrder > totalValidLine) {
-            SecurityServiceImpl.LOGGER.warn("[check][Check Security config warn][Too much order in last one hour or too much valid order][AccountId: {}]",accountId);
+            SecurityServiceImpl.logger.warn("[check][Check Security config warn][Too much order in last one hour or too much valid order][AccountId: {}]",accountId);
             return new Response<>(0, "Too much order in last one hour or too much valid order", accountId);
         } else {
             return new Response<>(1, "Success.r", accountId);
@@ -136,9 +153,10 @@ public class SecurityServiceImpl implements SecurityService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<OrderSecurity>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                order_service_url + "/api/v1/orderservice/order/security/" + checkDate + "/" + accountId,"GET");
         Response<OrderSecurity> response = re.getBody();
         OrderSecurity result =  response.getData();
-        SecurityServiceImpl.LOGGER.info("[getSecurityOrderInfoFromOrder][Get Order Info For Security][Last One Hour: {}  Total Valid Order: {}]", result.getOrderNumInLastOneHour(), result.getOrderNumOfValidOrder());
         return result;
     }
 
@@ -151,9 +169,10 @@ public class SecurityServiceImpl implements SecurityService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<OrderSecurity>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                order_other_service_url + "/api/v1/orderOtherService/orderOther/security/" + checkDate + "/" + accountId,"GET");
         Response<OrderSecurity> response = re.getBody();
         OrderSecurity result =  response.getData();
-        SecurityServiceImpl.LOGGER.info("[getSecurityOrderOtherInfoFromOrder][Get Order Other Info For Security][Last One Hour: {}  Total Valid Order: {}]", result.getOrderNumInLastOneHour(), result.getOrderNumOfValidOrder());
         return result;
     }
 

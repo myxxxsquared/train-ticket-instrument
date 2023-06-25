@@ -1,9 +1,10 @@
 package execute.serivce;
 
 import edu.fudan.common.util.Response;
-import edu.fudan.common.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import edu.fudan.common.entity.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -22,7 +23,9 @@ import java.util.List;
  * @author fdse
  */
 @Service
-public class ExecuteServiceImpl implements ExecuteService {
+public class ExecuteServiceImpl implements ExecuteService { 
+    private static final Logger logger = LoggerFactory.getLogger(ExecuteServiceImpl.class);
+
 
     @Autowired
     private RestTemplate restTemplate;
@@ -30,8 +33,6 @@ public class ExecuteServiceImpl implements ExecuteService {
     private DiscoveryClient discoveryClient;
 
     String orderStatusWrong = "Order Status Wrong";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteServiceImpl.class);
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
     }
@@ -39,6 +40,7 @@ public class ExecuteServiceImpl implements ExecuteService {
 
     @Override
     public Response ticketExecute(String orderId, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, headers:{}]","ticketExecute",orderId, headers.toString());
         //1.Get order information
 
         headers = null;
@@ -48,7 +50,7 @@ public class ExecuteServiceImpl implements ExecuteService {
             order =  resultFromOrder.getData();
             //2.Check if the order can come in
             if (order.getStatus() != OrderStatus.COLLECTED.getCode()) {
-                LOGGER.error("[ticketExecute][getOrderByIdFromOrder][ticket execute error: {}][orderId: {}]", orderStatusWrong, orderId);
+                logger.error("[ticketExecute][getOrderByIdFromOrder][ticket execute error: {}][orderId: {}]", orderStatusWrong, orderId);
                 return new Response<>(0, orderStatusWrong, null);
             }
             //3.Confirm inbound, request change order information
@@ -57,7 +59,7 @@ public class ExecuteServiceImpl implements ExecuteService {
             if (resultExecute.getStatus() == 1) {
                 return new Response<>(1, "Success.", null);
             } else {
-                LOGGER.error("[ticketExecute][executeOrder][executeOrder error: {}][orderId: {}]", resultExecute.getMsg(), orderId);
+                logger.error("[ticketExecute][executeOrder][executeOrder error: {}][orderId: {}]", resultExecute.getMsg(), orderId);
                 return new Response<>(0, resultExecute.getMsg(), null);
             }
         } else {
@@ -66,7 +68,7 @@ public class ExecuteServiceImpl implements ExecuteService {
                 order =   resultFromOrder.getData();
                 //2.Check if the order can come in
                 if (order.getStatus() != OrderStatus.COLLECTED.getCode()) {
-                    LOGGER.error("[ticketExecute][getOrderByIdFromOrderOther][ticket execute error: {}][orderId: {}]", orderStatusWrong, orderId);
+                    logger.error("[ticketExecute][getOrderByIdFromOrderOther][ticket execute error: {}][orderId: {}]", orderStatusWrong, orderId);
                     return new Response<>(0, orderStatusWrong, null);
                 }
                 //3.Confirm inbound, request change order information
@@ -75,11 +77,11 @@ public class ExecuteServiceImpl implements ExecuteService {
                 if (resultExecute.getStatus() == 1) {
                     return new Response<>(1, "Success", null);
                 } else {
-                    LOGGER.error("[ticketExecute][executeOrderOther][executeOrderOther error: {}][orderId: {}]", resultExecute.getMsg(), orderId);
+                    logger.error("[ticketExecute][executeOrderOther][executeOrderOther error: {}][orderId: {}]", resultExecute.getMsg(), orderId);
                     return new Response<>(0, resultExecute.getMsg(), null);
                 }
             } else {
-                LOGGER.error("[ticketExecute][getOrderByIdFromOrderOther][ticker execute error: {}][orderId: {}]", "Order Not Found", orderId);
+                logger.error("[ticketExecute][getOrderByIdFromOrderOther][ticker execute error: {}][orderId: {}]", "Order Not Found", orderId);
                 return new Response<>(0, "Order Not Found", null);
             }
         }
@@ -87,6 +89,7 @@ public class ExecuteServiceImpl implements ExecuteService {
 
     @Override
     public Response ticketCollect(String orderId, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, headers:{}]","ticketCollect",orderId, headers.toString());
         //1.Get order information
 
         headers = null;
@@ -96,7 +99,7 @@ public class ExecuteServiceImpl implements ExecuteService {
             order =  resultFromOrder.getData();
             //2.Check if the order can come in
             if (order.getStatus() != OrderStatus.PAID.getCode() && order.getStatus() != OrderStatus.CHANGE.getCode()) {
-                LOGGER.error("[ticketCollect][getOrderByIdFromOrder][ticket collect error: {}][orderId: {}]", orderStatusWrong, orderId);
+                logger.error("[ticketCollect][getOrderByIdFromOrder][ticket collect error: {}][orderId: {}]", orderStatusWrong, orderId);
                 return new Response<>(0, orderStatusWrong, null);
             }
             //3.Confirm inbound, request change order information
@@ -105,7 +108,7 @@ public class ExecuteServiceImpl implements ExecuteService {
             if (resultExecute.getStatus() == 1) {
                 return new Response<>(1, "Success", null);
             } else {
-                LOGGER.error("[ticketCollect][executeOrder][ticket collect error: {}][orderId: {}]", resultExecute.getMsg(), orderId);
+                logger.error("[ticketCollect][executeOrder][ticket collect error: {}][orderId: {}]", resultExecute.getMsg(), orderId);
                 return new Response<>(0, resultExecute.getMsg(), null);
             }
         } else {
@@ -114,7 +117,7 @@ public class ExecuteServiceImpl implements ExecuteService {
                 order = (Order) resultFromOrder.getData();
                 //2.Check if the order can come in
                 if (order.getStatus() != OrderStatus.PAID.getCode() && order.getStatus() != OrderStatus.CHANGE.getCode()) {
-                    LOGGER.error("[ticketCollect][getOrderByIdFromOrderOther][ticket collect error: {}][orderId: {}]", orderStatusWrong, orderId);
+                    logger.error("[ticketCollect][getOrderByIdFromOrderOther][ticket collect error: {}][orderId: {}]", orderStatusWrong, orderId);
                     return new Response<>(0, orderStatusWrong, null);
                 }
                 //3.Confirm inbound, request change order information
@@ -122,11 +125,11 @@ public class ExecuteServiceImpl implements ExecuteService {
                 if (resultExecute.getStatus() == 1) {
                     return new Response<>(1, "Success.", null);
                 } else {
-                    LOGGER.error("[ticketCollect][executeOrderOther][ticket collect error: {}][orderId: {}]", resultExecute.getMsg(), orderId);
+                    logger.error("[ticketCollect][executeOrderOther][ticket collect error: {}][orderId: {}]", resultExecute.getMsg(), orderId);
                     return new Response<>(0, resultExecute.getMsg(), null);
                 }
             } else {
-                LOGGER.error("[ticketCollect][getOrderByIdFromOrderOther][ticket collect error: {}][orderId: {}]", "Order Not Found", orderId);
+                logger.error("[ticketCollect][getOrderByIdFromOrderOther][ticket collect error: {}][orderId: {}]", "Order Not Found", orderId);
                 return new Response<>(0, "Order Not Found", null);
             }
         }
@@ -134,7 +137,6 @@ public class ExecuteServiceImpl implements ExecuteService {
 
 
     private Response executeOrder(String orderId, int status, HttpHeaders headers) {
-        ExecuteServiceImpl.LOGGER.info("[Execute Service][Execute Order] Executing....");
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_service_url=getServiceUrl("ts-order-service");
@@ -143,12 +145,13 @@ public class ExecuteServiceImpl implements ExecuteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                order_service_url + "/api/v1/orderservice/order/status/" + orderId + "/" + status,"GET");
         return re.getBody();
     }
 
 
     private Response executeOrderOther(String orderId, int status, HttpHeaders headers) {
-        ExecuteServiceImpl.LOGGER.info("[Execute Service][Execute Order] Executing....");
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_other_service_url=getServiceUrl("ts-order-other-service");
@@ -157,11 +160,12 @@ public class ExecuteServiceImpl implements ExecuteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                order_other_service_url + "/api/v1/orderOtherService/orderOther/status/" + orderId + "/" + status,"GET");
         return re.getBody();
     }
 
     private Response<Order> getOrderByIdFromOrder(String orderId, HttpHeaders headers) {
-        ExecuteServiceImpl.LOGGER.info("[Execute Service][Get Order] Getting....");
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_service_url=getServiceUrl("ts-order-service");
@@ -171,11 +175,12 @@ public class ExecuteServiceImpl implements ExecuteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                order_service_url + "/api/v1/orderservice/order/" + orderId,"GET");
         return re.getBody();
     }
 
     private Response<Order> getOrderByIdFromOrderOther(String orderId, HttpHeaders headers) {
-        ExecuteServiceImpl.LOGGER.info("[getOrderByIdFromOrderOther][Execute Service, Get Order]");
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_other_service_url=getServiceUrl("ts-order-other-service");
@@ -185,6 +190,8 @@ public class ExecuteServiceImpl implements ExecuteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"GET");
         return re.getBody();
     }
 

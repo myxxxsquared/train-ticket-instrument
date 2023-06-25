@@ -1,6 +1,8 @@
 package auth.service.impl;
 
 import auth.constant.AuthConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import auth.constant.InfoConstant;
 import auth.dto.AuthDto;
 import auth.entity.User;
@@ -8,8 +10,7 @@ import auth.exception.UserOperationException;
 import auth.repository.UserRepository;
 import auth.service.UserService;
 import edu.fudan.common.util.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,8 +24,9 @@ import java.util.*;
  * @author fdse
  */
 @Service
-public class UserServiceImpl implements UserService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+public class UserServiceImpl implements UserService { 
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
 
     @Autowired
     private UserRepository userRepository;
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
+        logger.info("[function name:{}][user:{}]","saveUser",user.toString());
         return null;
     }
 
@@ -50,7 +53,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User createDefaultAuthUser(AuthDto dto) {
-        LOGGER.info("[createDefaultAuthUser][Register User Info][AuthDto name: {}]", dto.getUserName());
+        logger.info("[function name:{}][dto:{}]","createDefaultAuthUser",dto.toString());
         User user = User.builder()
                 .userId(dto.getUserId())
                 .username(dto.getUserName())
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService {
         try {
             checkUserCreateInfo(user);
         } catch (UserOperationException e) {
-            LOGGER.error("[createDefaultAuthUser][Create default auth user][UserOperationException][message: {}]", e.getMessage());
+            logger.error("[createDefaultAuthUser][Create default auth user][UserOperationException][message: {}]", e.getMessage());
         }
         return userRepository.save(user);
     }
@@ -68,7 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Response deleteByUserId(String userId, HttpHeaders headers) {
-        LOGGER.info("[deleteByUserId][DELETE USER][user id: {}]", userId);
+        logger.info("[function name:{}][userId:{}, headers:{}]","deleteByUserId",userId, headers.toString());
         userRepository.deleteByUserId(userId);
         return new Response(1, "DELETE USER SUCCESS", null);
     }
@@ -79,7 +82,6 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     private void checkUserCreateInfo(User user) throws UserOperationException {
-        LOGGER.info("[checkUserCreateInfo][Check user create info][userId: {}, userName: {}]", user.getUserId(), user.getUsername());
         List<String> infos = new ArrayList<>();
 
         if (null == user.getUsername() || "".equals(user.getUsername())) {
@@ -98,7 +100,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!infos.isEmpty()) {
-            LOGGER.warn(infos.toString());
+            logger.warn(infos.toString());
             throw new UserOperationException(infos.toString());
         }
     }

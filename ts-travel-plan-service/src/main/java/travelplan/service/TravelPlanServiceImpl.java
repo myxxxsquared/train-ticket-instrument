@@ -1,10 +1,11 @@
 package travelplan.service;
 
 import edu.fudan.common.util.JsonUtils;
-import edu.fudan.common.util.Response;
-import edu.fudan.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import edu.fudan.common.util.Response;
+import edu.fudan.common.util.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -30,14 +31,14 @@ import java.util.List;
  * @author fdse
  */
 @Service
-public class TravelPlanServiceImpl implements TravelPlanService {
+public class TravelPlanServiceImpl implements TravelPlanService { 
+    private static final Logger logger = LoggerFactory.getLogger(TravelPlanServiceImpl.class);
+
 
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TravelPlanServiceImpl.class);
 
     String success = "Success";
     String cannotFind = "Cannot Find";
@@ -48,6 +49,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getTransferSearch(TransferTravelInfo info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","getTransferSearch",info.toString(), headers.toString());
 
         TripInfo queryInfoFirstSection = new TripInfo();
         queryInfoFirstSection.setDepartureTime(StringUtils.Date2String(info.getTravelDate()));
@@ -86,6 +88,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getCheapest(TripInfo info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","getCheapest",info.toString(), headers.toString());
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -126,13 +129,14 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
             return new Response<>(1, success, lists);
         } else {
-            TravelPlanServiceImpl.LOGGER.warn("[getCheapest][Get cheapest trip warn][Route Plan Result Units: {}]","No Content");
+            TravelPlanServiceImpl.logger.warn("[getCheapest][Get cheapest trip warn][Route Plan Result Units: {}]","No Content");
             return new Response<>(0, cannotFind, null);
         }
     }
 
     @Override
     public Response getQuickest(TripInfo info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","getQuickest",info.toString(), headers.toString());
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -174,13 +178,14 @@ public class TravelPlanServiceImpl implements TravelPlanService {
             }
             return new Response<>(1, success, lists);
         } else {
-            TravelPlanServiceImpl.LOGGER.warn("[getQuickest][Get quickest trip warn][Route Plan Result Units: {}]","No Content");
+            TravelPlanServiceImpl.logger.warn("[getQuickest][Get quickest trip warn][Route Plan Result Units: {}]","No Content");
             return new Response<>(0, cannotFind, null);
         }
     }
 
     @Override
     public Response getMinStation(TripInfo info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","getMinStation",info.toString(), headers.toString());
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -222,7 +227,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
             }
             return new Response<>(1, success, lists);
         } else {
-            TravelPlanServiceImpl.LOGGER.warn("[getMinStation][Get min stations trip warn][Route Plan Result Units: {}]","No Content");
+            TravelPlanServiceImpl.logger.warn("[getMinStation][Get min stations trip warn][Route Plan Result Units: {}]","No Content");
             return new Response<>(0, cannotFind, null);
         }
     }
@@ -237,8 +242,6 @@ public class TravelPlanServiceImpl implements TravelPlanService {
         seatRequest.setSeatType(seatType);
         seatRequest.setStations(stations);
         seatRequest.setTotalNum(totalNum);
-
-        TravelPlanServiceImpl.LOGGER.info("[getRestTicketNumber][Seat Request][Seat Request is: {}]", seatRequest.toString());
         HttpEntity requestEntity = new HttpEntity(seatRequest, null);
         String seat_service_url = getServiceUrl("ts-seat-service");
         ResponseEntity<Response<Integer>> re = restTemplate.exchange(
@@ -247,6 +250,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Integer>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                seat_service_url + "/api/v1/seatservice/seats/left_tickets","POST");
 
         return re.getBody().getData();
     }
@@ -260,6 +265,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                route_plan_service_url + "/api/v1/routeplanservice/routePlan/cheapestRoute","POST");
         return re.getBody().getData();
     }
 
@@ -272,6 +279,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                route_plan_service_url + "/api/v1/routeplanservice/routePlan/quickestRoute","POST");
 
         return re.getBody().getData();
     }
@@ -285,6 +294,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                route_plan_service_url + "/api/v1/routeplanservice/routePlan/minStopStations","POST");
         return re.getBody().getData();
     }
 
@@ -297,6 +308,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<TripResponse>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                travel_service_url + "/api/v1/travelservice/trips/left","POST");
         return re.getBody().getData();
     }
 
@@ -310,11 +323,14 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<TripResponse>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                travel2_service_url + "/api/v1/travel2service/trips/left","POST");
 
         return re.getBody().getData();
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
+        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, headers.toString());
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -322,6 +338,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
         Response  response = re.getBody();
 
         return JsonUtils.conveterObject(response.getData(), TrainType.class);

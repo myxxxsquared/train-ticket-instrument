@@ -1,8 +1,9 @@
 package preserveOther.controller;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +17,16 @@ import static org.springframework.http.ResponseEntity.ok;
  */
 @RestController
 @RequestMapping("/api/v1/preserveotherservice")
-public class PreserveOtherController {
+public class PreserveOtherController { 
+    private static final Logger logger = LoggerFactory.getLogger(PreserveOtherController.class);
+
 
     @Autowired
     private PreserveOtherService preserveService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PreserveOtherController.class);
-
     @GetMapping(path = "/welcome")
     public String home() {
+        logger.info("[function name:home]");
         return "Welcome to [ PreserveOther Service ] !";
     }
 
@@ -32,7 +34,7 @@ public class PreserveOtherController {
     @PostMapping(value = "/preserveOther")
     public HttpEntity preserve(@RequestBody OrderTicketsInfo oti,
                                @RequestHeader HttpHeaders headers) {
-        PreserveOtherController.LOGGER.info("[preserve][Preserve Account order][from {} to {} at {}]", oti.getFrom(), oti.getTo(), oti.getDate());
+        logger.info("[function name:{}][OrderTicketsInfo:{}, HttpHeaders:{}]","preserve",oti.toString(), headers.toString());
         return ok(preserveService.preserve(oti, headers));
     }
 

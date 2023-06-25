@@ -1,8 +1,9 @@
 package verifycode.controller;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import verifycode.service.VerifyCodeService;
@@ -20,8 +21,9 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/v1/verifycode")
-public class VerifyCodeController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(VerifyCodeController.class);
+public class VerifyCodeController { 
+    private static final Logger logger = LoggerFactory.getLogger(VerifyCodeController.class);
+
 
     @Autowired
     private VerifyCodeService verifyCodeService;
@@ -30,7 +32,6 @@ public class VerifyCodeController {
     public void imageCode(@RequestHeader HttpHeaders headers,
                           HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        VerifyCodeController.LOGGER.info("[imageCode][Image code]");
         OutputStream os = response.getOutputStream();
         Map<String, Object> map = verifyCodeService.getImageCode(60, 20, os, request, response, headers);
         String simpleCaptcha = "simpleCaptcha";
@@ -48,10 +49,9 @@ public class VerifyCodeController {
     @GetMapping(value = "/verify/{verifyCode}")
     public boolean verifyCode(@PathVariable String verifyCode, HttpServletRequest request,
                               HttpServletResponse response, @RequestHeader HttpHeaders headers) {
-        LOGGER.info("[verifyCode][receivedCode: {}]", verifyCode);
+        logger.info("[function name:{}][String:{}, request:{}, response:{}, HttpHeaders:{}]","verifyCode",verifyCode, request.toString(), response.toString(), headers.toString());
 
         boolean result = verifyCodeService.verifyCode(request, response, verifyCode, headers);
-        LOGGER.info("[verifyCode][verify result: {}]", result);
         return true;
     }
 }

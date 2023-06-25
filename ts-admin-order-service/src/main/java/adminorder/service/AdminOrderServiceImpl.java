@@ -1,9 +1,10 @@
 package adminorder.service;
 
 import edu.fudan.common.entity.*;
-import edu.fudan.common.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import edu.fudan.common.util.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -23,13 +24,13 @@ import java.util.List;
  * @author fdse
  */
 @Service
-public class AdminOrderServiceImpl implements AdminOrderService {
+public class AdminOrderServiceImpl implements AdminOrderService { 
+    private static final Logger logger = LoggerFactory.getLogger(AdminOrderServiceImpl.class);
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminOrderServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
@@ -37,8 +38,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response getAllOrders(HttpHeaders headers) {
-
-        AdminOrderServiceImpl.LOGGER.info("[getAllOrders][Get All Orders: Generate Reponse Begin]");
+        logger.info("[function name:{}][headers:{}]","getAllOrders",headers.toString());
         //Get all of the orders
         ArrayList<Order> orders = new ArrayList<>();
         //From ts-order-service
@@ -51,14 +51,15 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<Order>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                order_service_url + "/api/v1/orderservice/order","GET");
         Response<ArrayList<Order>> result = re.getBody();
 
         if (result.getStatus() == 1) {
-            AdminOrderServiceImpl.LOGGER.info("[getAllOrders][Get Orders From ts-order-service successfully!]");
             ArrayList<Order> orders1 = result.getData();
             orders.addAll(orders1);
         } else {
-            AdminOrderServiceImpl.LOGGER.error("[getAllOrders][receive response][Get Orders From ts-order-service fail!]");
+            AdminOrderServiceImpl.logger.error("[getAllOrders][receive response][Get Orders From ts-order-service fail!]");
         }
         //From ts-order-other-service
         HttpEntity requestEntity2 = new HttpEntity(null);
@@ -69,14 +70,15 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 requestEntity2,
                 new ParameterizedTypeReference<Response<ArrayList<Order>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re2.getStatusCode(),
+                order_other_service_url + "/api/v1/orderOtherService/orderOther","GET");
         result = re2.getBody();
 
         if (result.getStatus() == 1) {
-            AdminOrderServiceImpl.LOGGER.info("[getAllOrders][Get Orders From ts-order-other-service successfully!]");
             ArrayList<Order> orders1 = (ArrayList<Order>) result.getData();
             orders.addAll(orders1);
         } else {
-            AdminOrderServiceImpl.LOGGER.error("[getAllOrders][receive response][Get Orders From ts-order-other-service fail!]");
+            AdminOrderServiceImpl.logger.error("[getAllOrders][receive response][Get Orders From ts-order-other-service fail!]");
         }
         //Return orders
         return new Response<>(1, "Get the orders successfully!", orders);
@@ -85,9 +87,9 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response deleteOrder(String orderId, String trainNumber, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, trainNumber:{}, headers:{}]","deleteOrder",orderId, trainNumber, headers.toString());
         Response deleteOrderResult;
         if (trainNumber.startsWith("G") || trainNumber.startsWith("D")) {
-            AdminOrderServiceImpl.LOGGER.info("[deleteOrder][Delete Order][orderId: {}, trainNumber: {}]", orderId, trainNumber);
             HttpEntity requestEntity = new HttpEntity(null);
             String order_service_url = getServiceUrl("ts-order-service");
             ResponseEntity<Response> re = restTemplate.exchange(
@@ -95,10 +97,11 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.DELETE,
                     requestEntity,
                     Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                     order_service_url + "/api/v1/orderservice/order/" + orderId,"DELETE");
             deleteOrderResult = re.getBody();
 
         } else {
-            AdminOrderServiceImpl.LOGGER.info("[deleteOrder][Delete Order Other][trainNumber doesn't starts With G or D]");
             HttpEntity requestEntity = new HttpEntity(null);
             String order_other_service_url = getServiceUrl("ts-order-other-service");
             ResponseEntity<Response> re = restTemplate.exchange(
@@ -106,6 +109,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.DELETE,
                     requestEntity,
                     Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"DELETE");
             deleteOrderResult = re.getBody();
 
         }
@@ -115,12 +120,10 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response updateOrder(Order request, HttpHeaders headers) {
+        logger.info("[function name:{}][request:{}, headers:{}]","updateOrder",request.toString(), headers.toString());
 
         Response updateOrderResult;
-        LOGGER.info("[updateOrder][UPDATE ORDER INFO][request info: {}]", request.toString());
         if (request.getTrainNumber().startsWith("G") || request.getTrainNumber().startsWith("D")) {
-
-            AdminOrderServiceImpl.LOGGER.info("[updateOrder][Update Order][trainNumber starts With G or D]");
             HttpEntity requestEntity = new HttpEntity(request, headers);
             String order_service_url = getServiceUrl("ts-order-service");
             ResponseEntity<Response> re = restTemplate.exchange(
@@ -128,10 +131,11 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.PUT,
                     requestEntity,
                     Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/admin","PUT");
             updateOrderResult = re.getBody();
 
         } else {
-            AdminOrderServiceImpl.LOGGER.info("[updateOrder][Add New Order Other][trainNumber doesn't starts With G or D]");
             HttpEntity requestEntity = new HttpEntity(request, headers);
             String order_other_service_url = getServiceUrl("ts-order-other-service");
             ResponseEntity<Response> re = restTemplate.exchange(
@@ -139,6 +143,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.PUT,
                     requestEntity,
                     Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/admin","PUT");
             updateOrderResult = re.getBody();
 
         }
@@ -147,11 +153,10 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response addOrder(Order request, HttpHeaders headers) {
+        logger.info("[function name:{}][request:{}, headers:{}]","addOrder",request.toString(), headers.toString());
 
         Response addOrderResult;
-        LOGGER.info("[addOrder][ADD ORDER][request info: {}]", request.toString());
         if (request.getTrainNumber().startsWith("G") || request.getTrainNumber().startsWith("D")) {
-            AdminOrderServiceImpl.LOGGER.info("[addOrder][Add New Order][trainNumber starts With G or D]");
             HttpEntity requestEntity = new HttpEntity(request, headers);
             String order_service_url = getServiceUrl("ts-order-service");
             ResponseEntity<Response> re = restTemplate.exchange(
@@ -159,10 +164,11 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.POST,
                     requestEntity,
                     Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/admin","POST");
             addOrderResult = re.getBody();
 
         } else {
-            AdminOrderServiceImpl.LOGGER.info("[addOrder][Add New Order Other][trainNumber doesn't starts With G or D]");
             HttpEntity requestEntity = new HttpEntity(request, headers);
             String order_other_service_url = getServiceUrl("ts-order-other-service");
             ResponseEntity<Response> re = restTemplate.exchange(
@@ -170,6 +176,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.POST,
                     requestEntity,
                     Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                     order_other_service_url + "/api/v1/orderOtherService/orderOther/admin","POST");
             addOrderResult = re.getBody();
 
         }

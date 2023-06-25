@@ -2,11 +2,12 @@ package food_delivery.service;
 
 
 import edu.fudan.common.util.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import food_delivery.entity.*;
 import edu.fudan.common.entity.*;
 import food_delivery.repository.FoodDeliveryOrderRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -23,12 +24,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class FoodDeliveryServiceImpl implements FoodDeliveryService {
+public class FoodDeliveryServiceImpl implements FoodDeliveryService { 
+    private static final Logger logger = LoggerFactory.getLogger(FoodDeliveryServiceImpl.class);
+
 
     @Autowired
     FoodDeliveryOrderRepository foodDeliveryOrderRepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(FoodDeliveryServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -42,16 +43,18 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response createFoodDeliveryOrder(FoodDeliveryOrder fd, HttpHeaders headers) {
+        logger.info("[function name:{}][fd:{}, headers:{}]","createFoodDeliveryOrder",fd.toString(), headers.toString());
         String stationFoodStoreId = fd.getStationFoodStoreId();
 
         String staion_food_service_url = getServiceUrl("ts-station-food-service");
-//        staion_food_service_url = "http://ts-station-food-service"; // 测试
         ResponseEntity<Response<StationFoodStoreInfo>> getStationFoodStore = restTemplate.exchange(
                 staion_food_service_url + "/api/v1/stationfoodservice/stationfoodstores/bystoreid/" + stationFoodStoreId,
                 HttpMethod.GET,
                 new HttpEntity(headers),
                 new ParameterizedTypeReference<Response<StationFoodStoreInfo>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",getStationFoodStore.getStatusCode(),
+                staion_food_service_url + "/api/v1/stationfoodservice/stationfoodstores/bystoreid/" + stationFoodStoreId,"GET");
         Response<StationFoodStoreInfo> result = getStationFoodStore.getBody();
         StationFoodStoreInfo stationFoodStoreInfo = result.getData();
         List<Food> storeFoodList = stationFoodStoreInfo.getFoodList();
@@ -62,7 +65,7 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
         for (Food food : orderFoodList) {
             Double fee = foodPrice.get(food.getFoodName());
             if (fee == null) {
-                LOGGER.error("{}:{} have no such food: {}", stationFoodStoreId, stationFoodStoreInfo.getStoreName(), food.getFoodName());
+                logger.error("{}:{} have no such food: {}", stationFoodStoreId, stationFoodStoreInfo.getStoreName(), food.getFoodName());
                 return new Response<>(0, "Food not in store", null);
             }
             deliveryFee += fee;
@@ -75,97 +78,101 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response deleteFoodDeliveryOrder(String id, HttpHeaders headers) {
+        logger.info("[function name:{}][id:{}, headers:{}]","deleteFoodDeliveryOrder",id, headers.toString());
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[deleteFoodDeliveryOrder] No such food delivery order id: {}", id);
+            logger.error("[deleteFoodDeliveryOrder] No such food delivery order id: {}", id);
             return new Response<>(0, "No such food delivery order id", id);
         } else {
             foodDeliveryOrderRepository.deleteById(id);
-            LOGGER.info("[deleteFoodDeliveryOrder] Delete success, food delivery order id: {}", id);
             return new Response<>(1, "Delete success", null);
         }
     }
 
     @Override
     public Response getFoodDeliveryOrderById(String id, HttpHeaders headers) {
+        logger.info("[function name:{}][id:{}, headers:{}]","getFoodDeliveryOrderById",id, headers.toString());
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[deleteFoodDeliveryOrder] No such food delivery order id: {}", id);
+            logger.error("[deleteFoodDeliveryOrder] No such food delivery order id: {}", id);
             return new Response<>(0, "No such food delivery order id", id);
         } else {
-            LOGGER.info("[getFoodDeliveryOrderById] Get success, food delivery order id: {}", id);
             return new Response<>(1, "Get success", t);
         }
     }
 
     @Override
     public Response getAllFoodDeliveryOrders(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","getAllFoodDeliveryOrders",headers.toString());
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findAll();
+      logger.info("the foodDeliveryOrders is: {}", foodDeliveryOrders.toString());
+      
         if (foodDeliveryOrders == null) {
-            LOGGER.error("[getAllFoodDeliveryOrders] Food delivery orders query error");
+            logger.error("[getAllFoodDeliveryOrders] Food delivery orders query error");
             return new Response<>(0, "food delivery orders query error", null);
         } else {
-            LOGGER.info("[getAllFoodDeliveryOrders] Get all food delivery orders success");
             return new Response<>(1, "Get success", foodDeliveryOrders);
         }
     }
 
     @Override
     public Response getFoodDeliveryOrderByStoreId(String storeId, HttpHeaders headers) {
+        logger.info("[function name:{}][storeId:{}, headers:{}]","getFoodDeliveryOrderByStoreId",storeId, headers.toString());
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findByStationFoodStoreId(storeId);
+      logger.info("the foodDeliveryOrders is: {}", foodDeliveryOrders.toString());
+      
         if (foodDeliveryOrders == null) {
-            LOGGER.error("[getAllFoodDeliveryOrders] Food delivery orders query error");
+            logger.error("[getAllFoodDeliveryOrders] Food delivery orders query error");
             return new Response<>(0, "food delivery orders query error", storeId);
         } else {
-            LOGGER.info("[getAllFoodDeliveryOrders] Get food delivery orders by storeId {} success", storeId);
             return new Response<>(1, "Get success", foodDeliveryOrders);
         }
     }
 
     @Override
     public Response updateTripId(TripOrderInfo tripInfo, HttpHeaders headers) {
+        logger.info("[function name:{}][tripInfo:{}, headers:{}]","updateTripId",tripInfo.toString(), headers.toString());
         String id = tripInfo.getOrderId();
         String tripId = tripInfo.getTripId();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[updateTripId] No such delivery order id: {}", id);
+            logger.error("[updateTripId] No such delivery order id: {}", id);
             return new Response<>(0, "No such delivery order id", id);
         } else {
             t.setTripId(tripId);
             foodDeliveryOrderRepository.save(t);
-            LOGGER.info("[updateTripId] update tripId success. id:{}, tripId:{}", id, tripId);
             return new Response<>(1, "update tripId success", t);
         }
     }
 
     @Override
     public Response updateSeatNo(SeatInfo seatInfo, HttpHeaders headers) {
+        logger.info("[function name:{}][seatInfo:{}, headers:{}]","updateSeatNo",seatInfo.toString(), headers.toString());
         String id = seatInfo.getOrderId();
         int seatNo = seatInfo.getSeatNo();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[updateSeatNo] No such delivery order id: {}", id);
+            logger.error("[updateSeatNo] No such delivery order id: {}", id);
             return new Response<>(0, "No such delivery order id", id);
         } else {
             t.setSeatNo(seatNo);
             foodDeliveryOrderRepository.save(t);
-            LOGGER.info("[updateSeatNo] update seatNo success. id:{}, seatNo:{}", id, seatNo);
             return new Response<>(1, "update seatNo success", t);
         }
     }
 
     @Override
     public Response updateDeliveryTime(DeliveryInfo deliveryInfo, HttpHeaders headers) {
+        logger.info("[function name:{}][deliveryInfo:{}, headers:{}]","updateDeliveryTime",deliveryInfo.toString(), headers.toString());
         String id = deliveryInfo.getOrderId();
         String deliveryTime = deliveryInfo.getDeliveryTime();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
-            LOGGER.error("[updateDeliveryTime] No such delivery order id: {}", id);
+            logger.error("[updateDeliveryTime] No such delivery order id: {}", id);
             return new Response<>(0, "No such delivery order id", id);
         } else {
             t.setDeliveryTime(deliveryTime);
             foodDeliveryOrderRepository.save(t);
-            LOGGER.info("[updateDeliveryTime] update deliveryTime success. id:{}, deliveryTime:{}", id, deliveryTime);
             return new Response<>(1, "update deliveryTime success", t);
         }
     }

@@ -1,10 +1,11 @@
 package adminuser.service;
 
 import adminuser.dto.UserDto;
-import edu.fudan.common.entity.User;
-import edu.fudan.common.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import edu.fudan.common.entity.User;
+import edu.fudan.common.util.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,13 +23,13 @@ import java.util.List;
  * @author fdse
  */
 @Service
-public class AdminUserServiceImpl implements AdminUserService {
+public class AdminUserServiceImpl implements AdminUserService { 
+    private static final Logger logger = LoggerFactory.getLogger(AdminUserServiceImpl.class);
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminUserServiceImpl.class);
 //    @Value("${user-service.url}")
 //    String user_service_url;
 //    private final String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
@@ -39,6 +40,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Response getAllUsers(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","getAllUsers",headers.toString());
         HttpEntity requestEntity = new HttpEntity(null);
         String user_service_url = getServiceUrl("ts-user-service");
         String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
@@ -48,17 +50,19 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<User>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                USER_SERVICE_IP_URI,"GET");
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
-            AdminUserServiceImpl.LOGGER.error("[getAllUsers][receive response][Get All Users error]");
+            AdminUserServiceImpl.logger.error("[getAllUsers][receive response][Get All Users error]");
             return new Response<>(0, "get all users error", null);
         }
-        AdminUserServiceImpl.LOGGER.info("[getAllUsers][Get All Users][success]");
         return re.getBody();
     }
 
 
     @Override
     public Response deleteUser(String userId, HttpHeaders headers) {
+        logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, headers.toString());
         HttpHeaders newHeaders = new HttpHeaders();
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
         newHeaders.set(HttpHeaders.AUTHORIZATION, token);
@@ -72,17 +76,18 @@ public class AdminUserServiceImpl implements AdminUserService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                USER_SERVICE_IP_URI + "/" + userId,"DELETE");
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
-            AdminUserServiceImpl.LOGGER.error("[deleteUser][receive response][Delete user error][userId: {}]", userId);
+            AdminUserServiceImpl.logger.error("[deleteUser][receive response][Delete user error][userId: {}]", userId);
             return new Response<>(0, "delete user error", null);
         }
-        AdminUserServiceImpl.LOGGER.info("[deleteUser][Delete user success][userId: {}]", userId);
         return re.getBody();
     }
 
     @Override
     public Response updateUser(UserDto userDto, HttpHeaders headers) {
-        LOGGER.info("UPDATE USER: " + userDto.toString());
+        logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",userDto.toString(), headers.toString());
 
         HttpHeaders newHeaders = new HttpHeaders();
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
@@ -96,19 +101,20 @@ public class AdminUserServiceImpl implements AdminUserService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                USER_SERVICE_IP_URI,"PUT");
 
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
-            AdminUserServiceImpl.LOGGER.error("[updateUser][receive response][Update user error][userName: {}]", userName);
+            AdminUserServiceImpl.logger.error("[updateUser][receive response][Update user error][userName: {}]", userName);
             return new Response<>(0, "Update user error", null);
         }
-        AdminUserServiceImpl.LOGGER.info("[updateUser][Update user success][userName: {}]", userName);
         return re.getBody();
     }
 
     @Override
     public Response addUser(UserDto userDto, HttpHeaders headers) {
-        LOGGER.info("[addUser][ADD USER INFO][UserDto: {}]", userDto.toString());
+        logger.info("[function name:{}][userDto:{}, headers:{}]","addUser",userDto.toString(), headers.toString());
         HttpEntity requestEntity = new HttpEntity(userDto, null);
         String user_service_url = getServiceUrl("ts-user-service");
         String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
@@ -118,13 +124,14 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<User>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                USER_SERVICE_IP_URI + "/register","POST");
 
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
-            AdminUserServiceImpl.LOGGER.error("[addUser][receive response][Add user error][userName: {}]", userName);
+            AdminUserServiceImpl.logger.error("[addUser][receive response][Add user error][userName: {}]", userName);
             return new Response<>(0, "Add user error", null);
         }
-        AdminUserServiceImpl.LOGGER.info("[addUser][Add user success][userName: {}]", userName);
         return re.getBody();
     }
 }

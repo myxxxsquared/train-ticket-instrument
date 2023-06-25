@@ -1,6 +1,8 @@
 package rebook.service;
 
 import edu.fudan.common.entity.Trip;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetail;
 import edu.fudan.common.entity.TripAllDetailInfo;
 import edu.fudan.common.entity.TripResponse;
@@ -8,8 +10,7 @@ import edu.fudan.common.util.JsonUtils;
 import edu.fudan.common.util.Response;
 import edu.fudan.common.util.StringUtils;
 import org.apache.tomcat.jni.Time;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -31,14 +32,14 @@ import java.util.List;
  * @author fdse
  */
 @Service
-public class RebookServiceImpl implements RebookService {
+public class RebookServiceImpl implements RebookService { 
+    private static final Logger logger = LoggerFactory.getLogger(RebookServiceImpl.class);
+
 
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RebookServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
@@ -46,40 +47,41 @@ public class RebookServiceImpl implements RebookService {
 
     @Override
     public Response rebook(RebookInfo info, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][info:{}, httpHeaders:{}]","rebook",info.toString(), httpHeaders.toString());
 
         Response<Order> queryOrderResult = getOrderByRebookInfo(info, httpHeaders);
 
         if (queryOrderResult.getStatus() == 1) {
             if (queryOrderResult.getData().getStatus() != 1) {
-                RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Order not suitable to rebook][OrderId: {}]",info.getOrderId());
+                RebookServiceImpl.logger.warn("[rebook][Rebook warn][Order not suitable to rebook][OrderId: {}]",info.getOrderId());
                 return new Response<>(0, "you order not suitable to rebook!", null);
             }
         } else {
-            RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Order not found][OrderId: {}]",info.getOrderId());
+            RebookServiceImpl.logger.warn("[rebook][Rebook warn][Order not found][OrderId: {}]",info.getOrderId());
             return new Response(0, "order not found", null);
         }
 
         Order order = queryOrderResult.getData();
         int status = order.getStatus();
         if (status == OrderStatus.NOTPAID.getCode()) {
-            RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Order not paid][OrderId: {}]",info.getOrderId());
+            RebookServiceImpl.logger.warn("[rebook][Rebook warn][Order not paid][OrderId: {}]",info.getOrderId());
             return new Response<>(0, "You haven't paid the original ticket!", null);
         } else if (status == OrderStatus.PAID.getCode()) {
             // do nothing
         } else if (status == OrderStatus.CHANGE.getCode()) {
-            RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Order can't change twice][OrderId: {}]",info.getOrderId());
+            RebookServiceImpl.logger.warn("[rebook][Rebook warn][Order can't change twice][OrderId: {}]",info.getOrderId());
             return new Response<>(0, "You have already changed your ticket and you can only change one time.", null);
         } else if (status == OrderStatus.COLLECTED.getCode()) {
-            RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Order already collected][OrderId: {}]",info.getOrderId());
+            RebookServiceImpl.logger.warn("[rebook][Rebook warn][Order already collected][OrderId: {}]",info.getOrderId());
             return new Response<>(0, "You have already collected your ticket and you can change it now.", null);
         } else {
-            RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Order can't change][OrderId: {}]",info.getOrderId());
+            RebookServiceImpl.logger.warn("[rebook][Rebook warn][Order can't change][OrderId: {}]",info.getOrderId());
             return new Response<>(0, "You can't change your ticket.", null);
         }
 
         //Check the current time and the bus time of the old order, and judge whether the ticket can be changed according to the time. The ticket cannot be changed after two hours.
         if (!checkTime(order.getTravelDate(), order.getTravelTime())) {
-            RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Order beyond change time][OrderId: {}]",info.getOrderId());
+            RebookServiceImpl.logger.warn("[rebook][Rebook warn][Order beyond change time][OrderId: {}]",info.getOrderId());
             return new Response<>(0, "You can only change the ticket before the train start or within 2 hours after the train start.", null);
         }
 
@@ -92,18 +94,18 @@ public class RebookServiceImpl implements RebookService {
         gtdi.setTripId(info.getTripId());
         Response<TripAllDetail> gtdr = getTripAllDetailInformation(gtdi, info.getTripId(), httpHeaders);
         if (gtdr.getStatus() == 0) {
-            RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Trip detail not found][OrderId: {}]",info.getOrderId());
+            RebookServiceImpl.logger.warn("[rebook][Rebook warn][Trip detail not found][OrderId: {}]",info.getOrderId());
             return new Response<>(0, gtdr.getMsg(), null);
         } else {
             TripResponse tripResponse = gtdr.getData().getTripResponse();
             if (info.getSeatType() == SeatClass.FIRSTCLASS.getCode()) {
                 if (tripResponse.getConfortClass() <= 0) {
-                    RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Seat Not Enough][OrderId: {},SeatType: {}]",info.getOrderId(),info.getSeatType());
+                    RebookServiceImpl.logger.warn("[rebook][Rebook warn][Seat Not Enough][OrderId: {},SeatType: {}]",info.getOrderId(),info.getSeatType());
                     return new Response<>(0, "Seat Not Enough", null);
                 }
             } else {
                 if (tripResponse.getEconomyClass() == SeatClass.SECONDCLASS.getCode() && tripResponse.getConfortClass() <= 0) {
-                    RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Seat Not Enough][OrderId: {},SeatType: {}]",info.getOrderId(),info.getSeatType());
+                    RebookServiceImpl.logger.warn("[rebook][Rebook warn][Seat Not Enough][OrderId: {},SeatType: {}]",info.getOrderId(),info.getSeatType());
                     return new Response<>(0, "Seat Not Enough", null);
                 }
             }
@@ -125,7 +127,7 @@ public class RebookServiceImpl implements RebookService {
             //Refund the difference
             String difference = priceOld.subtract(priceNew).toString();
             if (!drawBackMoney(info.getLoginId(), difference, httpHeaders)) {
-                RebookServiceImpl.LOGGER.warn("[rebook][Rebook warn][Can't draw back the difference money][OrderId: {},LoginId: {},difference: {}]",info.getOrderId(),info.getLoginId(),difference);
+                RebookServiceImpl.logger.warn("[rebook][Rebook warn][Can't draw back the difference money][OrderId: {},LoginId: {},difference: {}]",info.getOrderId(),info.getLoginId(),difference);
                 return new Response<>(0, "Can't draw back the difference money, please try again!", null);
             }
             return updateOrder(order, info, (TripAllDetail) gtdr.getData(), ticketPrice, httpHeaders);
@@ -144,6 +146,7 @@ public class RebookServiceImpl implements RebookService {
 
     @Override
     public Response payDifference(RebookInfo info, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][info:{}, httpHeaders:{}]","payDifference",info.toString(), httpHeaders.toString());
 
         Response queryOrderResult = getOrderByRebookInfo(info, httpHeaders);
         if (queryOrderResult.getStatus() == 0) {
@@ -176,7 +179,7 @@ public class RebookServiceImpl implements RebookService {
         if (payDifferentMoney(info.getOrderId(), info.getTripId(), info.getLoginId(), priceNew.subtract(priceOld).toString(), httpHeaders)) {
             return updateOrder(order, info, gtdr, ticketPrice, httpHeaders);
         } else {
-            RebookServiceImpl.LOGGER.warn("[payDifference][Pay difference warn][Can't pay the difference money][OrderId: {},LoginId: {},TripId: {}]",info.getOrderId(),info.getLoginId(),info.getTripId());
+            RebookServiceImpl.logger.warn("[payDifference][Pay difference warn][Can't pay the difference money][OrderId: {},LoginId: {},TripId: {}]",info.getOrderId(),info.getLoginId(),info.getTripId());
             return new Response<>(0, "Can't pay the difference,please try again", null);
         }
     }
@@ -223,7 +226,7 @@ public class RebookServiceImpl implements RebookService {
             if (changeOrderResult.getStatus() == 1) {
                 return new Response<>(1, "Success!", order);
             } else {
-                RebookServiceImpl.LOGGER.error("[updateOrder][Update order error][OrderId: {},TripId: {}]",info.getOrderId(),info.getTripId());
+                RebookServiceImpl.logger.error("[updateOrder][Update order error][OrderId: {},TripId: {}]",info.getOrderId(),info.getTripId());
                 return new Response<>(0, "Can't update Order!", null);
             }
         } else {
@@ -236,6 +239,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     public Ticket dipatchSeat(String date, String tripId, String startStationId, String endStataionId, int seatType, int tatalNum, List<String> stations, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][date:{}, tripId:{}, startStationId:{}, endStataionId:{}, seatType:{}, tatalNum:{}, stations:{}, httpHeaders:{}]","dipatchSeat",date, tripId, startStationId, endStataionId, seatType, tatalNum, stations.toString(), httpHeaders.toString());
         Seat seatRequest = new Seat();
         seatRequest.setTravelDate(date);
         seatRequest.setTrainNumber(tripId);
@@ -254,6 +258,8 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityTicket,
                 new ParameterizedTypeReference<Response<Ticket>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",reTicket.getStatusCode(),
+                seat_service_url + "/api/v1/seatservice/seats","POST");
         return reTicket.getBody().getData();
     }
 
@@ -312,6 +318,8 @@ public class RebookServiceImpl implements RebookService {
                 requestGetTripAllDetailResult,
                 new ParameterizedTypeReference<Response<TripAllDetail>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",reGetTripAllDetailResult.getStatusCode(),
+                requestUrl,"POST");
         gtdr = reGetTripAllDetailResult.getBody();
         return gtdr;
     }
@@ -334,6 +342,8 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.POST,
                 requestCreateOrder,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",reCreateOrder.getStatusCode(),
+                requestUrl,"POST");
         return reCreateOrder.getBody();
     }
 
@@ -353,6 +363,8 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.PUT,
                 requestUpdateOrder,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",reUpdateOrder.getStatusCode(),
+                requestOrderUtl,"PUT");
         return reUpdateOrder.getBody();
     }
 
@@ -373,6 +385,8 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.POST,
                 requestDeleteOrder,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",reDeleteOrder.getStatusCode(),
+                requestUrl,"POST");
 
         return reDeleteOrder.getBody();
     }
@@ -396,12 +410,15 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityGetOrderByRebookInfo,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",reGetOrderByRebookInfo.getStatusCode(),
+                requestUrl,"GET");
 
         queryOrderResult = reGetOrderByRebookInfo.getBody();
         return queryOrderResult;
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
+        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, headers.toString());
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -409,6 +426,8 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
         Response  response = re.getBody();
 
         return JsonUtils.conveterObject(response.getData(), TrainType.class);
@@ -422,12 +441,13 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET");
         Response result = re.getBody();
         if ( result.getStatus() == 0) {
-            LOGGER.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());
+            logger.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());
             return null;
         } else {
-            LOGGER.info("[getRouteByRouteId][Get Route By Id][Success]");
             return JsonUtils.conveterObject(result.getData(), Route.class);
         }
     }
@@ -447,6 +467,8 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.POST,
                 requestEntityPayDifferentMoney,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",rePayDifferentMoney.getStatusCode(),
+                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/difference","POST");
         Response result = rePayDifferentMoney.getBody();
         return result.getStatus() == 1;
     }
@@ -461,6 +483,8 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.GET,
                 requestEntityDrawBackMoney,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",reDrawBackMoney.getStatusCode(),
+                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET");
         Response result = reDrawBackMoney.getBody();
         return result.getStatus() == 1;
     }

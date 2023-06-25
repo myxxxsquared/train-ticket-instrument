@@ -1,9 +1,10 @@
 package notification.service;
 
 import notification.entity.Mail;
-import notification.entity.NotifyInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import notification.entity.NotifyInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,15 +16,15 @@ import java.util.Map;
  * @author fdse
  */
 @Service
-public class NotificationServiceImpl implements NotificationService{
+public class NotificationServiceImpl implements NotificationService{ 
+    private static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
+
 
     @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
     MailService mailService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
     String email = "trainticket_notify@163.com";
     String username = "username";
@@ -35,6 +36,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public boolean preserveSuccess(NotifyInfo info, HttpHeaders headers){
+        logger.info("[function name:{}][info:{}, headers:{}]","preserveSuccess",info.toString(), headers.toString());
         Mail mail = new Mail();
         mail.setMailFrom(email);
         mail.setMailTo(info.getEmail());
@@ -55,13 +57,14 @@ public class NotificationServiceImpl implements NotificationService{
             mailService.sendEmail(mail,"preserve_success.ftl");
             return true;
         } catch (Exception e) {
-            LOGGER.error("[preserveSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
+            logger.error("[preserveSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
             return false;
         }
     }
 
     @Override
     public boolean orderCreateSuccess(NotifyInfo info, HttpHeaders headers){
+        logger.info("[function name:{}][info:{}, headers:{}]","orderCreateSuccess",info.toString(), headers.toString());
         Mail mail = new Mail();
         mail.setMailFrom(email);
         mail.setMailTo(info.getEmail());
@@ -82,13 +85,14 @@ public class NotificationServiceImpl implements NotificationService{
             mailService.sendEmail(mail,"order_create_success.ftl");
             return true;
         } catch (Exception e) {
-            LOGGER.error("[orderCreateSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
+            logger.error("[orderCreateSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
             return false;
         }
     }
 
     @Override
     public boolean orderChangedSuccess(NotifyInfo info, HttpHeaders headers){
+        logger.info("[function name:{}][info:{}, headers:{}]","orderChangedSuccess",info.toString(), headers.toString());
         Mail mail = new Mail();
         mail.setMailFrom(email);
         mail.setMailTo(info.getEmail());
@@ -109,13 +113,14 @@ public class NotificationServiceImpl implements NotificationService{
             mailService.sendEmail(mail,"order_changed_success.ftl");
             return true;
         } catch (Exception e) {
-            LOGGER.error("[orderChangedSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
+            logger.error("[orderChangedSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
             return false;
         }
     }
 
     @Override
     public boolean orderCancelSuccess(NotifyInfo info, HttpHeaders headers){
+        logger.info("[function name:{}][info:{}, headers:{}]","orderCancelSuccess",info.toString(), headers.toString());
         Mail mail = new Mail();
         mail.setMailFrom(email);
         mail.setMailTo(info.getEmail());
@@ -130,7 +135,7 @@ public class NotificationServiceImpl implements NotificationService{
             mailService.sendEmail(mail,"order_cancel_success.ftl");
             return true;
         } catch (Exception e) {
-            LOGGER.error("[orderCancelSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
+            logger.error("[orderCancelSuccess][mailService.sendEmai][Exception: {}]", e.getMessage());
             return false;
         }
     }

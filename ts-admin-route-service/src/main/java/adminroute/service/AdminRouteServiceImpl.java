@@ -1,10 +1,11 @@
 package adminroute.service;
 
 import edu.fudan.common.entity.Route;
-import edu.fudan.common.entity.RouteInfo;
-import edu.fudan.common.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import edu.fudan.common.entity.RouteInfo;
+import edu.fudan.common.util.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -20,13 +21,13 @@ import java.util.Map;
  * @author fdse
  */
 @Service
-public class AdminRouteServiceImpl implements AdminRouteService {
+public class AdminRouteServiceImpl implements AdminRouteService { 
+    private static final Logger logger = LoggerFactory.getLogger(AdminRouteServiceImpl.class);
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    public static final Logger logger = LoggerFactory.getLogger(AdminRouteServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
@@ -34,6 +35,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     @Override
     public Response getAllRoutes(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","getAllRoutes",headers.toString());
 
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
@@ -42,6 +44,8 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                 route_service_url + "/api/v1/routeservice/routes","GET");
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[getAllRoutes][receive response][Get routes error][response code: {}]", re.getStatusCodeValue());
         }
@@ -51,6 +55,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     @Override
     public Response createAndModifyRoute(RouteInfo request, HttpHeaders headers) {
+        logger.info("[function name:{}][request:{}, headers:{}]","createAndModifyRoute",request.toString(), headers.toString());
         // check stations
         String start = request.getStartStation();
         String end = request.getEndStation();
@@ -73,6 +78,8 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Route>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                route_service_url + "/api/v1/routeservice/routes","POST");
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[createAndModifyRoute][receive response][Get status error][response code: {}]", re.getStatusCodeValue());
         }
@@ -81,6 +88,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     @Override
     public Response deleteRoute(String routeId, HttpHeaders headers) {
+        logger.info("[function name:{}][routeId:{}, headers:{}]","deleteRoute",routeId, headers.toString());
 
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
@@ -89,6 +97,8 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                route_service_url + "/api/v1/routeservice/routes/" + routeId,"DELETE");
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[deleteRoute][response response][Delete error][response code: {}]", re.getStatusCodeValue());
         }
@@ -97,7 +107,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
     }
 
     public Response checkStationsExists(List<String> stationNames, HttpHeaders headers) {
-        logger.info("[checkStationsExists][Check Stations Exists][stationNames: {}]", stationNames);
+        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",stationNames.toString(), headers.toString());
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -105,6 +115,8 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/idlist","POST");
         Response<Map<String, String>> r = re.getBody();
         if(r.getStatus() == 0) {
             return r;

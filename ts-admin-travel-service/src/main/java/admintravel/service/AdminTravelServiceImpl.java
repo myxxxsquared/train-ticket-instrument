@@ -1,13 +1,14 @@
 package admintravel.service;
 
 import edu.fudan.common.entity.AdminTrip;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Route;
 import edu.fudan.common.entity.TrainType;
 import edu.fudan.common.entity.TravelInfo;
 import edu.fudan.common.util.JsonUtils;
 import edu.fudan.common.util.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -26,13 +27,14 @@ import java.util.Map;
  * @author fdse
  */
 @Service
-public class AdminTravelServiceImpl implements AdminTravelService {
+public class AdminTravelServiceImpl implements AdminTravelService { 
+    private static final Logger logger = LoggerFactory.getLogger(AdminTravelServiceImpl.class);
+
 
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminTravelServiceImpl.class);
 
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName;
@@ -40,10 +42,9 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     @Override
     public Response getAllTravels(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","getAllTravels",headers.toString());
         Response<ArrayList<AdminTrip>> result;
         ArrayList<AdminTrip> trips = new ArrayList<>();
-
-        AdminTravelServiceImpl.LOGGER.info("[getAllTravels][Get All Travels]");
         HttpEntity requestEntity = new HttpEntity(headers);
         String travel_service_url = getServiceUrl("ts-travel-service");
         ResponseEntity<Response<ArrayList<AdminTrip>>> re = restTemplate.exchange(
@@ -52,14 +53,15 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<AdminTrip>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                travel_service_url + "/api/v1/travelservice/admin_trip","GET");
         result = re.getBody();
 
         if (result.getStatus() == 1) {
             ArrayList<AdminTrip> adminTrips = result.getData();
-            AdminTravelServiceImpl.LOGGER.info("[getAllTravels][Get Travel From ts-travel-service successfully!]");
             trips.addAll(adminTrips);
         } else {
-            AdminTravelServiceImpl.LOGGER.error("[getAllTravels][receive response][Get Travel From ts-travel-service fail!]");
+            AdminTravelServiceImpl.logger.error("[getAllTravels][receive response][Get Travel From ts-travel-service fail!]");
         }
 
         HttpEntity requestEntity2 = new HttpEntity(headers);
@@ -70,14 +72,15 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 requestEntity2,
                 new ParameterizedTypeReference<Response<ArrayList<AdminTrip>>>() {
                 });
+        logger.info("the client API's status code and url are: {} {} {}",re2.getStatusCode(),
+                travel2_service_url + "/api/v1/travel2service/admin_trip","GET");
         result = re2.getBody();
 
         if (result.getStatus() == 1) {
-            AdminTravelServiceImpl.LOGGER.info("[getAllTravels][Get Travel From ts-travel2-service successfully!]");
             ArrayList<AdminTrip> adminTrips = result.getData();
             trips.addAll(adminTrips);
         } else {
-            AdminTravelServiceImpl.LOGGER.error("[getAllTravels][receive response][Get Travel From ts-travel2-service fail!]");
+            AdminTravelServiceImpl.logger.error("[getAllTravels][receive response][Get Travel From ts-travel2-service fail!]");
         }
         result.setData(trips);
 
@@ -86,6 +89,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     @Override
     public Response addTravel(TravelInfo request, HttpHeaders headers) {
+        logger.info("[function name:{}][request:{}, headers:{}]","addTravel",request.toString(), headers.toString());
         // check for travel info
         Response response = checkTravelInfo(request, headers);
         if(response.getStatus() == 0){
@@ -109,19 +113,21 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                requestUrl,"POST");
         result = re.getBody();
 
         if (result.getStatus() == 1) {
-            AdminTravelServiceImpl.LOGGER.info("[addTravel][Admin add new travel][success]");
             return new Response<>(1, "[Admin add new travel]", null);
         } else {
-            AdminTravelServiceImpl.LOGGER.error("[addTravel][receive response][Admin add new travel failed][trip id: {}]", request.getTripId());
+            AdminTravelServiceImpl.logger.error("[addTravel][receive response][Admin add new travel failed][trip id: {}]", request.getTripId());
             return new Response<>(0, "Admin add new travel failed", null);
         }
     }
 
     @Override
     public Response updateTravel(TravelInfo request, HttpHeaders headers) {
+        logger.info("[function name:{}][request:{}, headers:{}]","updateTravel",request.toString(), headers.toString());
         // check for travel info
         Response response = checkTravelInfo(request, headers);
         if(response.getStatus() == 0){
@@ -144,19 +150,19 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                requestUrl,"PUT");
 
         result = re.getBody();
         if (result.getStatus() != 1)  {
-            AdminTravelServiceImpl.LOGGER.info("[updateTravel][Admin update travel failed]");
             return new Response<>(0, "Admin update travel failed", null);
         }
-
-        AdminTravelServiceImpl.LOGGER.info("[updateTravel][Admin update travel][success]");
         return result;
     }
 
     @Override
     public Response deleteTravel(String tripId, HttpHeaders headers) {
+        logger.info("[function name:{}][tripId:{}, headers:{}]","deleteTravel",tripId, headers.toString());
 
         Response result;
         String requestUtl = "";
@@ -173,18 +179,19 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                requestUtl,"DELETE");
 
         result = re.getBody();
         if (result.getStatus() != 1) {
-            AdminTravelServiceImpl.LOGGER.error("[deleteTravel][receive response][Admin delete travel failed][trip id: {}]", tripId);
+            AdminTravelServiceImpl.logger.error("[deleteTravel][receive response][Admin delete travel failed][trip id: {}]", tripId);
             return new Response<>(0, "Admin delete travel failed", null);
         }
-
-        AdminTravelServiceImpl.LOGGER.info("[deleteTravel][Admin delete travel success][trip id: {}]", tripId);
         return result;
     }
 
     public Response checkTravelInfo(TravelInfo info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","checkTravelInfo",info.toString(), headers.toString());
         String start = info.getStartStationName();
         String end = info.getTerminalStationName();
         List<String> stations = new ArrayList<>();
@@ -197,7 +204,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
         TrainType trainType = queryTrainTypeByName(info.getTrainTypeName(), headers);
         if (trainType == null) {
-            AdminTravelServiceImpl.LOGGER.warn(
+            AdminTravelServiceImpl.logger.warn(
                     "[queryForTravel][traintype doesn't exist][trainTypeName: {}]",
                     info.getTrainTypeName());
             response.setStatus(0);
@@ -227,7 +234,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     public Response checkStationsExists(List<String> stationNames, HttpHeaders headers) {
-        AdminTravelServiceImpl.LOGGER.info("[checkStationsExists][Check Stations Exists][stationNames: {}]", stationNames);
+        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",stationNames.toString(), headers.toString());
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -235,6 +242,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/idlist","POST");
         Response<Map<String, String>> r = re.getBody();
         if(r.getStatus() == 0) {
             return r;
@@ -254,7 +263,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        AdminTravelServiceImpl.LOGGER.info("[queryTrainTypeByName][Query Train Type][Train Type name: {}]", trainTypeName);
+        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, headers.toString());
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -262,13 +271,14 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
         Response  response = re.getBody();
 
         return JsonUtils.conveterObject(response.getData(), TrainType.class);
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
-        AdminTravelServiceImpl.LOGGER.info("[getRouteByRouteId][Get Route By Id][Route ID：{}]", routeId);
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -276,12 +286,13 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
+        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+                route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET");
         Response result = re.getBody();
         if ( result.getStatus() == 0) {
-            AdminTravelServiceImpl.LOGGER.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());
+            AdminTravelServiceImpl.logger.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());
             return null;
         } else {
-            AdminTravelServiceImpl.LOGGER.info("[getRouteByRouteId][Get Route By Id][Success]");
             return JsonUtils.conveterObject(result.getData(), Route.class);
         }
     }

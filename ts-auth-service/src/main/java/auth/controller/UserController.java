@@ -2,13 +2,14 @@ package auth.controller;
 
 
 import auth.dto.BasicAuthDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import auth.entity.User;
 import auth.exception.UserOperationException;
 import auth.service.TokenService;
 import auth.service.UserService;
 import edu.fudan.common.util.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpHeaders;
@@ -23,7 +24,9 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/v1/users")
-public class UserController {
+public class UserController { 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
     @Autowired
     private UserService userService;
@@ -31,16 +34,14 @@ public class UserController {
     @Autowired
     private TokenService tokenService;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @GetMapping("/hello")
     public Object getHello() {
+        logger.info("[function name:getHello]");
         return "Hello";
     }
 
     @PostMapping("/login")
     public ResponseEntity<Response> getToken(@RequestBody BasicAuthDto dao , @RequestHeader HttpHeaders headers) {
-        logger.info("Login request of username: {}", dao.getUsername());
         try {
             Response<?> res = tokenService.getToken(dao, headers);
             return ResponseEntity.ok(res);
@@ -52,13 +53,11 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUser(@RequestHeader HttpHeaders headers) {
-        logger.info("[getAllUser][Get all users]");
         return ResponseEntity.ok().body(userService.getAllUser(headers));
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Response> deleteUserById(@PathVariable String userId, @RequestHeader HttpHeaders headers) {
-        logger.info("[deleteUserById][Delete user][userId: {}]", userId);
         return ResponseEntity.ok(userService.deleteByUserId(userId, headers));
     }
 

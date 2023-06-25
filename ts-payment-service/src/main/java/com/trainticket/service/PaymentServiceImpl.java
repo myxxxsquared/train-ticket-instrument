@@ -1,12 +1,13 @@
 package com.trainticket.service;
 
 import com.trainticket.entity.Money;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.trainticket.entity.Payment;
 import com.trainticket.repository.AddMoneyRepository;
 import com.trainticket.repository.PaymentRepository;
 import edu.fudan.common.util.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,9 @@ import java.util.Optional;
  * @date 2017/6/23.
  */
 @Service
-public class PaymentServiceImpl implements PaymentService{
+public class PaymentServiceImpl implements PaymentService{ 
+    private static final Logger logger = LoggerFactory.getLogger(PaymentServiceImpl.class);
+
 
     @Autowired
     PaymentRepository paymentRepository;
@@ -27,10 +30,9 @@ public class PaymentServiceImpl implements PaymentService{
     @Autowired
     AddMoneyRepository addMoneyRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
-
     @Override
     public Response pay(Payment info, HttpHeaders headers){
+        logger.info("[function name:{}][info:{}, headers:{}]","pay",info.toString(), headers.toString());
 
         if(paymentRepository.findByOrderId(info.getOrderId()) == null){
             Payment payment = new Payment();
@@ -40,13 +42,14 @@ public class PaymentServiceImpl implements PaymentService{
             paymentRepository.save(payment);
             return new Response<>(1, "Pay Success", null);
         }else{
-            PaymentServiceImpl.LOGGER.warn("[pay][Pay Failed][Order not found with order id][PaymentId: {}, OrderId: {}]",info.getId(),info.getOrderId());
+            PaymentServiceImpl.logger.warn("[pay][Pay Failed][Order not found with order id][PaymentId: {}, OrderId: {}]",info.getId(),info.getOrderId());
             return new Response<>(0, "Pay Failed, order not found with order id" +info.getOrderId(), null);
         }
     }
 
     @Override
     public Response addMoney(Payment info, HttpHeaders headers){
+        logger.info("[function name:{}][info:{}, headers:{}]","addMoney",info.toString(), headers.toString());
         Money addMoney = new Money();
         addMoney.setUserId(info.getUserId());
         addMoney.setMoney(info.getPrice());
@@ -56,24 +59,24 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     public Response query(HttpHeaders headers){
+        logger.info("[function name:{}][headers:{}]","query",headers.toString());
         List<Payment> payments = paymentRepository.findAll();
         if(payments!= null && !payments.isEmpty()){
-            PaymentServiceImpl.LOGGER.info("[query][Find all payment Success][size:{}]",payments.size());
             return new Response<>(1,"Query Success",  payments);
         }else {
-            PaymentServiceImpl.LOGGER.warn("[query][Find all payment warn][{}]","No content");
+            PaymentServiceImpl.logger.warn("[query][Find all payment warn][{}]","No content");
             return new Response<>(0, "No Content", null);
         }
     }
 
     @Override
     public void initPayment(Payment payment, HttpHeaders headers){
+        logger.info("[function name:{}][payment:{}, headers:{}]","initPayment",payment.toString(), headers.toString());
         Optional<Payment> paymentTemp = paymentRepository.findById(payment.getId());
         if(!paymentTemp.isPresent()){
             paymentRepository.save(payment);
-            PaymentServiceImpl.LOGGER.error("[initPayment][Init payment error][Payment not found][PaymentId: {}]",payment.getId());
+            PaymentServiceImpl.logger.error("[initPayment][Init payment error][Payment not found][PaymentId: {}]",payment.getId());
         }else{
-            PaymentServiceImpl.LOGGER.info("[initPayment][Init Payment Already Exists][PaymentId: {}]", payment.getId());
         }
     }
 }

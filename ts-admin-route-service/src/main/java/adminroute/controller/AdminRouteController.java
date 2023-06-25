@@ -1,9 +1,10 @@
 package adminroute.controller;
 
 import edu.fudan.common.entity.RouteInfo;
-import adminroute.service.AdminRouteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import adminroute.service.AdminRouteService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,35 +17,35 @@ import static org.springframework.http.ResponseEntity.ok;
  */
 @RestController
 @RequestMapping("/api/v1/adminrouteservice")
-public class AdminRouteController {
+public class AdminRouteController { 
+    private static final Logger logger = LoggerFactory.getLogger(AdminRouteController.class);
+
 
     @Autowired
     AdminRouteService adminRouteService;
 
-    public static final Logger logger = LoggerFactory.getLogger(AdminRouteController.class);
-
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][HttpHeaders:{}]","home",headers.toString());
         return "Welcome to [ AdminRoute Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/adminroute")
     public HttpEntity getAllRoutes(@RequestHeader HttpHeaders headers) {
-        logger.info("[getAllRoutes][Get all routes request]");
+        logger.info("[function name:{}][HttpHeaders:{}]","getAllRoutes",headers.toString());
         return ok(adminRouteService.getAllRoutes(headers));
     }
 
     @PostMapping(value = "/adminroute")
     public HttpEntity addRoute(@RequestBody RouteInfo request, @RequestHeader HttpHeaders headers) {
-        logger.info("[addRoute][Create and modify route][route id: {}, from station {} to station {}]",
-                request.getId(), request.getStartStation(), request.getEndStation());
+        logger.info("[function name:{}][RouteInfo:{}, HttpHeaders:{}]","addRoute",request.toString(), headers.toString());
         return ok(adminRouteService.createAndModifyRoute(request, headers));
     }
 
     @DeleteMapping(value = "/adminroute/{routeId}")
     public HttpEntity deleteRoute(@PathVariable String routeId, @RequestHeader HttpHeaders headers) {
-        logger.info("[deleteRoute][Delete route][route id: {}]", routeId);
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","deleteRoute",routeId, headers.toString());
         return ok(adminRouteService.deleteRoute(routeId, headers));
     }
 

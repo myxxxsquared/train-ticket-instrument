@@ -1,9 +1,10 @@
 package verifycode.service.impl;
 
 import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.cache.CacheBuilder;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import verifycode.service.VerifyCodeService;
@@ -25,10 +26,11 @@ import java.util.concurrent.TimeUnit;
  * @author fdse
  */
 @Service
-public class VerifyCodeServiceImpl implements VerifyCodeService {
+public class VerifyCodeServiceImpl implements VerifyCodeService { 
+    private static final Logger logger = LoggerFactory.getLogger(VerifyCodeServiceImpl.class);
+
 
     public static final int CAPTCHA_EXPIRED = 1000;
-    private static final Logger LOGGER = LoggerFactory.getLogger(VerifyCodeServiceImpl.class);
 
     String ysbCaptcha = "YsbCaptcha";
 
@@ -93,7 +95,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
         Cookie cookie = CookieUtil.getCookieByName(request, ysbCaptcha);
         String cookieId;
         if (cookie == null) {
-            VerifyCodeServiceImpl.LOGGER.warn("[getImageCode][Get image code warn.Cookie not found][Path Info: {}]",request.getPathInfo());
+            VerifyCodeServiceImpl.logger.warn("[getImageCode][Get image code warn.Cookie not found][Path Info: {}]",request.getPathInfo());
             cookieId = UUID.randomUUID().toString().replace("-", "").toUpperCase();
             CookieUtil.addCookie(response, ysbCaptcha, cookieId, CAPTCHA_EXPIRED);
         } else {
@@ -104,18 +106,18 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
                 cookieId = cookie.getValue();
             }
         }
-        VerifyCodeServiceImpl.LOGGER.info("[getImageCode][strEnsure: {}]", strEnsure);
         cacheCode.put(cookieId, strEnsure);
         return returnMap;
     }
 
     @Override
     public boolean verifyCode(HttpServletRequest request, HttpServletResponse response, String receivedCode, HttpHeaders headers) {
+        logger.info("[function name:{}][request:{}, response:{}, receivedCode:{}, headers:{}]","verifyCode",request.toString(), response.toString(), receivedCode, headers.toString());
         boolean result = false;
         Cookie cookie = CookieUtil.getCookieByName(request, ysbCaptcha);
         String cookieId;
         if (cookie == null) {
-            VerifyCodeServiceImpl.LOGGER.warn("[verifyCode][Verify code warn][Cookie not found][Path Info: {}]",request.getPathInfo());
+            VerifyCodeServiceImpl.logger.warn("[verifyCode][Verify code warn][Cookie not found][Path Info: {}]",request.getPathInfo());
             cookieId = UUID.randomUUID().toString().replace("-", "").toUpperCase();
             CookieUtil.addCookie(response, ysbCaptcha, cookieId, CAPTCHA_EXPIRED);
         } else {
@@ -123,9 +125,8 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
         }
 
         String code = cacheCode.getIfPresent(cookieId);
-        LOGGER.info("GET Code By cookieId " + cookieId + "   is :" + code);
         if (code == null) {
-            VerifyCodeServiceImpl.LOGGER.warn("[verifyCode][Get image code warn][Code not found][CookieId: {}]",cookieId);
+            VerifyCodeServiceImpl.logger.warn("[verifyCode][Get image code warn][Code not found][CookieId: {}]",cookieId);
             return false;
         }
         if (code.equalsIgnoreCase(receivedCode)) {

@@ -1,9 +1,10 @@
 package com.trainticket.controller;
 
 import com.trainticket.entity.Payment;
-import com.trainticket.service.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.trainticket.service.PaymentService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,33 +18,34 @@ import static org.springframework.http.ResponseEntity.ok;
  */
 @RestController
 @RequestMapping("/api/v1/paymentservice")
-public class PaymentController {
+public class PaymentController { 
+    private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+
 
     @Autowired
     PaymentService service;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentController.class);
-
     @GetMapping(path = "/welcome")
     public String home() {
+        logger.info("[function name:home]");
         return "Welcome to [ Payment Service ] !";
     }
 
     @PostMapping(path = "/payment")
     public HttpEntity pay(@RequestBody Payment info, @RequestHeader HttpHeaders headers) {
-        PaymentController.LOGGER.info("[pay][Pay][PaymentId: {}]", info.getId());
+        logger.info("[function name:{}][Payment:{}, HttpHeaders:{}]","pay",info.toString(), headers.toString());
         return ok(service.pay(info, headers));
     }
 
     @PostMapping(path = "/payment/money")
     public HttpEntity addMoney(@RequestBody Payment info, @RequestHeader HttpHeaders headers) {
-        PaymentController.LOGGER.info("[addMoney][Add money][PaymentId: {}]", info.getId());
+        logger.info("[function name:{}][Payment:{}, HttpHeaders:{}]","addMoney",info.toString(), headers.toString());
         return ok(service.addMoney(info, headers));
     }
 
     @GetMapping(path = "/payment")
     public HttpEntity query(@RequestHeader HttpHeaders headers) {
-        PaymentController.LOGGER.info("[query][Query payment]");
+        logger.info("[function name:{}][HttpHeaders:{}]","query",headers.toString());
         return ok(service.query(headers));
     }
 }
