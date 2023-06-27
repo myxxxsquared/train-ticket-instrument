@@ -1,6 +1,8 @@
 package fdse.microservice.controller;
 
 import edu.fudan.common.util.Response;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import fdse.microservice.entity.*;
@@ -23,18 +25,20 @@ public class StationController {
     private static final Logger logger = LoggerFactory.getLogger(StationController.class);
 
 
+
+
     @Autowired
     private StationService stationService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","home",headers.toString());
+        logger.info("[function name:{}][HttpHeaders:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Station Service ] !";
     }
 
     @GetMapping(value = "/stations")
     public HttpEntity query(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","query",headers.toString());
+        logger.info("[function name:{}][HttpHeaders:{}]","query",(headers != null ? headers.toString(): null));
         return ok(stationService.query(headers));
     }
 
@@ -45,7 +49,7 @@ public class StationController {
 
     @PutMapping(value = "/stations")
     public HttpEntity update(@RequestBody Station station, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][Station:{}, HttpHeaders:{}]","update",station.toString(), headers.toString());
+        logger.info("[function name:{}][Station:{}, HttpHeaders:{}]","update",(station != null ? station.toString(): null), (headers != null ? headers.toString(): null));
         return ok(stationService.update(station, headers));
     }
 
@@ -67,7 +71,7 @@ public class StationController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/stations/idlist")
     public HttpEntity queryForIdBatch(@RequestBody List<String> stationNameList, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][List<String>:{}, HttpHeaders:{}]","queryForIdBatch",stationNameList.toString(), headers.toString());
+        logger.info("[function name:{}][List<String>:{}, HttpHeaders:{}]","queryForIdBatch",(stationNameList != null ? stationNameList.toString(): null), (headers != null ? headers.toString(): null));
         return ok(stationService.queryForIdBatch(stationNameList, headers));
     }
 
@@ -84,7 +88,7 @@ public class StationController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/stations/namelist")
     public HttpEntity queryForNameBatch(@RequestBody List<String> stationIdList, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][List<String>:{}, HttpHeaders:{}]","queryForNameBatch",stationIdList.toString(), headers.toString());
+        logger.info("[function name:{}][List<String>:{}, HttpHeaders:{}]","queryForNameBatch",(stationIdList != null ? stationIdList.toString(): null), (headers != null ? headers.toString(): null));
         return ok(stationService.queryByIdBatch(stationIdList, headers));
     }
 

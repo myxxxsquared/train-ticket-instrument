@@ -1,6 +1,8 @@
 package admintravel.service;
 
 import edu.fudan.common.entity.AdminTrip;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Route;
@@ -31,6 +33,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     private static final Logger logger = LoggerFactory.getLogger(AdminTravelServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -42,7 +46,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     @Override
     public Response getAllTravels(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllTravels",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllTravels",(headers != null ? headers.toString(): null));
         Response<ArrayList<AdminTrip>> result;
         ArrayList<AdminTrip> trips = new ArrayList<>();
         HttpEntity requestEntity = new HttpEntity(headers);
@@ -89,7 +93,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     @Override
     public Response addTravel(TravelInfo request, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, headers:{}]","addTravel",request.toString(), headers.toString());
+        logger.info("[function name:{}][request:{}, headers:{}]","addTravel",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
         // check for travel info
         Response response = checkTravelInfo(request, headers);
         if(response.getStatus() == 0){
@@ -127,7 +131,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     @Override
     public Response updateTravel(TravelInfo request, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, headers:{}]","updateTravel",request.toString(), headers.toString());
+        logger.info("[function name:{}][request:{}, headers:{}]","updateTravel",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
         // check for travel info
         Response response = checkTravelInfo(request, headers);
         if(response.getStatus() == 0){
@@ -162,7 +166,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
     @Override
     public Response deleteTravel(String tripId, HttpHeaders headers) {
-        logger.info("[function name:{}][tripId:{}, headers:{}]","deleteTravel",tripId, headers.toString());
+        logger.info("[function name:{}][tripId:{}, headers:{}]","deleteTravel",tripId, (headers != null ? headers.toString(): null));
 
         Response result;
         String requestUtl = "";
@@ -191,7 +195,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     public Response checkTravelInfo(TravelInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","checkTravelInfo",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","checkTravelInfo",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         String start = info.getStartStationName();
         String end = info.getTerminalStationName();
         List<String> stations = new ArrayList<>();
@@ -234,7 +238,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     public Response checkStationsExists(List<String> stationNames, HttpHeaders headers) {
-        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",stationNames.toString(), headers.toString());
+        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",(stationNames != null ? stationNames.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -263,7 +267,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, headers.toString());
+        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(

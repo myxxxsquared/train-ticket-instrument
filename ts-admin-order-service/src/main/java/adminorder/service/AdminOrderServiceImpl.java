@@ -1,6 +1,8 @@
 package adminorder.service;
 
 import edu.fudan.common.entity.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -27,6 +29,8 @@ import java.util.List;
 public class AdminOrderServiceImpl implements AdminOrderService { 
     private static final Logger logger = LoggerFactory.getLogger(AdminOrderServiceImpl.class);
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -38,7 +42,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response getAllOrders(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllOrders",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         //Get all of the orders
         ArrayList<Order> orders = new ArrayList<>();
         //From ts-order-service
@@ -87,7 +91,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response deleteOrder(String orderId, String trainNumber, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, trainNumber:{}, headers:{}]","deleteOrder",orderId, trainNumber, headers.toString());
+        logger.info("[function name:{}][orderId:{}, trainNumber:{}, headers:{}]","deleteOrder",orderId, trainNumber, (headers != null ? headers.toString(): null));
         Response deleteOrderResult;
         if (trainNumber.startsWith("G") || trainNumber.startsWith("D")) {
             HttpEntity requestEntity = new HttpEntity(null);
@@ -120,7 +124,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response updateOrder(Order request, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, headers:{}]","updateOrder",request.toString(), headers.toString());
+        logger.info("[function name:{}][request:{}, headers:{}]","updateOrder",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
 
         Response updateOrderResult;
         if (request.getTrainNumber().startsWith("G") || request.getTrainNumber().startsWith("D")) {
@@ -153,7 +157,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response addOrder(Order request, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, headers:{}]","addOrder",request.toString(), headers.toString());
+        logger.info("[function name:{}][request:{}, headers:{}]","addOrder",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
 
         Response addOrderResult;
         if (request.getTrainNumber().startsWith("G") || request.getTrainNumber().startsWith("D")) {

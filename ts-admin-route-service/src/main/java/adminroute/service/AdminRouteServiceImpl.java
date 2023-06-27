@@ -1,6 +1,8 @@
 package adminroute.service;
 
 import edu.fudan.common.entity.Route;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.RouteInfo;
@@ -24,6 +26,8 @@ import java.util.Map;
 public class AdminRouteServiceImpl implements AdminRouteService { 
     private static final Logger logger = LoggerFactory.getLogger(AdminRouteServiceImpl.class);
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -35,7 +39,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     @Override
     public Response getAllRoutes(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllRoutes",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllRoutes",(headers != null ? headers.toString(): null));
 
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
@@ -55,7 +59,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     @Override
     public Response createAndModifyRoute(RouteInfo request, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, headers:{}]","createAndModifyRoute",request.toString(), headers.toString());
+        logger.info("[function name:{}][request:{}, headers:{}]","createAndModifyRoute",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
         // check stations
         String start = request.getStartStation();
         String end = request.getEndStation();
@@ -88,7 +92,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     @Override
     public Response deleteRoute(String routeId, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, headers:{}]","deleteRoute",routeId, headers.toString());
+        logger.info("[function name:{}][routeId:{}, headers:{}]","deleteRoute",routeId, (headers != null ? headers.toString(): null));
 
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
@@ -107,7 +111,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
     }
 
     public Response checkStationsExists(List<String> stationNames, HttpHeaders headers) {
-        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",stationNames.toString(), headers.toString());
+        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",(stationNames != null ? stationNames.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(

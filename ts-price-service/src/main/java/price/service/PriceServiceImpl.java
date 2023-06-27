@@ -2,6 +2,8 @@ package price.service;
 
 import edu.fudan.common.util.Response;
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class PriceServiceImpl implements PriceService {
     private static final Logger logger = LoggerFactory.getLogger(PriceServiceImpl.class);
 
 
+
+
     @Autowired(required=true)
     private PriceConfigRepository priceConfigRepository;
 
@@ -28,7 +32,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response createNewPriceConfig(PriceConfig createAndModifyPriceConfig, HttpHeaders headers) {
-        logger.info("[function name:{}][createAndModifyPriceConfig:{}, headers:{}]","createNewPriceConfig",createAndModifyPriceConfig.toString(), headers.toString());
+        logger.info("[function name:{}][createAndModifyPriceConfig:{}, headers:{}]","createNewPriceConfig",(createAndModifyPriceConfig != null ? createAndModifyPriceConfig.toString(): null), (headers != null ? headers.toString(): null));
         PriceConfig priceConfig = null;
         // create
         if (createAndModifyPriceConfig.getId() == null || createAndModifyPriceConfig.getId().toString().length() < 10) {
@@ -42,7 +46,9 @@ public class PriceServiceImpl implements PriceService {
         } else {
             // modify
             Optional<PriceConfig> op = priceConfigRepository.findById(createAndModifyPriceConfig.getId());
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
             if (!op.isPresent()) {
                 priceConfig = new PriceConfig();
@@ -61,9 +67,11 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceConfig findById(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","findById",id, headers.toString());
+        logger.info("[function name:{}][id:{}, headers:{}]","findById",id, (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(UUID.fromString(id).toString());
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if(op.isPresent()){
             return op.get();
@@ -73,9 +81,11 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response findByRouteIdAndTrainType(String routeId, String trainType, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, trainType:{}, headers:{}]","findByRouteIdAndTrainType",routeId, trainType, headers.toString());
+        logger.info("[function name:{}][routeId:{}, trainType:{}, headers:{}]","findByRouteIdAndTrainType",routeId, trainType, (headers != null ? headers.toString(): null));
         PriceConfig priceConfig = priceConfigRepository.findByRouteIdAndTrainType(routeId, trainType);
-      logger.info("the priceConfig is: {}", priceConfig.toString());
+      logger.info("the priceConfig is: {}", (priceConfig != null ? priceConfig.toString(): null));
+      
+      
       
 
         if (priceConfig == null) {
@@ -88,7 +98,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response findByRouteIdsAndTrainTypes(List<String> ridsAndTts, HttpHeaders headers){
-        logger.info("[function name:{}][ridsAndTts:{}, headers:{}]","findByRouteIdsAndTrainTypes",ridsAndTts.toString(), headers.toString());
+        logger.info("[function name:{}][ridsAndTts:{}, headers:{}]","findByRouteIdsAndTrainTypes",(ridsAndTts != null ? ridsAndTts.toString(): null), (headers != null ? headers.toString(): null));
         List<String> routeIds = new ArrayList<>();
         List<String> trainTypes = new ArrayList<>();
         for(String rts: ridsAndTts){
@@ -97,7 +107,9 @@ public class PriceServiceImpl implements PriceService {
             trainTypes.add(r_t.get(1));
         }
         List<PriceConfig> pcs = priceConfigRepository.findByRouteIdsAndTrainTypes(routeIds, trainTypes);
-      logger.info("the pcs is: {}", pcs.toString());
+      logger.info("the pcs is: {}", (pcs != null ? pcs.toString(): null));
+      
+      
       
         Map<String, PriceConfig> pcMap = new HashMap<>();
         for(PriceConfig pc: pcs){
@@ -117,9 +129,11 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response findAllPriceConfig(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","findAllPriceConfig",headers.toString());
+        logger.info("[function name:{}][headers:{}]","findAllPriceConfig",(headers != null ? headers.toString(): null));
         List<PriceConfig> list = priceConfigRepository.findAll();
-      logger.info("the list is: {}", list.toString());
+      logger.info("the list is: {}", (list != null ? list.toString(): null));
+      
+      
       
         if (list == null) {
             list = new ArrayList<>();
@@ -136,9 +150,11 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response deletePriceConfig(String pcId, HttpHeaders headers) {
-        logger.info("[function name:{}][pcId:{}, headers:{}]","deletePriceConfig",pcId, headers.toString());
+        logger.info("[function name:{}][pcId:{}, headers:{}]","deletePriceConfig",pcId, (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(pcId);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             PriceServiceImpl.logger.error("[deletePriceConfig][Delete price config error][Price config not found][PriceConfigId: {}]",pcId);
@@ -152,9 +168,11 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response updatePriceConfig(PriceConfig c, HttpHeaders headers) {
-        logger.info("[function name:{}][c:{}, headers:{}]","updatePriceConfig",c.toString(), headers.toString());
+        logger.info("[function name:{}][c:{}, headers:{}]","updatePriceConfig",(c != null ? c.toString(): null), (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(c.getId());
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             PriceServiceImpl.logger.error("[updatePriceConfig][Update price config error][Price config not found][PriceConfigId: {}]",c.getId());

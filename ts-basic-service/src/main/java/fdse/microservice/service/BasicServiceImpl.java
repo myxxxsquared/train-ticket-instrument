@@ -1,6 +1,8 @@
 package fdse.microservice.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +29,8 @@ public class BasicServiceImpl implements BasicService {
     private static final Logger logger = LoggerFactory.getLogger(BasicServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -39,7 +43,7 @@ public class BasicServiceImpl implements BasicService {
 
     @Override
     public Response queryForTravel(Travel info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","queryForTravel",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","queryForTravel",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         Response response = new Response<>();
         TravelResult result = new TravelResult();
@@ -121,7 +125,7 @@ public class BasicServiceImpl implements BasicService {
 
     @Override
     public Response queryForTravels(List<Travel> infos, HttpHeaders headers) {
-        logger.info("[function name:{}][infos:{}, headers:{}]","queryForTravels",infos.toString(), headers.toString());
+        logger.info("[function name:{}][infos:{}, headers:{}]","queryForTravels",(infos != null ? infos.toString(): null), (headers != null ? headers.toString(): null));
         Response response = new Response<>();
         response.setStatus(1);
         response.setMsg("Success");
@@ -321,7 +325,7 @@ public class BasicServiceImpl implements BasicService {
 
     @Override
     public Response queryForStationId(String stationName, HttpHeaders headers) {
-        logger.info("[function name:{}][stationName:{}, headers:{}]","queryForStationId",stationName, headers.toString());
+        logger.info("[function name:{}][stationName:{}, headers:{}]","queryForStationId",stationName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -360,7 +364,7 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public boolean checkStationExists(String stationName, HttpHeaders headers) {
-        logger.info("[function name:{}][stationName:{}, headers:{}]","checkStationExists",stationName, headers.toString());
+        logger.info("[function name:{}][stationName:{}, headers:{}]","checkStationExists",stationName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -396,7 +400,7 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, headers.toString());
+        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(

@@ -1,6 +1,8 @@
 package config.service;
 
 import config.entity.Config;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import config.repository.ConfigRepository;
@@ -22,6 +24,8 @@ public class ConfigServiceImpl implements ConfigService {
     private static final Logger logger = LoggerFactory.getLogger(ConfigServiceImpl.class);
 
 
+
+
     @Autowired
     ConfigRepository repository;
 
@@ -29,9 +33,9 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Response create(Config info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","create",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         if (repository.findByName(info.getName()) != null) {
-        logger.info("the Config is: {}", repository.findByName(info.getName()).toString());
+        logger.info("the Config is: {}", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()).toString(): null));
             String result = config0 + info.getName() + " already exists.";
             logger.warn("[create][{} already exists][config info: {}]", config0, info.getName());
             return new Response<>(0, result, null);
@@ -44,9 +48,9 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Response update(Config info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","update",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","update",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         if (repository.findByName(info.getName()) == null) {
-        logger.info("the Config is: {}", repository.findByName(info.getName()).toString());
+        logger.info("the Config is: {}", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()).toString(): null));
             String result = config0 + info.getName() + " doesn't exist.";
             logger.warn(result);
             return new Response<>(0, result, null);
@@ -60,9 +64,11 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Response query(String name, HttpHeaders headers) {
-        logger.info("[function name:{}][name:{}, headers:{}]","query",name, headers.toString());
+        logger.info("[function name:{}][name:{}, headers:{}]","query",name, (headers != null ? headers.toString(): null));
         Config config = repository.findByName(name);
-      logger.info("the config is: {}", config.toString());
+      logger.info("the config is: {}", (config != null ? config.toString(): null));
+      
+      
       
         if (config == null) {
             logger.warn("[query][Config does not exist][name: {}, message: {}]", name, "No content");
@@ -75,9 +81,11 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     @Transactional
     public Response delete(String name, HttpHeaders headers) {
-        logger.info("[function name:{}][name:{}, headers:{}]","delete",name, headers.toString());
+        logger.info("[function name:{}][name:{}, headers:{}]","delete",name, (headers != null ? headers.toString(): null));
         Config config = repository.findByName(name);
-      logger.info("the config is: {}", config.toString());
+      logger.info("the config is: {}", (config != null ? config.toString(): null));
+      
+      
       
         if (config == null) {
             String result = config0 + name + " doesn't exist.";
@@ -91,9 +99,11 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Response queryAll(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","queryAll",headers.toString());
+        logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Config> configList = repository.findAll();
-      logger.info("the configList is: {}", configList.toString());
+      logger.info("the configList is: {}", (configList != null ? configList.toString(): null));
+      
+      
       
 
         if (configList != null && !configList.isEmpty()) {

@@ -1,6 +1,8 @@
 package adminuser.service;
 
 import adminuser.dto.UserDto;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.User;
@@ -26,6 +28,8 @@ import java.util.List;
 public class AdminUserServiceImpl implements AdminUserService { 
     private static final Logger logger = LoggerFactory.getLogger(AdminUserServiceImpl.class);
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -40,7 +44,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Response getAllUsers(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllUsers",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String user_service_url = getServiceUrl("ts-user-service");
         String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
@@ -62,7 +66,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Response deleteUser(String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, headers.toString());
+        logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = new HttpHeaders();
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
         newHeaders.set(HttpHeaders.AUTHORIZATION, token);
@@ -87,7 +91,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Response updateUser(UserDto userDto, HttpHeaders headers) {
-        logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",userDto.toString(), headers.toString());
+        logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
 
         HttpHeaders newHeaders = new HttpHeaders();
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
@@ -114,7 +118,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Response addUser(UserDto userDto, HttpHeaders headers) {
-        logger.info("[function name:{}][userDto:{}, headers:{}]","addUser",userDto.toString(), headers.toString());
+        logger.info("[function name:{}][userDto:{}, headers:{}]","addUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(userDto, null);
         String user_service_url = getServiceUrl("ts-user-service");
         String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";

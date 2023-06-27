@@ -1,6 +1,8 @@
 package execute.serivce;
 
 import edu.fudan.common.util.Response;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.*;
@@ -27,6 +29,8 @@ public class ExecuteServiceImpl implements ExecuteService {
     private static final Logger logger = LoggerFactory.getLogger(ExecuteServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -40,7 +44,7 @@ public class ExecuteServiceImpl implements ExecuteService {
 
     @Override
     public Response ticketExecute(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","ticketExecute",orderId, headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","ticketExecute",orderId, (headers != null ? headers.toString(): null));
         //1.Get order information
 
         headers = null;
@@ -89,7 +93,7 @@ public class ExecuteServiceImpl implements ExecuteService {
 
     @Override
     public Response ticketCollect(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","ticketCollect",orderId, headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","ticketCollect",orderId, (headers != null ? headers.toString(): null));
         //1.Get order information
 
         headers = null;

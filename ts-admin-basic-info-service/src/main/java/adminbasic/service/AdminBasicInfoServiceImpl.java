@@ -1,6 +1,8 @@
 package adminbasic.service;
 
 import adminbasic.entity.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Config;
@@ -27,6 +29,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
     private static final Logger logger = LoggerFactory.getLogger(AdminBasicInfoServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -39,7 +43,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response getAllContacts(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllContacts",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllContacts",(headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(headers);
         String contacts_service_url = getServiceUrl("ts-contacts-service");
@@ -57,7 +61,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response deleteContact(String contactsId, HttpHeaders headers) {
-        logger.info("[function name:{}][contactsId:{}, headers:{}]","deleteContact",contactsId, headers.toString());
+        logger.info("[function name:{}][contactsId:{}, headers:{}]","deleteContact",contactsId, (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(headers);
         String contacts_service_url = getServiceUrl("ts-contacts-service");
@@ -75,7 +79,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response modifyContact(Contacts mci, HttpHeaders headers) {
-        logger.info("[function name:{}][mci:{}, headers:{}]","modifyContact",mci.toString(), headers.toString());
+        logger.info("[function name:{}][mci:{}, headers:{}]","modifyContact",(mci != null ? mci.toString(): null), (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(mci, headers);
         String contacts_service_url = getServiceUrl("ts-contacts-service");
@@ -94,7 +98,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response addContact(Contacts c, HttpHeaders headers) {
-        logger.info("[function name:{}][c:{}, headers:{}]","addContact",c.toString(), headers.toString());
+        logger.info("[function name:{}][c:{}, headers:{}]","addContact",(c != null ? c.toString(): null), (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(c, headers);
         String contacts_service_url = getServiceUrl("ts-contacts-service");
@@ -112,7 +116,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response getAllStations(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllStations",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllStations",(headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(headers);
         String station_service_url = getServiceUrl("ts-station-service");
         String stations = station_service_url + "/api/v1/stationservice/stations";
@@ -131,7 +135,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response addStation(Station s, HttpHeaders headers) {
-        logger.info("[function name:{}][s:{}, headers:{}]","addStation",s.toString(), headers.toString());
+        logger.info("[function name:{}][s:{}, headers:{}]","addStation",(s != null ? s.toString(): null), (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(s, headers);
         String station_service_url = getServiceUrl("ts-station-service");
@@ -149,7 +153,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response deleteStation(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","deleteStation",id, headers.toString());
+        logger.info("[function name:{}][id:{}, headers:{}]","deleteStation",id, (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(headers);
         String station_service_url = getServiceUrl("ts-station-service");
@@ -169,7 +173,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response modifyStation(Station s, HttpHeaders headers) {
-        logger.info("[function name:{}][s:{}, headers:{}]","modifyStation",s.toString(), headers.toString());
+        logger.info("[function name:{}][s:{}, headers:{}]","modifyStation",(s != null ? s.toString(): null), (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(s, headers);
         String station_service_url = getServiceUrl("ts-station-service");
@@ -189,7 +193,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response getAllTrains(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllTrains",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllTrains",(headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(headers);
         String train_service_url = getServiceUrl("ts-train-service");
         String trains = train_service_url + "/api/v1/trainservice/trains";
@@ -207,7 +211,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response addTrain(TrainType t, HttpHeaders headers) {
-        logger.info("[function name:{}][t:{}, headers:{}]","addTrain",t.toString(), headers.toString());
+        logger.info("[function name:{}][t:{}, headers:{}]","addTrain",(t != null ? t.toString(): null), (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(t, headers);
         String train_service_url = getServiceUrl("ts-train-service");
@@ -226,7 +230,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response deleteTrain(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","deleteTrain",id, headers.toString());
+        logger.info("[function name:{}][id:{}, headers:{}]","deleteTrain",id, (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(headers);
         String train_service_url = getServiceUrl("ts-train-service");
@@ -243,7 +247,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response modifyTrain(TrainType t, HttpHeaders headers) {
-        logger.info("[function name:{}][t:{}, headers:{}]","modifyTrain",t.toString(), headers.toString());
+        logger.info("[function name:{}][t:{}, headers:{}]","modifyTrain",(t != null ? t.toString(): null), (headers != null ? headers.toString(): null));
         Response result;
         HttpEntity requestEntity = new HttpEntity(t, headers);
         String train_service_url = getServiceUrl("ts-train-service");
@@ -261,7 +265,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response getAllConfigs(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllConfigs",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllConfigs",(headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(headers);
         String config_service_url = getServiceUrl("ts-config-service");
         String configs = config_service_url + "/api/v1/configservice/configs";
@@ -278,7 +282,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response addConfig(Config c, HttpHeaders headers) {
-        logger.info("[function name:{}][c:{}, headers:{}]","addConfig",c.toString(), headers.toString());
+        logger.info("[function name:{}][c:{}, headers:{}]","addConfig",(c != null ? c.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(c, headers);
         String config_service_url = getServiceUrl("ts-config-service");
         String configs = config_service_url + "/api/v1/configservice/configs";
@@ -294,7 +298,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response deleteConfig(String name, HttpHeaders headers) {
-        logger.info("[function name:{}][name:{}, headers:{}]","deleteConfig",name, headers.toString());
+        logger.info("[function name:{}][name:{}, headers:{}]","deleteConfig",name, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(headers);
         String config_service_url = getServiceUrl("ts-config-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -309,7 +313,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response modifyConfig(Config c, HttpHeaders headers) {
-        logger.info("[function name:{}][c:{}, headers:{}]","modifyConfig",c.toString(), headers.toString());
+        logger.info("[function name:{}][c:{}, headers:{}]","modifyConfig",(c != null ? c.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(c, headers);
         String config_service_url = getServiceUrl("ts-config-service");
         String configs = config_service_url + "/api/v1/configservice/configs";
@@ -325,7 +329,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response getAllPrices(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllPrices",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllPrices",(headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(headers);
         String price_service_url = getServiceUrl("ts-price-service");
         String prices = price_service_url + "/api/v1/priceservice/prices";
@@ -341,7 +345,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response addPrice(PriceInfo pi, HttpHeaders headers) {
-        logger.info("[function name:{}][pi:{}, headers:{}]","addPrice",pi.toString(), headers.toString());
+        logger.info("[function name:{}][pi:{}, headers:{}]","addPrice",(pi != null ? pi.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(pi, headers);
         String price_service_url = getServiceUrl("ts-price-service");
         String prices = price_service_url + "/api/v1/priceservice/prices";
@@ -358,7 +362,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response deletePrice(String pricesId, HttpHeaders headers) {
-        logger.info("[function name:{}][pricesId:{}, headers:{}]","deletePrice",pricesId, headers.toString());
+        logger.info("[function name:{}][pricesId:{}, headers:{}]","deletePrice",pricesId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(headers);
         String price_service_url = getServiceUrl("ts-price-service");
         String path = price_service_url + "/api/v1/priceservice/prices/" + pricesId;
@@ -377,7 +381,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
     @Override
     public Response modifyPrice(PriceInfo pi, HttpHeaders headers) {
-        logger.info("[function name:{}][pi:{}, headers:{}]","modifyPrice",pi.toString(), headers.toString());
+        logger.info("[function name:{}][pi:{}, headers:{}]","modifyPrice",(pi != null ? pi.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(pi, headers);
         String price_service_url = getServiceUrl("ts-price-service");
         String prices = price_service_url + "/api/v1/priceservice/prices";

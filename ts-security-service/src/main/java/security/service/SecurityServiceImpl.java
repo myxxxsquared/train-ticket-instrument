@@ -1,6 +1,8 @@
 package security.service;
 
 import edu.fudan.common.entity.OrderSecurity;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -35,6 +37,8 @@ public class SecurityServiceImpl implements SecurityService {
     private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
 
 
+
+
     @Autowired
     private SecurityRepository securityRepository;
 
@@ -52,9 +56,11 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response findAllSecurityConfig(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","findAllSecurityConfig",headers.toString());
+        logger.info("[function name:{}][headers:{}]","findAllSecurityConfig",(headers != null ? headers.toString(): null));
         ArrayList<SecurityConfig> securityConfigs = securityRepository.findAll();
-      logger.info("the securityConfigs is: {}", securityConfigs.toString());
+      logger.info("the securityConfigs is: {}", (securityConfigs != null ? securityConfigs.toString(): null));
+      
+      
       
         if (securityConfigs != null && !securityConfigs.isEmpty()) {
             return new Response<>(1, success, securityConfigs);
@@ -65,9 +71,11 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response addNewSecurityConfig(SecurityConfig info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","addNewSecurityConfig",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","addNewSecurityConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         SecurityConfig sc = securityRepository.findByName(info.getName());
-      logger.info("the sc is: {}", sc.toString());
+      logger.info("the sc is: {}", (sc != null ? sc.toString(): null));
+      
+      
       
         if (sc != null) {
             SecurityServiceImpl.logger.warn("[addNewSecurityConfig][Add new Security config warn][Security config already exist][SecurityConfigId: {},Name: {}]",sc.getId(),info.getName());
@@ -85,7 +93,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response modifySecurityConfig(SecurityConfig info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","modifySecurityConfig",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","modifySecurityConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         SecurityConfig sc = securityRepository.findById(info.getId()).orElse(null);
         if (sc == null) {
             SecurityServiceImpl.logger.error("[modifySecurityConfig][Modify Security config error][Security config not found][SecurityConfigId: {},Name: {}]",info.getId(),info.getName());
@@ -94,8 +102,8 @@ public class SecurityServiceImpl implements SecurityService {
             sc.setName(info.getName());
             sc.setValue(info.getValue());
             sc.setDescription(info.getDescription());
-            
-      logger.info("the sc is: {}", sc.toString());
+      
+      logger.info("the sc is: {}", (sc != null ? sc.toString(): null));
       securityRepository.save(sc);
             return new Response<>(1, success, sc);
         }
@@ -104,10 +112,12 @@ public class SecurityServiceImpl implements SecurityService {
     @Transactional
     @Override
     public Response deleteSecurityConfig(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","deleteSecurityConfig",id, headers.toString());
+        logger.info("[function name:{}][id:{}, headers:{}]","deleteSecurityConfig",id, (headers != null ? headers.toString(): null));
         securityRepository.deleteById(id);
         SecurityConfig sc = securityRepository.findById(id).orElse(null);
-      logger.info("the sc is: {}", sc.toString());
+      logger.info("the sc is: {}", (sc != null ? sc.toString(): null));
+      
+      
       
         if (sc == null) {
             return new Response<>(1, success, id);
@@ -119,7 +129,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response check(String accountId, HttpHeaders headers) {
-        logger.info("[function name:{}][accountId:{}, headers:{}]","check",accountId, headers.toString());
+        logger.info("[function name:{}][accountId:{}, headers:{}]","check",accountId, (headers != null ? headers.toString(): null));
         //1.Get the orders in the past one hour and the total effective votes
         SecurityServiceImpl.logger.debug("[check][Get Order Num Info]");
         OrderSecurity orderResult = getSecurityOrderInfoFromOrder(new Date(), accountId, headers);
@@ -129,10 +139,14 @@ public class SecurityServiceImpl implements SecurityService {
         //2. get critical configuration information
         SecurityServiceImpl.logger.debug("[check][Get Security Config Info]");
         SecurityConfig configMaxInHour = securityRepository.findByName("max_order_1_hour");
-      logger.info("the configMaxInHour is: {}", configMaxInHour.toString());
+      logger.info("the configMaxInHour is: {}", (configMaxInHour != null ? configMaxInHour.toString(): null));
+      
+      
       
         SecurityConfig configMaxNotUse = securityRepository.findByName("max_order_not_use");
-      logger.info("the configMaxNotUse is: {}", configMaxNotUse.toString());
+      logger.info("the configMaxNotUse is: {}", (configMaxNotUse != null ? configMaxNotUse.toString(): null));
+      
+      
       
         int oneHourLine = Integer.parseInt(configMaxInHour.getValue());
         int totalValidLine = Integer.parseInt(configMaxNotUse.getValue());

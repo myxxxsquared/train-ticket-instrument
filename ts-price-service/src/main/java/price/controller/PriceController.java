@@ -2,6 +2,8 @@ package price.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -26,6 +28,8 @@ public class PriceController {
     private static final Logger logger = LoggerFactory.getLogger(PriceController.class);
 
 
+
+
     @Autowired
     PriceService service;
 
@@ -38,20 +42,20 @@ public class PriceController {
     @GetMapping(value = "/prices/{routeId}/{trainType}")
     public HttpEntity findByRouteIdAndTrainType(@PathVariable String routeId, @PathVariable String trainType,
                             @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][List<String>:{}, HttpHeaders:{}]","findByRouteIdAndTrainType",routeId,trainType, headers.toString());
+        logger.info("[function name:{}][String:{}, String:{}, HttpHeaders:{}]","findByRouteIdAndTrainType",routeId, trainType, (headers != null ? headers.toString(): null));
         return ok(service.findByRouteIdAndTrainType(routeId, trainType, headers));
     }
 
     @PostMapping(value = "/prices/byRouteIdsAndTrainTypes")
     public HttpEntity findByRouteIdsAndTrainTypes(@RequestBody List<String> ridsAndTts,
                             @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][List<String>:{}, HttpHeaders:{}]","findByRouteIdsAndTrainTypes",ridsAndTts.toString(), headers.toString());
+        logger.info("[function name:{}][List<String>:{}, HttpHeaders:{}]","findByRouteIdsAndTrainTypes",(ridsAndTts != null ? ridsAndTts.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.findByRouteIdsAndTrainTypes(ridsAndTts, headers));
     }
 
     @GetMapping(value = "/prices")
     public HttpEntity queryAll(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","queryAll",headers.toString());
+        logger.info("[function name:{}][HttpHeaders:{}]","queryAll",(headers != null ? headers.toString(): null));
         return ok(service.findAllPriceConfig(headers));
     }
 
@@ -63,13 +67,13 @@ public class PriceController {
 
     @DeleteMapping(value = "/prices/{pricesId}")
     public HttpEntity delete(@PathVariable String pricesId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","delete",pricesId, headers.toString());
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","delete",pricesId, (headers != null ? headers.toString(): null));
         return ok(service.deletePriceConfig(pricesId, headers));
     }
 
     @PutMapping(value = "/prices")
     public HttpEntity update(@RequestBody PriceConfig info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][PriceConfig:{}, HttpHeaders:{}]","update",info.toString(), headers.toString());
+        logger.info("[function name:{}][PriceConfig:{}, HttpHeaders:{}]","update",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.updatePriceConfig(info, headers));
     }
 }

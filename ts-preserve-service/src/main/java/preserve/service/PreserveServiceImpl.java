@@ -1,6 +1,8 @@
 package preserve.service;
 
 import edu.fudan.common.util.JsonUtils;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -32,6 +34,8 @@ public class PreserveServiceImpl implements PreserveService {
     private static final Logger logger = LoggerFactory.getLogger(PreserveServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -46,7 +50,7 @@ public class PreserveServiceImpl implements PreserveService {
 
     @Override
     public Response preserve(OrderTicketsInfo oti, HttpHeaders headers) {
-        logger.info("[function name:{}][oti:{}, headers:{}]","preserve",oti.toString(), headers.toString());
+        logger.info("[function name:{}][oti:{}, headers:{}]","preserve",(oti != null ? oti.toString(): null), (headers != null ? headers.toString(): null));
 
         Response result = checkSecurity(oti.getAccountId(), headers);
         if (result.getStatus() == 0) {
@@ -239,7 +243,7 @@ public class PreserveServiceImpl implements PreserveService {
     }
 
     public Ticket dipatchSeat(String date, String tripId, String startStation, String endStataion, int seatType, int totalNum, List<String> stationList, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][date:{}, tripId:{}, startStation:{}, endStataion:{}, seatType:{}, totalNum:{}, stationList:{}, httpHeaders:{}]","dipatchSeat",date, tripId, startStation, endStataion, seatType, totalNum, stationList.toString(), httpHeaders.toString());
+        logger.info("[function name:{}][date:{}, tripId:{}, startStation:{}, endStataion:{}, seatType:{}, totalNum:{}, stationList:{}, httpHeaders:{}]","dipatchSeat",date, tripId, startStation, endStataion, seatType, totalNum, (stationList != null ? stationList.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
         Seat seatRequest = new Seat();
         seatRequest.setTravelDate(date);
         seatRequest.setTrainNumber(tripId);
@@ -264,7 +268,7 @@ public class PreserveServiceImpl implements PreserveService {
     }
 
     public boolean sendEmail(NotifyInfo notifyInfo, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][notifyInfo:{}, httpHeaders:{}]","sendEmail",notifyInfo.toString(), httpHeaders.toString());
+        logger.info("[function name:{}][notifyInfo:{}, httpHeaders:{}]","sendEmail",(notifyInfo != null ? notifyInfo.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
         try {
             String infoJson = JsonUtils.object2Json(notifyInfo);
             sendService.send(infoJson);
@@ -277,7 +281,7 @@ public class PreserveServiceImpl implements PreserveService {
     }
 
     public User getAccount(String accountId, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][accountId:{}, httpHeaders:{}]","getAccount",accountId, httpHeaders.toString());
+        logger.info("[function name:{}][accountId:{}, httpHeaders:{}]","getAccount",accountId, (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntitySendEmail = new HttpEntity(httpHeaders);
         String user_service_url = getServiceUrl("ts-user-service");

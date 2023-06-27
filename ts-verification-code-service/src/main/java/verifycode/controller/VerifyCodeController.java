@@ -2,6 +2,8 @@ package verifycode.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +25,8 @@ import java.util.Map;
 @RequestMapping("/api/v1/verifycode")
 public class VerifyCodeController { 
     private static final Logger logger = LoggerFactory.getLogger(VerifyCodeController.class);
+
+
 
 
     @Autowired
@@ -49,7 +53,7 @@ public class VerifyCodeController {
     @GetMapping(value = "/verify/{verifyCode}")
     public boolean verifyCode(@PathVariable String verifyCode, HttpServletRequest request,
                               HttpServletResponse response, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, request:{}, response:{}, HttpHeaders:{}]","verifyCode",verifyCode, request.toString(), response.toString(), headers.toString());
+        logger.info("[function name:{}][String:{}, request:{}, response:{}, HttpHeaders:{}]","verifyCode",verifyCode, (request != null ? request.toString(): null), (response != null ? response.toString(): null), (headers != null ? headers.toString(): null));
 
         boolean result = verifyCodeService.verifyCode(request, response, verifyCode, headers);
         return true;

@@ -1,6 +1,8 @@
 package rebook.service;
 
 import edu.fudan.common.entity.Trip;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetail;
@@ -36,6 +38,8 @@ public class RebookServiceImpl implements RebookService {
     private static final Logger logger = LoggerFactory.getLogger(RebookServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -47,7 +51,7 @@ public class RebookServiceImpl implements RebookService {
 
     @Override
     public Response rebook(RebookInfo info, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][info:{}, httpHeaders:{}]","rebook",info.toString(), httpHeaders.toString());
+        logger.info("[function name:{}][info:{}, httpHeaders:{}]","rebook",(info != null ? info.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         Response<Order> queryOrderResult = getOrderByRebookInfo(info, httpHeaders);
 
@@ -146,7 +150,7 @@ public class RebookServiceImpl implements RebookService {
 
     @Override
     public Response payDifference(RebookInfo info, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][info:{}, httpHeaders:{}]","payDifference",info.toString(), httpHeaders.toString());
+        logger.info("[function name:{}][info:{}, httpHeaders:{}]","payDifference",(info != null ? info.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         Response queryOrderResult = getOrderByRebookInfo(info, httpHeaders);
         if (queryOrderResult.getStatus() == 0) {
@@ -239,7 +243,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     public Ticket dipatchSeat(String date, String tripId, String startStationId, String endStataionId, int seatType, int tatalNum, List<String> stations, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][date:{}, tripId:{}, startStationId:{}, endStataionId:{}, seatType:{}, tatalNum:{}, stations:{}, httpHeaders:{}]","dipatchSeat",date, tripId, startStationId, endStataionId, seatType, tatalNum, stations.toString(), httpHeaders.toString());
+        logger.info("[function name:{}][date:{}, tripId:{}, startStationId:{}, endStataionId:{}, seatType:{}, tatalNum:{}, stations:{}, httpHeaders:{}]","dipatchSeat",date, tripId, startStationId, endStataionId, seatType, tatalNum, (stations != null ? stations.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
         Seat seatRequest = new Seat();
         seatRequest.setTravelDate(date);
         seatRequest.setTrainNumber(tripId);
@@ -418,7 +422,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, headers.toString());
+        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(

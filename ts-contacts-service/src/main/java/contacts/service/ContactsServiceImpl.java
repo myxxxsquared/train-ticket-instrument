@@ -1,6 +1,8 @@
 package contacts.service;
 
 import contacts.entity.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -22,6 +24,8 @@ public class ContactsServiceImpl implements ContactsService {
     private static final Logger logger = LoggerFactory.getLogger(ContactsServiceImpl.class);
 
 
+
+
     @Autowired
     private ContactsRepository contactsRepository;
 
@@ -29,9 +33,11 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response findContactsById(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","findContactsById",id, headers.toString());
+        logger.info("[function name:{}][id:{}, headers:{}]","findContactsById",id, (headers != null ? headers.toString(): null));
         Contacts contacts = contactsRepository.findById(id).orElse(null);
-      logger.info("the contacts is: {}", contacts.toString());
+      logger.info("the contacts is: {}", (contacts != null ? contacts.toString(): null));
+      
+      
       
         if (contacts != null) {
             return new Response<>(1, success, contacts);
@@ -43,16 +49,18 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response findContactsByAccountId(String accountId, HttpHeaders headers) {
-        logger.info("[function name:{}][accountId:{}, headers:{}]","findContactsByAccountId",accountId, headers.toString());
+        logger.info("[function name:{}][accountId:{}, headers:{}]","findContactsByAccountId",accountId, (headers != null ? headers.toString(): null));
         ArrayList<Contacts> arr = contactsRepository.findByAccountId(accountId);
-      logger.info("the arr is: {}", arr.toString());
+      logger.info("the arr is: {}", (arr != null ? arr.toString(): null));
+      
+      
       
         return new Response<>(1, success, arr);
     }
 
     @Override
     public Response createContacts(Contacts contacts, HttpHeaders headers) {
-        logger.info("[function name:{}][contacts:{}, headers:{}]","createContacts",contacts.toString(), headers.toString());
+        logger.info("[function name:{}][contacts:{}, headers:{}]","createContacts",(contacts != null ? contacts.toString(): null), (headers != null ? headers.toString(): null));
         Contacts contactsTemp = contactsRepository.findByAccountIdAndDocumentTypeAndDocumentType(contacts.getAccountId(), contacts.getDocumentNumber(), contacts.getDocumentType());
         if (contactsTemp != null) {
             ContactsServiceImpl.logger.warn("[createContacts][Init Contacts, Already Exists][Id: {}]", contacts.getId());
@@ -65,7 +73,7 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response create(Contacts addContacts, HttpHeaders headers) {
-        logger.info("[function name:{}][addContacts:{}, headers:{}]","create",addContacts.toString(), headers.toString());
+        logger.info("[function name:{}][addContacts:{}, headers:{}]","create",(addContacts != null ? addContacts.toString(): null), (headers != null ? headers.toString(): null));
 
         Contacts c = contactsRepository.findByAccountIdAndDocumentTypeAndDocumentType(addContacts.getAccountId(), addContacts.getDocumentNumber(), addContacts.getDocumentType());
 
@@ -80,10 +88,12 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response delete(String contactsId, HttpHeaders headers) {
-        logger.info("[function name:{}][contactsId:{}, headers:{}]","delete",contactsId, headers.toString());
+        logger.info("[function name:{}][contactsId:{}, headers:{}]","delete",contactsId, (headers != null ? headers.toString(): null));
         contactsRepository.deleteById(contactsId);
         Contacts contacts = contactsRepository.findById(contactsId).orElse(null);
-      logger.info("the contacts is: {}", contacts.toString());
+      logger.info("the contacts is: {}", (contacts != null ? contacts.toString(): null));
+      
+      
       
         if (contacts == null) {
             return new Response<>(1, "Delete success", contactsId);
@@ -95,7 +105,7 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response modify(Contacts contacts, HttpHeaders headers) {
-        logger.info("[function name:{}][contacts:{}, headers:{}]","modify",contacts.toString(), headers.toString());
+        logger.info("[function name:{}][contacts:{}, headers:{}]","modify",(contacts != null ? contacts.toString(): null), (headers != null ? headers.toString(): null));
         headers = null;
         Response oldContactResponse = findContactsById(contacts.getId(), headers);
         Contacts oldContacts = (Contacts) oldContactResponse.getData();
@@ -114,9 +124,11 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response getAllContacts(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllContacts",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllContacts",(headers != null ? headers.toString(): null));
         ArrayList<Contacts> contacts = contactsRepository.findAll();
-      logger.info("the contacts is: {}", contacts.toString());
+      logger.info("the contacts is: {}", (contacts != null ? contacts.toString(): null));
+      
+      
       
         if (contacts != null && !contacts.isEmpty()) {
             return new Response<>(1, success, contacts);

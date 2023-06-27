@@ -1,6 +1,8 @@
 package order.service;
 
 import edu.fudan.common.entity.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -32,6 +34,8 @@ public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
 
+
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -53,10 +57,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response getSoldTickets(Seat seatRequest, HttpHeaders headers) {
-        logger.info("[function name:{}][seatRequest:{}, headers:{}]","getSoldTickets",seatRequest.toString(), headers.toString());
+        logger.info("[function name:{}][seatRequest:{}, headers:{}]","getSoldTickets",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> list = orderRepository.findByTravelDateAndTrainNumber(seatRequest.getTravelDate(),
                 seatRequest.getTrainNumber());
-      logger.info("the list is: {}", list.toString());
+      logger.info("the list is: {}", (list != null ? list.toString(): null));
+      
+      
       
         if (list != null && !list.isEmpty()) {
             Set ticketSet = new HashSet();
@@ -75,9 +81,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response findOrderById(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, headers.toString());
+        logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(id);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.warn("[findOrderById][Find Order By Id Fail][No content][id: {}] ",id);  //获取资源但资源为空
@@ -91,9 +99,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response create(Order order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","create",order.toString(), headers.toString());
+        logger.info("[function name:{}][order:{}, headers:{}]","create",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> accountOrders = orderRepository.findByAccountId(order.getAccountId());
-      logger.info("the accountOrders is: {}", accountOrders.toString());
+      logger.info("the accountOrders is: {}", (accountOrders != null ? accountOrders.toString(): null));
+      
+      
       
         if (accountOrders.contains(order)) {
             OrderServiceImpl.logger.error("[create][Order Create Fail][Order already exists][OrderId: {}]", order.getId());
@@ -107,11 +117,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response alterOrder(OrderAlterInfo oai, HttpHeaders headers) {
-        logger.info("[function name:{}][oai:{}, headers:{}]","alterOrder",oai.toString(), headers.toString());
+        logger.info("[function name:{}][oai:{}, headers:{}]","alterOrder",(oai != null ? oai.toString(): null), (headers != null ? headers.toString(): null));
 
         String oldOrderId = oai.getPreviousOrderId();
         Optional<Order> op = orderRepository.findById(oldOrderId);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[alterOrder][Alter Order Fail][Order do not exist][OrderId: {}]", oldOrderId);
@@ -135,7 +147,9 @@ public class OrderServiceImpl implements OrderService {
     public Response<ArrayList<Order>> queryOrders(OrderInfo qi, String accountId, HttpHeaders headers) {
         //1.Get all orders of the user
         ArrayList<Order> list = orderRepository.findByAccountId(accountId);
-      logger.info("the list is: {}", list.toString());
+      logger.info("the list is: {}", (list != null ? list.toString(): null));
+      
+      
       
         //2.Check is these orders fit the requirement/
         if (qi.isEnableStateQuery() || qi.isEnableBoughtDateQuery() || qi.isEnableTravelDateQuery()) {
@@ -195,7 +209,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response queryOrdersForRefresh(OrderInfo qi, String accountId, HttpHeaders headers) {
-        logger.info("[function name:{}][qi:{}, accountId:{}, headers:{}]","queryOrdersForRefresh",qi.toString(), accountId, headers.toString());
+        logger.info("[function name:{}][qi:{}, accountId:{}, headers:{}]","queryOrdersForRefresh",(qi != null ? qi.toString(): null), accountId, (headers != null ? headers.toString(): null));
         ArrayList<Order> orders =   queryOrders(qi, accountId, headers).getData();
         ArrayList<String> stationIds = new ArrayList<>();
         for (Order order : orders) {
@@ -228,9 +242,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response saveChanges(Order order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","saveChanges",order.toString(), headers.toString());
+        logger.info("[function name:{}][order:{}, headers:{}]","saveChanges",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(order.getId());
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[saveChanges][Modify Order Fail][Order not found][OrderId: {}]", order.getId());
@@ -259,9 +275,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response cancelOrder(String accountId, String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][accountId:{}, orderId:{}, headers:{}]","cancelOrder",accountId, orderId, headers.toString());
+        logger.info("[function name:{}][accountId:{}, orderId:{}, headers:{}]","cancelOrder",accountId, orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[cancelOrder][Cancel Order Fail][Order not found][OrderId: {}]", orderId);
@@ -276,9 +294,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response queryAlreadySoldOrders(Date travelDate, String trainNumber, HttpHeaders headers) {
-        logger.info("[function name:{}][travelDate:{}, trainNumber:{}, headers:{}]","queryAlreadySoldOrders",travelDate.toString(), trainNumber, headers.toString());
+        logger.info("[function name:{}][travelDate:{}, trainNumber:{}, headers:{}]","queryAlreadySoldOrders",(travelDate != null ? travelDate.toString(): null), trainNumber, (headers != null ? headers.toString(): null));
         ArrayList<Order> orders = orderRepository.findByTravelDateAndTrainNumber(StringUtils.Date2String(travelDate), trainNumber);
-      logger.info("the orders is: {}", orders.toString());
+      logger.info("the orders is: {}", (orders != null ? orders.toString(): null));
+      
+      
       
         SoldTicket cstr = new SoldTicket();
         cstr.setTravelDate(travelDate);
@@ -313,9 +333,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response getAllOrders(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllOrders",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         ArrayList<Order> orders = orderRepository.findAll();
-      logger.info("the orders is: {}", orders.toString());
+      logger.info("the orders is: {}", (orders != null ? orders.toString(): null));
+      
+      
       
         if (orders != null && !orders.isEmpty()) {
             OrderServiceImpl.logger.warn("[getAllOrders][Find all orders Success][size:{}]",orders.size());
@@ -328,9 +350,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response modifyOrder(String orderId, int status, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","modifyOrder",orderId, status, headers.toString());
+        logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","modifyOrder",orderId, status, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[modifyOrder][Modify order Fail][Order not found][OrderId: {}]",orderId);
@@ -345,9 +369,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response getOrderPrice(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderPrice",orderId, headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderPrice",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[getOrderPrice][Get order price Fail][Order not found][OrderId: {}]",orderId);
@@ -360,9 +386,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response payOrder(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","payOrder",orderId, headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","payOrder",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[payOrder][Pay order Fail][Order not found][OrderId: {}]",orderId);
@@ -377,9 +405,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response getOrderById(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderById",orderId, headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderById",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.warn("[getOrderById][Get Order By ID Fail][Order not found][OrderId: {}]",orderId);
@@ -392,9 +422,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void initOrder(Order order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","initOrder",order.toString(), headers.toString());
+        logger.info("[function name:{}][order:{}, headers:{}]","initOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(order.getId());
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             orderRepository.save(order);
@@ -406,10 +438,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response checkSecurityAboutOrder(Date dateFrom, String accountId, HttpHeaders headers) {
-        logger.info("[function name:{}][dateFrom:{}, accountId:{}, headers:{}]","checkSecurityAboutOrder",dateFrom.toString(), accountId, headers.toString());
+        logger.info("[function name:{}][dateFrom:{}, accountId:{}, headers:{}]","checkSecurityAboutOrder",(dateFrom != null ? dateFrom.toString(): null), accountId, (headers != null ? headers.toString(): null));
         OrderSecurity result = new OrderSecurity();
         ArrayList<Order> orders = orderRepository.findByAccountId(accountId);
-      logger.info("the orders is: {}", orders.toString());
+      logger.info("the orders is: {}", (orders != null ? orders.toString(): null));
+      
+      
       
         int countOrderInOneHour = 0;
         int countTotalValidOrder = 0;
@@ -435,11 +469,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response deleteOrder(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","deleteOrder",orderId, headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","deleteOrder",orderId, (headers != null ? headers.toString(): null));
         String orderUuid = UUID.fromString(orderId).toString();
 
         Optional<Order> op = orderRepository.findById(orderUuid);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[deleteOrder][Delete order Fail][Order not found][OrderId: {}]",orderId);
@@ -453,9 +489,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response addNewOrder(Order order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","addNewOrder",order.toString(), headers.toString());
+        logger.info("[function name:{}][order:{}, headers:{}]","addNewOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> accountOrders = orderRepository.findByAccountId(order.getAccountId());
-      logger.info("the accountOrders is: {}", accountOrders.toString());
+      logger.info("the accountOrders is: {}", (accountOrders != null ? accountOrders.toString(): null));
+      
+      
       
         if (accountOrders.contains(order)) {
             OrderServiceImpl.logger.error("[addNewOrder][Admin Add Order Fail][Order already exists][OrderId: {}]",order.getId());
@@ -469,9 +507,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Response updateOrder(Order order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",order.toString(), headers.toString());
+        logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(order.getId());
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[updateOrder][Admin Update Order Fail][Order not found][OrderId: {}]",order.getId());

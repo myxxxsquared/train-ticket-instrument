@@ -2,6 +2,8 @@ package seat.service;
 
 import edu.fudan.common.util.Response;
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ import java.util.Set;
 public class SeatServiceImpl implements SeatService { 
     private static final Logger logger = LoggerFactory.getLogger(SeatServiceImpl.class);
 
+
+
     @Autowired
     RestTemplate restTemplate;
 
@@ -40,7 +44,7 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public Response distributeSeat(Seat seatRequest, HttpHeaders headers) {
-        logger.info("[function name:{}][seatRequest:{}, headers:{}]","distributeSeat",seatRequest.toString(), headers.toString());
+        logger.info("[function name:{}][seatRequest:{}, headers:{}]","distributeSeat",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         Response<Route> routeResult;
 
         LeftTicketInfo leftTicketInfo;
@@ -64,8 +68,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
         logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
                     order_service_url + "/api/v1/orderservice/order/tickets","POST");
             leftTicketInfo = re3.getBody().getData();
@@ -132,7 +134,7 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public Response getLeftTicketOfInterval(Seat seatRequest, HttpHeaders headers) {
-        logger.info("[function name:{}][seatRequest:{}, headers:{}]","getLeftTicketOfInterval",seatRequest.toString(), headers.toString());
+        logger.info("[function name:{}][seatRequest:{}, headers:{}]","getLeftTicketOfInterval",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         int numOfLeftTicket = 0;
         LeftTicketInfo leftTicketInfo;
         ResponseEntity<Response<LeftTicketInfo>> re3;

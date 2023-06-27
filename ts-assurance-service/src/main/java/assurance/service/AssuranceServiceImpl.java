@@ -1,6 +1,8 @@
 package assurance.service;
 
 import assurance.entity.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import assurance.repository.AssuranceRepository;
@@ -23,14 +25,18 @@ public class AssuranceServiceImpl implements AssuranceService {
     private static final Logger logger = LoggerFactory.getLogger(AssuranceServiceImpl.class);
 
 
+
+
     @Autowired
     private AssuranceRepository assuranceRepository;
 
     @Override
     public Response findAssuranceById(UUID id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","findAssuranceById",id.toString(), headers.toString());
+        logger.info("[function name:{}][id:{}, headers:{}]","findAssuranceById",(id != null ? id.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Assurance> assurance = assuranceRepository.findById(id.toString());
-      logger.info("the assurance is: {}", assurance.toString());
+      logger.info("the assurance is: {}", (assurance != null ? assurance.toString(): null));
+      
+      
       
         if (assurance == null) {
             AssuranceServiceImpl.logger.warn("[findAssuranceById][find assurance][No content][assurance id: {}]", id);
@@ -42,9 +48,11 @@ public class AssuranceServiceImpl implements AssuranceService {
 
     @Override
     public Response findAssuranceByOrderId(UUID orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","findAssuranceByOrderId",orderId.toString(), headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","findAssuranceByOrderId",(orderId != null ? orderId.toString(): null), (headers != null ? headers.toString(): null));
         Assurance assurance = assuranceRepository.findByOrderId(orderId.toString());
-      logger.info("the assurance is: {}", assurance.toString());
+      logger.info("the assurance is: {}", (assurance != null ? assurance.toString(): null));
+      
+      
       
         if (assurance == null) {
             AssuranceServiceImpl.logger.warn("[findAssuranceByOrderId][find assurance][No content][orderId: {}]", orderId);
@@ -56,9 +64,11 @@ public class AssuranceServiceImpl implements AssuranceService {
 
     @Override
     public Response create(int typeIndex, String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][typeIndex:{}, orderId:{}, headers:{}]","create",typeIndex, orderId, headers.toString());
+        logger.info("[function name:{}][typeIndex:{}, orderId:{}, headers:{}]","create",typeIndex, orderId, (headers != null ? headers.toString(): null));
         Assurance a = assuranceRepository.findByOrderId(orderId);
-      logger.info("the a is: {}", a.toString());
+      logger.info("the a is: {}", (a != null ? a.toString(): null));
+      
+      
       
         AssuranceType at = AssuranceType.getTypeByIndex(typeIndex);
         if (a != null) {
@@ -76,10 +86,12 @@ public class AssuranceServiceImpl implements AssuranceService {
 
     @Override
     public Response deleteById(UUID assuranceId, HttpHeaders headers) {
-        logger.info("[function name:{}][assuranceId:{}, headers:{}]","deleteById",assuranceId.toString(), headers.toString());
+        logger.info("[function name:{}][assuranceId:{}, headers:{}]","deleteById",(assuranceId != null ? assuranceId.toString(): null), (headers != null ? headers.toString(): null));
         assuranceRepository.deleteById(assuranceId.toString());
         Optional<Assurance> a = assuranceRepository.findById(assuranceId.toString());
-      logger.info("the a is: {}", a.toString());
+      logger.info("the a is: {}", (a != null ? a.toString(): null));
+      
+      
       
         if (a == null) {
             return new Response<>(1, "Delete Success with Assurance id", null);
@@ -91,10 +103,12 @@ public class AssuranceServiceImpl implements AssuranceService {
 
     @Override
     public Response deleteByOrderId(UUID orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","deleteByOrderId",orderId.toString(), headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","deleteByOrderId",(orderId != null ? orderId.toString(): null), (headers != null ? headers.toString(): null));
         assuranceRepository.removeAssuranceByOrderId(orderId.toString());
         Assurance isExistAssurace = assuranceRepository.findByOrderId(orderId.toString());
-      logger.info("the isExistAssurace is: {}", isExistAssurace.toString());
+      logger.info("the isExistAssurace is: {}", (isExistAssurace != null ? isExistAssurace.toString(): null));
+      
+      
       
         if (isExistAssurace == null) {
             return new Response<>(1, "Delete Success with Order Id", null);
@@ -106,7 +120,7 @@ public class AssuranceServiceImpl implements AssuranceService {
 
     @Override
     public Response modify(String assuranceId, String orderId, int typeIndex, HttpHeaders headers) {
-        logger.info("[function name:{}][assuranceId:{}, orderId:{}, typeIndex:{}, headers:{}]","modify",assuranceId, orderId, typeIndex, headers.toString());
+        logger.info("[function name:{}][assuranceId:{}, orderId:{}, typeIndex:{}, headers:{}]","modify",assuranceId, orderId, typeIndex, (headers != null ? headers.toString(): null));
         Response oldAssuranceResponse = findAssuranceById(UUID.fromString(assuranceId), headers);
         Assurance oldAssurance =  ((Optional<Assurance>)oldAssuranceResponse.getData()).get();
         if (oldAssurance == null) {
@@ -127,9 +141,11 @@ public class AssuranceServiceImpl implements AssuranceService {
 
     @Override
     public Response getAllAssurances(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllAssurances",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllAssurances",(headers != null ? headers.toString(): null));
         List<Assurance> as = assuranceRepository.findAll();
-      logger.info("the as is: {}", as.toString());
+      logger.info("the as is: {}", (as != null ? as.toString(): null));
+      
+      
       
         if (as != null && !as.isEmpty()) {
             ArrayList<PlainAssurance> result = new ArrayList<>();
@@ -151,7 +167,7 @@ public class AssuranceServiceImpl implements AssuranceService {
 
     @Override
     public Response getAllAssuranceTypes(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllAssuranceTypes",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllAssuranceTypes",(headers != null ? headers.toString(): null));
 
         List<AssuranceTypeBean> atlist = new ArrayList<>();
         for (AssuranceType at : AssuranceType.values()) {

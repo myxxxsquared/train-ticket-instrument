@@ -1,6 +1,8 @@
 package auth.service.impl;
 
 import auth.constant.AuthConstant;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.constant.InfoConstant;
@@ -28,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 
+
+
     @Autowired
     private UserRepository userRepository;
 
@@ -36,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        logger.info("[function name:{}][user:{}]","saveUser",user.toString());
+        logger.info("[function name:{}][user:{}]","saveUser",(user != null ? user.toString(): null));
         return null;
     }
 
@@ -53,7 +57,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User createDefaultAuthUser(AuthDto dto) {
-        logger.info("[function name:{}][dto:{}]","createDefaultAuthUser",dto.toString());
+        logger.info("[function name:{}][dto:{}]","createDefaultAuthUser",(dto != null ? dto.toString(): null));
         User user = User.builder()
                 .userId(dto.getUserId())
                 .username(dto.getUserName())
@@ -71,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Response deleteByUserId(String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteByUserId",userId, headers.toString());
+        logger.info("[function name:{}][userId:{}, headers:{}]","deleteByUserId",userId, (headers != null ? headers.toString(): null));
         userRepository.deleteByUserId(userId);
         return new Response(1, "DELETE USER SUCCESS", null);
     }

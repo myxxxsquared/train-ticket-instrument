@@ -1,6 +1,8 @@
 package plan.service;
 
 import edu.fudan.common.entity.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -28,6 +30,8 @@ public class RoutePlanServiceImpl implements RoutePlanService {
     private static final Logger logger = LoggerFactory.getLogger(RoutePlanServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -39,7 +43,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
 
     @Override
     public Response searchCheapestResult(RoutePlanInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","searchCheapestResult",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","searchCheapestResult",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         //1.Violence pulls out all the results of travel-service and travle2-service
         TripInfo queryInfo = new TripInfo();
@@ -97,7 +101,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
 
     @Override
     public Response searchQuickestResult(RoutePlanInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","searchQuickestResult",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","searchQuickestResult",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         //1.Violence pulls out all the results of travel-service and travle2-service
         TripInfo queryInfo = new TripInfo();
@@ -163,7 +167,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
 
     @Override
     public Response searchMinStopStations(RoutePlanInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","searchMinStopStations",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","searchMinStopStations",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         String fromStationId = info.getStartStation();
         String toStationId = info.getEndStation();
         //1.Get the route through the two stations

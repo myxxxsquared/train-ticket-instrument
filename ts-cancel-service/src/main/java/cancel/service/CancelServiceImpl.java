@@ -1,6 +1,8 @@
 package cancel.service;
 
 import edu.fudan.common.entity.NotifyInfo;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.OrderStatus;
@@ -32,6 +34,8 @@ public class CancelServiceImpl implements CancelService {
     private static final Logger logger = LoggerFactory.getLogger(CancelServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -45,7 +49,7 @@ public class CancelServiceImpl implements CancelService {
 
     @Override
     public Response cancelOrder(String orderId, String loginId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, loginId:{}, headers:{}]","cancelOrder",orderId, loginId, headers.toString());
+        logger.info("[function name:{}][orderId:{}, loginId:{}, headers:{}]","cancelOrder",orderId, loginId, (headers != null ? headers.toString(): null));
 
         Response<Order> orderResult = getOrderByIdFromOrder(orderId, headers);
         if (orderResult.getStatus() == 1) {
@@ -133,7 +137,7 @@ public class CancelServiceImpl implements CancelService {
     }
 
     public boolean sendEmail(NotifyInfo notifyInfo, HttpHeaders headers) {
-        logger.info("[function name:{}][notifyInfo:{}, headers:{}]","sendEmail",notifyInfo.toString(), headers.toString());
+        logger.info("[function name:{}][notifyInfo:{}, headers:{}]","sendEmail",(notifyInfo != null ? notifyInfo.toString(): null), (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(notifyInfo, newHeaders);
         String notification_service_url = getServiceUrl("ts-notification-service");
@@ -149,7 +153,7 @@ public class CancelServiceImpl implements CancelService {
 
     @Override
     public Response calculateRefund(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","calculateRefund",orderId, headers.toString());
+        logger.info("[function name:{}][orderId:{}, headers:{}]","calculateRefund",orderId, (headers != null ? headers.toString(): null));
 
         Response<Order> orderResult = getOrderByIdFromOrder(orderId, headers);
         if (orderResult.getStatus() == 1) {
@@ -264,7 +268,7 @@ public class CancelServiceImpl implements CancelService {
     }
 
     public boolean drawbackMoney(String money, String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][money:{}, userId:{}, headers:{}]","drawbackMoney",money, userId, headers.toString());
+        logger.info("[function name:{}][money:{}, userId:{}, headers:{}]","drawbackMoney",money, userId, (headers != null ? headers.toString(): null));
 
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(newHeaders);

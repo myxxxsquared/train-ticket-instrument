@@ -1,6 +1,8 @@
 package travelplan.service;
 
 import edu.fudan.common.util.JsonUtils;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -35,6 +37,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
     private static final Logger logger = LoggerFactory.getLogger(TravelPlanServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -49,7 +53,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getTransferSearch(TransferTravelInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getTransferSearch",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","getTransferSearch",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         TripInfo queryInfoFirstSection = new TripInfo();
         queryInfoFirstSection.setDepartureTime(StringUtils.Date2String(info.getTravelDate()));
@@ -88,7 +92,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getCheapest(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getCheapest",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","getCheapest",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -136,7 +140,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getQuickest(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getQuickest",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","getQuickest",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -185,7 +189,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getMinStation(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getMinStation",info.toString(), headers.toString());
+        logger.info("[function name:{}][info:{}, headers:{}]","getMinStation",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -330,7 +334,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, headers.toString());
+        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(

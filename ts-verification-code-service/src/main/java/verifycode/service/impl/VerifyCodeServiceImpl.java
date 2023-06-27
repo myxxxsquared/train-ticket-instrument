@@ -1,6 +1,8 @@
 package verifycode.service.impl;
 
 import com.google.common.cache.Cache;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.cache.CacheBuilder;
@@ -28,6 +30,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class VerifyCodeServiceImpl implements VerifyCodeService { 
     private static final Logger logger = LoggerFactory.getLogger(VerifyCodeServiceImpl.class);
+
+
 
 
     public static final int CAPTCHA_EXPIRED = 1000;
@@ -112,7 +116,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
 
     @Override
     public boolean verifyCode(HttpServletRequest request, HttpServletResponse response, String receivedCode, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, response:{}, receivedCode:{}, headers:{}]","verifyCode",request.toString(), response.toString(), receivedCode, headers.toString());
+        logger.info("[function name:{}][request:{}, response:{}, receivedCode:{}, headers:{}]","verifyCode",(request != null ? request.toString(): null), (response != null ? response.toString(): null), receivedCode, (headers != null ? headers.toString(): null));
         boolean result = false;
         Cookie cookie = CookieUtil.getCookieByName(request, ysbCaptcha);
         String cookieId;

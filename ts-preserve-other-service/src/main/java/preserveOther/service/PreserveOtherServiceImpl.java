@@ -1,6 +1,8 @@
 package preserveOther.service;
 
 import edu.fudan.common.entity.*;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.JsonUtils;
@@ -30,6 +32,8 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     private static final Logger logger = LoggerFactory.getLogger(PreserveOtherServiceImpl.class);
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -45,7 +49,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
 
     @Override
     public Response preserve(OrderTicketsInfo oti, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][oti:{}, httpHeaders:{}]","preserve",oti.toString(), httpHeaders.toString());
+        logger.info("[function name:{}][oti:{}, httpHeaders:{}]","preserve",(oti != null ? oti.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         Response result = checkSecurity(oti.getAccountId(), httpHeaders);
 
@@ -238,7 +242,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     public Ticket dipatchSeat(String date, String tripId, String startStationId, String endStataionId, int seatType, int totalNum, List<String> stationList, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][date:{}, tripId:{}, startStationId:{}, endStataionId:{}, seatType:{}, totalNum:{}, stationList:{}, httpHeaders:{}]","dipatchSeat",date, tripId, startStationId, endStataionId, seatType, totalNum, stationList.toString(), httpHeaders.toString());
+        logger.info("[function name:{}][date:{}, tripId:{}, startStationId:{}, endStataionId:{}, seatType:{}, totalNum:{}, stationList:{}, httpHeaders:{}]","dipatchSeat",date, tripId, startStationId, endStataionId, seatType, totalNum, (stationList != null ? stationList.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
         Seat seatRequest = new Seat();
         seatRequest.setTravelDate(date);
         seatRequest.setTrainNumber(tripId);
@@ -263,7 +267,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     public boolean sendEmail(NotifyInfo notifyInfo, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][notifyInfo:{}, httpHeaders:{}]","sendEmail",notifyInfo.toString(), httpHeaders.toString());
+        logger.info("[function name:{}][notifyInfo:{}, httpHeaders:{}]","sendEmail",(notifyInfo != null ? notifyInfo.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
         try {
             String infoJson = JsonUtils.object2Json(notifyInfo);
             sendService.send(infoJson);
@@ -276,7 +280,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     public User getAccount(String accountId, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][accountId:{}, httpHeaders:{}]","getAccount",accountId, httpHeaders.toString());
+        logger.info("[function name:{}][accountId:{}, httpHeaders:{}]","getAccount",accountId, (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntitySendEmail = new HttpEntity(httpHeaders);
         String user_service_url = getServiceUrl("ts-user-service");

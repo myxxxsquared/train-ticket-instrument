@@ -2,6 +2,8 @@ package preserveOther.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -21,6 +23,8 @@ public class PreserveOtherController {
     private static final Logger logger = LoggerFactory.getLogger(PreserveOtherController.class);
 
 
+
+
     @Autowired
     private PreserveOtherService preserveService;
 
@@ -34,7 +38,7 @@ public class PreserveOtherController {
     @PostMapping(value = "/preserveOther")
     public HttpEntity preserve(@RequestBody OrderTicketsInfo oti,
                                @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][OrderTicketsInfo:{}, HttpHeaders:{}]","preserve",oti.toString(), headers.toString());
+        logger.info("[function name:{}][OrderTicketsInfo:{}, HttpHeaders:{}]","preserve",(oti != null ? oti.toString(): null), (headers != null ? headers.toString(): null));
         return ok(preserveService.preserve(oti, headers));
     }
 

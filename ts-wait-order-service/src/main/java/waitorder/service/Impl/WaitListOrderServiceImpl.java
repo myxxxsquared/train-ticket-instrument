@@ -2,6 +2,8 @@ package waitorder.service.Impl;
 
 import edu.fudan.common.util.Response;
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +28,8 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     private static final Logger logger = LoggerFactory.getLogger(WaitListOrderServiceImpl.class);
 
 
+
+
     @Autowired
     private WaitListOrderRepository waitListOrderRepository;
 
@@ -39,9 +43,11 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
     @Override
     public Response findOrderById(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, headers.toString());
+        logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, (headers != null ? headers.toString(): null));
         Optional<WaitListOrder> op = waitListOrderRepository.findById(id);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if(!op.isPresent()){
             logger.warn("[findWaitOrderById][Find Order By Id Fail][No content][id: {}] ",id);
@@ -55,7 +61,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Transactional
     @Override
     public Response create(WaitListOrderVO orderVO, HttpHeaders headers) {
-        logger.info("[function name:{}][orderVO:{}, headers:{}]","create",orderVO.toString(), headers.toString());
+        logger.info("[function name:{}][orderVO:{}, headers:{}]","create",(orderVO != null ? orderVO.toString(): null), (headers != null ? headers.toString(): null));
         Response<WaitListOrder> response=saveNewOrder(orderVO,headers);
         if(response.getStatus()==0){
             //未能正常保存到数据库
@@ -68,9 +74,11 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
     @Override
     public Response getAllOrders(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllOrders",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
-      logger.info("the orderList is: {}", orderList.toString());
+      logger.info("the orderList is: {}", (orderList != null ? orderList.toString(): null));
+      
+      
       
         if (orderList != null && !orderList.isEmpty()) {
             WaitListOrderServiceImpl.logger.warn("[getAllOrders][Find all orders Success][size:{}]",orderList.size());
@@ -83,9 +91,11 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
     @Override
     public Response getAllWaitListOrders(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllWaitListOrders",headers.toString());
+        logger.info("[function name:{}][headers:{}]","getAllWaitListOrders",(headers != null ? headers.toString(): null));
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
-      logger.info("the orderList is: {}", orderList.toString());
+      logger.info("the orderList is: {}", (orderList != null ? orderList.toString(): null));
+      
+      
       
         if (orderList != null && !orderList.isEmpty()) {
             WaitListOrderServiceImpl.logger.warn("[getAllWaitListOrders][Find all orders Success][size:{}]",orderList.size());
@@ -106,9 +116,11 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Transactional
     @Override
     public Response updateOrder(WaitListOrder order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",order.toString(), headers.toString());
+        logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<WaitListOrder> op = waitListOrderRepository.findById(order.getId());
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if(!op.isPresent()){
             logger.error("[updateOrder][Update Order Info Fail][Order not found][OrderId: {}]",order.getId());
@@ -126,7 +138,9 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response modifyWaitListOrderStatus(int status, String orderId) {
         logger.info("[function name:{}][status:{}, orderId:{}]","modifyWaitListOrderStatus",status, orderId);
         Optional<WaitListOrder> op = waitListOrderRepository.findById(orderId);
-      logger.info("the op is: {}", op.toString());
+      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      
+      
       
         if(!op.isPresent()){
             logger.error("[modifyWaitListOrderStatus][Modify Order Status Fail][Order not found][OrderId: {}]",orderId);
