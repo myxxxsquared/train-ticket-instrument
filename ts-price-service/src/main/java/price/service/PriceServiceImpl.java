@@ -4,6 +4,7 @@ import edu.fudan.common.util.Response;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.*;
 @Service
 public class PriceServiceImpl implements PriceService { 
     private static final Logger logger = LoggerFactory.getLogger(PriceServiceImpl.class);
+
 
 
 
@@ -46,7 +48,8 @@ public class PriceServiceImpl implements PriceService {
         } else {
             // modify
             Optional<PriceConfig> op = priceConfigRepository.findById(createAndModifyPriceConfig.getId());
-      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      logger.info("the op is: {}", (op != null ? op : null));
+      
       
       
       
@@ -69,7 +72,8 @@ public class PriceServiceImpl implements PriceService {
     public PriceConfig findById(String id, HttpHeaders headers) {
         logger.info("[function name:{}][id:{}, headers:{}]","findById",id, (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(UUID.fromString(id).toString());
-      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      logger.info("the op is: {}", (op != null ? op : null));
+      
       
       
       
@@ -83,7 +87,8 @@ public class PriceServiceImpl implements PriceService {
     public Response findByRouteIdAndTrainType(String routeId, String trainType, HttpHeaders headers) {
         logger.info("[function name:{}][routeId:{}, trainType:{}, headers:{}]","findByRouteIdAndTrainType",routeId, trainType, (headers != null ? headers.toString(): null));
         PriceConfig priceConfig = priceConfigRepository.findByRouteIdAndTrainType(routeId, trainType);
-      logger.info("the priceConfig is: {}", (priceConfig != null ? priceConfig.toString(): null));
+      logger.info("the priceConfig is: {}", (priceConfig != null ? priceConfig : null));
+      
       
       
       
@@ -107,7 +112,8 @@ public class PriceServiceImpl implements PriceService {
             trainTypes.add(r_t.get(1));
         }
         List<PriceConfig> pcs = priceConfigRepository.findByRouteIdsAndTrainTypes(routeIds, trainTypes);
-      logger.info("the pcs is: {}", (pcs != null ? pcs.toString(): null));
+      logger.info("the pcs is: {}", (pcs != null ? pcs : null));
+      
       
       
       
@@ -131,7 +137,8 @@ public class PriceServiceImpl implements PriceService {
     public Response findAllPriceConfig(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","findAllPriceConfig",(headers != null ? headers.toString(): null));
         List<PriceConfig> list = priceConfigRepository.findAll();
-      logger.info("the list is: {}", (list != null ? list.toString(): null));
+      logger.info("the list is: {}", (list != null ? list : null));
+      
       
       
       
@@ -152,7 +159,8 @@ public class PriceServiceImpl implements PriceService {
     public Response deletePriceConfig(String pcId, HttpHeaders headers) {
         logger.info("[function name:{}][pcId:{}, headers:{}]","deletePriceConfig",pcId, (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(pcId);
-      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      logger.info("the op is: {}", (op != null ? op : null));
+      
       
       
       
@@ -170,7 +178,8 @@ public class PriceServiceImpl implements PriceService {
     public Response updatePriceConfig(PriceConfig c, HttpHeaders headers) {
         logger.info("[function name:{}][c:{}, headers:{}]","updatePriceConfig",(c != null ? c.toString(): null), (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(c.getId());
-      logger.info("the op is: {}", (op != null ? op.toString(): null));
+      logger.info("the op is: {}", (op != null ? op : null));
+      
       
       
       

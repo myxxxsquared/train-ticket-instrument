@@ -3,6 +3,7 @@ package auth.service.impl;
 import auth.constant.InfoConstant;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.dto.BasicAuthDto;
@@ -38,6 +39,7 @@ import java.util.List;
 @Service
 public class TokenServiceImpl implements TokenService { 
     private static final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
+
 
 
 
@@ -97,7 +99,8 @@ public class TokenServiceImpl implements TokenService {
                 .orElseThrow(() -> new UserOperationException(MessageFormat.format(
                         InfoConstant.USER_NAME_NOT_FOUND_1, username
                 )));
-      logger.info("the user is: {}", (user != null ? user.toString(): null));
+      logger.info("the user is: {}", (user != null ? user : null));
+      
       
       
       

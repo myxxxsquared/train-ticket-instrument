@@ -3,6 +3,7 @@ package foodsearch.service;
 import edu.fudan.common.entity.Food;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.StationFoodStore;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 @Service
 public class FoodServiceImpl implements FoodService { 
     private static final Logger logger = LoggerFactory.getLogger(FoodServiceImpl.class);
+
 
 
 
@@ -91,7 +93,7 @@ public class FoodServiceImpl implements FoodService {
             fo.setFoodName(addFoodOrder.getFoodName());
             fo.setPrice(addFoodOrder.getPrice());
       
-      logger.info("the fo is: {}", (fo != null ? fo.toString(): null));
+      logger.info("the fo is: {}", (fo != null ? fo : null));
       foodOrderRepository.save(fo);
 
             Delivery delivery = new Delivery();
@@ -136,7 +138,7 @@ public class FoodServiceImpl implements FoodService {
             fo.setFoodName(addFoodOrder.getFoodName());
             fo.setPrice(addFoodOrder.getPrice());
       
-      logger.info("the fo is: {}", (fo != null ? fo.toString(): null));
+      logger.info("the fo is: {}", (fo != null ? fo : null));
       foodOrderRepository.save(fo);
 
             Delivery delivery = new Delivery();
@@ -175,7 +177,8 @@ public class FoodServiceImpl implements FoodService {
     public Response findAllFoodOrder(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","findAllFoodOrder",(headers != null ? headers.toString(): null));
         List<FoodOrder> foodOrders = foodOrderRepository.findAll();
-      logger.info("the foodOrders is: {}", (foodOrders != null ? foodOrders.toString(): null));
+      logger.info("the foodOrders is: {}", (foodOrders != null ? foodOrders : null));
+      
       
       
       
@@ -203,7 +206,7 @@ public class FoodServiceImpl implements FoodService {
             fo.setFoodName(updateFoodOrder.getFoodName());
             fo.setPrice(updateFoodOrder.getPrice());
       
-      logger.info("the fo is: {}", (fo != null ? fo.toString(): null));
+      logger.info("the fo is: {}", (fo != null ? fo : null));
       foodOrderRepository.save(fo);
             return new Response<>(1, "Success", fo);
         }
@@ -213,7 +216,8 @@ public class FoodServiceImpl implements FoodService {
     public Response findByOrderId(String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","findByOrderId",orderId, (headers != null ? headers.toString(): null));
         FoodOrder fo = foodOrderRepository.findByOrderId(UUID.fromString(orderId).toString());
-      logger.info("the fo is: {}", (fo != null ? fo.toString(): null));
+      logger.info("the fo is: {}", (fo != null ? fo : null));
+      
       
       
       

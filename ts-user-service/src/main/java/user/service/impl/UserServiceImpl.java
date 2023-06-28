@@ -4,6 +4,7 @@ import edu.fudan.common.util.Response;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService { 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
 
 
 
@@ -67,7 +69,8 @@ public class UserServiceImpl implements UserService {
 
         // avoid same user name
         User user1 = userRepository.findByUserName(userDto.getUserName());
-      logger.info("the user1 is: {}", (user1 != null ? user1.toString(): null));
+      logger.info("the user1 is: {}", (user1 != null ? user1 : null));
+      
       
       
       
@@ -110,7 +113,8 @@ public class UserServiceImpl implements UserService {
     public Response getAllUsers(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
         List<User> users = userRepository.findAll();
-      logger.info("the users is: {}", (users != null ? users.toString(): null));
+      logger.info("the users is: {}", (users != null ? users : null));
+      
       
       
       
@@ -125,7 +129,8 @@ public class UserServiceImpl implements UserService {
     public Response findByUserName(String userName, HttpHeaders headers) {
         logger.info("[function name:{}][userName:{}, headers:{}]","findByUserName",userName, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserName(userName);
-      logger.info("the user is: {}", (user != null ? user.toString(): null));
+      logger.info("the user is: {}", (user != null ? user : null));
+      
       
       
       
@@ -140,7 +145,8 @@ public class UserServiceImpl implements UserService {
     public Response findByUserId(String userId, HttpHeaders headers) {
         logger.info("[function name:{}][userId:{}, headers:{}]","findByUserId",userId, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserId(userId);
-      logger.info("the user is: {}", (user != null ? user.toString(): null));
+      logger.info("the user is: {}", (user != null ? user : null));
+      
       
       
       
@@ -156,7 +162,8 @@ public class UserServiceImpl implements UserService {
     public Response deleteUser(String userId, HttpHeaders headers) {
         logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserId(userId);
-      logger.info("the user is: {}", (user != null ? user.toString(): null));
+      logger.info("the user is: {}", (user != null ? user : null));
+      
       
       
       
@@ -177,7 +184,8 @@ public class UserServiceImpl implements UserService {
     public Response updateUser(UserDto userDto, HttpHeaders headers) {
         logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         User oldUser = userRepository.findByUserId(userDto.getUserId());
-      logger.info("the oldUser is: {}", (oldUser != null ? oldUser.toString(): null));
+      logger.info("the oldUser is: {}", (oldUser != null ? oldUser : null));
+      
       
       
       

@@ -3,6 +3,7 @@ package fdse.microservice.controller;
 import edu.fudan.common.entity.Travel;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import fdse.microservice.service.BasicService;
@@ -25,6 +26,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 public class BasicController { 
     private static final Logger logger = LoggerFactory.getLogger(BasicController.class);
+
 
 
 

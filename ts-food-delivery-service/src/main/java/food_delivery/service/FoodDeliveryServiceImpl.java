@@ -4,6 +4,7 @@ package food_delivery.service;
 import edu.fudan.common.util.Response;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import food_delivery.entity.*;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class FoodDeliveryServiceImpl implements FoodDeliveryService { 
     private static final Logger logger = LoggerFactory.getLogger(FoodDeliveryServiceImpl.class);
+
 
 
 
@@ -109,7 +111,8 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     public Response getAllFoodDeliveryOrders(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllFoodDeliveryOrders",(headers != null ? headers.toString(): null));
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findAll();
-      logger.info("the foodDeliveryOrders is: {}", (foodDeliveryOrders != null ? foodDeliveryOrders.toString(): null));
+      logger.info("the foodDeliveryOrders is: {}", (foodDeliveryOrders != null ? foodDeliveryOrders : null));
+      
       
       
       
@@ -125,7 +128,8 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     public Response getFoodDeliveryOrderByStoreId(String storeId, HttpHeaders headers) {
         logger.info("[function name:{}][storeId:{}, headers:{}]","getFoodDeliveryOrderByStoreId",storeId, (headers != null ? headers.toString(): null));
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findByStationFoodStoreId(storeId);
-      logger.info("the foodDeliveryOrders is: {}", (foodDeliveryOrders != null ? foodDeliveryOrders.toString(): null));
+      logger.info("the foodDeliveryOrders is: {}", (foodDeliveryOrders != null ? foodDeliveryOrders : null));
+      
       
       
       

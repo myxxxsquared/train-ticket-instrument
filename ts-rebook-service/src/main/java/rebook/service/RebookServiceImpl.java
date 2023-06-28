@@ -3,6 +3,7 @@ package rebook.service;
 import edu.fudan.common.entity.Trip;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetail;
@@ -36,6 +37,7 @@ import java.util.List;
 @Service
 public class RebookServiceImpl implements RebookService { 
     private static final Logger logger = LoggerFactory.getLogger(RebookServiceImpl.class);
+
 
 
 

@@ -3,6 +3,7 @@ package food.service;
 import edu.fudan.common.util.Response;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import food.entity.StationFoodStore;
@@ -22,6 +23,7 @@ public class StationFoodServiceImpl implements StationFoodService {
 
 
 
+
     @Autowired
     StationFoodRepository stationFoodRepository;
 
@@ -35,7 +37,8 @@ public class StationFoodServiceImpl implements StationFoodService {
     public Response createFoodStore(StationFoodStore fs, HttpHeaders headers) {
         logger.info("[function name:{}][fs:{}, headers:{}]","createFoodStore",(fs != null ? fs.toString(): null), (headers != null ? headers.toString(): null));
         StationFoodStore fsTemp = stationFoodRepository.findById(fs.getId()).orElse(null);
-      logger.info("the fsTemp is: {}", (fsTemp != null ? fsTemp.toString(): null));
+      logger.info("the fsTemp is: {}", (fsTemp != null ? fsTemp : null));
+      
       
       
       
@@ -57,7 +60,8 @@ public class StationFoodServiceImpl implements StationFoodService {
     public Response listFoodStores(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","listFoodStores",(headers != null ? headers.toString(): null));
         List<StationFoodStore> stationFoodStores = stationFoodRepository.findAll();
-      logger.info("the stationFoodStores is: {}", (stationFoodStores != null ? stationFoodStores.toString(): null));
+      logger.info("the stationFoodStores is: {}", (stationFoodStores != null ? stationFoodStores : null));
+      
       
       
         if (stationFoodStores != null && !stationFoodStores.isEmpty()) {
@@ -72,7 +76,8 @@ public class StationFoodServiceImpl implements StationFoodService {
     public Response listFoodStoresByStationName(String stationName, HttpHeaders headers) {
         logger.info("[function name:{}][stationName:{}, headers:{}]","listFoodStoresByStationName",stationName, (headers != null ? headers.toString(): null));
         List<StationFoodStore> stationFoodStoreList = stationFoodRepository.findByStationName(stationName);
-      logger.info("the stationFoodStoreList is: {}", (stationFoodStoreList != null ? stationFoodStoreList.toString(): null));
+      logger.info("the stationFoodStoreList is: {}", (stationFoodStoreList != null ? stationFoodStoreList : null));
+      
       
       
         if (stationFoodStoreList != null && !stationFoodStoreList.isEmpty()) {
@@ -88,7 +93,8 @@ public class StationFoodServiceImpl implements StationFoodService {
     public Response getFoodStoresByStationNames(List<String> stationNames) {
         logger.info("[function name:{}][stationNames:{}]","getFoodStoresByStationNames",(stationNames != null ? stationNames.toString(): null));
         List<StationFoodStore> stationFoodStoreList = stationFoodRepository.findByStationNameIn(stationNames);
-      logger.info("the stationFoodStoreList is: {}", (stationFoodStoreList != null ? stationFoodStoreList.toString(): null));
+      logger.info("the stationFoodStoreList is: {}", (stationFoodStoreList != null ? stationFoodStoreList : null));
+      
       
       
         if (stationFoodStoreList != null) {
@@ -103,7 +109,8 @@ public class StationFoodServiceImpl implements StationFoodService {
     public Response getStaionFoodStoreById(String id) {
         logger.info("[function name:{}][id:{}]","getStaionFoodStoreById",id);
         StationFoodStore stationFoodStore = stationFoodRepository.findById(id).orElse(null);
-      logger.info("the stationFoodStore is: {}", (stationFoodStore != null ? stationFoodStore.toString(): null));
+      logger.info("the stationFoodStore is: {}", (stationFoodStore != null ? stationFoodStore : null));
+      
       
       
         if (stationFoodStore == null) {

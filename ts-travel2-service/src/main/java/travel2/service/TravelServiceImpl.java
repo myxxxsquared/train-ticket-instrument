@@ -3,6 +3,7 @@ package travel2.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +40,7 @@ public class TravelServiceImpl implements TravelService {
 
 
 
+
     @Autowired
     TripRepository repository;
 
@@ -60,7 +62,8 @@ public class TravelServiceImpl implements TravelService {
         TripId tripId1 = new TripId(tripId);
 
         Trip trip = repository.findByTripId(tripId1);
-      logger.info("the trip is: {}", (trip != null ? trip.toString(): null));
+      logger.info("the trip is: {}", (trip != null ? trip : null));
+      
       
       
       
@@ -85,7 +88,8 @@ public class TravelServiceImpl implements TravelService {
         TripId tripId1 = new TripId(tripId);
         TrainType trainType = null;
         Trip trip = repository.findByTripId(tripId1);
-      logger.info("the trip is: {}", (trip != null ? trip.toString(): null));
+      logger.info("the trip is: {}", (trip != null ? trip : null));
+      
       
       
       
@@ -109,7 +113,8 @@ public class TravelServiceImpl implements TravelService {
         ArrayList<ArrayList<Trip>> tripList = new ArrayList<>();
         for (String routeId : routeIds) {
             ArrayList<Trip> tempTripList = repository.findByRouteId(routeId);
-      logger.info("the tempTripList is: {}", (tempTripList != null ? tempTripList.toString(): null));
+      logger.info("the tempTripList is: {}", (tempTripList != null ? tempTripList : null));
+      
       
       
       
@@ -131,7 +136,7 @@ public class TravelServiceImpl implements TravelService {
         logger.info("[function name:{}][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         TripId ti = new TripId(info.getTripId());
         if (repository.findByTripId(ti) == null) {
-        logger.info("the Trip is: {}", (repository.findByTripId(ti) != null ? repository.findByTripId(ti).toString(): null));
+        logger.info("the Trip is: {}", (repository.findByTripId(ti) != null ? repository.findByTripId(ti) : null));
             Trip trip = new Trip(ti, info.getTrainTypeName(), info.getStartStationName(),
                     info.getStationsName(), info.getTerminalStationName(), info.getStartTime(), info.getEndTime());
             trip.setRouteId(info.getRouteId());
@@ -148,7 +153,8 @@ public class TravelServiceImpl implements TravelService {
         logger.info("[function name:{}][tripId:{}, headers:{}]","retrieve",tripId, (headers != null ? headers.toString(): null));
         TripId ti = new TripId(tripId);
         Trip trip = repository.findByTripId(ti);
-      logger.info("the trip is: {}", (trip != null ? trip.toString(): null));
+      logger.info("the trip is: {}", (trip != null ? trip : null));
+      
       
       
       
@@ -174,7 +180,7 @@ public class TravelServiceImpl implements TravelService {
             t.setEndTime(info.getEndTime());
             t.setRouteId(info.getRouteId());
       
-      logger.info("the t is: {}", (t != null ? t.toString(): null));
+      logger.info("the t is: {}", (t != null ? t : null));
       repository.save(t);
             return new Response<>(1, "Update trip info:" + ti.toString(), t);
         } else {
@@ -189,7 +195,7 @@ public class TravelServiceImpl implements TravelService {
         logger.info("[function name:{}][tripId:{}, headers:{}]","delete",tripId, (headers != null ? headers.toString(): null));
         TripId ti = new TripId(tripId);
         if (repository.findByTripId(ti) != null) {
-        logger.info("the Trip is: {}", (repository.findByTripId(ti) != null ? repository.findByTripId(ti).toString(): null));
+        logger.info("the Trip is: {}", (repository.findByTripId(ti) != null ? repository.findByTripId(ti) : null));
             repository.deleteByTripId(ti);
             return new Response<>(1, "Delete trip:" + tripId + ".", tripId);
         } else {
@@ -211,7 +217,8 @@ public class TravelServiceImpl implements TravelService {
 
         //Check all train info
         List<Trip> allTripList = repository.findAll();
-      logger.info("the allTripList is: {}", (allTripList != null ? allTripList.toString(): null));
+      logger.info("the allTripList is: {}", (allTripList != null ? allTripList : null));
+      
       
       
       
@@ -232,9 +239,10 @@ public class TravelServiceImpl implements TravelService {
 
         //Check all train info
         ArrayList<Trip> allTripList = repository.findAll();
-      logger.info("the allTripList is: {}", (allTripList != null ? allTripList.toString(): null));
+      logger.info("the allTripList is: {}", (allTripList != null ? allTripList : null));
       
-      logger.info("the allTripList is: {}", (allTripList != null ? allTripList.toString(): null));
+      logger.info("the allTripList is: {}", (allTripList != null ? allTripList : null));
+      
       
       
       
@@ -258,7 +266,8 @@ public class TravelServiceImpl implements TravelService {
         TripAllDetail gtdr = new TripAllDetail();
         TravelServiceImpl.logger.debug("[getTripAllDetailInfo][gtdi info: {}]", gtdi.toString());
         Trip trip = repository.findByTripId(new TripId(gtdi.getTripId()));
-      logger.info("the trip is: {}", (trip != null ? trip.toString(): null));
+      logger.info("the trip is: {}", (trip != null ? trip : null));
+      
       
       
       
@@ -428,7 +437,8 @@ public class TravelServiceImpl implements TravelService {
     public Response queryAll(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Trip> tripList = repository.findAll();
-      logger.info("the tripList is: {}", (tripList != null ? tripList.toString(): null));
+      logger.info("the tripList is: {}", (tripList != null ? tripList : null));
+      
       
       
       

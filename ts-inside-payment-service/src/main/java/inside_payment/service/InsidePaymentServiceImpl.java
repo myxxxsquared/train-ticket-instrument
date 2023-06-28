@@ -3,6 +3,7 @@ package inside_payment.service;
 import edu.fudan.common.entity.OrderStatus;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Order;
@@ -30,6 +31,7 @@ import java.util.*;
 @Service
 public class InsidePaymentServiceImpl implements InsidePaymentService { 
     private static final Logger logger = LoggerFactory.getLogger(InsidePaymentServiceImpl.class);
+
 
 
 
@@ -87,12 +89,14 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
             //判断一下账户余额够不够，不够要去站外支付
             List<Payment> payments = paymentRepository.findByUserId(userId);
-      logger.info("the payments is: {}", (payments != null ? payments.toString(): null));
+      logger.info("the payments is: {}", (payments != null ? payments : null));
+      
       
       
       
             List<Money> addMonies = addMoneyRepository.findByUserId(userId);
-      logger.info("the addMonies is: {}", (addMonies != null ? addMonies.toString(): null));
+      logger.info("the addMonies is: {}", (addMonies != null ? addMonies : null));
+      
       
       
       
@@ -157,7 +161,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public Response createAccount(AccountInfo info, HttpHeaders headers) {
         logger.info("[function name:{}][info:{}, headers:{}]","createAccount",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         List<Money> list = addMoneyRepository.findByUserId(info.getUserId());
-      logger.info("the list is: {}", (list != null ? list.toString(): null));
+      logger.info("the list is: {}", (list != null ? list : null));
+      
       
       
       
@@ -178,8 +183,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public Response addMoney(String userId, String money, HttpHeaders headers) {
         logger.info("[function name:{}][userId:{}, money:{}, headers:{}]","addMoney",userId, money, (headers != null ? headers.toString(): null));
         if (addMoneyRepository.findByUserId(userId) != null) {
-        logger.info("the List<Payment> is: {}", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId).toString(): null));
-        logger.info("the List<Payment> is: {}", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId).toString(): null));
+        logger.info("the List<Payment> is: {}", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId) : null));
+        logger.info("the List<Payment> is: {}", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId) : null));
             Money addMoney = new Money();
             addMoney.setUserId(userId);
             addMoney.setMoney(money);
@@ -197,7 +202,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         logger.info("[function name:{}][headers:{}]","queryAccount",(headers != null ? headers.toString(): null));
         List<Balance> result = new ArrayList<>();
         List<Money> list = addMoneyRepository.findAll();
-      logger.info("the list is: {}", (list != null ? list.toString(): null));
+      logger.info("the list is: {}", (list != null ? list : null));
+      
       
       
       
@@ -220,7 +226,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
             String money = (String) entry.getValue();
 
             List<Payment> payments = paymentRepository.findByUserId(userId);
-      logger.info("the payments is: {}", (payments != null ? payments.toString(): null));
+      logger.info("the payments is: {}", (payments != null ? payments : null));
+      
       
       
       
@@ -245,7 +252,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public Response queryPayment(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","queryPayment",(headers != null ? headers.toString(): null));
         List<Payment> payments = paymentRepository.findAll();
-      logger.info("the payments is: {}", (payments != null ? payments.toString(): null));
+      logger.info("the payments is: {}", (payments != null ? payments : null));
+      
       
       
       
@@ -261,8 +269,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public Response drawBack(String userId, String money, HttpHeaders headers) {
         logger.info("[function name:{}][userId:{}, money:{}, headers:{}]","drawBack",userId, money, (headers != null ? headers.toString(): null));
         if (addMoneyRepository.findByUserId(userId) != null) {
-        logger.info("the List<Payment> is: {}", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId).toString(): null));
-        logger.info("the List<Payment> is: {}", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId).toString(): null));
+        logger.info("the List<Payment> is: {}", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId) : null));
+        logger.info("the List<Payment> is: {}", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId) : null));
             Money addMoney = new Money();
             addMoney.setUserId(userId);
             addMoney.setMoney(money);
@@ -288,12 +296,14 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
 
         List<Payment> payments = paymentRepository.findByUserId(userId);
-      logger.info("the payments is: {}", (payments != null ? payments.toString(): null));
+      logger.info("the payments is: {}", (payments != null ? payments : null));
+      
       
       
       
         List<Money> addMonies = addMoneyRepository.findByUserId(userId);
-      logger.info("the addMonies is: {}", (addMonies != null ? addMonies.toString(): null));
+      logger.info("the addMonies is: {}", (addMonies != null ? addMonies : null));
+      
       
       
       
@@ -350,7 +360,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public Response queryAddMoney(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","queryAddMoney",(headers != null ? headers.toString(): null));
         List<Money> monies = addMoneyRepository.findAll();
-      logger.info("the monies is: {}", (monies != null ? monies.toString(): null));
+      logger.info("the monies is: {}", (monies != null ? monies : null));
+      
       
       
       
@@ -400,7 +411,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public void initPayment(Payment payment, HttpHeaders headers) {
         logger.info("[function name:{}][payment:{}, headers:{}]","initPayment",(payment != null ? payment.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Payment> paymentTemp = paymentRepository.findById(payment.getId());
-      logger.info("the paymentTemp is: {}", (paymentTemp != null ? paymentTemp.toString(): null));
+      logger.info("the paymentTemp is: {}", (paymentTemp != null ? paymentTemp : null));
+      
       
       
       

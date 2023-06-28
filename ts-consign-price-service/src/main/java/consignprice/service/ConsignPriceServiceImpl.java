@@ -3,6 +3,7 @@ package consignprice.service;
 import consignprice.entity.ConsignPrice;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import consignprice.repository.ConsignPriceConfigRepository;
@@ -22,6 +23,7 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
 
 
+
     @Autowired
     private ConsignPriceConfigRepository repository;
 
@@ -31,7 +33,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
     public Response getPriceByWeightAndRegion(double weight, boolean isWithinRegion, HttpHeaders headers) {
         logger.info("[function name:{}][weight:{}, isWithinRegion:{}, headers:{}]","getPriceByWeightAndRegion",weight, isWithinRegion, (headers != null ? headers.toString(): null));
         ConsignPrice priceConfig = repository.findByIndex(0);
-      logger.info("the priceConfig is: {}", (priceConfig != null ? priceConfig.toString(): null));
+      logger.info("the priceConfig is: {}", (priceConfig != null ? priceConfig : null));
+      
       
       
       
@@ -55,7 +58,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
         logger.info("[function name:{}][headers:{}]","queryPriceInformation",(headers != null ? headers.toString(): null));
         StringBuilder sb = new StringBuilder();
         ConsignPrice price = repository.findByIndex(0);
-      logger.info("the price is: {}", (price != null ? price.toString(): null));
+      logger.info("the price is: {}", (price != null ? price : null));
+      
       
       
       
@@ -77,7 +81,7 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
         //update price
         ConsignPrice originalConfig;
         if (repository.findByIndex(0) != null) {
-        logger.info("the ConsignPrice is: {}", (repository.findByIndex(0) != null ? repository.findByIndex(0).toString(): null));
+        logger.info("the ConsignPrice is: {}", (repository.findByIndex(0) != null ? repository.findByIndex(0) : null));
             originalConfig = repository.findByIndex(0);
         } else {
             originalConfig = new ConsignPrice();

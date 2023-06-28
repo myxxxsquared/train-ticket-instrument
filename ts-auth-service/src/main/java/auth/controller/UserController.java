@@ -4,6 +4,7 @@ package auth.controller;
 import auth.dto.BasicAuthDto;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.entity.User;
@@ -28,6 +29,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 public class UserController { 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
 
 

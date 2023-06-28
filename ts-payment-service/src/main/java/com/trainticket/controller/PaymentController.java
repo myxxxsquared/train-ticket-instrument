@@ -3,6 +3,7 @@ package com.trainticket.controller;
 import com.trainticket.entity.Payment;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.trainticket.service.PaymentService;
@@ -22,6 +23,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/paymentservice")
 public class PaymentController { 
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+
 
 
 
