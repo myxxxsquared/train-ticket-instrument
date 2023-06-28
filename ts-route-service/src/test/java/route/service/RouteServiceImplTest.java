@@ -47,7 +47,7 @@ public class RouteServiceImplTest {
         RouteInfo info = new RouteInfo("id", "start_station", "end_station", "shanghai", "5");
         Mockito.when(routeRepository.save(Mockito.any(Route.class))).thenReturn(null);
         Response result = routeServiceImpl.createAndModify(info, headers);
-        Assert.assertEquals("Save Success", result.getMsg());
+        Assert.assertEquals("Save and Modify success", result.getMsg());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class RouteServiceImplTest {
         Mockito.when(routeRepository.findById(Mockito.anyString())).thenReturn(null);
         Mockito.when(routeRepository.save(Mockito.any(Route.class))).thenReturn(null);
         Response result = routeServiceImpl.createAndModify(info, headers);
-        Assert.assertEquals("Modify success", result.getMsg());
+        Assert.assertEquals("Save and Modify success", result.getMsg());
     }
 
     @Test

@@ -5,7 +5,7 @@ echo
 echo "Start build images, Repo: $1, Tag: $2"
 echo
 for dir in ts-*; do
-    if [[ -d $dir ]]; then
+    if [[ -d $dir && $dir != *avatar* ]]; then
         if [[ -n $(ls "$dir" | grep -i Dockerfile) ]]; then
             echo "build ${dir}"
             docker build -t "$1"/"${dir}" "$dir"
