@@ -4,6 +4,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import fdse.microservice.entity.*;
@@ -29,6 +31,8 @@ public class StationController {
 
 
 
+
+
     @Autowired
     private StationService stationService;
 
@@ -46,6 +50,7 @@ public class StationController {
 
     @PostMapping(value = "/stations")
     public ResponseEntity<Response> create(@RequestBody Station station, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][Station:{}, HttpHeaders:{}]","create",(station != null ? station.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(stationService.create(station, headers), HttpStatus.CREATED);
     }
 
@@ -57,6 +62,7 @@ public class StationController {
 
     @DeleteMapping(value = "/stations/{stationsId}")
     public ResponseEntity<Response> delete(@PathVariable String stationsId, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","delete",stationsId, (headers != null ? headers.toString(): null));
         return ok(stationService.delete(stationsId, headers));
     }
 

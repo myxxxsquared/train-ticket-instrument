@@ -4,6 +4,10 @@ import auth.constant.InfoConstant;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.dto.BasicAuthDto;
@@ -43,7 +47,6 @@ public class TokenServiceImpl implements TokenService {
 
 
 
-
     @Autowired
     private JWTProvider jwtProvider;
 
@@ -65,6 +68,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Response getToken(BasicAuthDto dto, HttpHeaders headers) throws UserOperationException {
+        logger.info("[function name:{}][dto:{}, headers:{}]","getToken",(dto != null ? dto.toString(): null), (headers != null ? headers.toString(): null));
         String username = dto.getUsername();
         String password = dto.getPassword();
         String verifyCode = dto.getVerificationCode();
@@ -100,6 +104,8 @@ public class TokenServiceImpl implements TokenService {
                         InfoConstant.USER_NAME_NOT_FOUND_1, username
                 )));
       logger.info("the user is: {}", (user != null ? user : null));
+      
+      
       
       
       

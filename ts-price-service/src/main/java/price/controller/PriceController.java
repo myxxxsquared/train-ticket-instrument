@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -27,6 +29,8 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/priceservice")
 public class PriceController { 
     private static final Logger logger = LoggerFactory.getLogger(PriceController.class);
+
+
 
 
 
@@ -64,6 +68,7 @@ public class PriceController {
     @PostMapping(value = "/prices")
     public HttpEntity<?> create(@RequestBody PriceConfig info,
                                 @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][PriceConfig:{}, HttpHeaders:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(service.createNewPriceConfig(info, headers), HttpStatus.CREATED);
     }
 

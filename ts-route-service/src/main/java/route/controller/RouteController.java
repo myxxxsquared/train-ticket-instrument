@@ -5,6 +5,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class RouteController {
 
 
 
+
+
     @Autowired
     private RouteService routeService;
 
@@ -41,6 +45,7 @@ public class RouteController {
 
     @PostMapping(path = "/routes")
     public ResponseEntity<Response> createAndModifyRoute(@RequestBody RouteInfo createAndModifyRouteInfo, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][RouteInfo:{}, HttpHeaders:{}]","createAndModifyRoute",(createAndModifyRouteInfo != null ? createAndModifyRouteInfo.toString(): null), (headers != null ? headers.toString(): null));
         return ok(routeService.createAndModify(createAndModifyRouteInfo, headers));
     }
 

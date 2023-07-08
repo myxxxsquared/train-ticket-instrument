@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,6 +43,8 @@ public class TravelServiceImpl implements TravelService {
 
 
 
+
+
     @Autowired
     TripRepository repository;
 
@@ -63,6 +67,8 @@ public class TravelServiceImpl implements TravelService {
 
         Trip trip = repository.findByTripId(tripId1);
       logger.info("the trip is: {}", (trip != null ? trip : null));
+      
+      
       
       
       
@@ -93,6 +99,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         if (trip != null) {
             trainType = getTrainTypeByName(trip.getTrainTypeName(), headers);
         }
@@ -114,6 +122,8 @@ public class TravelServiceImpl implements TravelService {
         for (String routeId : routeIds) {
             ArrayList<Trip> tempTripList = repository.findByRouteId(routeId);
       logger.info("the tempTripList is: {}", (tempTripList != null ? tempTripList : null));
+      
+      
       
       
       
@@ -154,6 +164,8 @@ public class TravelServiceImpl implements TravelService {
         TripId ti = new TripId(tripId);
         Trip trip = repository.findByTripId(ti);
       logger.info("the trip is: {}", (trip != null ? trip : null));
+      
+      
       
       
       
@@ -222,6 +234,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         list = getTicketsByBatch(allTripList, startPlaceName, endPlaceName, info.getDepartureTime(), headers);
         return new Response<>(1, success, list);
     }
@@ -242,6 +256,8 @@ public class TravelServiceImpl implements TravelService {
       logger.info("the allTripList is: {}", (allTripList != null ? allTripList : null));
       
       logger.info("the allTripList is: {}", (allTripList != null ? allTripList : null));
+      
+      
       
       
       
@@ -267,6 +283,8 @@ public class TravelServiceImpl implements TravelService {
         TravelServiceImpl.logger.debug("[getTripAllDetailInfo][gtdi info: {}]", gtdi.toString());
         Trip trip = repository.findByTripId(new TripId(gtdi.getTripId()));
       logger.info("the trip is: {}", (trip != null ? trip : null));
+      
+      
       
       
       
@@ -438,6 +456,8 @@ public class TravelServiceImpl implements TravelService {
         logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Trip> tripList = repository.findAll();
       logger.info("the tripList is: {}", (tripList != null ? tripList : null));
+      
+      
       
       
       

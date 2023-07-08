@@ -4,6 +4,8 @@ import edu.fudan.common.entity.NotifyInfo;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.OrderStatus;
@@ -33,6 +35,8 @@ import java.util.Date;
 @Service
 public class CancelServiceImpl implements CancelService { 
     private static final Logger logger = LoggerFactory.getLogger(CancelServiceImpl.class);
+
+
 
 
 
@@ -288,6 +292,7 @@ public class CancelServiceImpl implements CancelService {
     }
 
     public Response<User> getAccount(String orderId, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, headers:{}]","getAccount",orderId, (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(newHeaders);
         String user_service_url = getServiceUrl("ts-user-service");

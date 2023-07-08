@@ -4,6 +4,8 @@ import consign.entity.ConsignRecord;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import consign.entity.Consign;
@@ -32,6 +34,8 @@ import java.util.UUID;
 @Service
 public class ConsignServiceImpl implements ConsignService { 
     private static final Logger logger = LoggerFactory.getLogger(ConsignServiceImpl.class);
+
+
 
 
 
@@ -134,6 +138,8 @@ public class ConsignServiceImpl implements ConsignService {
       
       
       
+      
+      
         if (consignRecords != null && !consignRecords.isEmpty()) {
             return new Response<>(1, "Find consign by account id success", consignRecords);
         }else {
@@ -151,6 +157,8 @@ public class ConsignServiceImpl implements ConsignService {
       
       
       
+      
+      
         if (consignRecords != null ) {
             return new Response<>(1, "Find consign by order id success", consignRecords);
         }else {
@@ -164,6 +172,8 @@ public class ConsignServiceImpl implements ConsignService {
         logger.info("[function name:{}][consignee:{}, headers:{}]","queryByConsignee",consignee, (headers != null ? headers.toString(): null));
         List<ConsignRecord> consignRecords = repository.findByConsignee(consignee);
       logger.info("the consignRecords is: {}", (consignRecords != null ? consignRecords : null));
+      
+      
       
       
       

@@ -5,6 +5,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class UserController {
 
 
 
+
+
     @Autowired
     private UserService userService;
 
@@ -42,20 +46,24 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Response> getAllUser(@RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][HttpHeaders:{}]","getAllUser",(headers != null ? headers.toString(): null));
         return ok(userService.getAllUsers(headers));
     }
 
     @GetMapping("/{userName}")
     public ResponseEntity<Response> getUserByUserName(@PathVariable String userName, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getUserByUserName",userName, (headers != null ? headers.toString(): null));
         return ok(userService.findByUserName(userName, headers));
     }
     @GetMapping("/id/{userId}")
     public ResponseEntity<Response> getUserByUserId(@PathVariable String userId, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getUserByUserId",userId, (headers != null ? headers.toString(): null));
         return ok(userService.findByUserId(userId, headers));
     }
 
     @PostMapping("/register")
     public ResponseEntity<Response> registerUser(@RequestBody UserDto userDto, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][UserDto:{}, HttpHeaders:{}]","registerUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userDto, headers));
     }
 
@@ -63,12 +71,14 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<Response> deleteUserById(@PathVariable String userId,
                                                    @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","deleteUserById",userId, (headers != null ? headers.toString(): null));
         return ok(userService.deleteUser(userId, headers));
     }
 
     @PutMapping
     public ResponseEntity<Response> updateUser(@RequestBody UserDto user,
                                                @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][UserDto:{}, HttpHeaders:{}]","updateUser",(user != null ? user.toString(): null), (headers != null ? headers.toString(): null));
         return ok(userService.updateUser(user, headers));
     }
 

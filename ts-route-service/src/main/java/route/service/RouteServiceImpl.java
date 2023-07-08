@@ -5,6 +5,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import java.util.UUID;
 @Service
 public class RouteServiceImpl implements RouteService { 
     private static final Logger logger = LoggerFactory.getLogger(RouteServiceImpl.class);
+
+
 
 
 
@@ -63,6 +67,8 @@ public class RouteServiceImpl implements RouteService {
       
       
       
+      
+      
             if(routeOld.isPresent()) {
                 route = routeOld.get();
             } else {
@@ -88,6 +94,8 @@ public class RouteServiceImpl implements RouteService {
       
       
       
+      
+      
         if (!route.isPresent()) {
             return new Response<>(1, "Delete Success", routeId);
         } else {
@@ -101,6 +109,8 @@ public class RouteServiceImpl implements RouteService {
         logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteById",routeId, (headers != null ? headers.toString(): null));
         Optional<Route> route = routeRepository.findById(routeId);
       logger.info("the route is: {}", (route != null ? route : null));
+      
+      
             
         if (!route.isPresent()) {
             RouteServiceImpl.logger.error("[getRouteById][Find route error][Route not found][RouteId: {}]",routeId);
@@ -120,6 +130,8 @@ public class RouteServiceImpl implements RouteService {
       
       
       
+      
+      
         if (routes == null || routes.isEmpty()) {
             RouteServiceImpl.logger.error("[getRouteById][Find route error][Route not found][RouteIds: {}]",routeIds);
             return new Response<>(0, "No content with the routeIds", null);
@@ -135,6 +147,8 @@ public class RouteServiceImpl implements RouteService {
       logger.info("the routes is: {}", (routes != null ? routes : null));
       
       logger.info("the routes is: {}", (routes != null ? routes : null));
+      
+      
       
       
       
@@ -162,6 +176,8 @@ public class RouteServiceImpl implements RouteService {
       logger.info("the routes is: {}", (routes != null ? routes : null));
       
       logger.info("the routes is: {}", (routes != null ? routes : null));
+      
+      
       
       
       

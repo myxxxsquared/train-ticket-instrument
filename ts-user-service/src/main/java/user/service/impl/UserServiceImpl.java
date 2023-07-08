@@ -5,6 +5,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService { 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+
 
 
 
@@ -70,6 +74,8 @@ public class UserServiceImpl implements UserService {
         // avoid same user name
         User user1 = userRepository.findByUserName(userDto.getUserName());
       logger.info("the user1 is: {}", (user1 != null ? user1 : null));
+      
+      
       
       
       
@@ -118,6 +124,8 @@ public class UserServiceImpl implements UserService {
       
       
       
+      
+      
         if (users != null && !users.isEmpty()) {
             return new Response<>(1, "Success", users);
         }
@@ -130,6 +138,8 @@ public class UserServiceImpl implements UserService {
         logger.info("[function name:{}][userName:{}, headers:{}]","findByUserName",userName, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserName(userName);
       logger.info("the user is: {}", (user != null ? user : null));
+      
+      
       
       
       
@@ -150,6 +160,8 @@ public class UserServiceImpl implements UserService {
       
       
       
+      
+      
         if (user != null) {
             return new Response<>(1, "Find User Success", user);
         }
@@ -163,6 +175,8 @@ public class UserServiceImpl implements UserService {
         logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserId(userId);
       logger.info("the user is: {}", (user != null ? user : null));
+      
+      
       
       
       
@@ -185,6 +199,8 @@ public class UserServiceImpl implements UserService {
         logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         User oldUser = userRepository.findByUserId(userDto.getUserId());
       logger.info("the oldUser is: {}", (oldUser != null ? oldUser : null));
+      
+      
       
       
       

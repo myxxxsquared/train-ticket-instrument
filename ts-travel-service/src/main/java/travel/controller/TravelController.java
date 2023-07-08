@@ -4,6 +4,8 @@ import edu.fudan.common.entity.TravelInfo;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetailInfo;
@@ -33,6 +35,8 @@ import static org.springframework.http.ResponseEntity.ok;
 
 public class TravelController { 
     private static final Logger logger = LoggerFactory.getLogger(TravelController.class);
+
+
 
 
 
@@ -72,6 +76,7 @@ public class TravelController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trips")
     public HttpEntity<?> createTrip(@RequestBody TravelInfo routeIds, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][TravelInfo:{}, HttpHeaders:{}]","createTrip",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(travelService.create(routeIds, headers), HttpStatus.CREATED);
     }
 

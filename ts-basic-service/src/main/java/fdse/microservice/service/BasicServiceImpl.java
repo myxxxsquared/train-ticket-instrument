@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +30,8 @@ import java.util.*;
 @Service
 public class BasicServiceImpl implements BasicService { 
     private static final Logger logger = LoggerFactory.getLogger(BasicServiceImpl.class);
+
+
 
 
 
@@ -348,6 +352,7 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public Map<String,String> checkStationsExists(List<String> stationNames, HttpHeaders headers) {
+        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",(stationNames != null ? stationNames.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -384,6 +389,7 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public List<TrainType> queryTrainTypeByNames(List<String> trainTypeNames, HttpHeaders headers) {
+        logger.info("[function name:{}][trainTypeNames:{}, headers:{}]","queryTrainTypeByNames",(trainTypeNames != null ? trainTypeNames.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(trainTypeNames, null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(

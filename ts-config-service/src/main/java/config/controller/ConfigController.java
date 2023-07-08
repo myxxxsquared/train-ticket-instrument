@@ -4,6 +4,8 @@ import config.entity.Config;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import config.service.ConfigService;
@@ -31,6 +33,8 @@ public class ConfigController {
 
 
 
+
+
     @Autowired
     private ConfigService configService;
 
@@ -50,6 +54,7 @@ public class ConfigController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/configs")
     public HttpEntity<?> createConfig(@RequestBody Config info, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][Config:{}, HttpHeaders:{}]","createConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(configService.create(info, headers), HttpStatus.CREATED);
     }
 

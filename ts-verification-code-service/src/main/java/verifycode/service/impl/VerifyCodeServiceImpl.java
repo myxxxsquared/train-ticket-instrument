@@ -4,6 +4,8 @@ import com.google.common.cache.Cache;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.cache.CacheBuilder;
@@ -36,6 +38,8 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
 
 
 
+
+
     public static final int CAPTCHA_EXPIRED = 1000;
 
     String ysbCaptcha = "YsbCaptcha";
@@ -56,6 +60,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
 
     @Override
     public Map<String, Object> getImageCode(int width, int height, OutputStream os, HttpServletRequest request, HttpServletResponse response, HttpHeaders headers) {
+        logger.info("[function name:{}][width:{}, height:{}, os:{}, request:{}, response:{}, headers:{}]","getImageCode",width, height, (os != null ? os.toString(): null), (request != null ? request.toString(): null), (response != null ? response.toString(): null), (headers != null ? headers.toString(): null));
         Map<String, Object> returnMap = new HashMap<>();
         if (width <= 0) {
             width = 60;

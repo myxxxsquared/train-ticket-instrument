@@ -5,6 +5,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ import java.util.Set;
 @Service
 public class SeatServiceImpl implements SeatService { 
     private static final Logger logger = LoggerFactory.getLogger(SeatServiceImpl.class);
+
+
 
 
 
@@ -72,8 +76,6 @@ public class SeatServiceImpl implements SeatService {
                     });
         logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
                     order_service_url + "/api/v1/orderservice/order/tickets","POST");
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
             leftTicketInfo = re3.getBody().getData();
         } else {
             //Call the microservice to query for residual Ticket information: the set of the Ticket sold for the specified seat type
@@ -85,8 +87,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
         logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
                     order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
             leftTicketInfo = re3.getBody().getData();
@@ -158,8 +158,6 @@ public class SeatServiceImpl implements SeatService {
                     });
         logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
                     order_service_url + "/api/v1/orderservice/order/tickets","POST");
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
             leftTicketInfo = re3.getBody().getData();
         } else {
             //Call the micro service to query all the station information for the trains
@@ -173,8 +171,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
         logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
                     order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
             leftTicketInfo = re3.getBody().getData();

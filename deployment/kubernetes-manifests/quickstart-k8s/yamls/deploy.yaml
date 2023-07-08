@@ -268,7 +268,7 @@ spec:
     spec:
       containers:
         - name: ts-auth-service
-          image: jojodurrr/ts-auth-service:latest
+          image: jojodurrr/ts-auth-service:bug
           imagePullPolicy: Always
           env:
             - name: NODE_IP
@@ -570,7 +570,7 @@ spec:
     spec:
       containers:
         - name: ts-contacts-service
-          image: jojodurrr/ts-contacts-service:latest
+          image: jojodurrr/ts-contacts-service:bug
           imagePullPolicy: Always
           env:
             - name: NODE_IP

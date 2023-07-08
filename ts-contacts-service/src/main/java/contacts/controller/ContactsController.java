@@ -4,6 +4,8 @@ import contacts.entity.*;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -30,6 +32,8 @@ public class ContactsController {
 
 
 
+
+
     @Autowired
     private ContactsService contactsService;
 
@@ -50,12 +54,14 @@ public class ContactsController {
     @PostMapping(path = "/contacts")
     public ResponseEntity<Response> createNewContacts(@RequestBody Contacts aci,
                                                       @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][Contacts:{}, HttpHeaders:{}]","createNewContacts",(aci != null ? aci.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(contactsService.create(aci, headers), HttpStatus.CREATED);
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/contacts/admin")
     public HttpEntity<?> createNewContactsAdmin(@RequestBody Contacts aci, @RequestHeader HttpHeaders headers) {
+        logger.info("[function name:{}][Contacts:{}, HttpHeaders:{}]","createNewContactsAdmin",(aci != null ? aci.toString(): null), (headers != null ? headers.toString(): null));
         aci.setId(UUID.randomUUID().toString());
         return new ResponseEntity<>(contactsService.createContacts(aci, headers), HttpStatus.CREATED);
     }

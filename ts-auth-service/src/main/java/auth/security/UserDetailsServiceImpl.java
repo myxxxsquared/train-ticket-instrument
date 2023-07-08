@@ -4,10 +4,14 @@ import auth.constant.InfoConstant;
 
 
 
+
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,6 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        logger.info("[function name:{}][s:{}]","loadUserByUsername",s);
         logger.info("the Optional<User> is: {}", (userRepository.findByUsername(s) != null ? userRepository.findByUsername(s) : null));
         return userRepository.findByUsername(s)
                 .orElseThrow(() -> new UsernameNotFoundException(

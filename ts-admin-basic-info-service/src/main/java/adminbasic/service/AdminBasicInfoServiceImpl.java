@@ -4,6 +4,8 @@ import adminbasic.entity.*;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Config;
@@ -28,6 +30,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AdminBasicInfoServiceImpl implements AdminBasicInfoService { 
     private static final Logger logger = LoggerFactory.getLogger(AdminBasicInfoServiceImpl.class);
+
+
 
 
 
