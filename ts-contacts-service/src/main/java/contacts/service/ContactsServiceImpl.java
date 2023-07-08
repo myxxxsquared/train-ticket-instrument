@@ -2,6 +2,10 @@ package contacts.service;
 
 import contacts.entity.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 
 
 import org.slf4j.Logger;
@@ -28,8 +32,13 @@ public class ContactsServiceImpl implements ContactsService {
 
 
 
+
     @Autowired
     private ContactsRepository contactsRepository;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
+
 
     String success = "Success";
 
@@ -38,6 +47,7 @@ public class ContactsServiceImpl implements ContactsService {
         logger.info("[function name:{}][id:{}, headers:{}]","findContactsById",id, (headers != null ? headers.toString(): null));
         Contacts contacts = contactsRepository.findById(id).orElse(null);
       logger.info("the contacts is: {}", (contacts != null ? contacts : null));
+      
       
       
       
@@ -53,8 +63,18 @@ public class ContactsServiceImpl implements ContactsService {
     @Override
     public Response findContactsByAccountId(String accountId, HttpHeaders headers) {
         logger.info("[function name:{}][accountId:{}, headers:{}]","findContactsByAccountId",accountId, (headers != null ? headers.toString(): null));
-        ArrayList<Contacts> arr = contactsRepository.findByAccountId(accountId);
+        // ArrayList<Contacts> arr = contactsRepository.findByAccountId(accountId);
+
+        String query = "SELECT * FROM contacts WHERE account_id = '" + accountId + "'";
+        logger.info("[query:{}]",query);
+        // 执行数据库查询
+        Query nativeQuery = entityManager.createNativeQuery(query, Contacts.class);
+        List<Contacts> resultList = nativeQuery.getResultList();
+        ArrayList<Contacts> arr = new ArrayList<>(resultList);
+        
+
       logger.info("the arr is: {}", (arr != null ? arr : null));
+      
       
       
       
@@ -100,6 +120,7 @@ public class ContactsServiceImpl implements ContactsService {
       
       
       
+      
         if (contacts == null) {
             return new Response<>(1, "Delete success", contactsId);
         } else {
@@ -132,6 +153,7 @@ public class ContactsServiceImpl implements ContactsService {
         logger.info("[function name:{}][headers:{}]","getAllContacts",(headers != null ? headers.toString(): null));
         ArrayList<Contacts> contacts = contactsRepository.findAll();
       logger.info("the contacts is: {}", (contacts != null ? contacts : null));
+      
       
       
       

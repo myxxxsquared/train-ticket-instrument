@@ -5,6 +5,7 @@ import edu.fudan.common.util.Response;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +33,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
 
 
+
     @Autowired
     private WaitListOrderRepository waitListOrderRepository;
 
@@ -48,6 +50,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
         logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, (headers != null ? headers.toString(): null));
         Optional<WaitListOrder> op = waitListOrderRepository.findById(id);
       logger.info("the op is: {}", (op != null ? op : null));
+      
       
       
       
@@ -84,6 +87,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
       
       
       
+      
         if (orderList != null && !orderList.isEmpty()) {
             WaitListOrderServiceImpl.logger.warn("[getAllOrders][Find all orders Success][size:{}]",orderList.size());
             return new Response<>(1, "Success.", orderList);
@@ -98,6 +102,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
         logger.info("[function name:{}][headers:{}]","getAllWaitListOrders",(headers != null ? headers.toString(): null));
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
       logger.info("the orderList is: {}", (orderList != null ? orderList : null));
+      
       
       
       
@@ -128,6 +133,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
       
       
       
+      
         if(!op.isPresent()){
             logger.error("[updateOrder][Update Order Info Fail][Order not found][OrderId: {}]",order.getId());
             return new Response<>(0, "Order Not Found, Can't update", null);
@@ -145,6 +151,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
         logger.info("[function name:{}][status:{}, orderId:{}]","modifyWaitListOrderStatus",status, orderId);
         Optional<WaitListOrder> op = waitListOrderRepository.findById(orderId);
       logger.info("the op is: {}", (op != null ? op : null));
+      
       
       
       

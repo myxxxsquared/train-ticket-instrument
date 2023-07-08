@@ -4,6 +4,7 @@ import edu.fudan.common.util.JsonUtils;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import foodsearch.entity.*;
@@ -25,6 +26,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/foodservice")
 public class FoodController { 
     private static final Logger logger = LoggerFactory.getLogger(FoodController.class);
+
 
 
 

@@ -5,8 +5,7 @@ import auth.dto.BasicAuthDto;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import auth.entity.User;
 import auth.exception.UserOperationException;
 import auth.service.TokenService;
@@ -27,8 +26,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/v1/users")
-public class UserController { 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+public class UserController {
 
 
 
@@ -42,7 +40,6 @@ public class UserController {
 
     @GetMapping("/hello")
     public Object getHello() {
-        logger.info("[function name:getHello]");
         return "Hello";
     }
 

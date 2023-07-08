@@ -4,8 +4,7 @@ import auth.dto.AuthDto;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import auth.service.UserService;
 import edu.fudan.common.util.Response;
 
@@ -20,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController { 
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+public class AuthController {
 
 
 
@@ -37,7 +35,6 @@ public class AuthController {
      */
     @GetMapping("/hello")
     public String getHello() {
-        logger.info("[function name:getHello]");
         return "hello";
     }
 

@@ -5,6 +5,7 @@ import edu.fudan.common.util.Response;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.util.*;
 @Service
 public class PriceServiceImpl implements PriceService { 
     private static final Logger logger = LoggerFactory.getLogger(PriceServiceImpl.class);
+
 
 
 
@@ -53,6 +55,7 @@ public class PriceServiceImpl implements PriceService {
       
       
       
+      
             if (!op.isPresent()) {
                 priceConfig = new PriceConfig();
                 priceConfig.setId(createAndModifyPriceConfig.getId());
@@ -77,6 +80,7 @@ public class PriceServiceImpl implements PriceService {
       
       
       
+      
         if(op.isPresent()){
             return op.get();
         }
@@ -88,6 +92,7 @@ public class PriceServiceImpl implements PriceService {
         logger.info("[function name:{}][routeId:{}, trainType:{}, headers:{}]","findByRouteIdAndTrainType",routeId, trainType, (headers != null ? headers.toString(): null));
         PriceConfig priceConfig = priceConfigRepository.findByRouteIdAndTrainType(routeId, trainType);
       logger.info("the priceConfig is: {}", (priceConfig != null ? priceConfig : null));
+      
       
       
       
@@ -117,6 +122,7 @@ public class PriceServiceImpl implements PriceService {
       
       
       
+      
         Map<String, PriceConfig> pcMap = new HashMap<>();
         for(PriceConfig pc: pcs){
             String key = pc.getRouteId() + ":" + pc.getTrainType();
@@ -138,6 +144,7 @@ public class PriceServiceImpl implements PriceService {
         logger.info("[function name:{}][headers:{}]","findAllPriceConfig",(headers != null ? headers.toString(): null));
         List<PriceConfig> list = priceConfigRepository.findAll();
       logger.info("the list is: {}", (list != null ? list : null));
+      
       
       
       
@@ -164,6 +171,7 @@ public class PriceServiceImpl implements PriceService {
       
       
       
+      
         if (!op.isPresent()) {
             PriceServiceImpl.logger.error("[deletePriceConfig][Delete price config error][Price config not found][PriceConfigId: {}]",pcId);
             return new Response<>(0, noThatConfig, null);
@@ -179,6 +187,7 @@ public class PriceServiceImpl implements PriceService {
         logger.info("[function name:{}][c:{}, headers:{}]","updatePriceConfig",(c != null ? c.toString(): null), (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(c.getId());
       logger.info("the op is: {}", (op != null ? op : null));
+      
       
       
       

@@ -4,8 +4,7 @@ import auth.constant.InfoConstant;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import auth.dto.BasicAuthDto;
 import auth.dto.TokenDto;
 import auth.entity.User;
@@ -37,8 +36,7 @@ import java.util.List;
  * @author fdse
  */
 @Service
-public class TokenServiceImpl implements TokenService { 
-    private static final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
+public class TokenServiceImpl implements TokenService {
 
 
 
@@ -76,8 +74,6 @@ public class TokenServiceImpl implements TokenService {
                     HttpMethod.GET,
                     requestEntity,
                     Boolean.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
-                     verification_code_service_url + "/api/v1/verifycode/verify/" + verifyCode,"GET");
             boolean id = re.getBody();
 
             // failed code
@@ -99,7 +95,6 @@ public class TokenServiceImpl implements TokenService {
                 .orElseThrow(() -> new UserOperationException(MessageFormat.format(
                         InfoConstant.USER_NAME_NOT_FOUND_1, username
                 )));
-      logger.info("the user is: {}", (user != null ? user : null));
       
       
       

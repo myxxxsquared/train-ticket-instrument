@@ -4,6 +4,7 @@ import edu.fudan.common.entity.TravelInfo;
 
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetailInfo;
@@ -33,6 +34,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 public class TravelController { 
     private static final Logger logger = LoggerFactory.getLogger(TravelController.class);
+
 
 
 

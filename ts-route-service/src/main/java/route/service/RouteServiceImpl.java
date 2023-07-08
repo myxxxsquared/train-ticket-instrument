@@ -5,8 +5,7 @@ import edu.fudan.common.util.Response;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -24,8 +23,7 @@ import java.util.UUID;
  * @author fdse
  */
 @Service
-public class RouteServiceImpl implements RouteService { 
-    private static final Logger logger = LoggerFactory.getLogger(RouteServiceImpl.class);
+public class RouteServiceImpl implements RouteService {
 
 
 
@@ -38,7 +36,6 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response createAndModify(RouteInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","createAndModify",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         String[] stations = info.getStationList().split(",");
         String[] distances = info.getDistanceList().split(",");
@@ -58,7 +55,6 @@ public class RouteServiceImpl implements RouteService {
             route.setId(UUID.randomUUID().toString());
         }else{
             Optional<Route> routeOld = routeRepository.findById(info.getId());
-      logger.info("the routeOld is: {}", (routeOld != null ? routeOld : null));
       
       
       
@@ -80,10 +76,8 @@ public class RouteServiceImpl implements RouteService {
     @Override
     @Transactional
     public Response deleteRoute(String routeId, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, headers:{}]","deleteRoute",routeId, (headers != null ? headers.toString(): null));
         routeRepository.removeRouteById(routeId);
         Optional<Route> route = routeRepository.findById(routeId);
-      logger.info("the route is: {}", (route != null ? route : null));
       
       
       
@@ -98,9 +92,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response getRouteById(String routeId, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteById",routeId, (headers != null ? headers.toString(): null));
         Optional<Route> route = routeRepository.findById(routeId);
-      logger.info("the route is: {}", (route != null ? route : null));
             
         if (!route.isPresent()) {
             RouteServiceImpl.logger.error("[getRouteById][Find route error][Route not found][RouteId: {}]",routeId);
@@ -113,9 +105,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response getRouteByIds(List<String> routeIds, HttpHeaders headers) {
-        logger.info("[function name:{}][routeIds:{}, headers:{}]","getRouteByIds",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         List<Route> routes = routeRepository.findByIds(routeIds);
-      logger.info("the routes is: {}", (routes != null ? routes : null));
       
       
       
@@ -130,11 +120,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response getRouteByStartAndEnd(String startId, String terminalId, HttpHeaders headers) {
-        logger.info("[function name:{}][startId:{}, terminalId:{}, headers:{}]","getRouteByStartAndEnd",startId, terminalId, (headers != null ? headers.toString(): null));
         ArrayList<Route> routes = routeRepository.findAll();
-      logger.info("the routes is: {}", (routes != null ? routes : null));
-      
-      logger.info("the routes is: {}", (routes != null ? routes : null));
       
       
       
@@ -157,11 +143,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response getAllRoutes(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllRoutes",(headers != null ? headers.toString(): null));
         ArrayList<Route> routes = routeRepository.findAll();
-      logger.info("the routes is: {}", (routes != null ? routes : null));
-      
-      logger.info("the routes is: {}", (routes != null ? routes : null));
       
       
       

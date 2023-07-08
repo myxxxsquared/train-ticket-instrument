@@ -4,8 +4,7 @@ import edu.fudan.common.util.Response;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import fdse.microservice.entity.*;
 import fdse.microservice.repository.StationRepository;
 
@@ -17,8 +16,7 @@ import java.util.*;
 
 
 @Service
-public class StationServiceImpl implements StationService { 
-    private static final Logger logger = LoggerFactory.getLogger(StationServiceImpl.class);
+public class StationServiceImpl implements StationService {
 
 
 
@@ -31,7 +29,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response create(Station station, HttpHeaders headers) {
-        logger.info("[function name:{}][station:{}, headers:{}]","create",(station != null ? station.toString(): null), (headers != null ? headers.toString(): null));
         if(station.getName().isEmpty()) {
             StationServiceImpl.logger.error("[create][Create station error][Name not specify]");
             return new Response<>(0, "Name not specify", station);
@@ -48,7 +45,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public boolean exist(String stationName, HttpHeaders headers) {
-        logger.info("[function name:{}][stationName:{}, headers:{}]","exist",stationName, (headers != null ? headers.toString(): null));
         boolean result = false;
         if (repository.findByName(stationName) != null) {
             result = true;
@@ -58,7 +54,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response update(Station info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","update",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         Optional<Station> op = repository.findById(info.getId());
         if (!op.isPresent()) {
@@ -75,7 +70,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response delete(String stationsId, HttpHeaders headers) {
-        logger.info("[function name:{}][stationsId:{}, headers:{}]","delete",stationsId, (headers != null ? headers.toString(): null));
         Optional<Station> op = repository.findById(stationsId);
         if (op.isPresent()) {
             Station station = op.get();
@@ -88,7 +82,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response query(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","query",(headers != null ? headers.toString(): null));
         List<Station> stations = repository.findAll();
         if (stations != null && !stations.isEmpty()) {
             return new Response<>(1, "Find all content", stations);
@@ -100,7 +93,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response queryForId(String stationName, HttpHeaders headers) {
-        logger.info("[function name:{}][stationName:{}, headers:{}]","queryForId",stationName, (headers != null ? headers.toString(): null));
         Station station = repository.findByName(stationName);
 
         if (station  != null) {
@@ -114,7 +106,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response queryForIdBatch(List<String> nameList, HttpHeaders headers) {
-        logger.info("[function name:{}][nameList:{}, headers:{}]","queryForIdBatch",(nameList != null ? nameList.toString(): null), (headers != null ? headers.toString(): null));
         Map<String, String> result = new HashMap<>();
         List<Station> stations = repository.findByNames(nameList);
         Map<String, String> stationMap = new HashMap<>();
@@ -137,7 +128,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response queryById(String stationId, HttpHeaders headers) {
-        logger.info("[function name:{}][stationId:{}, headers:{}]","queryById",stationId, (headers != null ? headers.toString(): null));
         Optional<Station> station = repository.findById(stationId);
         if (station.isPresent()) {
             return new Response<>(1, success, station.get().getName());
@@ -149,7 +139,6 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Response queryByIdBatch(List<String> idList, HttpHeaders headers) {
-        logger.info("[function name:{}][idList:{}, headers:{}]","queryByIdBatch",(idList != null ? idList.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < idList.size(); i++) {
             Optional<Station> stationOld = repository.findById(idList.get(i));

@@ -4,8 +4,7 @@ import consignprice.entity.ConsignPrice;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import consignprice.repository.ConsignPriceConfigRepository;
 import edu.fudan.common.util.Response;
 
@@ -17,8 +16,7 @@ import org.springframework.stereotype.Service;
  * @author fdse
  */
 @Service
-public class ConsignPriceServiceImpl implements ConsignPriceService { 
-    private static final Logger logger = LoggerFactory.getLogger(ConsignPriceServiceImpl.class);
+public class ConsignPriceServiceImpl implements ConsignPriceService {
 
 
 
@@ -31,9 +29,7 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response getPriceByWeightAndRegion(double weight, boolean isWithinRegion, HttpHeaders headers) {
-        logger.info("[function name:{}][weight:{}, isWithinRegion:{}, headers:{}]","getPriceByWeightAndRegion",weight, isWithinRegion, (headers != null ? headers.toString(): null));
         ConsignPrice priceConfig = repository.findByIndex(0);
-      logger.info("the priceConfig is: {}", (priceConfig != null ? priceConfig : null));
       
       
       
@@ -55,10 +51,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response queryPriceInformation(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","queryPriceInformation",(headers != null ? headers.toString(): null));
         StringBuilder sb = new StringBuilder();
         ConsignPrice price = repository.findByIndex(0);
-      logger.info("the price is: {}", (price != null ? price : null));
       
       
       
@@ -77,11 +71,9 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response createAndModifyPrice(ConsignPrice config, HttpHeaders headers) {
-        logger.info("[function name:{}][config:{}, headers:{}]","createAndModifyPrice",(config != null ? config.toString(): null), (headers != null ? headers.toString(): null));
         //update price
         ConsignPrice originalConfig;
         if (repository.findByIndex(0) != null) {
-        logger.info("the ConsignPrice is: {}", (repository.findByIndex(0) != null ? repository.findByIndex(0) : null));
             originalConfig = repository.findByIndex(0);
         } else {
             originalConfig = new ConsignPrice();
@@ -98,7 +90,6 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response getPriceConfig(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getPriceConfig",(headers != null ? headers.toString(): null));
         return new Response<>(1, success, repository.findByIndex(0));
     }
 }

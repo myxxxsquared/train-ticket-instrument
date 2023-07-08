@@ -5,8 +5,7 @@ import edu.fudan.common.entity.TripResponse;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,8 +23,7 @@ import static org.springframework.http.ResponseEntity.ok;
  */
 @RestController
 @RequestMapping("/api/v1/travel2service")
-public class Travel2Controller { 
-    private static final Logger logger = LoggerFactory.getLogger(Travel2Controller.class);
+public class Travel2Controller {
 
 
 
@@ -36,21 +34,18 @@ public class Travel2Controller {
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Travle2 Service ] !";
     }
 
     @GetMapping(value = "/train_types/{tripId}")
     public HttpEntity getTrainTypeByTripId(@PathVariable String tripId,
                                            @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getTrainTypeByTripId",tripId, (headers != null ? headers.toString(): null));
         return ok(service.getTrainTypeByTripId(tripId, headers));
     }
 
     @GetMapping(value = "/routes/{tripId}")
     public HttpEntity getRouteByTripId(@PathVariable String tripId,
                                        @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getRouteByTripId",tripId, (headers != null ? headers.toString(): null));
         //Route
         return ok(service.getRouteByTripId(tripId, headers));
     }
@@ -58,7 +53,6 @@ public class Travel2Controller {
     @PostMapping(value = "/trips/routes")
     public HttpEntity getTripsByRouteId(@RequestBody ArrayList<String> routeIds,
                                         @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][ArrayList<String>:{}, HttpHeaders:{}]","getTripsByRouteId",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.getTripByRoute(routeIds, headers));
     }
 
@@ -78,21 +72,18 @@ public class Travel2Controller {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/trips/{tripId}")
     public HttpEntity retrieve(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","retrieve",tripId, (headers != null ? headers.toString(): null));
         return ok(service.retrieve(tripId, headers));
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping(value = "/trips")
     public HttpEntity updateTrip(@RequestBody edu.fudan.common.entity.TravelInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][edu.fudan.common.entity.TravelInfo:{}, HttpHeaders:{}]","updateTrip",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.update(info, headers));
     }
 
     @CrossOrigin(origins = "*")
     @DeleteMapping(value = "/trips/{tripId}")
     public HttpEntity deleteTrip(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","deleteTrip",tripId, (headers != null ? headers.toString(): null));
         return ok(service.delete(tripId, headers));
     }
 
@@ -106,7 +97,6 @@ public class Travel2Controller {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trips/left")
     public HttpEntity queryInfo(@RequestBody edu.fudan.common.entity.TripInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][edu.fudan.common.entity.TripInfo:{}, HttpHeaders:{}]","queryInfo",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         if (info.getStartPlace() == null || info.getStartPlace().length() == 0 ||
                 info.getEndPlace() == null || info.getEndPlace().length() == 0 ||
                 info.getDepartureTime() == null) {
@@ -126,21 +116,18 @@ public class Travel2Controller {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trip_detail")
     public HttpEntity getTripAllDetailInfo(@RequestBody edu.fudan.common.entity.TripAllDetailInfo gtdi, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][edu.fudan.common.entity.TripAllDetailInfo:{}, HttpHeaders:{}]","getTripAllDetailInfo",(gtdi != null ? gtdi.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.getTripAllDetailInfo(gtdi, headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/trips")
     public HttpEntity queryAll(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","queryAll",(headers != null ? headers.toString(): null));
         return ok(service.queryAll(headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/admin_trip")
     public HttpEntity adminQueryAll(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","adminQueryAll",(headers != null ? headers.toString(): null));
         return ok(service.adminQueryAll(headers));
     }
 
