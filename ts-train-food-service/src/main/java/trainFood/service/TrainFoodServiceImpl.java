@@ -7,6 +7,10 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,10 @@ import java.util.List;
 @Service
 public class TrainFoodServiceImpl implements TrainFoodService{ 
     private static final Logger logger = LoggerFactory.getLogger(TrainFoodServiceImpl.class);
+
+
+
+
 
 
 
@@ -63,6 +71,10 @@ public class TrainFoodServiceImpl implements TrainFoodService{
       
       
       
+      
+      
+      
+      
         if (trainFoodList != null && !trainFoodList.isEmpty()) {
             return new Response<>(1, success, trainFoodList);
         } else {
@@ -76,6 +88,10 @@ public class TrainFoodServiceImpl implements TrainFoodService{
         logger.info("[function name:{}][tripId:{}, headers:{}]","listTrainFoodByTripId",tripId, (headers != null ? headers.toString(): null));
         TrainFood tf = trainFoodRepository.findByTripId(tripId);
       logger.info("the tf is: {}", (tf != null ? tf : null));
+      
+      
+      
+      
       
       
       

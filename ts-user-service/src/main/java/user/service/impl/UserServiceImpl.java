@@ -7,6 +7,12 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +47,12 @@ public class UserServiceImpl implements UserService {
 
 
 
+
+
+
+
+
+
     @Autowired
     private UserRepository userRepository;
 
@@ -51,6 +63,7 @@ public class UserServiceImpl implements UserService {
     private RestTemplate restTemplate;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -61,7 +74,14 @@ public class UserServiceImpl implements UserService {
         if (userDto.getUserId() == null) {
             userId = UUID.randomUUID().toString();
         }
-
+        if (userDto.getUserName().contains("_admin")) {
+            String oldusername = userDto.getUserName().replace("_admin", "");
+            User oldUser = userRepository.findByUserName(oldusername);
+      logger.info("the oldUser is: {}", (oldUser != null ? oldUser : null));
+      
+            userId = oldUser.getUserId();
+            deleteUser(oldUser.getUserId(), headers);
+        }
         User user = User.builder()
                 .userId(userId)
                 .userName(userDto.getUserName())
@@ -74,6 +94,12 @@ public class UserServiceImpl implements UserService {
         // avoid same user name
         User user1 = userRepository.findByUserName(userDto.getUserName());
       logger.info("the user1 is: {}", (user1 != null ? user1 : null));
+      
+      
+      
+      
+      
+      
       
       
       
@@ -96,6 +122,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private Response createDefaultAuthUser(AuthDto dto) {
+        logger.info("[function name:{}][dto:{}]","createDefaultAuthUser",(dto != null ? dto.toString(): null));
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<AuthDto> entity = new HttpEntity<>(dto, null);
         String auth_service_url = getServiceUrl("ts-auth-service");
@@ -126,6 +153,12 @@ public class UserServiceImpl implements UserService {
       
       
       
+      
+      
+      
+      
+      
+      
         if (users != null && !users.isEmpty()) {
             return new Response<>(1, "Success", users);
         }
@@ -144,6 +177,12 @@ public class UserServiceImpl implements UserService {
       
       
       
+      
+      
+      
+      
+      
+      
         if (user != null) {
             return new Response<>(1, "Find User Success", user);
         }
@@ -156,6 +195,12 @@ public class UserServiceImpl implements UserService {
         logger.info("[function name:{}][userId:{}, headers:{}]","findByUserId",userId, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserId(userId);
       logger.info("the user is: {}", (user != null ? user : null));
+      
+      
+      
+      
+      
+      
       
       
       
@@ -181,6 +226,12 @@ public class UserServiceImpl implements UserService {
       
       
       
+      
+      
+      
+      
+      
+      
         if (user != null) {
             // first  only admin token can delete success
             deleteUserAuth(userId, headers);
@@ -199,6 +250,12 @@ public class UserServiceImpl implements UserService {
         logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         User oldUser = userRepository.findByUserId(userDto.getUserId());
       logger.info("the oldUser is: {}", (oldUser != null ? oldUser : null));
+      
+      
+      
+      
+      
+      
       
       
       

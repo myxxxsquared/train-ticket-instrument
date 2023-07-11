@@ -7,6 +7,10 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +42,10 @@ public class SeatServiceImpl implements SeatService {
 
 
 
+
+
+
+
     @Autowired
     RestTemplate restTemplate;
 
@@ -45,6 +53,7 @@ public class SeatServiceImpl implements SeatService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -74,7 +83,9 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
                     order_service_url + "/api/v1/orderservice/order/tickets","POST");
             leftTicketInfo = re3.getBody().getData();
         } else {
@@ -87,7 +98,9 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
                     order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
             leftTicketInfo = re3.getBody().getData();
         }
@@ -126,6 +139,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     private boolean isContained(Set<Ticket> soldTickets, int seat) {
+        logger.info("[function name:{}][soldTickets:{}, seat:{}]","isContained",(soldTickets != null ? soldTickets.toString(): null), seat);
         //Check that the seat number has been used
         boolean result = false;
         for (Ticket soldTicket : soldTickets) {
@@ -156,7 +170,9 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
                     order_service_url + "/api/v1/orderservice/order/tickets","POST");
             leftTicketInfo = re3.getBody().getData();
         } else {
@@ -171,7 +187,9 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
                     order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
             leftTicketInfo = re3.getBody().getData();
         }
@@ -211,6 +229,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     private double getDirectProportion(HttpHeaders headers) {
+        logger.info("[function name:{}][headers:{}]","getDirectProportion",(headers != null ? headers.toString(): null));
 
         String configName = "DirectTicketAllocationProportion";
         HttpEntity requestEntity = new HttpEntity(null);

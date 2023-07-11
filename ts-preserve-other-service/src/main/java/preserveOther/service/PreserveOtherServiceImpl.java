@@ -6,6 +6,10 @@ import edu.fudan.common.entity.*;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.JsonUtils;
@@ -40,6 +44,10 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -50,6 +58,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -305,6 +314,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response<Assurance> addAssuranceForOrder(int assuranceType, String orderId, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][assuranceType:{}, orderId:{}, httpHeaders:{}]","addAssuranceForOrder",assuranceType, orderId, (httpHeaders != null ? httpHeaders.toString(): null));
         HttpEntity requestAddAssuranceResult = new HttpEntity(httpHeaders);
         String assurance_service_url = getServiceUrl("ts-assurance-service");
         ResponseEntity<Response<Assurance>> reAddAssuranceResult = restTemplate.exchange(
@@ -321,6 +331,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
 
 
     private String queryForStationId(String stationName, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][stationName:{}, httpHeaders:{}]","queryForStationId",stationName, (httpHeaders != null ? httpHeaders.toString(): null));
 
 
         HttpEntity requestQueryForStationId = new HttpEntity(httpHeaders);
@@ -337,6 +348,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response checkSecurity(String accountId, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][accountId:{}, httpHeaders:{}]","checkSecurity",accountId, (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestCheckResult = new HttpEntity(httpHeaders);
         String security_service_url = getServiceUrl("ts-security-service");
@@ -353,6 +365,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
 
 
     private Response<TripAllDetail> getTripAllDetailInformation(TripAllDetailInfo gtdi, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][gtdi:{}, httpHeaders:{}]","getTripAllDetailInformation",(gtdi != null ? gtdi.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestGetTripAllDetailResult = new HttpEntity(gtdi, httpHeaders);
         String travel2_service_url = getServiceUrl("ts-travel2-service");
@@ -369,6 +382,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response<Contacts> getContactsById(String contactsId, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][contactsId:{}, httpHeaders:{}]","getContactsById",contactsId, (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestGetContactsResult = new HttpEntity(httpHeaders);
         String contacts_service_url = getServiceUrl("ts-contacts-service");
@@ -385,6 +399,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response<Order> createOrder(Order coi, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][coi:{}, httpHeaders:{}]","createOrder",(coi != null ? coi.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntityCreateOrderResult = new HttpEntity(coi, httpHeaders);
         String order_other_service_url = getServiceUrl("ts-order-other-service");
@@ -402,6 +417,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response createFoodOrder(FoodOrder afi, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][afi:{}, httpHeaders:{}]","createFoodOrder",(afi != null ? afi.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntityAddFoodOrderResult = new HttpEntity(afi, httpHeaders);
         String food_service_url = getServiceUrl("ts-food-service");
@@ -417,6 +433,7 @@ public class PreserveOtherServiceImpl implements PreserveOtherService {
     }
 
     private Response createConsign(Consign cr, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][cr:{}, httpHeaders:{}]","createConsign",(cr != null ? cr.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntityResultForTravel = new HttpEntity(cr, httpHeaders);
         String consign_service_url = getServiceUrl("ts-consign-service");

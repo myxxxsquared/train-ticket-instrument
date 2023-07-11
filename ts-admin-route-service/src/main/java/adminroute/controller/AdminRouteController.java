@@ -6,6 +6,10 @@ import edu.fudan.common.entity.RouteInfo;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import adminroute.service.AdminRouteService;
@@ -31,31 +35,35 @@ public class AdminRouteController {
 
 
 
+
+
+
+
     @Autowired
     AdminRouteService adminRouteService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ AdminRoute Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/adminroute")
     public HttpEntity getAllRoutes(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","getAllRoutes",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][headers:{}]","getAllRoutes",(headers != null ? headers.toString(): null));
         return ok(adminRouteService.getAllRoutes(headers));
     }
 
     @PostMapping(value = "/adminroute")
     public HttpEntity addRoute(@RequestBody RouteInfo request, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][RouteInfo:{}, HttpHeaders:{}]","addRoute",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][request:{}, headers:{}]","addRoute",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
         return ok(adminRouteService.createAndModifyRoute(request, headers));
     }
 
     @DeleteMapping(value = "/adminroute/{routeId}")
     public HttpEntity deleteRoute(@PathVariable String routeId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","deleteRoute",routeId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][routeId:{}, headers:{}]","deleteRoute",routeId, (headers != null ? headers.toString(): null));
         return ok(adminRouteService.deleteRoute(routeId, headers));
     }
 

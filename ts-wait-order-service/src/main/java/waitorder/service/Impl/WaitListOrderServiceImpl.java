@@ -7,6 +7,10 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +40,10 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
 
 
+
+
+
+
     @Autowired
     private WaitListOrderRepository waitListOrderRepository;
 
@@ -52,6 +60,10 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
         logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, (headers != null ? headers.toString(): null));
         Optional<WaitListOrder> op = waitListOrderRepository.findById(id);
       logger.info("the op is: {}", (op != null ? op : null));
+      
+      
+      
+      
       
       
       
@@ -92,6 +104,10 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
       
       
       
+      
+      
+      
+      
         if (orderList != null && !orderList.isEmpty()) {
             WaitListOrderServiceImpl.logger.warn("[getAllOrders][Find all orders Success][size:{}]",orderList.size());
             return new Response<>(1, "Success.", orderList);
@@ -106,6 +122,10 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
         logger.info("[function name:{}][headers:{}]","getAllWaitListOrders",(headers != null ? headers.toString(): null));
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
       logger.info("the orderList is: {}", (orderList != null ? orderList : null));
+      
+      
+      
+      
       
       
       
@@ -140,6 +160,10 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
       
       
       
+      
+      
+      
+      
         if(!op.isPresent()){
             logger.error("[updateOrder][Update Order Info Fail][Order not found][OrderId: {}]",order.getId());
             return new Response<>(0, "Order Not Found, Can't update", null);
@@ -163,6 +187,10 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
       
       
       
+      
+      
+      
+      
         if(!op.isPresent()){
             logger.error("[modifyWaitListOrderStatus][Modify Order Status Fail][Order not found][OrderId: {}]",orderId);
             return new Response<>(0, "Order Not Found, Can't update", null);
@@ -175,6 +203,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     }
 
     private Response<WaitListOrder> saveNewOrder(WaitListOrderVO orderVO, HttpHeaders headers) {
+        logger.info("[function name:{}][orderVO:{}, headers:{}]","saveNewOrder",(orderVO != null ? orderVO.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<WaitListOrder> accountOrders= waitListOrderRepository.findByAccountId(orderVO.getAccountId());
         //if the order already exist
         if(WaitListOrderExist(accountOrders,orderVO)){
@@ -191,6 +220,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     }
 
     private Boolean WaitListOrderExist(List<WaitListOrder> orderList,WaitListOrderVO newOrder){
+        logger.info("[function name:{}][orderList:{}, newOrder:{}]","WaitListOrderExist",(orderList != null ? orderList.toString(): null), (newOrder != null ? newOrder.toString(): null));
         for(WaitListOrder order: orderList){
             if(Objects.equals(order.getAccountId(), newOrder.getAccountId())
                     && Objects.equals(order.getContactsId(), newOrder.getContactsId())
@@ -205,6 +235,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     }
 
     private Response triggerThread(WaitListOrder orderPO,WaitListOrderVO orderVO,HttpHeaders headers){
+        logger.info("[function name:{}][orderPO:{}, orderVO:{}, headers:{}]","triggerThread",(orderPO != null ? orderPO.toString(): null), (orderVO != null ? orderVO.toString(): null), (headers != null ? headers.toString(): null));
         PollThread pollThread;
         try{
             pollThread =new PollThread(orderPO.getWaitUtilTime(),this,orderVO,restTemplate, headers);

@@ -6,6 +6,10 @@ import edu.fudan.common.entity.Food;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.StationFoodStore;
@@ -45,6 +49,10 @@ public class FoodServiceImpl implements FoodService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -58,6 +66,7 @@ public class FoodServiceImpl implements FoodService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -188,6 +197,10 @@ public class FoodServiceImpl implements FoodService {
       
       
       
+      
+      
+      
+      
         if (foodOrders != null && !foodOrders.isEmpty()) {
             return new Response<>(1, success, foodOrders);
         } else {
@@ -223,6 +236,10 @@ public class FoodServiceImpl implements FoodService {
         logger.info("[function name:{}][orderId:{}, headers:{}]","findByOrderId",orderId, (headers != null ? headers.toString(): null));
         FoodOrder fo = foodOrderRepository.findByOrderId(UUID.fromString(orderId).toString());
       logger.info("the fo is: {}", (fo != null ? fo : null));
+      
+      
+      
+      
       
       
       

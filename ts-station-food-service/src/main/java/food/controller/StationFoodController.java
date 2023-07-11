@@ -7,6 +7,10 @@ import food.service.StationFoodService;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,10 @@ public class StationFoodController {
 
 
 
+
+
+
+
     @Autowired
     StationFoodService stationFoodService;
 
@@ -41,26 +49,26 @@ public class StationFoodController {
     @CrossOrigin(origins = "*")
     @GetMapping("/stationfoodstores")
     public HttpEntity getAllFoodStores(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","getAllFoodStores",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][headers:{}]","getAllFoodStores",(headers != null ? headers.toString(): null));
         return ok(stationFoodService.listFoodStores(headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/stationfoodstores/{stationId}")
     public HttpEntity getFoodStoresOfStation(@PathVariable String stationName, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getFoodStoresOfStation",stationName, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][stationName:{}, headers:{}]","getFoodStoresOfStation",stationName, (headers != null ? headers.toString(): null));
         return ok(stationFoodService.listFoodStoresByStationName(stationName, headers));
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/stationfoodstores")
     public HttpEntity getFoodStoresByStationNames(@RequestBody List<String> stationNameList) {
-        logger.info("[function name:{}][List<String>:{}]","getFoodStoresByStationNames",(stationNameList != null ? stationNameList.toString(): null));
+        logger.info("[function name:{}][stationNameList:{}]","getFoodStoresByStationNames",(stationNameList != null ? stationNameList.toString(): null));
         return ok(stationFoodService.getFoodStoresByStationNames(stationNameList));
     }
     @GetMapping("/stationfoodstores/bystoreid/{stationFoodStoreId}")
     public HttpEntity getFoodListByStationFoodStoreId(@PathVariable String stationFoodStoreId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getFoodListByStationFoodStoreId",stationFoodStoreId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][stationFoodStoreId:{}, headers:{}]","getFoodListByStationFoodStoreId",stationFoodStoreId, (headers != null ? headers.toString(): null));
         return ok(stationFoodService.getStaionFoodStoreById(stationFoodStoreId));
     }
 }

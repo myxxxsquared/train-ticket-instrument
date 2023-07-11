@@ -6,6 +6,10 @@ import edu.fudan.common.entity.OrderSecurity;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -45,6 +49,10 @@ public class SecurityServiceImpl implements SecurityService {
 
 
 
+
+
+
+
     @Autowired
     private SecurityRepository securityRepository;
 
@@ -55,6 +63,7 @@ public class SecurityServiceImpl implements SecurityService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -65,6 +74,10 @@ public class SecurityServiceImpl implements SecurityService {
         logger.info("[function name:{}][headers:{}]","findAllSecurityConfig",(headers != null ? headers.toString(): null));
         ArrayList<SecurityConfig> securityConfigs = securityRepository.findAll();
       logger.info("the securityConfigs is: {}", (securityConfigs != null ? securityConfigs : null));
+      
+      
+      
+      
       
       
       
@@ -83,6 +96,10 @@ public class SecurityServiceImpl implements SecurityService {
         logger.info("[function name:{}][info:{}, headers:{}]","addNewSecurityConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         SecurityConfig sc = securityRepository.findByName(info.getName());
       logger.info("the sc is: {}", (sc != null ? sc : null));
+      
+      
+      
+      
       
       
       
@@ -134,6 +151,10 @@ public class SecurityServiceImpl implements SecurityService {
       
       
       
+      
+      
+      
+      
         if (sc == null) {
             return new Response<>(1, success, id);
         } else {
@@ -161,8 +182,16 @@ public class SecurityServiceImpl implements SecurityService {
       
       
       
+      
+      
+      
+      
         SecurityConfig configMaxNotUse = securityRepository.findByName("max_order_not_use");
       logger.info("the configMaxNotUse is: {}", (configMaxNotUse != null ? configMaxNotUse : null));
+      
+      
+      
+      
       
       
       
@@ -180,6 +209,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     private OrderSecurity getSecurityOrderInfoFromOrder(Date checkDate, String accountId, HttpHeaders headers) {
+        logger.info("[function name:{}][checkDate:{}, accountId:{}, headers:{}]","getSecurityOrderInfoFromOrder",(checkDate != null ? checkDate.toString(): null), accountId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String order_service_url = getServiceUrl("ts-order-service");
         ResponseEntity<Response<OrderSecurity>> re = restTemplate.exchange(
@@ -196,6 +226,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     private OrderSecurity getSecurityOrderOtherInfoFromOrder(Date checkDate, String accountId, HttpHeaders headers) {
+        logger.info("[function name:{}][checkDate:{}, accountId:{}, headers:{}]","getSecurityOrderOtherInfoFromOrder",(checkDate != null ? checkDate.toString(): null), accountId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String order_other_service_url = getServiceUrl("ts-order-other-service");
         ResponseEntity<Response<OrderSecurity>> re = restTemplate.exchange(

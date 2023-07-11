@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -24,6 +28,10 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/seatservice")
 public class SeatController { 
     private static final Logger logger = LoggerFactory.getLogger(SeatController.class);
+
+
+
+
 
 
 
@@ -50,7 +58,7 @@ public class SeatController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/seats")
     public HttpEntity create(@RequestBody Seat seatRequest, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][Seat:{}, HttpHeaders:{}]","create",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][seatRequest:{}, headers:{}]","create",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         return ok(seatService.distributeSeat(seatRequest, headers));
     }
 
@@ -65,7 +73,7 @@ public class SeatController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/seats/left_tickets")
     public HttpEntity getLeftTicketOfInterval(@RequestBody Seat seatRequest, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][Seat:{}, HttpHeaders:{}]","getLeftTicketOfInterval",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][seatRequest:{}, headers:{}]","getLeftTicketOfInterval",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         return ok(seatService.getLeftTicketOfInterval(seatRequest, headers));
     }
 

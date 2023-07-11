@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +22,8 @@ import java.util.List;
 @Service
 public class TrainServiceImpl implements TrainService { 
     private static final Logger logger = LoggerFactory.getLogger(TrainServiceImpl.class);
+
+
 
 
 
@@ -75,6 +79,8 @@ public class TrainServiceImpl implements TrainService {
       
       
       
+      
+      
         if (tt == null) {
             TrainServiceImpl.logger.error("[retrieveByName][RetrieveByName error][Train not found][TrainTypeName: {}]", name);
             return null;
@@ -88,6 +94,8 @@ public class TrainServiceImpl implements TrainService {
         logger.info("[function name:{}][names:{}, headers:{}]","retrieveByNames",(names != null ? names.toString(): null), (headers != null ? headers.toString(): null));
         List<TrainType> tt = repository.findByNames(names);
       logger.info("the tt is: {}", (tt != null ? tt : null));
+      
+      
       
       
       

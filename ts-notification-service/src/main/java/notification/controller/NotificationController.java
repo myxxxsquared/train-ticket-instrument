@@ -6,6 +6,8 @@ import notification.entity.NotifyInfo;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import notification.mq.RabbitSend;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/notifyservice")
 public class NotificationController { 
     private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
+
+
 
 
 
@@ -73,25 +77,25 @@ public class NotificationController {
 
     @PostMapping(value = "/notification/preserve_success")
     public boolean preserve_success(@RequestBody NotifyInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][NotifyInfo:{}, HttpHeaders:{}]","preserve_success",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","preserve_success",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return service.preserveSuccess(info, headers);
     }
 
     @PostMapping(value = "/notification/order_create_success")
     public boolean order_create_success(@RequestBody NotifyInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][NotifyInfo:{}, HttpHeaders:{}]","order_create_success",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","order_create_success",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return service.orderCreateSuccess(info, headers);
     }
 
     @PostMapping(value = "/notification/order_changed_success")
     public boolean order_changed_success(@RequestBody NotifyInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][NotifyInfo:{}, HttpHeaders:{}]","order_changed_success",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","order_changed_success",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return service.orderChangedSuccess(info, headers);
     }
 
     @PostMapping(value = "/notification/order_cancel_success")
     public boolean order_cancel_success(@RequestBody NotifyInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][NotifyInfo:{}, HttpHeaders:{}]","order_cancel_success",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","order_cancel_success",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return service.orderCancelSuccess(info, headers);
     }
 }

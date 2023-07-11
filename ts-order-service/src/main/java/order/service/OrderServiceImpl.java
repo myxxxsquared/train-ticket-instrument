@@ -6,6 +6,10 @@ import edu.fudan.common.entity.*;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -42,6 +46,10 @@ public class OrderServiceImpl implements OrderService {
 
 
 
+
+
+
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -52,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName; }
 
 //    @Value("${station-service.url}")
@@ -67,6 +76,10 @@ public class OrderServiceImpl implements OrderService {
         ArrayList<Order> list = orderRepository.findByTravelDateAndTrainNumber(seatRequest.getTravelDate(),
                 seatRequest.getTrainNumber());
       logger.info("the list is: {}", (list != null ? list : null));
+      
+      
+      
+      
       
       
       
@@ -99,6 +112,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (!op.isPresent()) {
             OrderServiceImpl.logger.warn("[findOrderById][Find Order By Id Fail][No content][id: {}] ",id);  //获取资源但资源为空
             return new Response<>(0, "No Content by this id", null);
@@ -114,6 +131,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][order:{}, headers:{}]","create",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> accountOrders = orderRepository.findByAccountId(order.getAccountId());
       logger.info("the accountOrders is: {}", (accountOrders != null ? accountOrders : null));
+      
+      
+      
+      
       
       
       
@@ -137,6 +158,10 @@ public class OrderServiceImpl implements OrderService {
         String oldOrderId = oai.getPreviousOrderId();
         Optional<Order> op = orderRepository.findById(oldOrderId);
       logger.info("the op is: {}", (op != null ? op : null));
+      
+      
+      
+      
       
       
       
@@ -167,6 +192,10 @@ public class OrderServiceImpl implements OrderService {
         //1.Get all orders of the user
         ArrayList<Order> list = orderRepository.findByAccountId(accountId);
       logger.info("the list is: {}", (list != null ? list : null));
+      
+      
+      
+      
       
       
       
@@ -274,6 +303,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[saveChanges][Modify Order Fail][Order not found][OrderId: {}]", order.getId());
             return new Response<>(0, orderNotFound, null);
@@ -310,6 +343,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[cancelOrder][Cancel Order Fail][Order not found][OrderId: {}]", orderId);
             return new Response<>(0, orderNotFound, null);
@@ -326,6 +363,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][travelDate:{}, trainNumber:{}, headers:{}]","queryAlreadySoldOrders",(travelDate != null ? travelDate.toString(): null), trainNumber, (headers != null ? headers.toString(): null));
         ArrayList<Order> orders = orderRepository.findByTravelDateAndTrainNumber(StringUtils.Date2String(travelDate), trainNumber);
       logger.info("the orders is: {}", (orders != null ? orders : null));
+      
+      
+      
+      
       
       
       
@@ -374,6 +415,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (orders != null && !orders.isEmpty()) {
             OrderServiceImpl.logger.warn("[getAllOrders][Find all orders Success][size:{}]",orders.size());
             return new Response<>(1, "Success.", orders);
@@ -388,6 +433,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","modifyOrder",orderId, status, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
       logger.info("the op is: {}", (op != null ? op : null));
+      
+      
+      
+      
       
       
       
@@ -416,6 +465,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[getOrderPrice][Get order price Fail][Order not found][OrderId: {}]",orderId);
             return new Response<>(0, orderNotFound, "-1.0");
@@ -430,6 +483,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][orderId:{}, headers:{}]","payOrder",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
       logger.info("the op is: {}", (op != null ? op : null));
+      
+      
+      
+      
       
       
       
@@ -458,6 +515,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (!op.isPresent()) {
             OrderServiceImpl.logger.warn("[getOrderById][Get Order By ID Fail][Order not found][OrderId: {}]",orderId);
             return new Response<>(0, orderNotFound, null);
@@ -478,6 +539,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (!op.isPresent()) {
             orderRepository.save(order);
         } else {
@@ -492,6 +557,10 @@ public class OrderServiceImpl implements OrderService {
         OrderSecurity result = new OrderSecurity();
         ArrayList<Order> orders = orderRepository.findByAccountId(accountId);
       logger.info("the orders is: {}", (orders != null ? orders : null));
+      
+      
+      
+      
       
       
       
@@ -533,6 +602,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[deleteOrder][Delete order Fail][Order not found][OrderId: {}]",orderId);
             return new Response<>(0, "Order Not Exist.", null);
@@ -554,6 +627,10 @@ public class OrderServiceImpl implements OrderService {
       
       
       
+      
+      
+      
+      
         if (accountOrders.contains(order)) {
             OrderServiceImpl.logger.error("[addNewOrder][Admin Add Order Fail][Order already exists][OrderId: {}]",order.getId());
             return new Response<>(0, "Order already exist", null);
@@ -569,6 +646,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(order.getId());
       logger.info("the op is: {}", (op != null ? op : null));
+      
+      
+      
+      
       
       
       

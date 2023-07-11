@@ -6,6 +6,10 @@ import edu.fudan.common.entity.TravelInfo;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetailInfo;
@@ -42,26 +46,30 @@ public class TravelController {
 
 
 
+
+
+
+
     @Autowired
     private TravelService travelService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Travel Service ] !";
     }
 
     @GetMapping(value = "/train_types/{tripId}")
     public HttpEntity getTrainTypeByTripId(@PathVariable String tripId,
                                            @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getTrainTypeByTripId",tripId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][tripId:{}, headers:{}]","getTrainTypeByTripId",tripId, (headers != null ? headers.toString(): null));
         return ok(travelService.getTrainTypeByTripId(tripId, headers));
     }
 
     @GetMapping(value = "/routes/{tripId}")
     public HttpEntity getRouteByTripId(@PathVariable String tripId,
                                        @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getRouteByTripId",tripId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][tripId:{}, headers:{}]","getRouteByTripId",tripId, (headers != null ? headers.toString(): null));
         //Route
         return ok(travelService.getRouteByTripId(tripId, headers));
     }
@@ -69,14 +77,14 @@ public class TravelController {
     @PostMapping(value = "/trips/routes")
     public HttpEntity getTripsByRouteId(@RequestBody ArrayList<String> routeIds,
                                         @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][ArrayList<String>:{}, HttpHeaders:{}]","getTripsByRouteId",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][routeIds:{}, headers:{}]","getTripsByRouteId",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         return ok(travelService.getTripByRoute(routeIds, headers));
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trips")
     public HttpEntity<?> createTrip(@RequestBody TravelInfo routeIds, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][TravelInfo:{}, HttpHeaders:{}]","createTrip",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][routeIds:{}, headers:{}]","createTrip",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(travelService.create(routeIds, headers), HttpStatus.CREATED);
     }
 
@@ -90,21 +98,21 @@ public class TravelController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/trips/{tripId}")
     public HttpEntity retrieve(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","retrieve",tripId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][tripId:{}, headers:{}]","retrieve",tripId, (headers != null ? headers.toString(): null));
         return ok(travelService.retrieve(tripId, headers));
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping(value = "/trips")
     public HttpEntity updateTrip(@RequestBody TravelInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][TravelInfo:{}, HttpHeaders:{}]","updateTrip",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","updateTrip",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(travelService.update(info, headers));
     }
 
     @CrossOrigin(origins = "*")
     @DeleteMapping(value = "/trips/{tripId}")
     public HttpEntity deleteTrip(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","deleteTrip",tripId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][tripId:{}, headers:{}]","deleteTrip",tripId, (headers != null ? headers.toString(): null));
         return ok(travelService.delete(tripId, headers));
     }
 
@@ -118,7 +126,7 @@ public class TravelController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trips/left")
     public HttpEntity queryInfo(@RequestBody TripInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][TripInfo:{}, HttpHeaders:{}]","queryInfo",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","queryInfo",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         if (info.getStartPlace() == null || info.getStartPlace().length() == 0 ||
                 info.getEndPlace() == null || info.getEndPlace().length() == 0 ||
                 info.getDepartureTime() == null) {
@@ -138,7 +146,7 @@ public class TravelController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trips/left_parallel")
     public HttpEntity queryInfoInparallel(@RequestBody TripInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][TripInfo:{}, HttpHeaders:{}]","queryInfoInparallel",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","queryInfoInparallel",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         if (info.getStartPlace() == null || info.getStartPlace().length() == 0 ||
                 info.getEndPlace() == null || info.getEndPlace().length() == 0 ||
                 info.getDepartureTime() == null) {
@@ -158,21 +166,21 @@ public class TravelController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trip_detail")
     public HttpEntity getTripAllDetailInfo(@RequestBody TripAllDetailInfo gtdi, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][TripAllDetailInfo:{}, HttpHeaders:{}]","getTripAllDetailInfo",(gtdi != null ? gtdi.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][gtdi:{}, headers:{}]","getTripAllDetailInfo",(gtdi != null ? gtdi.toString(): null), (headers != null ? headers.toString(): null));
         return ok(travelService.getTripAllDetailInfo(gtdi, headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/trips")
     public HttpEntity queryAll(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","queryAll",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         return ok(travelService.queryAll(headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/admin_trip")
     public HttpEntity adminQueryAll(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","adminQueryAll",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][headers:{}]","adminQueryAll",(headers != null ? headers.toString(): null));
         return ok(travelService.adminQueryAll(headers));
     }
 

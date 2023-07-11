@@ -6,6 +6,10 @@ import adminuser.dto.UserDto;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.User;
@@ -36,6 +40,10 @@ public class AdminUserServiceImpl implements AdminUserService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -45,6 +53,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 //    private final String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 

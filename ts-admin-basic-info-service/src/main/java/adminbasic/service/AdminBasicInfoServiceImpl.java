@@ -6,6 +6,10 @@ import adminbasic.entity.*;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Config;
@@ -37,6 +41,10 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -44,6 +52,7 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 

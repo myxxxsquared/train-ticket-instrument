@@ -6,6 +6,8 @@ import consignprice.entity.ConsignPrice;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import consignprice.repository.ConsignPriceConfigRepository;
@@ -28,6 +30,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
 
 
+
+
     @Autowired
     private ConsignPriceConfigRepository repository;
 
@@ -38,6 +42,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
         logger.info("[function name:{}][weight:{}, isWithinRegion:{}, headers:{}]","getPriceByWeightAndRegion",weight, isWithinRegion, (headers != null ? headers.toString(): null));
         ConsignPrice priceConfig = repository.findByIndex(0);
       logger.info("the priceConfig is: {}", (priceConfig != null ? priceConfig : null));
+      
+      
       
       
       
@@ -65,6 +71,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
         StringBuilder sb = new StringBuilder();
         ConsignPrice price = repository.findByIndex(0);
       logger.info("the price is: {}", (price != null ? price : null));
+      
+      
       
       
       

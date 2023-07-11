@@ -6,6 +6,10 @@ import edu.fudan.common.entity.AdminTrip;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Route;
@@ -41,12 +45,17 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -289,6 +298,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
+        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteByRouteId",routeId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(

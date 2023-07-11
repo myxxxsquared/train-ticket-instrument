@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,6 +47,8 @@ public class TravelServiceImpl implements TravelService {
 
 
 
+
+
     @Autowired
     TripRepository repository;
 
@@ -55,6 +59,7 @@ public class TravelServiceImpl implements TravelService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName; }
 
     String success = "Success";
@@ -67,6 +72,8 @@ public class TravelServiceImpl implements TravelService {
 
         Trip trip = repository.findByTripId(tripId1);
       logger.info("the trip is: {}", (trip != null ? trip : null));
+      
+      
       
       
       
@@ -101,6 +108,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         if (trip != null) {
             trainType = getTrainTypeByName(trip.getTrainTypeName(), headers);
         }
@@ -122,6 +131,8 @@ public class TravelServiceImpl implements TravelService {
         for (String routeId : routeIds) {
             ArrayList<Trip> tempTripList = repository.findByRouteId(routeId);
       logger.info("the tempTripList is: {}", (tempTripList != null ? tempTripList : null));
+      
+      
       
       
       
@@ -164,6 +175,8 @@ public class TravelServiceImpl implements TravelService {
         TripId ti = new TripId(tripId);
         Trip trip = repository.findByTripId(ti);
       logger.info("the trip is: {}", (trip != null ? trip : null));
+      
+      
       
       
       
@@ -236,6 +249,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         list = getTicketsByBatch(allTripList, startPlaceName, endPlaceName, info.getDepartureTime(), headers);
         return new Response<>(1, success, list);
     }
@@ -256,6 +271,8 @@ public class TravelServiceImpl implements TravelService {
       logger.info("the allTripList is: {}", (allTripList != null ? allTripList : null));
       
       logger.info("the allTripList is: {}", (allTripList != null ? allTripList : null));
+      
+      
       
       
       
@@ -289,6 +306,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         if (trip == null) {
             gtdr.setTripResponse(null);
             gtdr.setTrip(null);
@@ -312,6 +331,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private List<TripResponse> getTicketsByBatch(List<Trip> trips, String startPlaceName, String endPlaceName, String departureTime, HttpHeaders headers) {
+        logger.info("[function name:{}][trips:{}, startPlaceName:{}, endPlaceName:{}, departureTime:{}, headers:{}]","getTicketsByBatch",(trips != null ? trips.toString(): null), startPlaceName, endPlaceName, departureTime, (headers != null ? headers.toString(): null));
         List<TripResponse> responses = new ArrayList<>();
         //Determine if the date checked is the same day and after
         if (!afterToday(departureTime)) {
@@ -368,6 +388,7 @@ public class TravelServiceImpl implements TravelService {
 
 
     private TripResponse getTickets(Trip trip, Route route1, String startPlaceName, String endPlaceName, String departureTime, HttpHeaders headers) {
+        logger.info("[function name:{}][trip:{}, route1:{}, startPlaceName:{}, endPlaceName:{}, departureTime:{}, headers:{}]","getTickets",(trip != null ? trip.toString(): null), (route1 != null ? route1.toString(): null), startPlaceName, endPlaceName, departureTime, (headers != null ? headers.toString(): null));
 
         //Determine if the date checked is the same day and after
         if (!afterToday(departureTime)) {
@@ -401,6 +422,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private TripResponse setResponse(Trip trip, TravelResult tr, String startPlaceName, String endPlaceName, String departureTime, HttpHeaders headers){
+        logger.info("[function name:{}][trip:{}, tr:{}, startPlaceName:{}, endPlaceName:{}, departureTime:{}, headers:{}]","setResponse",(trip != null ? trip.toString(): null), (tr != null ? tr.toString(): null), startPlaceName, endPlaceName, departureTime, (headers != null ? headers.toString(): null));
         //Set the returned ticket information
         TripResponse response = new TripResponse();
         response.setConfortClass(50);
@@ -462,6 +484,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         if (tripList != null && !tripList.isEmpty()) {
             return new Response<>(1, success, tripList);
         }
@@ -493,6 +517,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private TrainType getTrainTypeByName(String trainTypeName, HttpHeaders headers) {
+        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","getTrainTypeByName",trainTypeName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url = getServiceUrl("ts-train-service");
         ResponseEntity<Response<TrainType>> re = restTemplate.exchange(
@@ -508,6 +533,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
+        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteByRouteId",routeId, (headers != null ? headers.toString(): null));
         TravelServiceImpl.logger.debug("[getRouteByRouteId][Get Route By Id][Route ID：{}]", routeId);
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
@@ -529,6 +555,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private int getRestTicketNumber(String travelDate, String trainNumber, String startStationName, String endStationName, int seatType, int totalNum, List<String> stationList, HttpHeaders headers) {
+        logger.info("[function name:{}][travelDate:{}, trainNumber:{}, startStationName:{}, endStationName:{}, seatType:{}, totalNum:{}, stationList:{}, headers:{}]","getRestTicketNumber",travelDate, trainNumber, startStationName, endStationName, seatType, totalNum, (stationList != null ? stationList.toString(): null), (headers != null ? headers.toString(): null));
         Seat seatRequest = new Seat();
 
         seatRequest.setDestStation(endStationName);

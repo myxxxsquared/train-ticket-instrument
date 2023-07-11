@@ -6,6 +6,10 @@ import edu.fudan.common.entity.NotifyInfo;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.OrderStatus;
@@ -42,6 +46,10 @@ public class CancelServiceImpl implements CancelService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -50,6 +58,7 @@ public class CancelServiceImpl implements CancelService {
     String orderStatusCancelNotPermitted = "Order Status Cancel Not Permitted";
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -198,6 +207,7 @@ public class CancelServiceImpl implements CancelService {
     }
 
     private String calculateRefund(Order order) {
+        logger.info("[function name:{}][order:{}]","calculateRefund",(order != null ? order.toString(): null));
         if (order.getStatus() == OrderStatus.NOTPAID.getCode()) {
             return "0.00";
         }
@@ -232,6 +242,7 @@ public class CancelServiceImpl implements CancelService {
 
 
     private Response cancelFromOrder(Order order, HttpHeaders headers) {
+        logger.info("[function name:{}][order:{}, headers:{}]","cancelFromOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         order.setStatus(OrderStatus.CANCEL.getCode());
         // add authorization header
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
@@ -258,6 +269,7 @@ public class CancelServiceImpl implements CancelService {
 
 
     private Response cancelFromOtherOrder(Order order, HttpHeaders headers) {
+        logger.info("[function name:{}][order:{}, headers:{}]","cancelFromOtherOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         order.setStatus(OrderStatus.CANCEL.getCode());
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(order, newHeaders);
@@ -308,6 +320,7 @@ public class CancelServiceImpl implements CancelService {
     }
 
     private Response<Order> getOrderByIdFromOrder(String orderId, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderByIdFromOrder",orderId, (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(newHeaders);
         String order_service_url = getServiceUrl("ts-order-service");
@@ -323,6 +336,7 @@ public class CancelServiceImpl implements CancelService {
     }
 
     private Response<Order> getOrderByIdFromOrderOther(String orderId, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderByIdFromOrderOther",orderId, (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(newHeaders);
         String order_other_service_url = getServiceUrl("ts-order-other-service");

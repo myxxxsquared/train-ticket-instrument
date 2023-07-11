@@ -11,6 +11,11 @@ import auth.dto.AuthDto;
 
 
 
+
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.service.UserService;
@@ -38,6 +43,11 @@ public class AuthController {
 
 
 
+
+
+
+
+
     @Autowired
     private UserService userService;
     /**
@@ -54,7 +64,7 @@ public class AuthController {
 
     @PostMapping
     public HttpEntity<Response> createDefaultUser(@RequestBody AuthDto authDto) {
-        logger.info("[function name:{}][AuthDto:{}]","createDefaultUser",(authDto != null ? authDto.toString(): null));
+        logger.info("[function name:{}][authDto:{}]","createDefaultUser",(authDto != null ? authDto.toString(): null));
         userService.createDefaultAuthUser(authDto);
         Response response = new Response(1, "SUCCESS", authDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

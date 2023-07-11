@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -27,6 +31,10 @@ public class TrainFoodController {
 
 
 
+
+
+
+
     @Autowired
     TrainFoodService trainFoodService;
 
@@ -39,14 +47,14 @@ public class TrainFoodController {
     @CrossOrigin(origins = "*")
     @GetMapping("/trainfoods")
     public HttpEntity getAllTrainFood(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","getAllTrainFood",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][headers:{}]","getAllTrainFood",(headers != null ? headers.toString(): null));
         return ok(trainFoodService.listTrainFood(headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/trainfoods/{tripId}")
     public HttpEntity getTrainFoodOfTrip(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","getTrainFoodOfTrip",tripId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][tripId:{}, headers:{}]","getTrainFoodOfTrip",tripId, (headers != null ? headers.toString(): null));
         return ok(trainFoodService.listTrainFoodByTripId(tripId, headers));
     }
 }

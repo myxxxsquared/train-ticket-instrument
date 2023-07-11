@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -31,6 +33,8 @@ public class RoutePlanController {
 
 
 
+
+
     @Autowired
     private RoutePlanService routePlanService;
 
@@ -42,19 +46,19 @@ public class RoutePlanController {
 
     @PostMapping(value = "/routePlan/cheapestRoute")
     public HttpEntity getCheapestRoutes(@RequestBody RoutePlanInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][RoutePlanInfo:{}, HttpHeaders:{}]","getCheapestRoutes",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","getCheapestRoutes",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(routePlanService.searchCheapestResult(info, headers));
     }
 
     @PostMapping(value = "/routePlan/quickestRoute")
     public HttpEntity getQuickestRoutes(@RequestBody RoutePlanInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][RoutePlanInfo:{}, HttpHeaders:{}]","getQuickestRoutes",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","getQuickestRoutes",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(routePlanService.searchQuickestResult(info, headers));
     }
 
     @PostMapping(value = "/routePlan/minStopStations")
     public HttpEntity getMinStopStations(@RequestBody RoutePlanInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][RoutePlanInfo:{}, HttpHeaders:{}]","getMinStopStations",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][info:{}, headers:{}]","getMinStopStations",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(routePlanService.searchMinStopStations(info, headers));
     }
 

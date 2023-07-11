@@ -6,6 +6,10 @@ import edu.fudan.common.entity.OrderStatus;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Order;
@@ -40,6 +44,10 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
 
 
+
+
+
+
     @Autowired
     public AddMoneyRepository addMoneyRepository;
 
@@ -50,6 +58,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public RestTemplate restTemplate;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -100,8 +109,16 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
+      
             List<Money> addMonies = addMoneyRepository.findByUserId(userId);
       logger.info("the addMonies is: {}", (addMonies != null ? addMonies : null));
+      
+      
+      
+      
       
       
       
@@ -176,6 +193,10 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
+      
         if (list.isEmpty()) {
             Money addMoney = new Money();
             addMoney.setMoney(info.getMoney());
@@ -219,6 +240,10 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
+      
         Iterator<Money> ite = list.iterator();
         HashMap<String, String> map = new HashMap<>();
         while (ite.hasNext()) {
@@ -239,6 +264,10 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
             List<Payment> payments = paymentRepository.findByUserId(userId);
       logger.info("the payments is: {}", (payments != null ? payments : null));
+      
+      
+      
+      
       
       
       
@@ -267,6 +296,10 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         logger.info("[function name:{}][headers:{}]","queryPayment",(headers != null ? headers.toString(): null));
         List<Payment> payments = paymentRepository.findAll();
       logger.info("the payments is: {}", (payments != null ? payments : null));
+      
+      
+      
+      
       
       
       
@@ -319,8 +352,16 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
+      
         List<Money> addMonies = addMoneyRepository.findByUserId(userId);
       logger.info("the addMonies is: {}", (addMonies != null ? addMonies : null));
+      
+      
+      
+      
       
       
       
@@ -387,6 +428,10 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
+      
         if (monies != null && !monies.isEmpty()) {
             return new Response<>(1, "Query Money Success", null);
         } else {
@@ -396,6 +441,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     }
 
     private Response setOrderStatus(String tripId, String orderId, HttpHeaders headers) {
+        logger.info("[function name:{}][tripId:{}, orderId:{}, headers:{}]","setOrderStatus",tripId, orderId, (headers != null ? headers.toString(): null));
 
         //order paid and not collected
         int orderStatus = 1;
@@ -434,6 +480,10 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         logger.info("[function name:{}][payment:{}, headers:{}]","initPayment",(payment != null ? payment.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Payment> paymentTemp = paymentRepository.findById(payment.getId());
       logger.info("the paymentTemp is: {}", (paymentTemp != null ? paymentTemp : null));
+      
+      
+      
+      
       
       
       

@@ -6,6 +6,8 @@ import edu.fudan.common.entity.*;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -38,12 +40,15 @@ public class RoutePlanServiceImpl implements RoutePlanService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -235,7 +240,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<ArrayList<Trip>>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re2.getStatusCode(),
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
                 travel2_service_url + "/api/v1/travel2service/trips/routes","POST");
         ArrayList<ArrayList<Trip>> travel2Trips = re2.getBody().getData();
 
@@ -274,7 +279,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<TripAllDetail>>() {
                     });
-        logger.info("the client API's status code and url are: {} {} {}",re3.getStatusCode(),
+        logger.info("the client API's status code and url are: {} {} {}",=.getStatusCode(),
                     requestUrl,"POST");
 
             TripAllDetail tripAllDetail = re3.getBody().getData();
@@ -303,6 +308,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
+        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteByRouteId",routeId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
         ResponseEntity<Response<Route>> re = restTemplate.exchange(
@@ -324,6 +330,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
     }
 
     private ArrayList<TripResponse> getTripFromHighSpeedTravelServive(TripInfo info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","getTripFromHighSpeedTravelServive",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(info, null);
         String travel_service_url=getServiceUrl("ts-travel-service");
         ResponseEntity<Response<ArrayList<TripResponse>>> re = restTemplate.exchange(
@@ -340,6 +347,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
     }
 
     private ArrayList<TripResponse> getTripFromNormalTrainTravelService(TripInfo info, HttpHeaders headers) {
+        logger.info("[function name:{}][info:{}, headers:{}]","getTripFromNormalTrainTravelService",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(info, null);
         String travel2_service_url=getServiceUrl("ts-travel2-service");
         ResponseEntity<Response<ArrayList<TripResponse>>> re = restTemplate.exchange(
@@ -355,6 +363,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
     }
 
     private List<String> getStationList(String tripId, HttpHeaders headers) {
+        logger.info("[function name:{}][tripId:{}, headers:{}]","getStationList",tripId, (headers != null ? headers.toString(): null));
 
         String path;
         String travel_service_url=getServiceUrl("ts-travel-service");

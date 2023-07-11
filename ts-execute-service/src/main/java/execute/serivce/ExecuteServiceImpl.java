@@ -6,6 +6,10 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.*;
@@ -37,6 +41,10 @@ public class ExecuteServiceImpl implements ExecuteService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -44,6 +52,7 @@ public class ExecuteServiceImpl implements ExecuteService {
 
     String orderStatusWrong = "Order Status Wrong";
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -147,6 +156,7 @@ public class ExecuteServiceImpl implements ExecuteService {
 
 
     private Response executeOrder(String orderId, int status, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","executeOrder",orderId, status, (headers != null ? headers.toString(): null));
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_service_url=getServiceUrl("ts-order-service");
@@ -162,6 +172,7 @@ public class ExecuteServiceImpl implements ExecuteService {
 
 
     private Response executeOrderOther(String orderId, int status, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","executeOrderOther",orderId, status, (headers != null ? headers.toString(): null));
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_other_service_url=getServiceUrl("ts-order-other-service");
@@ -176,6 +187,7 @@ public class ExecuteServiceImpl implements ExecuteService {
     }
 
     private Response<Order> getOrderByIdFromOrder(String orderId, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderByIdFromOrder",orderId, (headers != null ? headers.toString(): null));
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_service_url=getServiceUrl("ts-order-service");
@@ -191,6 +203,7 @@ public class ExecuteServiceImpl implements ExecuteService {
     }
 
     private Response<Order> getOrderByIdFromOrderOther(String orderId, HttpHeaders headers) {
+        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderByIdFromOrderOther",orderId, (headers != null ? headers.toString(): null));
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_other_service_url=getServiceUrl("ts-order-other-service");

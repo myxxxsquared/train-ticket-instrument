@@ -6,6 +6,10 @@ import edu.fudan.common.entity.Route;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.RouteInfo;
@@ -34,12 +38,17 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 

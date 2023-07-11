@@ -6,6 +6,10 @@ import config.entity.Config;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import config.repository.ConfigRepository;
@@ -25,6 +29,10 @@ import java.util.List;
 @Service
 public class ConfigServiceImpl implements ConfigService { 
     private static final Logger logger = LoggerFactory.getLogger(ConfigServiceImpl.class);
+
+
+
+
 
 
 
@@ -79,6 +87,10 @@ public class ConfigServiceImpl implements ConfigService {
       
       
       
+      
+      
+      
+      
         if (config == null) {
             logger.warn("[query][Config does not exist][name: {}, message: {}]", name, "No content");
             return new Response<>(0, "No content", null);
@@ -93,6 +105,10 @@ public class ConfigServiceImpl implements ConfigService {
         logger.info("[function name:{}][name:{}, headers:{}]","delete",name, (headers != null ? headers.toString(): null));
         Config config = repository.findByName(name);
       logger.info("the config is: {}", (config != null ? config : null));
+      
+      
+      
+      
       
       
       
@@ -114,6 +130,10 @@ public class ConfigServiceImpl implements ConfigService {
         logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Config> configList = repository.findAll();
       logger.info("the configList is: {}", (configList != null ? configList : null));
+      
+      
+      
+      
       
       
       

@@ -8,6 +8,11 @@ import auth.constant.AuthConstant;
 
 
 
+
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.constant.InfoConstant;
@@ -33,6 +38,11 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService { 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+
+
+
+
 
 
 
@@ -75,7 +85,6 @@ public class UserServiceImpl implements UserService {
                     .password(passwordEncoder.encode(dto.getPassword()))
                     .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_USER)))
                     .build();
-        }
     
         try {
             checkUserCreateInfo(user);
@@ -85,7 +94,8 @@ public class UserServiceImpl implements UserService {
         
         if (user != null) {
             return userRepository.save(user);
-        } else {
+        }} 
+        else {
             String username = dto.getUserName().replace("_admin", "");
             user = User.builder()
             .userId(dto.getUserId())
@@ -93,8 +103,6 @@ public class UserServiceImpl implements UserService {
             .password(passwordEncoder.encode(dto.getPassword()))
             .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_ADMIN)))
             .build();
-            }
-
             try {
                 checkUserCreateInfo(user);
             } catch (UserOperationException e) {
@@ -102,6 +110,8 @@ public class UserServiceImpl implements UserService {
             }
                 return userRepository.save(user);
     }
+        return userRepository.save(user);
+        }
 
     @Override
     @Transactional
@@ -117,6 +127,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     private void checkUserCreateInfo(User user) throws UserOperationException {
+        logger.info("[function name:{}][user:{}]","checkUserCreateInfo",(user != null ? user.toString(): null));
         List<String> infos = new ArrayList<>();
 
         if (null == user.getUsername() || "".equals(user.getUsername())) {

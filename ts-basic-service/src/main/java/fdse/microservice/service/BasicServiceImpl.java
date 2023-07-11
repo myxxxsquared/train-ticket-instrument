@@ -6,6 +6,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +41,10 @@ public class BasicServiceImpl implements BasicService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -44,6 +52,7 @@ public class BasicServiceImpl implements BasicService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -424,6 +433,7 @@ public class BasicServiceImpl implements BasicService {
     }
 
     private List<Route> getRoutesByRouteIds(List<String> routeIds, HttpHeaders headers) {
+        logger.info("[function name:{}][routeIds:{}, headers:{}]","getRoutesByRouteIds",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(routeIds, null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -444,6 +454,7 @@ public class BasicServiceImpl implements BasicService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
+        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteByRouteId",routeId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -463,6 +474,7 @@ public class BasicServiceImpl implements BasicService {
     }
 
     private PriceConfig queryPriceConfigByRouteIdAndTrainType(String routeId, String trainType, HttpHeaders headers) {
+        logger.info("[function name:{}][routeId:{}, trainType:{}, headers:{}]","queryPriceConfigByRouteIdAndTrainType",routeId, trainType, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null, null);
         String price_service_url=getServiceUrl("ts-price-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -477,6 +489,7 @@ public class BasicServiceImpl implements BasicService {
     }
 
     private Map<String, PriceConfig> queryPriceConfigByRouteIdsAndTrainTypes(List<String> routeIdsTypes, HttpHeaders headers) {
+        logger.info("[function name:{}][routeIdsTypes:{}, headers:{}]","queryPriceConfigByRouteIdsAndTrainTypes",(routeIdsTypes != null ? routeIdsTypes.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(routeIdsTypes, null);
         String price_service_url=getServiceUrl("ts-price-service");
         ResponseEntity<Response> re = restTemplate.exchange(

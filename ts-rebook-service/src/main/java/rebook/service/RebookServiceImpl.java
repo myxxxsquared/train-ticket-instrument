@@ -6,6 +6,10 @@ import edu.fudan.common.entity.Trip;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetail;
@@ -46,12 +50,17 @@ public class RebookServiceImpl implements RebookService {
 
 
 
+
+
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -195,6 +204,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     private Response updateOrder(Order order, RebookInfo info, TripAllDetail gtdr, String ticketPrice, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][order:{}, info:{}, gtdr:{}, ticketPrice:{}, httpHeaders:{}]","updateOrder",(order != null ? order.toString(): null), (info != null ? info.toString(): null), (gtdr != null ? gtdr.toString(): null), ticketPrice, (httpHeaders != null ? httpHeaders.toString(): null));
 
         //4.Modify the original order and set the information of the order
         Trip trip = gtdr.getTrip();
@@ -232,7 +242,7 @@ public class RebookServiceImpl implements RebookService {
         //If the original order and the new order are located in the high-speed train and other orders respectively, the original order should be deleted and created on the other side with a new id.
         if ((tripGD(oldTripId) && tripGD(info.getTripId())) || (!tripGD(oldTripId) && !tripGD(info.getTripId()))) {
 
-            Response changeOrderResult = updateOrder(order, info.getTripId(), httpHeaders);
+            Response changeOrderResult = updateOrder_tripId(order, info.getTripId(), httpHeaders);
             if (changeOrderResult.getStatus() == 1) {
                 return new Response<>(1, "Success!", order);
             } else {
@@ -275,10 +285,12 @@ public class RebookServiceImpl implements RebookService {
 
 
     private boolean tripGD(String tripId) {
+        logger.info("[function name:{}][tripId:{}]","tripGD",tripId);
         return tripId.startsWith("G") || tripId.startsWith("D");
     }
 
     private boolean checkTime(String travelDate, String travelTime) {
+        logger.info("[function name:{}][travelDate:{}, travelTime:{}]","checkTime",travelDate, travelTime);
         boolean result = true;
         Calendar calDateA = Calendar.getInstance();
         Date today = new Date();
@@ -309,6 +321,7 @@ public class RebookServiceImpl implements RebookService {
 
 
     private Response<TripAllDetail> getTripAllDetailInformation(TripAllDetailInfo gtdi, String tripId, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][gtdi:{}, tripId:{}, httpHeaders:{}]","getTripAllDetailInformation",(gtdi != null ? gtdi.toString(): null), tripId, (httpHeaders != null ? httpHeaders.toString(): null));
         Response<TripAllDetail> gtdr;
         String requestUrl = "";
         String travel_service_url = getServiceUrl("ts-travel-service");
@@ -335,6 +348,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     private Response createOrder(Order order, String tripId, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][order:{}, tripId:{}, httpHeaders:{}]","createOrder",(order != null ? order.toString(): null), tripId, (httpHeaders != null ? httpHeaders.toString(): null));
         String requestUrl = "";
         String order_service_url = getServiceUrl("ts-order-service");
         String order_other_service_url = getServiceUrl("ts-order-other-service");
@@ -357,7 +371,8 @@ public class RebookServiceImpl implements RebookService {
         return reCreateOrder.getBody();
     }
 
-    private Response updateOrder(Order info, String tripId, HttpHeaders httpHeaders) {
+    private Response updateOrder_tripId(Order info, String tripId, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][info:{}, tripId:{}, httpHeaders:{}]","updateOrder_tripId",(info != null ? info.toString(): null), tripId, (httpHeaders != null ? httpHeaders.toString(): null));
         String requestOrderUtl = "";
         String order_service_url = getServiceUrl("ts-order-service");
         String order_other_service_url = getServiceUrl("ts-order-other-service");
@@ -379,6 +394,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     private Response deleteOrder(String orderId, String tripId, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][orderId:{}, tripId:{}, httpHeaders:{}]","deleteOrder",orderId, tripId, (httpHeaders != null ? httpHeaders.toString(): null));
 
         String requestUrl = "";
         String order_service_url = getServiceUrl("ts-order-service");
@@ -402,6 +418,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     private Response<Order> getOrderByRebookInfo(RebookInfo info, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][info:{}, httpHeaders:{}]","getOrderByRebookInfo",(info != null ? info.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
         Response<Order> queryOrderResult;
         //Change can only be changed once, check the status of the order to determine whether it has been changed
         String requestUrl = "";
@@ -444,6 +461,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
+        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteByRouteId",routeId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -463,6 +481,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     private boolean payDifferentMoney(String orderId, String tripId, String userId, String money, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][orderId:{}, tripId:{}, userId:{}, money:{}, httpHeaders:{}]","payDifferentMoney",orderId, tripId, userId, money, (httpHeaders != null ? httpHeaders.toString(): null));
         PaymentDifferenceInfo info = new PaymentDifferenceInfo();
         info.setOrderId(orderId);
         info.setTripId(tripId);
@@ -484,6 +503,7 @@ public class RebookServiceImpl implements RebookService {
     }
 
     private boolean drawBackMoney(String userId, String money, HttpHeaders httpHeaders) {
+        logger.info("[function name:{}][userId:{}, money:{}, httpHeaders:{}]","drawBackMoney",userId, money, (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(httpHeaders);
         HttpEntity requestEntityDrawBackMoney = new HttpEntity(newHeaders);

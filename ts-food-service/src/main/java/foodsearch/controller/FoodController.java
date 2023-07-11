@@ -6,6 +6,10 @@ import edu.fudan.common.util.JsonUtils;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import foodsearch.entity.*;
@@ -27,6 +31,10 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/foodservice")
 public class FoodController { 
     private static final Logger logger = LoggerFactory.getLogger(FoodController.class);
+
+
+
+
 
 
 
@@ -62,39 +70,39 @@ public class FoodController {
 
     @GetMapping(path = "/orders")
     public HttpEntity findAllFoodOrder(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][HttpHeaders:{}]","findAllFoodOrder",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][headers:{}]","findAllFoodOrder",(headers != null ? headers.toString(): null));
         return ok(foodService.findAllFoodOrder(headers));
     }
 
     @PostMapping(path = "/orders")
     public HttpEntity createFoodOrder(@RequestBody FoodOrder addFoodOrder, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][FoodOrder:{}, HttpHeaders:{}]","createFoodOrder",(addFoodOrder != null ? addFoodOrder.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][addFoodOrder:{}, headers:{}]","createFoodOrder",(addFoodOrder != null ? addFoodOrder.toString(): null), (headers != null ? headers.toString(): null));
         return ok(foodService.createFoodOrder(addFoodOrder, headers));
     }
 
     @PostMapping(path = "/createOrderBatch")
     public HttpEntity createFoodBatches(@RequestBody List<FoodOrder> foodOrderList, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][List<FoodOrder>:{}, HttpHeaders:{}]","createFoodBatches",(foodOrderList != null ? foodOrderList.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][foodOrderList:{}, headers:{}]","createFoodBatches",(foodOrderList != null ? foodOrderList.toString(): null), (headers != null ? headers.toString(): null));
         return ok(foodService.createFoodOrdersInBatch(foodOrderList, headers));
     }
 
 
     @PutMapping(path = "/orders")
     public HttpEntity updateFoodOrder(@RequestBody FoodOrder updateFoodOrder, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][FoodOrder:{}, HttpHeaders:{}]","updateFoodOrder",(updateFoodOrder != null ? updateFoodOrder.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][updateFoodOrder:{}, headers:{}]","updateFoodOrder",(updateFoodOrder != null ? updateFoodOrder.toString(): null), (headers != null ? headers.toString(): null));
         return ok(foodService.updateFoodOrder(updateFoodOrder, headers));
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping(path = "/orders/{orderId}")
     public HttpEntity deleteFoodOrder(@PathVariable String orderId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","deleteFoodOrder",orderId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][orderId:{}, headers:{}]","deleteFoodOrder",orderId, (headers != null ? headers.toString(): null));
         return ok(foodService.deleteFoodOrder(orderId, headers));
     }
 
     @GetMapping(path = "/orders/{orderId}")
     public HttpEntity findFoodOrderByOrderId(@PathVariable String orderId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, HttpHeaders:{}]","findFoodOrderByOrderId",orderId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][orderId:{}, headers:{}]","findFoodOrderByOrderId",orderId, (headers != null ? headers.toString(): null));
         return ok(foodService.findByOrderId(orderId, headers));
     }
 
@@ -103,7 +111,7 @@ public class FoodController {
     public HttpEntity getAllFood(@PathVariable String date, @PathVariable String startStation,
                                  @PathVariable String endStation, @PathVariable String tripId,
                                  @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][String:{}, String:{}, String:{}, String:{}, HttpHeaders:{}]","getAllFood",date, startStation, endStation, tripId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}][date:{}, startStation:{}, endStation:{}, tripId:{}, headers:{}]","getAllFood",date, startStation, endStation, tripId, (headers != null ? headers.toString(): null));
         return ok(foodService.getAllFood(date, startStation, endStation, tripId, headers));
     }
 

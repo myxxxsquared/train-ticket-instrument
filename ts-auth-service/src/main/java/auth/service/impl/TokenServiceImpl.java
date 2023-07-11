@@ -8,6 +8,11 @@ import auth.constant.InfoConstant;
 
 
 
+
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.dto.BasicAuthDto;
@@ -47,6 +52,11 @@ public class TokenServiceImpl implements TokenService {
 
 
 
+
+
+
+
+
     @Autowired
     private JWTProvider jwtProvider;
 
@@ -63,6 +73,7 @@ public class TokenServiceImpl implements TokenService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
+        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -104,6 +115,11 @@ public class TokenServiceImpl implements TokenService {
                         InfoConstant.USER_NAME_NOT_FOUND_1, username
                 )));
       logger.info("the user is: {}", (user != null ? user : null));
+      
+      
+      
+      
+      
       
       
       
