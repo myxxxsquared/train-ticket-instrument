@@ -11,6 +11,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +26,6 @@ import java.util.List;
 @Service
 public class TrainFoodServiceImpl implements TrainFoodService{ 
     private static final Logger logger = LoggerFactory.getLogger(TrainFoodServiceImpl.class);
-
-
-
-
-
-
-
-
-
 
 
     @Autowired
@@ -51,7 +44,7 @@ public class TrainFoodServiceImpl implements TrainFoodService{
             }else{
                 tfTemp.setFoodList(tf.getFoodList());
       
-      logger.info("the tfTemp is: {}", (tfTemp != null ? tfTemp : null));
+      logger.info("[tfTemp:{}]", (tfTemp != null ? tfTemp : null));
       trainFoodRepository.save(tfTemp);
             }
         } else {
@@ -64,15 +57,7 @@ public class TrainFoodServiceImpl implements TrainFoodService{
     public Response listTrainFood(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","listTrainFood",(headers != null ? headers.toString(): null));
         List<TrainFood> trainFoodList = trainFoodRepository.findAll();
-      logger.info("the trainFoodList is: {}", (trainFoodList != null ? trainFoodList : null));
-      
-      
-      
-      
-      
-      
-      
-      
+      logger.info("[trainFoodList:{}]", (trainFoodList != null ? trainFoodList : null));
       
       
         if (trainFoodList != null && !trainFoodList.isEmpty()) {
@@ -87,15 +72,7 @@ public class TrainFoodServiceImpl implements TrainFoodService{
     public Response listTrainFoodByTripId(String tripId, HttpHeaders headers) {
         logger.info("[function name:{}][tripId:{}, headers:{}]","listTrainFoodByTripId",tripId, (headers != null ? headers.toString(): null));
         TrainFood tf = trainFoodRepository.findByTripId(tripId);
-      logger.info("the tf is: {}", (tf != null ? tf : null));
-      
-      
-      
-      
-      
-      
-      
-      
+      logger.info("[tf:{}]", (tf != null ? tf : null));
       
       
         if(tf == null){

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +33,8 @@ public class TrainServiceImpl implements TrainService {
 
 
 
+
+
     @Autowired
     private TrainTypeRepository repository;
 
@@ -43,7 +47,7 @@ public class TrainServiceImpl implements TrainService {
             return result;
         }
         if (repository.findByName(trainType.getName()) == null) {
-        logger.info("the TrainType is: {}", (repository.findByName(trainType.getName()) != null ? repository.findByName(trainType.getName()) : null));
+        logger.info("[TrainType:{}]", (repository.findByName(trainType.getName()) != null ? repository.findByName(trainType.getName()) : null));
             TrainType type = new TrainType(trainType.getName(), trainType.getEconomyClass(), trainType.getConfortClass());
             type.setAverageSpeed(trainType.getAverageSpeed());
             repository.save(type);
@@ -59,11 +63,11 @@ public class TrainServiceImpl implements TrainService {
     public TrainType retrieve(String id, HttpHeaders headers) {
         logger.info("[function name:{}][id:{}, headers:{}]","retrieve",id, (headers != null ? headers.toString(): null));
         if (!repository.findById(id).isPresent()) {
-        logger.info("the Optional<TrainType> is: {}", (repository.findById(id) != null ? repository.findById(id) : null));
+        logger.info("[Optional<TrainType>:{}]", (repository.findById(id) != null ? repository.findById(id) : null));
             TrainServiceImpl.logger.error("[retrieve][Retrieve train error][Train not found][TrainTypeId: {}]",id);
             return null;
         } else {
-        logger.info("the Optional<TrainType> is: {}", (repository.findById(id) != null ? repository.findById(id) : null));
+        logger.info("[Optional<TrainType>:{}]", (repository.findById(id) != null ? repository.findById(id) : null));
             return repository.findById(id).get();
         }
     }
@@ -72,7 +76,9 @@ public class TrainServiceImpl implements TrainService {
     public TrainType retrieveByName(String name, HttpHeaders headers) {
         logger.info("[function name:{}][name:{}, headers:{}]","retrieveByName",name, (headers != null ? headers.toString(): null));
         TrainType tt = repository.findByName(name);
-      logger.info("the tt is: {}", (tt != null ? tt : null));
+      logger.info("[tt:{}]", (tt != null ? tt : null));
+      
+      
       
       
       
@@ -93,7 +99,9 @@ public class TrainServiceImpl implements TrainService {
     public List<TrainType> retrieveByNames(List<String> names, HttpHeaders headers) {
         logger.info("[function name:{}][names:{}, headers:{}]","retrieveByNames",(names != null ? names.toString(): null), (headers != null ? headers.toString(): null));
         List<TrainType> tt = repository.findByNames(names);
-      logger.info("the tt is: {}", (tt != null ? tt : null));
+      logger.info("[tt:{}]", (tt != null ? tt : null));
+      
+      
       
       
       
@@ -116,7 +124,7 @@ public class TrainServiceImpl implements TrainService {
         logger.info("[function name:{}][trainType:{}, headers:{}]","update",(trainType != null ? trainType.toString(): null), (headers != null ? headers.toString(): null));
         boolean result = false;
         if (repository.findById(trainType.getId()).isPresent()) {
-        logger.info("the Optional<TrainType> is: {}", (repository.findById(trainType.getId()) != null ? repository.findById(trainType.getId()) : null));
+        logger.info("[Optional<TrainType>:{}]", (repository.findById(trainType.getId()) != null ? repository.findById(trainType.getId()) : null));
             TrainType type = new TrainType(trainType.getName(), trainType.getEconomyClass(), trainType.getConfortClass(), trainType.getAverageSpeed());
             type.setId(trainType.getId());
             repository.save(type);
@@ -133,7 +141,7 @@ public class TrainServiceImpl implements TrainService {
         logger.info("[function name:{}][id:{}, headers:{}]","delete",id, (headers != null ? headers.toString(): null));
         boolean result = false;
         if (repository.findById(id).isPresent()) {
-        logger.info("the Optional<TrainType> is: {}", (repository.findById(id) != null ? repository.findById(id) : null));
+        logger.info("[Optional<TrainType>:{}]", (repository.findById(id) != null ? repository.findById(id) : null));
             repository.deleteById(id);
             result = true;
         }
@@ -146,7 +154,7 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public List<TrainType> query(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","query",(headers != null ? headers.toString(): null));
-        logger.info("the List<TrainType> is: {}", (repository.findAll() != null ? repository.findAll() : null));
+        logger.info("[List<TrainType>:{}]", (repository.findAll() != null ? repository.findAll() : null));
         return repository.findAll();
     }
 

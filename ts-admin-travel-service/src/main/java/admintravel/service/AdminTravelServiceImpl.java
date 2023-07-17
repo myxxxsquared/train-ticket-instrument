@@ -10,6 +10,8 @@ import edu.fudan.common.entity.AdminTrip;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Route;
@@ -49,6 +51,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -72,7 +76,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<AdminTrip>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 travel_service_url + "/api/v1/travelservice/admin_trip","GET");
         result = re.getBody();
 
@@ -91,7 +95,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 requestEntity2,
                 new ParameterizedTypeReference<Response<ArrayList<AdminTrip>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re2.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re2.getStatusCode(),
                 travel2_service_url + "/api/v1/travel2service/admin_trip","GET");
         result = re2.getBody();
 
@@ -132,7 +136,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 requestUrl,"POST");
         result = re.getBody();
 
@@ -169,7 +173,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 requestUrl,"PUT");
 
         result = re.getBody();
@@ -198,7 +202,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 requestUtl,"DELETE");
 
         result = re.getBody();
@@ -261,7 +265,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 station_service_url + "/api/v1/stationservice/stations/idlist","POST");
         Response<Map<String, String>> r = re.getBody();
         if(r.getStatus() == 0) {
@@ -290,7 +294,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
         Response  response = re.getBody();
 
@@ -306,7 +310,7 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET");
         Response result = re.getBody();
         if ( result.getStatus() == 0) {

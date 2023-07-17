@@ -10,6 +10,8 @@ import edu.fudan.common.entity.Route;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.RouteInfo;
@@ -42,6 +44,8 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -63,7 +67,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                  route_service_url + "/api/v1/routeservice/routes","GET");
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[getAllRoutes][receive response][Get routes error][response code: {}]", re.getStatusCodeValue());
@@ -97,7 +101,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Route>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 route_service_url + "/api/v1/routeservice/routes","POST");
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[createAndModifyRoute][receive response][Get status error][response code: {}]", re.getStatusCodeValue());
@@ -116,7 +120,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 route_service_url + "/api/v1/routeservice/routes/" + routeId,"DELETE");
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[deleteRoute][response response][Delete error][response code: {}]", re.getStatusCodeValue());
@@ -134,7 +138,7 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 station_service_url + "/api/v1/stationservice/stations/idlist","POST");
         Response<Map<String, String>> r = re.getBody();
         if(r.getStatus() == 0) {

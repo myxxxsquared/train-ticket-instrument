@@ -10,6 +10,8 @@ import edu.fudan.common.util.JsonUtils;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -39,6 +41,8 @@ import java.util.UUID;
 @Service
 public class PreserveServiceImpl implements PreserveService { 
     private static final Logger logger = LoggerFactory.getLogger(PreserveServiceImpl.class);
+
+
 
 
 
@@ -137,7 +141,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<TravelResult>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 basic_service_url + "/api/v1/basicservice/basic/travel","POST");
         if(re.getBody().getStatus() == 0){
             return new Response<>(0, re.getBody().getMsg(), null);
@@ -276,7 +280,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntityTicket,
                 new ParameterizedTypeReference<Response<Ticket>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",reTicket.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reTicket.getStatusCode(),
                 seat_service_url + "/api/v1/seatservice/seats","POST");
 
         return reTicket.getBody().getData();
@@ -306,7 +310,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntitySendEmail,
                 new ParameterizedTypeReference<Response<User>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",getAccount.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",getAccount.getStatusCode(),
                 user_service_url + "/api/v1/userservice/users/id/" + accountId,"GET");
         Response<User> result = getAccount.getBody();
         return result.getData();
@@ -321,7 +325,7 @@ public class PreserveServiceImpl implements PreserveService {
                 HttpMethod.GET,
                 requestAddAssuranceResult,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",reAddAssuranceResult.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reAddAssuranceResult.getStatusCode(),
                 assurance_service_url + "/api/v1/assuranceservice/assurances/" + assuranceType + "/" + orderId,"GET");
 
         return reAddAssuranceResult.getBody();
@@ -339,7 +343,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestQueryForStationId,
                 new ParameterizedTypeReference<Response<String>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",reQueryForStationId.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reQueryForStationId.getStatusCode(),
                 station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET");
 
         return reQueryForStationId.getBody().getData();
@@ -355,7 +359,7 @@ public class PreserveServiceImpl implements PreserveService {
                 HttpMethod.GET,
                 requestCheckResult,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",reCheckResult.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reCheckResult.getStatusCode(),
                 security_service_url + "/api/v1/securityservice/securityConfigs/" + accountId,"GET");
 
         return reCheckResult.getBody();
@@ -373,7 +377,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestGetTripAllDetailResult,
                 new ParameterizedTypeReference<Response<TripAllDetail>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",reGetTripAllDetailResult.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reGetTripAllDetailResult.getStatusCode(),
                 travel_service_url + "/api/v1/travelservice/trip_detail","POST");
 
         return reGetTripAllDetailResult.getBody();
@@ -391,7 +395,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestGetContactsResult,
                 new ParameterizedTypeReference<Response<Contacts>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",reGetContactsResult.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reGetContactsResult.getStatusCode(),
                 contacts_service_url + "/api/v1/contactservice/contacts/" + contactsId,"GET");
 
         return reGetContactsResult.getBody();
@@ -408,7 +412,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntityCreateOrderResult,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",reCreateOrderResult.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reCreateOrderResult.getStatusCode(),
                 order_service_url + "/api/v1/orderservice/order","POST");
 
         return reCreateOrderResult.getBody();
@@ -424,7 +428,7 @@ public class PreserveServiceImpl implements PreserveService {
                 HttpMethod.POST,
                 requestEntityAddFoodOrderResult,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",reAddFoodOrderResult.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reAddFoodOrderResult.getStatusCode(),
                 food_service_url + "/api/v1/foodservice/orders","POST");
 
         return reAddFoodOrderResult.getBody();
@@ -440,7 +444,7 @@ public class PreserveServiceImpl implements PreserveService {
                 HttpMethod.POST,
                 requestEntityResultForTravel,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",reResultForTravel.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reResultForTravel.getStatusCode(),
                 consign_service_url + "/api/v1/consignservice/consigns","POST");
         return reResultForTravel.getBody();
     }

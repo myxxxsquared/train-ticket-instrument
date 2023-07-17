@@ -702,7 +702,7 @@ spec:
     spec:
       containers:
         - name: ts-food-service
-          image: jojodurrr/ts-food-service:latest
+          image: jojodurrr/ts-food-service:bug
           imagePullPolicy: Always
           env:
             - name: NODE_IP
@@ -1974,7 +1974,7 @@ spec:
     spec:
       containers:
         - name: ts-ui-dashboard
-          image: jojodurrr/ts-ui-dashboard:latest
+          image: jojodurrr/ts-ui-dashboard:bug
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

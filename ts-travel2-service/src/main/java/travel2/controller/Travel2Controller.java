@@ -9,6 +9,8 @@ import edu.fudan.common.entity.TripResponse;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/travel2service")
 public class Travel2Controller { 
     private static final Logger logger = LoggerFactory.getLogger(Travel2Controller.class);
+
+
 
 
 

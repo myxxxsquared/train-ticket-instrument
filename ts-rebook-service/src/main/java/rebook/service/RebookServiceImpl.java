@@ -10,6 +10,8 @@ import edu.fudan.common.entity.Trip;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetail;
@@ -43,6 +45,8 @@ import java.util.List;
 @Service
 public class RebookServiceImpl implements RebookService { 
     private static final Logger logger = LoggerFactory.getLogger(RebookServiceImpl.class);
+
+
 
 
 
@@ -278,7 +282,7 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityTicket,
                 new ParameterizedTypeReference<Response<Ticket>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",reTicket.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reTicket.getStatusCode(),
                 seat_service_url + "/api/v1/seatservice/seats","POST");
         return reTicket.getBody().getData();
     }
@@ -341,7 +345,7 @@ public class RebookServiceImpl implements RebookService {
                 requestGetTripAllDetailResult,
                 new ParameterizedTypeReference<Response<TripAllDetail>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",reGetTripAllDetailResult.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reGetTripAllDetailResult.getStatusCode(),
                 requestUrl,"POST");
         gtdr = reGetTripAllDetailResult.getBody();
         return gtdr;
@@ -366,7 +370,7 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.POST,
                 requestCreateOrder,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",reCreateOrder.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reCreateOrder.getStatusCode(),
                 requestUrl,"POST");
         return reCreateOrder.getBody();
     }
@@ -388,7 +392,7 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.PUT,
                 requestUpdateOrder,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",reUpdateOrder.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reUpdateOrder.getStatusCode(),
                 requestOrderUtl,"PUT");
         return reUpdateOrder.getBody();
     }
@@ -411,7 +415,7 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.POST,
                 requestDeleteOrder,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",reDeleteOrder.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reDeleteOrder.getStatusCode(),
                 requestUrl,"POST");
 
         return reDeleteOrder.getBody();
@@ -437,7 +441,7 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityGetOrderByRebookInfo,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",reGetOrderByRebookInfo.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reGetOrderByRebookInfo.getStatusCode(),
                 requestUrl,"GET");
 
         queryOrderResult = reGetOrderByRebookInfo.getBody();
@@ -453,7 +457,7 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
         Response  response = re.getBody();
 
@@ -469,7 +473,7 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET");
         Response result = re.getBody();
         if ( result.getStatus() == 0) {
@@ -496,7 +500,7 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.POST,
                 requestEntityPayDifferentMoney,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",rePayDifferentMoney.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",rePayDifferentMoney.getStatusCode(),
                 inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/difference","POST");
         Response result = rePayDifferentMoney.getBody();
         return result.getStatus() == 1;
@@ -513,7 +517,7 @@ public class RebookServiceImpl implements RebookService {
                 HttpMethod.GET,
                 requestEntityDrawBackMoney,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",reDrawBackMoney.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",reDrawBackMoney.getStatusCode(),
                 inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET");
         Response result = reDrawBackMoney.getBody();
         return result.getStatus() == 1;

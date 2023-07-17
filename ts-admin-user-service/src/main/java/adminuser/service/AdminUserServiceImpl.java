@@ -10,6 +10,8 @@ import adminuser.dto.UserDto;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.User;
@@ -34,6 +36,8 @@ import java.util.List;
 @Service
 public class AdminUserServiceImpl implements AdminUserService { 
     private static final Logger logger = LoggerFactory.getLogger(AdminUserServiceImpl.class);
+
+
 
 
 
@@ -69,7 +73,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<User>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 USER_SERVICE_IP_URI,"GET");
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
             AdminUserServiceImpl.logger.error("[getAllUsers][receive response][Get All Users error]");
@@ -95,7 +99,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 USER_SERVICE_IP_URI + "/" + userId,"DELETE");
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
             AdminUserServiceImpl.logger.error("[deleteUser][receive response][Delete user error][userId: {}]", userId);
@@ -120,7 +124,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 USER_SERVICE_IP_URI,"PUT");
 
         String userName = userDto.getUserName();
@@ -143,7 +147,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<User>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 USER_SERVICE_IP_URI + "/register","POST");
 
         String userName = userDto.getUserName();

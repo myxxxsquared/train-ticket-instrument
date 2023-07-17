@@ -10,6 +10,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.*;
@@ -34,6 +36,8 @@ import java.util.List;
 @Service
 public class ExecuteServiceImpl implements ExecuteService { 
     private static final Logger logger = LoggerFactory.getLogger(ExecuteServiceImpl.class);
+
+
 
 
 
@@ -165,7 +169,7 @@ public class ExecuteServiceImpl implements ExecuteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 order_service_url + "/api/v1/orderservice/order/status/" + orderId + "/" + status,"GET");
         return re.getBody();
     }
@@ -181,7 +185,7 @@ public class ExecuteServiceImpl implements ExecuteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 order_other_service_url + "/api/v1/orderOtherService/orderOther/status/" + orderId + "/" + status,"GET");
         return re.getBody();
     }
@@ -197,7 +201,7 @@ public class ExecuteServiceImpl implements ExecuteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 order_service_url + "/api/v1/orderservice/order/" + orderId,"GET");
         return re.getBody();
     }
@@ -213,7 +217,7 @@ public class ExecuteServiceImpl implements ExecuteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"GET");
         return re.getBody();
     }

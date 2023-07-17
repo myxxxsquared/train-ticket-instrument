@@ -11,6 +11,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -44,6 +46,8 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
 
 
+
+
     @Autowired
     private WaitListOrderRepository waitListOrderRepository;
 
@@ -59,7 +63,9 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response findOrderById(String id, HttpHeaders headers) {
         logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, (headers != null ? headers.toString(): null));
         Optional<WaitListOrder> op = waitListOrderRepository.findById(id);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -97,7 +103,9 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response getAllOrders(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
-      logger.info("the orderList is: {}", (orderList != null ? orderList : null));
+      logger.info("[orderList:{}]", (orderList != null ? orderList : null));
+      
+      
       
       
       
@@ -121,7 +129,9 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response getAllWaitListOrders(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllWaitListOrders",(headers != null ? headers.toString(): null));
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
-      logger.info("the orderList is: {}", (orderList != null ? orderList : null));
+      logger.info("[orderList:{}]", (orderList != null ? orderList : null));
+      
+      
       
       
       
@@ -153,7 +163,9 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response updateOrder(WaitListOrder order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<WaitListOrder> op = waitListOrderRepository.findById(order.getId());
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -180,7 +192,9 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     public Response modifyWaitListOrderStatus(int status, String orderId) {
         logger.info("[function name:{}][status:{}, orderId:{}]","modifyWaitListOrderStatus",status, orderId);
         Optional<WaitListOrder> op = waitListOrderRepository.findById(orderId);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       

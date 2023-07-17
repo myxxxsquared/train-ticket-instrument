@@ -10,6 +10,8 @@ import edu.fudan.common.entity.*;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -48,6 +50,8 @@ public class OrderOtherServiceImpl implements OrderOtherService {
 
 
 
+
+
     @Autowired
     private OrderOtherRepository orderOtherRepository;
 
@@ -73,7 +77,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
         logger.info("[function name:{}][seatRequest:{}, headers:{}]","getSoldTickets",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> list = orderOtherRepository.findByTravelDateAndTrainNumber(seatRequest.getTravelDate(),
                 seatRequest.getTrainNumber());
-      logger.info("the list is: {}", (list != null ? list : null));
+      logger.info("[list:{}]", (list != null ? list : null));
+      
+      
       
       
       
@@ -109,7 +115,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response findOrderById(String id, HttpHeaders headers) {
         logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderOtherRepository.findById(id);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -133,7 +141,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response create(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","create",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> accountOrders = orderOtherRepository.findByAccountId(order.getAccountId());
-      logger.info("the accountOrders is: {}", (accountOrders != null ? accountOrders : null));
+      logger.info("[accountOrders:{}]", (accountOrders != null ? accountOrders : null));
+      
+      
       
       
       
@@ -158,7 +168,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public void initOrder(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","initOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderOtherRepository.findById(order.getId());
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -185,14 +197,14 @@ public class OrderOtherServiceImpl implements OrderOtherService {
         String oldOrderId = oai.getPreviousOrderId();
 
         if (!orderOtherRepository.findById(oldOrderId).isPresent()) {
-        logger.info("the Optional<Order> is: {}", (orderOtherRepository.findById(oldOrderId) != null ? orderOtherRepository.findById(oldOrderId) : null));
+        logger.info("[Optional<Order>:{}]", (orderOtherRepository.findById(oldOrderId) != null ? orderOtherRepository.findById(oldOrderId) : null));
             OrderOtherServiceImpl.logger.error("[alterOrder][Alter Order Fail][Order do not exist][OrderId: {}]", oldOrderId);
             return new Response<>(0, "Old Order Does Not Exists", null);
         }
         Order oldOrder = orderOtherRepository.findById(oldOrderId).get();
         oldOrder.setStatus(OrderStatus.CANCEL.getCode());
       
-      logger.info("the oldOrder is: {}", (oldOrder != null ? oldOrder : null));
+      logger.info("[oldOrder:{}]", (oldOrder != null ? oldOrder : null));
       saveChanges(oldOrder, headers);
         Order newOrder = oai.getNewOrderInfo();
         newOrder.setId(UUID.randomUUID().toString());
@@ -210,7 +222,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
         logger.info("[function name:{}][qi:{}, accountId:{}, headers:{}]","queryOrders",(qi != null ? qi.toString(): null), accountId, (headers != null ? headers.toString(): null));
         //1.Get all orders of the user
         ArrayList<Order> list = orderOtherRepository.findByAccountId(accountId);
-      logger.info("the list is: {}", (list != null ? list : null));
+      logger.info("[list:{}]", (list != null ? list : null));
+      
+      
       
       
       
@@ -304,7 +318,7 @@ public class OrderOtherServiceImpl implements OrderOtherService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<String>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 station_service_url + "/api/v1/stationservice/stations/namelist","POST");
         return re.getBody().getData();
     }
@@ -313,7 +327,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response saveChanges(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","saveChanges",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderOtherRepository.findById(order.getId());
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -356,7 +372,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
         logger.info("[function name:{}][accountId:{}, orderId:{}, headers:{}]","cancelOrder",accountId, orderId, (headers != null ? headers.toString(): null));
 
         Optional<Order> op = orderOtherRepository.findById(orderId);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -382,7 +400,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response queryAlreadySoldOrders(Date travelDate, String trainNumber, HttpHeaders headers) {
         logger.info("[function name:{}][travelDate:{}, trainNumber:{}, headers:{}]","queryAlreadySoldOrders",(travelDate != null ? travelDate.toString(): null), trainNumber, (headers != null ? headers.toString(): null));
         ArrayList<Order> orders = orderOtherRepository.findByTravelDateAndTrainNumber(StringUtils.Date2String(travelDate), trainNumber);
-      logger.info("the orders is: {}", (orders != null ? orders : null));
+      logger.info("[orders:{}]", (orders != null ? orders : null));
+      
+      
       
       
       
@@ -428,7 +448,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response getAllOrders(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         ArrayList<Order> orders = orderOtherRepository.findAll();
-      logger.info("the orders is: {}", (orders != null ? orders : null));
+      logger.info("[orders:{}]", (orders != null ? orders : null));
+      
+      
       
       
       
@@ -451,7 +473,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response modifyOrder(String orderId, int status, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","modifyOrder",orderId, status, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderOtherRepository.findById(orderId);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -477,7 +501,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response getOrderPrice(String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderPrice",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderOtherRepository.findById(orderId);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -501,7 +527,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response payOrder(String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","payOrder",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderOtherRepository.findById(orderId);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -527,7 +555,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response getOrderById(String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderById",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderOtherRepository.findById(orderId);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -553,7 +583,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
         logger.info("[function name:{}][dateFrom:{}, accountId:{}, headers:{}]","checkSecurityAboutOrder",(dateFrom != null ? dateFrom.toString(): null), accountId, (headers != null ? headers.toString(): null));
         OrderSecurity result = new OrderSecurity();
         ArrayList<Order> orders = orderOtherRepository.findByAccountId(accountId);
-      logger.info("the orders is: {}", (orders != null ? orders : null));
+      logger.info("[orders:{}]", (orders != null ? orders : null));
+      
+      
       
       
       
@@ -591,7 +623,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
         logger.info("[function name:{}][orderId:{}, headers:{}]","deleteOrder",orderId, (headers != null ? headers.toString(): null));
         String orderUuid = UUID.fromString(orderId).toString();
         Optional<Order> op = orderOtherRepository.findById(orderUuid);
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       
@@ -616,7 +650,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
     public Response addNewOrder(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","addNewOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> accountOrders = orderOtherRepository.findByAccountId(order.getAccountId());
-      logger.info("the accountOrders is: {}", (accountOrders != null ? accountOrders : null));
+      logger.info("[accountOrders:{}]", (accountOrders != null ? accountOrders : null));
+      
+      
       
       
       
@@ -642,7 +678,9 @@ public class OrderOtherServiceImpl implements OrderOtherService {
         logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
 
         Optional<Order> op = orderOtherRepository.findById(order.getId());
-      logger.info("the op is: {}", (op != null ? op : null));
+      logger.info("[op:{}]", (op != null ? op : null));
+      
+      
       
       
       

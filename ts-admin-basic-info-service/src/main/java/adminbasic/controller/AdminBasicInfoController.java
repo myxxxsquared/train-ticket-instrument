@@ -10,6 +10,8 @@ import adminbasic.entity.*;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import adminbasic.service.AdminBasicInfoService;
@@ -32,6 +34,8 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/adminbasicservice")
 public class AdminBasicInfoController { 
     private static final Logger logger = LoggerFactory.getLogger(AdminBasicInfoController.class);
+
+
 
 
 

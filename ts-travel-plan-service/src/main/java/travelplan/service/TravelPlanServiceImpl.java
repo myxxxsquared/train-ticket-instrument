@@ -10,6 +10,8 @@ import edu.fudan.common.util.JsonUtils;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -42,6 +44,8 @@ import java.util.List;
 @Service
 public class TravelPlanServiceImpl implements TravelPlanService { 
     private static final Logger logger = LoggerFactory.getLogger(TravelPlanServiceImpl.class);
+
+
 
 
 
@@ -270,7 +274,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Integer>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 seat_service_url + "/api/v1/seatservice/seats/left_tickets","POST");
 
         return re.getBody().getData();
@@ -286,7 +290,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 route_plan_service_url + "/api/v1/routeplanservice/routePlan/cheapestRoute","POST");
         return re.getBody().getData();
     }
@@ -301,7 +305,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 route_plan_service_url + "/api/v1/routeplanservice/routePlan/quickestRoute","POST");
 
         return re.getBody().getData();
@@ -317,7 +321,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 route_plan_service_url + "/api/v1/routeplanservice/routePlan/minStopStations","POST");
         return re.getBody().getData();
     }
@@ -332,7 +336,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<TripResponse>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 travel_service_url + "/api/v1/travelservice/trips/left","POST");
         return re.getBody().getData();
     }
@@ -348,7 +352,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<TripResponse>>>() {
                 });
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 travel2_service_url + "/api/v1/travel2service/trips/left","POST");
 
         return re.getBody().getData();
@@ -363,7 +367,7 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                 train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
         Response  response = re.getBody();
 

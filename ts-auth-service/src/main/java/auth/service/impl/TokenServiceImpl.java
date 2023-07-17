@@ -13,6 +13,8 @@ import auth.constant.InfoConstant;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.dto.BasicAuthDto;
@@ -57,6 +59,8 @@ public class TokenServiceImpl implements TokenService {
 
 
 
+
+
     @Autowired
     private JWTProvider jwtProvider;
 
@@ -91,7 +95,7 @@ public class TokenServiceImpl implements TokenService {
                     HttpMethod.GET,
                     requestEntity,
                     Boolean.class);
-        logger.info("the client API's status code and url are: {} {} {}",re.getStatusCode(),
+        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
                      verification_code_service_url + "/api/v1/verifycode/verify/" + verifyCode,"GET");
             boolean id = re.getBody();
 
@@ -114,7 +118,9 @@ public class TokenServiceImpl implements TokenService {
                 .orElseThrow(() -> new UserOperationException(MessageFormat.format(
                         InfoConstant.USER_NAME_NOT_FOUND_1, username
                 )));
-      logger.info("the user is: {}", (user != null ? user : null));
+      logger.info("[user:{}]", (user != null ? user : null));
+      
+      
       
       
       
