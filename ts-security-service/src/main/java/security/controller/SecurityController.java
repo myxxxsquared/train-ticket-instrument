@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -43,47 +47,51 @@ public class SecurityController {
 
 
 
+
+
+
+
     @Autowired
     private SecurityService securityService;
 
     @GetMapping(value = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "welcome to [Security Service]";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/securityConfigs")
     public HttpEntity findAllSecurityConfig(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","findAllSecurityConfig",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/securityservice/securityConfigs][headers:{}]","findAllSecurityConfig",(headers != null ? headers.toString(): null));
         return ok(securityService.findAllSecurityConfig(headers));
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/securityConfigs")
     public HttpEntity create(@RequestBody SecurityConfig info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/securityservice/securityConfigs][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(securityService.addNewSecurityConfig(info, headers));
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping(path = "/securityConfigs")
     public HttpEntity update(@RequestBody SecurityConfig info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","update",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Put /api/v1/securityservice/securityConfigs][info:{}, headers:{}]","update",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(securityService.modifySecurityConfig(info, headers));
     }
 
     @CrossOrigin(origins = "*")
     @DeleteMapping(path = "/securityConfigs/{id}")
     public HttpEntity delete(@PathVariable String id, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","delete",id, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Delete /api/v1/securityservice/securityConfigs/{id}][id:{}, headers:{}]","delete",id, (headers != null ? headers.toString(): null));
         return ok(securityService.deleteSecurityConfig(id, headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/securityConfigs/{accountId}")
     public HttpEntity check(@PathVariable String accountId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][accountId:{}, headers:{}]","check",accountId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/securityservice/securityConfigs/{accountId}][accountId:{}, headers:{}]","check",accountId, (headers != null ? headers.toString(): null));
         return ok(securityService.check(accountId, headers));
     }
 

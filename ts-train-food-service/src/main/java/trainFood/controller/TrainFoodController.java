@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -39,26 +42,29 @@ public class TrainFoodController {
 
 
 
+
+
+
     @Autowired
     TrainFoodService trainFoodService;
 
     @GetMapping(path = "/trainfoods/welcome")
     public String home() {
-        logger.info("[function name:home]");
+        logger.info("[function name:home, API:None]");
         return "Welcome to [ Train Food Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/trainfoods")
     public HttpEntity getAllTrainFood(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllTrainFood",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/trainfoodservice/trainfoods][headers:{}]","getAllTrainFood",(headers != null ? headers.toString(): null));
         return ok(trainFoodService.listTrainFood(headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/trainfoods/{tripId}")
     public HttpEntity getTrainFoodOfTrip(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][tripId:{}, headers:{}]","getTrainFoodOfTrip",tripId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/trainfoodservice/trainfoods/{tripId}][tripId:{}, headers:{}]","getTrainFoodOfTrip",tripId, (headers != null ? headers.toString(): null));
         return ok(trainFoodService.listTrainFoodByTripId(tripId, headers));
     }
 }

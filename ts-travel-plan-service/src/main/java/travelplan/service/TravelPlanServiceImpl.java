@@ -12,6 +12,9 @@ import edu.fudan.common.util.JsonUtils;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -44,6 +47,9 @@ import java.util.List;
 @Service
 public class TravelPlanServiceImpl implements TravelPlanService { 
     private static final Logger logger = LoggerFactory.getLogger(TravelPlanServiceImpl.class);
+
+
+
 
 
 
@@ -274,8 +280,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Integer>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                seat_service_url + "/api/v1/seatservice/seats/left_tickets","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                seat_service_url + "/api/v1/seatservice/seats/left_tickets","POST",headers);
 
         return re.getBody().getData();
     }
@@ -290,8 +296,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                route_plan_service_url + "/api/v1/routeplanservice/routePlan/cheapestRoute","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                route_plan_service_url + "/api/v1/routeplanservice/routePlan/cheapestRoute","POST",headers);
         return re.getBody().getData();
     }
 
@@ -305,8 +311,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                route_plan_service_url + "/api/v1/routeplanservice/routePlan/quickestRoute","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                route_plan_service_url + "/api/v1/routeplanservice/routePlan/quickestRoute","POST",headers);
 
         return re.getBody().getData();
     }
@@ -321,8 +327,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                route_plan_service_url + "/api/v1/routeplanservice/routePlan/minStopStations","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                route_plan_service_url + "/api/v1/routeplanservice/routePlan/minStopStations","POST",headers);
         return re.getBody().getData();
     }
 
@@ -336,8 +342,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<TripResponse>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                travel_service_url + "/api/v1/travelservice/trips/left","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                travel_service_url + "/api/v1/travelservice/trips/left","POST",headers);
         return re.getBody().getData();
     }
 
@@ -352,8 +358,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<TripResponse>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                travel2_service_url + "/api/v1/travel2service/trips/left","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                travel2_service_url + "/api/v1/travel2service/trips/left","POST",headers);
 
         return re.getBody().getData();
     }
@@ -367,8 +373,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET",headers);
         Response  response = re.getBody();
 
         return JsonUtils.conveterObject(response.getData(), TrainType.class);

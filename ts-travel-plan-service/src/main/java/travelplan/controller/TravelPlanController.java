@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -44,36 +47,39 @@ public class TravelPlanController {
 
 
 
+
+
+
     @Autowired
     TravelPlanService travelPlanService;
 
     @GetMapping(path = "/welcome" )
     public String home() {
-        logger.info("[function name:home]");
+        logger.info("[function name:home, API:None]");
         return "Welcome to [ TravelPlan Service ] !";
     }
 
     @PostMapping(value="/travelPlan/transferResult" )
     public HttpEntity getTransferResult(@RequestBody TransferTravelInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getTransferResult",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post api/v1/travelplanservice/travelPlan/transferResult][info:{}, headers:{}]","getTransferResult",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(travelPlanService.getTransferSearch(info, headers));
     }
 
     @PostMapping(value="/travelPlan/cheapest")
     public HttpEntity getByCheapest(@RequestBody TripInfo queryInfo, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][queryInfo:{}, headers:{}]","getByCheapest",(queryInfo != null ? queryInfo.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post api/v1/travelplanservice/travelPlan/cheapest][queryInfo:{}, headers:{}]","getByCheapest",(queryInfo != null ? queryInfo.toString(): null), (headers != null ? headers.toString(): null));
         return ok(travelPlanService.getCheapest(queryInfo, headers));
     }
 
     @PostMapping(value="/travelPlan/quickest")
     public HttpEntity getByQuickest(@RequestBody TripInfo queryInfo, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][queryInfo:{}, headers:{}]","getByQuickest",(queryInfo != null ? queryInfo.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post api/v1/travelplanservice/travelPlan/quickest][queryInfo:{}, headers:{}]","getByQuickest",(queryInfo != null ? queryInfo.toString(): null), (headers != null ? headers.toString(): null));
         return ok(travelPlanService.getQuickest(queryInfo, headers));
     }
 
     @PostMapping(value="/travelPlan/minStation")
     public HttpEntity getByMinStation(@RequestBody TripInfo queryInfo, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][queryInfo:{}, headers:{}]","getByMinStation",(queryInfo != null ? queryInfo.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post api/v1/travelplanservice/travelPlan/minStation][queryInfo:{}, headers:{}]","getByMinStation",(queryInfo != null ? queryInfo.toString(): null), (headers != null ? headers.toString(): null));
         return ok(travelPlanService.getMinStation(queryInfo, headers));
     }
 

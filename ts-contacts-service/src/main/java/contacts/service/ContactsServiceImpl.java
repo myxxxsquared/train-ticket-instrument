@@ -12,6 +12,9 @@ import contacts.entity.*;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -44,6 +47,9 @@ public class ContactsServiceImpl implements ContactsService {
 
 
 
+
+
+
     @Autowired
     private ContactsRepository contactsRepository;
 
@@ -53,7 +59,10 @@ public class ContactsServiceImpl implements ContactsService {
     public Response findContactsById(String id, HttpHeaders headers) {
         logger.info("[function name:{}][id:{}, headers:{}]","findContactsById",id, (headers != null ? headers.toString(): null));
         Contacts contacts = contactsRepository.findById(id).orElse(null);
-      logger.info("[contacts:{}]", (contacts != null ? contacts : null));
+      logger.info("[contacts:{},headers:{}]", (contacts != null ? contacts : null));
+      
+      
+      
       
       
       
@@ -78,7 +87,10 @@ public class ContactsServiceImpl implements ContactsService {
     public Response findContactsByAccountId(String accountId, HttpHeaders headers) {
         logger.info("[function name:{}][accountId:{}, headers:{}]","findContactsByAccountId",accountId, (headers != null ? headers.toString(): null));
         ArrayList<Contacts> arr = contactsRepository.findByAccountId(accountId);
-      logger.info("[arr:{}]", (arr != null ? arr : null));
+      logger.info("[arr:{},headers:{}]", (arr != null ? arr : null));
+      
+      
+      
       
       
       
@@ -127,7 +139,10 @@ public class ContactsServiceImpl implements ContactsService {
         logger.info("[function name:{}][contactsId:{}, headers:{}]","delete",contactsId, (headers != null ? headers.toString(): null));
         contactsRepository.deleteById(contactsId);
         Contacts contacts = contactsRepository.findById(contactsId).orElse(null);
-      logger.info("[contacts:{}]", (contacts != null ? contacts : null));
+      logger.info("[contacts:{},headers:{}]", (contacts != null ? contacts : null));
+      
+      
+      
       
       
       
@@ -171,7 +186,10 @@ public class ContactsServiceImpl implements ContactsService {
     public Response getAllContacts(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllContacts",(headers != null ? headers.toString(): null));
         ArrayList<Contacts> contacts = contactsRepository.findAll();
-      logger.info("[contacts:{}]", (contacts != null ? contacts : null));
+      logger.info("[contacts:{},headers:{}]", (contacts != null ? contacts : null));
+      
+      
+      
       
       
       

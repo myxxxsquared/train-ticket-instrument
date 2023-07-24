@@ -12,6 +12,9 @@ import adminbasic.entity.*;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Config;
@@ -49,6 +52,9 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
 
 
 
+
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -71,8 +77,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                contacts_service_url + "/api/v1/contactservice/contacts","GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                contacts_service_url + "/api/v1/contactservice/contacts","GET",headers);
         result = re.getBody();
 
         return result;
@@ -89,8 +95,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                contacts_service_url + "/api/v1/contactservice/contacts/" + contactsId,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                contacts_service_url + "/api/v1/contactservice/contacts/" + contactsId,"DELETE",headers);
         result = re.getBody();
 
         return result;
@@ -107,8 +113,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                contacts_service_url + "/api/v1/contactservice/contacts","PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                contacts_service_url + "/api/v1/contactservice/contacts","PUT",headers);
         result = re.getBody();
 
         return result;
@@ -126,8 +132,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                contacts_service_url + "/api/v1/contactservice/contacts/admin","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                contacts_service_url + "/api/v1/contactservice/contacts/admin","POST",headers);
         result = re.getBody();
 
         return result;
@@ -144,8 +150,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                stations,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                stations,"GET",headers);
 
         return re.getBody();
 
@@ -164,8 +170,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                stations,"POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                stations,"POST",headers);
         result = re.getBody();
         return result;
     }
@@ -182,10 +188,10 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                path,"DELETE");
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                path,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                path,"DELETE",headers);
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                path,"DELETE",headers);
         result = re.getBody();
         return result;
     }
@@ -202,8 +208,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                stations,"PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                stations,"PUT",headers);
         result = re.getBody();
 
         return result;
@@ -221,8 +227,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                trains,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                trains,"GET",headers);
 
         return re.getBody();
 
@@ -240,8 +246,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                trains,"POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                trains,"POST",headers);
         result = re.getBody();
         return result;
 
@@ -258,8 +264,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/" + id,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                train_service_url + "/api/v1/trainservice/trains/" + id,"DELETE",headers);
         result = re.getBody();
         return result;
     }
@@ -276,8 +282,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                trains,"PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                trains,"PUT",headers);
         result = re.getBody();
         return result;
     }
@@ -293,8 +299,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                configs,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                configs,"GET",headers);
 
         return re.getBody();
     }
@@ -310,8 +316,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                configs,"POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                configs,"POST",headers);
         return re.getBody();
     }
 
@@ -325,8 +331,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                config_service_url + "/api/v1/configservice/configs/" + name,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                config_service_url + "/api/v1/configservice/configs/" + name,"DELETE",headers);
         return re.getBody();
     }
 
@@ -341,8 +347,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                configs,"PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                configs,"PUT",headers);
         return re.getBody();
     }
 
@@ -357,8 +363,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                prices,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                prices,"GET",headers);
         return re.getBody();
     }
 
@@ -373,8 +379,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                prices,"POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                prices,"POST",headers);
         return re.getBody();
 
     }
@@ -390,10 +396,10 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                path,"DELETE");
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                path,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                path,"DELETE",headers);
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                path,"DELETE",headers);
 
         return re.getBody();
     }
@@ -409,8 +415,8 @@ public class AdminBasicInfoServiceImpl implements AdminBasicInfoService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                prices,"PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                prices,"PUT",headers);
         return re.getBody();
     }
 }

@@ -12,6 +12,9 @@ import adminuser.dto.UserDto;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.User;
@@ -36,6 +39,9 @@ import java.util.List;
 @Service
 public class AdminUserServiceImpl implements AdminUserService { 
     private static final Logger logger = LoggerFactory.getLogger(AdminUserServiceImpl.class);
+
+
+
 
 
 
@@ -73,8 +79,8 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<User>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                USER_SERVICE_IP_URI,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                USER_SERVICE_IP_URI,"GET",headers);
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
             AdminUserServiceImpl.logger.error("[getAllUsers][receive response][Get All Users error]");
             return new Response<>(0, "get all users error", null);
@@ -99,8 +105,8 @@ public class AdminUserServiceImpl implements AdminUserService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                USER_SERVICE_IP_URI + "/" + userId,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                USER_SERVICE_IP_URI + "/" + userId,"DELETE",headers);
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
             AdminUserServiceImpl.logger.error("[deleteUser][receive response][Delete user error][userId: {}]", userId);
             return new Response<>(0, "delete user error", null);
@@ -124,8 +130,8 @@ public class AdminUserServiceImpl implements AdminUserService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                USER_SERVICE_IP_URI,"PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                USER_SERVICE_IP_URI,"PUT",headers);
 
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
@@ -147,8 +153,8 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<User>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                USER_SERVICE_IP_URI + "/register","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                USER_SERVICE_IP_URI + "/register","POST",headers);
 
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {

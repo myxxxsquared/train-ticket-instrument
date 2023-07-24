@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -43,25 +46,28 @@ public class RebookController {
 
 
 
+
+
+
     @Autowired
     RebookService service;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home]");
+        logger.info("[function name:home, API:None]");
         return "Welcome to [ Rebook Service ] !";
     }
 
     @PostMapping(value = "/rebook/difference")
     public HttpEntity payDifference(@RequestBody RebookInfo info,
                                     @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","payDifference",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/rebookservice/rebook/difference][info:{}, headers:{}]","payDifference",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.payDifference(info, headers));
     }
 
     @PostMapping(value = "/rebook")
     public HttpEntity rebook(@RequestBody RebookInfo info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","rebook",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/rebookservice/rebook][info:{}, headers:{}]","rebook",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.rebook(info, headers));
     }
 

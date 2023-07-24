@@ -12,6 +12,9 @@ import edu.fudan.common.entity.NotifyInfo;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.OrderStatus;
@@ -41,6 +44,9 @@ import java.util.Date;
 @Service
 public class CancelServiceImpl implements CancelService { 
     private static final Logger logger = LoggerFactory.getLogger(CancelServiceImpl.class);
+
+
+
 
 
 
@@ -165,8 +171,8 @@ public class CancelServiceImpl implements CancelService {
                 HttpMethod.POST,
                 requestEntity,
                 Boolean.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                notification_service_url + "/api/v1/notifyservice/notification/order_cancel_success","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                notification_service_url + "/api/v1/notifyservice/notification/order_cancel_success","POST",headers);
         return re.getBody();
     }
 
@@ -257,8 +263,8 @@ public class CancelServiceImpl implements CancelService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order","PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                order_service_url + "/api/v1/orderservice/order","PUT",headers);
 
         return re.getBody();
     }
@@ -283,8 +289,8 @@ public class CancelServiceImpl implements CancelService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther","PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                order_other_service_url + "/api/v1/orderOtherService/orderOther","PUT",headers);
 
         return re.getBody();
     }
@@ -300,8 +306,8 @@ public class CancelServiceImpl implements CancelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET",headers);
         Response result = re.getBody();
 
         return result.getStatus() == 1;
@@ -318,8 +324,8 @@ public class CancelServiceImpl implements CancelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<User>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                user_service_url + "/api/v1/userservice/users/id/" + orderId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                user_service_url + "/api/v1/userservice/users/id/" + orderId,"GET",headers);
         return re.getBody();
     }
 
@@ -334,8 +340,8 @@ public class CancelServiceImpl implements CancelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order/" + orderId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                order_service_url + "/api/v1/orderservice/order/" + orderId,"GET",headers);
         return re.getBody();
     }
 
@@ -350,8 +356,8 @@ public class CancelServiceImpl implements CancelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"GET",headers);
         return re.getBody();
     }
 

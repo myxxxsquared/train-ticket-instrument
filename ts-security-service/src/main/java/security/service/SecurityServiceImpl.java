@@ -12,6 +12,10 @@ import edu.fudan.common.entity.OrderSecurity;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -57,6 +61,10 @@ public class SecurityServiceImpl implements SecurityService {
 
 
 
+
+
+
+
     @Autowired
     private SecurityRepository securityRepository;
 
@@ -77,7 +85,11 @@ public class SecurityServiceImpl implements SecurityService {
     public Response findAllSecurityConfig(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","findAllSecurityConfig",(headers != null ? headers.toString(): null));
         ArrayList<SecurityConfig> securityConfigs = securityRepository.findAll();
-      logger.info("[securityConfigs:{}]", (securityConfigs != null ? securityConfigs : null));
+      logger.info("[securityConfigs:{},headers:{}]", (securityConfigs != null ? securityConfigs : null));
+      
+      
+      
+      
       
       
       
@@ -101,7 +113,11 @@ public class SecurityServiceImpl implements SecurityService {
     public Response addNewSecurityConfig(SecurityConfig info, HttpHeaders headers) {
         logger.info("[function name:{}][info:{}, headers:{}]","addNewSecurityConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         SecurityConfig sc = securityRepository.findByName(info.getName());
-      logger.info("[sc:{}]", (sc != null ? sc : null));
+      logger.info("[sc:{},headers:{}]", (sc != null ? sc : null));
+      
+      
+      
+      
       
       
       
@@ -140,7 +156,7 @@ public class SecurityServiceImpl implements SecurityService {
             sc.setValue(info.getValue());
             sc.setDescription(info.getDescription());
       
-      logger.info("[sc:{}]", (sc != null ? sc : null));
+      logger.info("[sc:{},headers:{}]", (sc != null ? sc : null));
       securityRepository.save(sc);
             return new Response<>(1, success, sc);
         }
@@ -152,7 +168,11 @@ public class SecurityServiceImpl implements SecurityService {
         logger.info("[function name:{}][id:{}, headers:{}]","deleteSecurityConfig",id, (headers != null ? headers.toString(): null));
         securityRepository.deleteById(id);
         SecurityConfig sc = securityRepository.findById(id).orElse(null);
-      logger.info("[sc:{}]", (sc != null ? sc : null));
+      logger.info("[sc:{},headers:{}]", (sc != null ? sc : null));
+      
+      
+      
+      
       
       
       
@@ -185,7 +205,11 @@ public class SecurityServiceImpl implements SecurityService {
         //2. get critical configuration information
         SecurityServiceImpl.logger.debug("[check][Get Security Config Info]");
         SecurityConfig configMaxInHour = securityRepository.findByName("max_order_1_hour");
-      logger.info("[configMaxInHour:{}]", (configMaxInHour != null ? configMaxInHour : null));
+      logger.info("[configMaxInHour:{},headers:{}]", (configMaxInHour != null ? configMaxInHour : null));
+      
+      
+      
+      
       
       
       
@@ -199,7 +223,11 @@ public class SecurityServiceImpl implements SecurityService {
       
       
         SecurityConfig configMaxNotUse = securityRepository.findByName("max_order_not_use");
-      logger.info("[configMaxNotUse:{}]", (configMaxNotUse != null ? configMaxNotUse : null));
+      logger.info("[configMaxNotUse:{},headers:{}]", (configMaxNotUse != null ? configMaxNotUse : null));
+      
+      
+      
+      
       
       
       
@@ -232,8 +260,8 @@ public class SecurityServiceImpl implements SecurityService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<OrderSecurity>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order/security/" + checkDate + "/" + accountId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                order_service_url + "/api/v1/orderservice/order/security/" + checkDate + "/" + accountId,"GET",headers);
         Response<OrderSecurity> response = re.getBody();
         OrderSecurity result =  response.getData();
         return result;
@@ -249,8 +277,8 @@ public class SecurityServiceImpl implements SecurityService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<OrderSecurity>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther/security/" + checkDate + "/" + accountId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                order_other_service_url + "/api/v1/orderOtherService/orderOther/security/" + checkDate + "/" + accountId,"GET",headers);
         Response<OrderSecurity> response = re.getBody();
         OrderSecurity result =  response.getData();
         return result;

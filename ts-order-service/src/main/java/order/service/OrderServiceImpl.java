@@ -12,6 +12,9 @@ import edu.fudan.common.entity.*;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -54,6 +57,9 @@ public class OrderServiceImpl implements OrderService {
 
 
 
+
+
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -79,7 +85,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][seatRequest:{}, headers:{}]","getSoldTickets",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> list = orderRepository.findByTravelDateAndTrainNumber(seatRequest.getTravelDate(),
                 seatRequest.getTrainNumber());
-      logger.info("[list:{}]", (list != null ? list : null));
+      logger.info("[list:{},headers:{}]", (list != null ? list : null));
+      
+      
+      
       
       
       
@@ -111,7 +120,10 @@ public class OrderServiceImpl implements OrderService {
     public Response findOrderById(String id, HttpHeaders headers) {
         logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(id);
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -138,7 +150,10 @@ public class OrderServiceImpl implements OrderService {
     public Response create(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","create",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> accountOrders = orderRepository.findByAccountId(order.getAccountId());
-      logger.info("[accountOrders:{}]", (accountOrders != null ? accountOrders : null));
+      logger.info("[accountOrders:{},headers:{}]", (accountOrders != null ? accountOrders : null));
+      
+      
+      
       
       
       
@@ -167,7 +182,10 @@ public class OrderServiceImpl implements OrderService {
 
         String oldOrderId = oai.getPreviousOrderId();
         Optional<Order> op = orderRepository.findById(oldOrderId);
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -203,7 +221,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][qi:{}, accountId:{}, headers:{}]","queryOrders",(qi != null ? qi.toString(): null), accountId, (headers != null ? headers.toString(): null));
         //1.Get all orders of the user
         ArrayList<Order> list = orderRepository.findByAccountId(accountId);
-      logger.info("[list:{}]", (list != null ? list : null));
+      logger.info("[list:{},headers:{}]", (list != null ? list : null));
+      
+      
+      
       
       
       
@@ -301,8 +322,8 @@ public class OrderServiceImpl implements OrderService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<String>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/namelist","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/namelist","POST",headers);
         return re.getBody().getData();
     }
 
@@ -310,7 +331,10 @@ public class OrderServiceImpl implements OrderService {
     public Response saveChanges(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","saveChanges",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(order.getId());
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -352,7 +376,10 @@ public class OrderServiceImpl implements OrderService {
     public Response cancelOrder(String accountId, String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][accountId:{}, orderId:{}, headers:{}]","cancelOrder",accountId, orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -380,7 +407,10 @@ public class OrderServiceImpl implements OrderService {
     public Response queryAlreadySoldOrders(Date travelDate, String trainNumber, HttpHeaders headers) {
         logger.info("[function name:{}][travelDate:{}, trainNumber:{}, headers:{}]","queryAlreadySoldOrders",(travelDate != null ? travelDate.toString(): null), trainNumber, (headers != null ? headers.toString(): null));
         ArrayList<Order> orders = orderRepository.findByTravelDateAndTrainNumber(StringUtils.Date2String(travelDate), trainNumber);
-      logger.info("[orders:{}]", (orders != null ? orders : null));
+      logger.info("[orders:{},headers:{}]", (orders != null ? orders : null));
+      
+      
+      
       
       
       
@@ -428,7 +458,10 @@ public class OrderServiceImpl implements OrderService {
     public Response getAllOrders(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         ArrayList<Order> orders = orderRepository.findAll();
-      logger.info("[orders:{}]", (orders != null ? orders : null));
+      logger.info("[orders:{},headers:{}]", (orders != null ? orders : null));
+      
+      
+      
       
       
       
@@ -454,7 +487,10 @@ public class OrderServiceImpl implements OrderService {
     public Response modifyOrder(String orderId, int status, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","modifyOrder",orderId, status, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -482,7 +518,10 @@ public class OrderServiceImpl implements OrderService {
     public Response getOrderPrice(String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderPrice",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -508,7 +547,10 @@ public class OrderServiceImpl implements OrderService {
     public Response payOrder(String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","payOrder",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -536,7 +578,10 @@ public class OrderServiceImpl implements OrderService {
     public Response getOrderById(String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderById",orderId, (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(orderId);
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -562,7 +607,10 @@ public class OrderServiceImpl implements OrderService {
     public void initOrder(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","initOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(order.getId());
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -588,7 +636,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][dateFrom:{}, accountId:{}, headers:{}]","checkSecurityAboutOrder",(dateFrom != null ? dateFrom.toString(): null), accountId, (headers != null ? headers.toString(): null));
         OrderSecurity result = new OrderSecurity();
         ArrayList<Order> orders = orderRepository.findByAccountId(accountId);
-      logger.info("[orders:{}]", (orders != null ? orders : null));
+      logger.info("[orders:{},headers:{}]", (orders != null ? orders : null));
+      
+      
+      
       
       
       
@@ -629,7 +680,10 @@ public class OrderServiceImpl implements OrderService {
         String orderUuid = UUID.fromString(orderId).toString();
 
         Optional<Order> op = orderRepository.findById(orderUuid);
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       
@@ -656,7 +710,10 @@ public class OrderServiceImpl implements OrderService {
     public Response addNewOrder(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","addNewOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<Order> accountOrders = orderRepository.findByAccountId(order.getAccountId());
-      logger.info("[accountOrders:{}]", (accountOrders != null ? accountOrders : null));
+      logger.info("[accountOrders:{},headers:{}]", (accountOrders != null ? accountOrders : null));
+      
+      
+      
       
       
       
@@ -683,7 +740,10 @@ public class OrderServiceImpl implements OrderService {
     public Response updateOrder(Order order, HttpHeaders headers) {
         logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Order> op = orderRepository.findById(order.getId());
-      logger.info("[op:{}]", (op != null ? op : null));
+      logger.info("[op:{},headers:{}]", (op != null ? op : null));
+      
+      
+      
       
       
       

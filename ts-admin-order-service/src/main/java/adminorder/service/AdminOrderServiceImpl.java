@@ -12,6 +12,9 @@ import edu.fudan.common.entity.*;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -49,6 +52,9 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
 
 
+
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -74,8 +80,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<Order>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order","GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                order_service_url + "/api/v1/orderservice/order","GET",headers);
         Response<ArrayList<Order>> result = re.getBody();
 
         if (result.getStatus() == 1) {
@@ -93,8 +99,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 requestEntity2,
                 new ParameterizedTypeReference<Response<ArrayList<Order>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re2.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther","GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re2.getStatusCode(),
+                order_other_service_url + "/api/v1/orderOtherService/orderOther","GET",headers);
         result = re2.getBody();
 
         if (result.getStatus() == 1) {
@@ -120,8 +126,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.DELETE,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                     order_service_url + "/api/v1/orderservice/order/" + orderId,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                     order_service_url + "/api/v1/orderservice/order/" + orderId,"DELETE",headers);
             deleteOrderResult = re.getBody();
 
         } else {
@@ -132,8 +138,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.DELETE,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"DELETE",headers);
             deleteOrderResult = re.getBody();
 
         }
@@ -154,8 +160,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.PUT,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/admin","PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/admin","PUT",headers);
             updateOrderResult = re.getBody();
 
         } else {
@@ -166,8 +172,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.PUT,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/admin","PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/admin","PUT",headers);
             updateOrderResult = re.getBody();
 
         }
@@ -187,8 +193,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.POST,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/admin","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/admin","POST",headers);
             addOrderResult = re.getBody();
 
         } else {
@@ -199,8 +205,8 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.POST,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                     order_other_service_url + "/api/v1/orderOtherService/orderOther/admin","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                     order_other_service_url + "/api/v1/orderOtherService/orderOther/admin","POST",headers);
             addOrderResult = re.getBody();
 
         }

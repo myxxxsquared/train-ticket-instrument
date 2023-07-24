@@ -11,6 +11,9 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,9 @@ import java.util.UUID;
 @Service
 public class RouteServiceImpl implements RouteService { 
     private static final Logger logger = LoggerFactory.getLogger(RouteServiceImpl.class);
+
+
+
 
 
 
@@ -70,7 +76,10 @@ public class RouteServiceImpl implements RouteService {
             route.setId(UUID.randomUUID().toString());
         }else{
             Optional<Route> routeOld = routeRepository.findById(info.getId());
-      logger.info("[routeOld:{}]", (routeOld != null ? routeOld : null));
+      logger.info("[routeOld:{},headers:{}]", (routeOld != null ? routeOld : null));
+      
+      
+      
       
       
       
@@ -101,7 +110,10 @@ public class RouteServiceImpl implements RouteService {
         logger.info("[function name:{}][routeId:{}, headers:{}]","deleteRoute",routeId, (headers != null ? headers.toString(): null));
         routeRepository.removeRouteById(routeId);
         Optional<Route> route = routeRepository.findById(routeId);
-      logger.info("[route:{}]", (route != null ? route : null));
+      logger.info("[route:{},headers:{}]", (route != null ? route : null));
+      
+      
+      
       
       
       
@@ -124,7 +136,10 @@ public class RouteServiceImpl implements RouteService {
     public Response getRouteById(String routeId, HttpHeaders headers) {
         logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteById",routeId, (headers != null ? headers.toString(): null));
         Optional<Route> route = routeRepository.findById(routeId);
-      logger.info("[route:{}]", (route != null ? route : null));
+      logger.info("[route:{},headers:{}]", (route != null ? route : null));
+      
+      
+      
       
       
       
@@ -145,7 +160,10 @@ public class RouteServiceImpl implements RouteService {
     public Response getRouteByIds(List<String> routeIds, HttpHeaders headers) {
         logger.info("[function name:{}][routeIds:{}, headers:{}]","getRouteByIds",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         List<Route> routes = routeRepository.findByIds(routeIds);
-      logger.info("[routes:{}]", (routes != null ? routes : null));
+      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
+      
+      
+      
       
       
       
@@ -168,9 +186,12 @@ public class RouteServiceImpl implements RouteService {
     public Response getRouteByStartAndEnd(String startId, String terminalId, HttpHeaders headers) {
         logger.info("[function name:{}][startId:{}, terminalId:{}, headers:{}]","getRouteByStartAndEnd",startId, terminalId, (headers != null ? headers.toString(): null));
         ArrayList<Route> routes = routeRepository.findAll();
-      logger.info("[routes:{}]", (routes != null ? routes : null));
+      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
       
-      logger.info("[routes:{}]", (routes != null ? routes : null));
+      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
+      
+      
+      
       
       
       
@@ -201,9 +222,12 @@ public class RouteServiceImpl implements RouteService {
     public Response getAllRoutes(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllRoutes",(headers != null ? headers.toString(): null));
         ArrayList<Route> routes = routeRepository.findAll();
-      logger.info("[routes:{}]", (routes != null ? routes : null));
+      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
       
-      logger.info("[routes:{}]", (routes != null ? routes : null));
+      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
+      
+      
+      
       
       
       

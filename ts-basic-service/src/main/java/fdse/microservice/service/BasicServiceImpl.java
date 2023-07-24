@@ -12,6 +12,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +40,10 @@ import java.util.*;
 @Service
 public class BasicServiceImpl implements BasicService { 
     private static final Logger logger = LoggerFactory.getLogger(BasicServiceImpl.class);
+
+
+
+
 
 
 
@@ -352,10 +360,10 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET");
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
         if (re.getBody().getStatus() != 1) {
             String msg = re.getBody().getMsg();
             BasicServiceImpl.logger.warn("[queryForStationId][Query for stationId error][stationName: {}, message: {}]", stationName, msg);
@@ -373,8 +381,8 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/idlist","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/idlist","POST",headers);
         Response<Map<String, String>> r = re.getBody();
         if(r.getStatus() == 0) {
             return null;
@@ -392,10 +400,10 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET");
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
         Response exist = re.getBody();
 
         return exist.getStatus() == 1;
@@ -410,8 +418,8 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/byNames","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                train_service_url + "/api/v1/trainservice/trains/byNames","POST",headers);
         Response<List<TrainType>>  response = re.getBody();
         if(response.getStatus() == 0){
             return null;
@@ -429,8 +437,8 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET",headers);
         Response  response = re.getBody();
 
         return JsonUtils.conveterObject(response.getData(), TrainType.class);
@@ -445,8 +453,8 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                route_service_url + "/api/v1/routeservice/routes/byIds/","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                route_service_url + "/api/v1/routeservice/routes/byIds/","POST",headers);
         Response<List<Route>> result = re.getBody();
         if ( result.getStatus() == 0) {
             BasicServiceImpl.logger.warn("[getRoutesByRouteIds][Get Route By Ids Failed][Fail msg: {}]", result.getMsg());
@@ -466,8 +474,8 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET",headers);
         Response result = re.getBody();
         if ( result.getStatus() == 0) {
             BasicServiceImpl.logger.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());
@@ -486,8 +494,8 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                price_service_url + "/api/v1/priceservice/prices/" + routeId + "/" + trainType,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                price_service_url + "/api/v1/priceservice/prices/" + routeId + "/" + trainType,"GET",headers);
         Response result = re.getBody();
         return  JsonUtils.conveterObject(result.getData(), PriceConfig.class);
     }
@@ -501,8 +509,8 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                price_service_url + "/api/v1/priceservice/prices/byRouteIdsAndTrainTypes","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                price_service_url + "/api/v1/priceservice/prices/byRouteIdsAndTrainTypes","POST",headers);
         Response<Map<String, PriceConfig>> result = re.getBody();
 
         Map<String, PriceConfig> pcMap;

@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -43,12 +47,16 @@ public class SeatController {
 
 
 
+
+
+
+
     @Autowired
     private SeatService seatService;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home]");
+        logger.info("[function name:home, API:None]");
         return "Welcome to [ Seat Service ] !";
     }
 
@@ -62,7 +70,7 @@ public class SeatController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/seats")
     public HttpEntity create(@RequestBody Seat seatRequest, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][seatRequest:{}, headers:{}]","create",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/seatservice/seats][seatRequest:{}, headers:{}]","create",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         return ok(seatService.distributeSeat(seatRequest, headers));
     }
 
@@ -77,7 +85,7 @@ public class SeatController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/seats/left_tickets")
     public HttpEntity getLeftTicketOfInterval(@RequestBody Seat seatRequest, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][seatRequest:{}, headers:{}]","getLeftTicketOfInterval",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/seatservice/seats/left_tickets][seatRequest:{}, headers:{}]","getLeftTicketOfInterval",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         return ok(seatService.getLeftTicketOfInterval(seatRequest, headers));
     }
 

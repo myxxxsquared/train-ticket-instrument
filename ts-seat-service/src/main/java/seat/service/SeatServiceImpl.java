@@ -13,6 +13,10 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +42,10 @@ import java.util.Set;
 @Service
 public class SeatServiceImpl implements SeatService { 
     private static final Logger logger = LoggerFactory.getLogger(SeatServiceImpl.class);
+
+
+
+
 
 
 
@@ -87,10 +95,10 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{} and type:{}]",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
-        logger.info("[status code:{}, url:{} and type:{}]",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         } else {
             //Call the microservice to query for residual Ticket information: the set of the Ticket sold for the specified seat type
@@ -102,10 +110,10 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{} and type:{}]",re3.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
-        logger.info("[status code:{}, url:{} and type:{}]",re3.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         }
 
@@ -174,10 +182,10 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{} and type:{}]",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
-        logger.info("[status code:{}, url:{} and type:{}]",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+                    order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         } else {
             //Call the micro service to query all the station information for the trains
@@ -191,10 +199,10 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{} and type:{}]",re3.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
-        logger.info("[status code:{}, url:{} and type:{}]",re3.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         }
 
@@ -244,8 +252,8 @@ public class SeatServiceImpl implements SeatService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Config>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                config_service_url + "/api/v1/configservice/configs/" + configName,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                config_service_url + "/api/v1/configservice/configs/" + configName,"GET",headers);
         Response<Config> configValue = re.getBody();
         return Double.parseDouble(configValue.getData().getValue());
     }

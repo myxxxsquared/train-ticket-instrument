@@ -12,6 +12,9 @@ import com.trainticket.entity.Payment;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.trainticket.service.PaymentService;
@@ -44,30 +47,33 @@ public class PaymentController {
 
 
 
+
+
+
     @Autowired
     PaymentService service;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home]");
+        logger.info("[function name:home, API:None]");
         return "Welcome to [ Payment Service ] !";
     }
 
     @PostMapping(path = "/payment")
     public HttpEntity pay(@RequestBody Payment info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","pay",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/paymentservice/payment][info:{}, headers:{}]","pay",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.pay(info, headers));
     }
 
     @PostMapping(path = "/payment/money")
     public HttpEntity addMoney(@RequestBody Payment info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","addMoney",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/paymentservice/payment/money][info:{}, headers:{}]","addMoney",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(service.addMoney(info, headers));
     }
 
     @GetMapping(path = "/payment")
     public HttpEntity query(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","query",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/paymentservice/payment][headers:{}]","query",(headers != null ? headers.toString(): null));
         return ok(service.query(headers));
     }
 }

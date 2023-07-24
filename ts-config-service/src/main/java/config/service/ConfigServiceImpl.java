@@ -12,6 +12,9 @@ import config.entity.Config;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import config.repository.ConfigRepository;
@@ -44,6 +47,9 @@ public class ConfigServiceImpl implements ConfigService {
 
 
 
+
+
+
     @Autowired
     ConfigRepository repository;
 
@@ -53,7 +59,7 @@ public class ConfigServiceImpl implements ConfigService {
     public Response create(Config info, HttpHeaders headers) {
         logger.info("[function name:{}][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         if (repository.findByName(info.getName()) != null) {
-        logger.info("[Config:{}]", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()) : null));
+        logger.info("[Config:{},headers:{}]", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()) : null),headers);
             String result = config0 + info.getName() + " already exists.";
             logger.warn("[create][{} already exists][config info: {}]", config0, info.getName());
             return new Response<>(0, result, null);
@@ -68,7 +74,7 @@ public class ConfigServiceImpl implements ConfigService {
     public Response update(Config info, HttpHeaders headers) {
         logger.info("[function name:{}][info:{}, headers:{}]","update",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         if (repository.findByName(info.getName()) == null) {
-        logger.info("[Config:{}]", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()) : null));
+        logger.info("[Config:{},headers:{}]", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()) : null),headers);
             String result = config0 + info.getName() + " doesn't exist.";
             logger.warn(result);
             return new Response<>(0, result, null);
@@ -84,7 +90,10 @@ public class ConfigServiceImpl implements ConfigService {
     public Response query(String name, HttpHeaders headers) {
         logger.info("[function name:{}][name:{}, headers:{}]","query",name, (headers != null ? headers.toString(): null));
         Config config = repository.findByName(name);
-      logger.info("[config:{}]", (config != null ? config : null));
+      logger.info("[config:{},headers:{}]", (config != null ? config : null));
+      
+      
+      
       
       
       
@@ -110,7 +119,10 @@ public class ConfigServiceImpl implements ConfigService {
     public Response delete(String name, HttpHeaders headers) {
         logger.info("[function name:{}][name:{}, headers:{}]","delete",name, (headers != null ? headers.toString(): null));
         Config config = repository.findByName(name);
-      logger.info("[config:{}]", (config != null ? config : null));
+      logger.info("[config:{},headers:{}]", (config != null ? config : null));
+      
+      
+      
       
       
       
@@ -137,7 +149,10 @@ public class ConfigServiceImpl implements ConfigService {
     public Response queryAll(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Config> configList = repository.findAll();
-      logger.info("[configList:{}]", (configList != null ? configList : null));
+      logger.info("[configList:{},headers:{}]", (configList != null ? configList : null));
+      
+      
+      
       
       
       

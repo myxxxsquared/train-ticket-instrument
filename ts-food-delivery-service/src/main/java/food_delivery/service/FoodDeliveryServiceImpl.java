@@ -13,6 +13,11 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import food_delivery.entity.*;
@@ -37,6 +42,11 @@ import java.util.stream.Collectors;
 @Service
 public class FoodDeliveryServiceImpl implements FoodDeliveryService { 
     private static final Logger logger = LoggerFactory.getLogger(FoodDeliveryServiceImpl.class);
+
+
+
+
+
 
 
 
@@ -76,8 +86,8 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
                 new HttpEntity(headers),
                 new ParameterizedTypeReference<Response<StationFoodStoreInfo>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",getStationFoodStore.getStatusCode(),
-                staion_food_service_url + "/api/v1/stationfoodservice/stationfoodstores/bystoreid/" + stationFoodStoreId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",getStationFoodStore.getStatusCode(),
+                staion_food_service_url + "/api/v1/stationfoodservice/stationfoodstores/bystoreid/" + stationFoodStoreId,"GET",headers);
         Response<StationFoodStoreInfo> result = getStationFoodStore.getBody();
         StationFoodStoreInfo stationFoodStoreInfo = result.getData();
         List<Food> storeFoodList = stationFoodStoreInfo.getFoodList();
@@ -128,7 +138,12 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     public Response getAllFoodDeliveryOrders(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","getAllFoodDeliveryOrders",(headers != null ? headers.toString(): null));
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findAll();
-      logger.info("[foodDeliveryOrders:{}]", (foodDeliveryOrders != null ? foodDeliveryOrders : null));
+      logger.info("[foodDeliveryOrders:{},headers:{}]", (foodDeliveryOrders != null ? foodDeliveryOrders : null));
+      
+      
+      
+      
+      
       
       
       
@@ -153,7 +168,12 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     public Response getFoodDeliveryOrderByStoreId(String storeId, HttpHeaders headers) {
         logger.info("[function name:{}][storeId:{}, headers:{}]","getFoodDeliveryOrderByStoreId",storeId, (headers != null ? headers.toString(): null));
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findByStationFoodStoreId(storeId);
-      logger.info("[foodDeliveryOrders:{}]", (foodDeliveryOrders != null ? foodDeliveryOrders : null));
+      logger.info("[foodDeliveryOrders:{},headers:{}]", (foodDeliveryOrders != null ? foodDeliveryOrders : null));
+      
+      
+      
+      
+      
       
       
       

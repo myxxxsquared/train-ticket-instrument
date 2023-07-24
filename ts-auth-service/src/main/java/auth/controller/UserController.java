@@ -16,6 +16,9 @@ import auth.dto.BasicAuthDto;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.entity.User;
@@ -51,6 +54,9 @@ public class UserController {
 
 
 
+
+
+
     @Autowired
     private UserService userService;
 
@@ -59,13 +65,13 @@ public class UserController {
 
     @GetMapping("/hello")
     public Object getHello() {
-        logger.info("[function name:getHello]");
+        logger.info("[function name:getHello, API:None]");
         return "Hello";
     }
 
     @PostMapping("/login")
     public ResponseEntity<Response> getToken(@RequestBody BasicAuthDto dao , @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][dao:{}, headers:{}]","getToken",(dao != null ? dao.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:None][dao:{}, headers:{}]","getToken",(dao != null ? dao.toString(): null), (headers != null ? headers.toString(): null));
         try {
             Response<?> res = tokenService.getToken(dao, headers);
             return ResponseEntity.ok(res);
@@ -77,13 +83,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUser(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:None][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
         return ResponseEntity.ok().body(userService.getAllUser(headers));
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Response> deleteUserById(@PathVariable String userId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteUserById",userId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:None][userId:{}, headers:{}]","deleteUserById",userId, (headers != null ? headers.toString(): null));
         return ResponseEntity.ok(userService.deleteByUserId(userId, headers));
     }
 

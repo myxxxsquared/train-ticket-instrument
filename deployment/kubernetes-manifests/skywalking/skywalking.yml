@@ -111,10 +111,10 @@ spec:
           resources:
             limits:
               cpu: '2'
-              memory: 1Gi
+              memory: 2Gi
             requests:
               cpu: '1'
-              memory: 1Gi
+              memory: 1.5Gi
           volumeMounts:
             - mountPath: /etc/localtime
               name: volume-localtime

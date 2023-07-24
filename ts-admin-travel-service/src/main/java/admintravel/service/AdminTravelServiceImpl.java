@@ -12,6 +12,9 @@ import edu.fudan.common.entity.AdminTrip;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Route;
@@ -53,6 +56,9 @@ public class AdminTravelServiceImpl implements AdminTravelService {
 
 
 
+
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -76,8 +82,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<AdminTrip>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                travel_service_url + "/api/v1/travelservice/admin_trip","GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                travel_service_url + "/api/v1/travelservice/admin_trip","GET",headers);
         result = re.getBody();
 
         if (result.getStatus() == 1) {
@@ -95,8 +101,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 requestEntity2,
                 new ParameterizedTypeReference<Response<ArrayList<AdminTrip>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re2.getStatusCode(),
-                travel2_service_url + "/api/v1/travel2service/admin_trip","GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re2.getStatusCode(),
+                travel2_service_url + "/api/v1/travel2service/admin_trip","GET",headers);
         result = re2.getBody();
 
         if (result.getStatus() == 1) {
@@ -136,8 +142,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                requestUrl,"POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                requestUrl,"POST",headers);
         result = re.getBody();
 
         if (result.getStatus() == 1) {
@@ -173,8 +179,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                requestUrl,"PUT");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                requestUrl,"PUT",headers);
 
         result = re.getBody();
         if (result.getStatus() != 1)  {
@@ -202,8 +208,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                requestUtl,"DELETE");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                requestUtl,"DELETE",headers);
 
         result = re.getBody();
         if (result.getStatus() != 1) {
@@ -265,8 +271,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/idlist","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                station_service_url + "/api/v1/stationservice/stations/idlist","POST",headers);
         Response<Map<String, String>> r = re.getBody();
         if(r.getStatus() == 0) {
             return r;
@@ -294,8 +300,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET",headers);
         Response  response = re.getBody();
 
         return JsonUtils.conveterObject(response.getData(), TrainType.class);
@@ -310,8 +316,8 @@ public class AdminTravelServiceImpl implements AdminTravelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET",headers);
         Response result = re.getBody();
         if ( result.getStatus() == 0) {
             AdminTravelServiceImpl.logger.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());

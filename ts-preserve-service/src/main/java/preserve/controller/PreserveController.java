@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -43,12 +46,15 @@ public class PreserveController {
 
 
 
+
+
+
     @Autowired
     private PreserveService preserveService;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home]");
+        logger.info("[function name:home, API:None]");
         return "Welcome to [ Preserve Service ] !";
     }
 
@@ -56,7 +62,7 @@ public class PreserveController {
     @PostMapping(value = "/preserve")
     public HttpEntity preserve(@RequestBody OrderTicketsInfo oti,
                                @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][oti:{}, headers:{}]","preserve",(oti != null ? oti.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/preserveservice/preserve][oti:{}, headers:{}]","preserve",(oti != null ? oti.toString(): null), (headers != null ? headers.toString(): null));
         return ok(preserveService.preserve(oti, headers));
     }
 

@@ -12,6 +12,9 @@ import adminuser.dto.UserDto;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import adminuser.service.AdminUserService;
@@ -43,38 +46,41 @@ public class AdminUserController {
 
 
 
+
+
+
     @Autowired
     AdminUserService adminUserService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ AdminUser Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping
     public HttpEntity getAllUsers(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:None][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
         return ok(adminUserService.getAllUsers(headers));
     }
 
     @PutMapping
     public HttpEntity updateUser(@RequestBody UserDto userDto, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:None][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         return ok(adminUserService.updateUser(userDto, headers));
     }
 
 
     @PostMapping
     public HttpEntity addUser(@RequestBody UserDto userDto, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][userDto:{}, headers:{}]","addUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:None][userDto:{}, headers:{}]","addUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         return ok(adminUserService.addUser(userDto, headers));
     }
 
     @DeleteMapping(value = "/{userId}")
     public HttpEntity deleteUser(@PathVariable String userId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Delete /api/v1/adminuserservice/users/{userId}][userId:{}, headers:{}]","deleteUser",userId, (headers != null ? headers.toString(): null));
         return ok(adminUserService.deleteUser(userId, headers));
     }
 

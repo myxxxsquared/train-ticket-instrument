@@ -268,7 +268,7 @@ spec:
     spec:
       containers:
         - name: ts-auth-service
-          image: jojodurrr/ts-auth-service:bug
+          image: jojodurrr/ts-auth-service:latest
           imagePullPolicy: Always
           env:
             - name: NODE_IP
@@ -570,7 +570,7 @@ spec:
     spec:
       containers:
         - name: ts-contacts-service
-          image: jojodurrr/ts-contacts-service:bug
+          image: jojodurrr/ts-contacts-service:latest
           imagePullPolicy: Always
           env:
             - name: NODE_IP
@@ -702,7 +702,7 @@ spec:
     spec:
       containers:
         - name: ts-food-service
-          image: jojodurrr/ts-food-service:bug
+          image: jojodurrr/ts-food-service:latest
           imagePullPolicy: Always
           env:
             - name: NODE_IP
@@ -1974,7 +1974,7 @@ spec:
     spec:
       containers:
         - name: ts-ui-dashboard
-          image: jojodurrr/ts-ui-dashboard:bug
+          image: jojodurrr/ts-ui-dashboard:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

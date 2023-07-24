@@ -10,6 +10,9 @@ import consign.entity.ConsignRecord;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import consign.entity.Consign;
@@ -38,6 +41,9 @@ import java.util.UUID;
 @Service
 public class ConsignServiceImpl implements ConsignService { 
     private static final Logger logger = LoggerFactory.getLogger(ConsignServiceImpl.class);
+
+
+
 
 
 
@@ -89,8 +95,8 @@ public class ConsignServiceImpl implements ConsignService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Double>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                consign_price_service_url + "/api/v1/consignpriceservice/consignprice/" + consignRequest.getWeight() + "/" + consignRequest.isWithin(),"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                consign_price_service_url + "/api/v1/consignpriceservice/consignprice/" + consignRequest.getWeight() + "/" + consignRequest.isWithin(),"GET",headers);
         consignRecord.setPrice(re.getBody().getData());
         ConsignRecord result = repository.save(consignRecord);
         return new Response<>(1, "You have consigned successfully! The price is " + result.getPrice(), result);
@@ -101,7 +107,7 @@ public class ConsignServiceImpl implements ConsignService {
         logger.info("[function name:{}][consignRequest:{}, headers:{}]","updateConsignRecord",(consignRequest != null ? consignRequest.toString(): null), (headers != null ? headers.toString(): null));
 
         if (!repository.findById(consignRequest.getId()).isPresent()) {
-        logger.info("[Optional<ConsignRecord>:{}]", (repository.findById(consignRequest.getId()) != null ? repository.findById(consignRequest.getId()) : null));
+        logger.info("[Optional<ConsignRecord>:{},headers:{}]", (repository.findById(consignRequest.getId()) != null ? repository.findById(consignRequest.getId()) : null),headers);
             return insertConsignRecord(consignRequest, headers);
         }
         ConsignRecord originalRecord = repository.findById(consignRequest.getId()).get();
@@ -122,8 +128,8 @@ public class ConsignServiceImpl implements ConsignService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<Double>>() {
                     });
-        logger.info("[status code:{}, url:{} and type:{}]",re.getStatusCode(),
-                    consign_price_service_url + "/api/v1/consignpriceservice/consignprice/" + consignRequest.getWeight() + "/" + consignRequest.isWithin(),"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
+                    consign_price_service_url + "/api/v1/consignpriceservice/consignprice/" + consignRequest.getWeight() + "/" + consignRequest.isWithin(),"GET",headers);
 
             originalRecord.setPrice(re.getBody().getData());
         } else {
@@ -133,7 +139,7 @@ public class ConsignServiceImpl implements ConsignService {
         originalRecord.setPhone(consignRequest.getPhone());
         originalRecord.setWeight(consignRequest.getWeight());
       
-      logger.info("[originalRecord:{}]", (originalRecord != null ? originalRecord : null));
+      logger.info("[originalRecord:{},headers:{}]", (originalRecord != null ? originalRecord : null));
       repository.save(originalRecord);
         return new Response<>(1, "Update consign success", originalRecord);
     }
@@ -142,7 +148,10 @@ public class ConsignServiceImpl implements ConsignService {
     public Response queryByAccountId(UUID accountId, HttpHeaders headers) {
         logger.info("[function name:{}][accountId:{}, headers:{}]","queryByAccountId",(accountId != null ? accountId.toString(): null), (headers != null ? headers.toString(): null));
         List<ConsignRecord> consignRecords = repository.findByAccountId(accountId.toString());
-      logger.info("[consignRecords:{}]", (consignRecords != null ? consignRecords : null));
+      logger.info("[consignRecords:{},headers:{}]", (consignRecords != null ? consignRecords : null));
+      
+      
+      
       
       
       
@@ -165,7 +174,10 @@ public class ConsignServiceImpl implements ConsignService {
     public Response queryByOrderId(UUID orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","queryByOrderId",(orderId != null ? orderId.toString(): null), (headers != null ? headers.toString(): null));
         ConsignRecord consignRecords = repository.findByOrderId(orderId.toString());
-      logger.info("[consignRecords:{}]", (consignRecords != null ? consignRecords : null));
+      logger.info("[consignRecords:{},headers:{}]", (consignRecords != null ? consignRecords : null));
+      
+      
+      
       
       
       
@@ -188,7 +200,10 @@ public class ConsignServiceImpl implements ConsignService {
     public Response queryByConsignee(String consignee, HttpHeaders headers) {
         logger.info("[function name:{}][consignee:{}, headers:{}]","queryByConsignee",consignee, (headers != null ? headers.toString(): null));
         List<ConsignRecord> consignRecords = repository.findByConsignee(consignee);
-      logger.info("[consignRecords:{}]", (consignRecords != null ? consignRecords : null));
+      logger.info("[consignRecords:{},headers:{}]", (consignRecords != null ? consignRecords : null));
+      
+      
+      
       
       
       

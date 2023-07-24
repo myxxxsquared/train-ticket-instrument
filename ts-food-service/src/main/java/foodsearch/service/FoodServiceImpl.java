@@ -3,6 +3,9 @@ package foodsearch.service;
 import edu.fudan.common.entity.Food;
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.StationFoodStore;
@@ -37,6 +40,9 @@ import java.util.stream.Collectors;
 @Service
 public class FoodServiceImpl implements FoodService { 
     private static final Logger logger = LoggerFactory.getLogger(FoodServiceImpl.class);
+
+
+
 
 
 
@@ -103,7 +109,7 @@ public class FoodServiceImpl implements FoodService {
             fo.setFoodName(addFoodOrder.getFoodName());
             fo.setPrice(addFoodOrder.getPrice());
       
-      logger.info("[fo:{}]", (fo != null ? fo : null));
+      logger.info("[fo:{},headers:{}]", (fo != null ? fo : null));
       foodOrderRepository.save(fo);
 
             Delivery delivery = new Delivery();
@@ -148,7 +154,7 @@ public class FoodServiceImpl implements FoodService {
             fo.setFoodName(addFoodOrder.getFoodName());
             fo.setPrice(addFoodOrder.getPrice());
       
-      logger.info("[fo:{}]", (fo != null ? fo : null));
+      logger.info("[fo:{},headers:{}]", (fo != null ? fo : null));
       foodOrderRepository.save(fo);
 
             Delivery delivery = new Delivery();
@@ -187,7 +193,10 @@ public class FoodServiceImpl implements FoodService {
     public Response findAllFoodOrder(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","findAllFoodOrder",(headers != null ? headers.toString(): null));
         List<FoodOrder> foodOrders = foodOrderRepository.findAll();
-      logger.info("[foodOrders:{}]", (foodOrders != null ? foodOrders : null));
+      logger.info("[foodOrders:{},headers:{}]", (foodOrders != null ? foodOrders : null));
+      
+      
+      
       
       
       
@@ -224,7 +233,7 @@ public class FoodServiceImpl implements FoodService {
             fo.setFoodName(updateFoodOrder.getFoodName());
             fo.setPrice(updateFoodOrder.getPrice());
       
-      logger.info("[fo:{}]", (fo != null ? fo : null));
+      logger.info("[fo:{},headers:{}]", (fo != null ? fo : null));
       foodOrderRepository.save(fo);
             return new Response<>(1, "Success", fo);
         }
@@ -234,7 +243,10 @@ public class FoodServiceImpl implements FoodService {
     public Response findByOrderId(String orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","findByOrderId",orderId, (headers != null ? headers.toString(): null));
         FoodOrder fo = foodOrderRepository.findByOrderId(UUID.fromString(orderId).toString());
-      logger.info("[fo:{}]", (fo != null ? fo : null));
+      logger.info("[fo:{},headers:{}]", (fo != null ? fo : null));
+      
+      
+      
       
       
       
@@ -279,8 +291,8 @@ public class FoodServiceImpl implements FoodService {
                 requestEntityGetTrainFoodListResult,
                 new ParameterizedTypeReference<Response<List<Food>>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",reGetTrainFoodListResult.getStatusCode(),
-                train_food_service_url + "/api/v1/trainfoodservice/trainfoods/" + tripId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetTrainFoodListResult.getStatusCode(),
+                train_food_service_url + "/api/v1/trainfoodservice/trainfoods/" + tripId,"GET",headers);
 
 
 
@@ -307,8 +319,8 @@ public class FoodServiceImpl implements FoodService {
                 requestEntityGetRouteResult,
                 new ParameterizedTypeReference<Response<Route>>() {
                 });
-        logger.info("[status code:{}, url:{} and type:{}]",reGetRouteResult.getStatusCode(),
-                travel_service_url + "/api/v1/travelservice/routes/" + tripId,"GET");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetRouteResult.getStatusCode(),
+                travel_service_url + "/api/v1/travelservice/routes/" + tripId,"GET",headers);
         Response<Route> stationResult = reGetRouteResult.getBody();
 
         if (stationResult.getStatus() == 1) {
@@ -344,8 +356,8 @@ public class FoodServiceImpl implements FoodService {
                     requestEntityFoodStoresListResult,
                     new ParameterizedTypeReference<Response<List<StationFoodStore>>>() {
                     });
-        logger.info("[status code:{}, url:{} and type:{}]",reFoodStoresListResult.getStatusCode(),
-                     station_food_service_url + "/api/v1/stationfoodservice/stationfoodstores","POST");
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reFoodStoresListResult.getStatusCode(),
+                     station_food_service_url + "/api/v1/stationfoodservice/stationfoodstores","POST",headers);
             List<StationFoodStore> stationFoodStoresListResult = reFoodStoresListResult.getBody().getData();
             if (stationFoodStoresListResult != null && !stationFoodStoresListResult.isEmpty()) {
                 for (String station : stations) {
