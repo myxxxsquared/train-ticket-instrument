@@ -15,6 +15,9 @@ import com.trainticket.entity.Payment;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.trainticket.service.PaymentService;
@@ -50,12 +53,15 @@ public class PaymentController {
 
 
 
+
+
+
     @Autowired
     PaymentService service;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:None]");
+        logger.info("[function name:home, API:Get /api/v1/paymentservice/welcome]");
         return "Welcome to [ Payment Service ] !";
     }
 

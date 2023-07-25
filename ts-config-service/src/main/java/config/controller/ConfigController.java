@@ -15,6 +15,8 @@ import config.entity.Config;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import config.service.ConfigService;
@@ -53,12 +55,14 @@ public class ConfigController {
 
 
 
+
+
     @Autowired
     private ConfigService configService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get api/v1/configservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Config Service ] !";
     }
 
@@ -72,7 +76,7 @@ public class ConfigController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/configs")
     public HttpEntity<?> createConfig(@RequestBody Config info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][info:{}, headers:{}]","createConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post api/v1/configservice/configs][info:{}, headers:{}]","createConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(configService.create(info, headers), HttpStatus.CREATED);
     }
 

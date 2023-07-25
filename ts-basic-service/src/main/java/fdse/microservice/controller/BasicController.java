@@ -16,6 +16,9 @@ import edu.fudan.common.entity.Travel;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import fdse.microservice.service.BasicService;
@@ -55,12 +58,15 @@ public class BasicController {
 
 
 
+
+
+
     @Autowired
     BasicService service;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/basicservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Basic Service ] !";
     }
 

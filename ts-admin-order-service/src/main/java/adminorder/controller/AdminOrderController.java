@@ -14,6 +14,9 @@ import edu.fudan.common.entity.*;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import adminorder.service.AdminOrderService;
@@ -47,12 +50,15 @@ public class AdminOrderController {
 
 
 
+
+
+
     @Autowired
     AdminOrderService adminOrderService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/adminorderservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [Admin Order Service] !";
     }
 

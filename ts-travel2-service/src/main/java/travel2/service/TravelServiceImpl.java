@@ -13,6 +13,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,6 +47,8 @@ import java.util.*;
 @Service
 public class TravelServiceImpl implements TravelService { 
     private static final Logger logger = LoggerFactory.getLogger(TravelServiceImpl.class);
+
+
 
 
 
@@ -95,6 +99,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         if (trip == null) {
             TravelServiceImpl.logger.error("[getRouteByTripId][Get Route By Trip ID Fail][Trip Not Found][TripId: {}]", tripId);
             return new Response<>(0, "\"[Get Route By Trip ID] Trip Not Found:\" + tripId", null);
@@ -130,6 +136,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         if (trip != null) {
             trainType = getTrainTypeByName(trip.getTrainTypeName(), headers);
         }
@@ -151,6 +159,8 @@ public class TravelServiceImpl implements TravelService {
         for (String routeId : routeIds) {
             ArrayList<Trip> tempTripList = repository.findByRouteId(routeId);
       logger.info("[tempTripList:{},headers:{}]", (tempTripList != null ? tempTripList : null));
+      
+      
       
       
       
@@ -200,6 +210,8 @@ public class TravelServiceImpl implements TravelService {
         TripId ti = new TripId(tripId);
         Trip trip = repository.findByTripId(ti);
       logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
+      
+      
       
       
       
@@ -286,6 +298,8 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
         list = getTicketsByBatch(allTripList, startPlaceName, endPlaceName, info.getDepartureTime(), headers);
         return new Response<>(1, success, list);
     }
@@ -306,6 +320,8 @@ public class TravelServiceImpl implements TravelService {
       logger.info("[allTripList:{},headers:{}]", (allTripList != null ? allTripList : null));
       
       logger.info("[allTripList:{},headers:{}]", (allTripList != null ? allTripList : null));
+      
+      
       
       
       
@@ -340,6 +356,8 @@ public class TravelServiceImpl implements TravelService {
         TravelServiceImpl.logger.debug("[getTripAllDetailInfo][gtdi info: {}]", gtdi.toString());
         Trip trip = repository.findByTripId(new TripId(gtdi.getTripId()));
       logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
+      
+      
       
       
       
@@ -523,6 +541,8 @@ public class TravelServiceImpl implements TravelService {
         logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Trip> tripList = repository.findAll();
       logger.info("[tripList:{},headers:{}]", (tripList != null ? tripList : null));
+      
+      
       
       
       

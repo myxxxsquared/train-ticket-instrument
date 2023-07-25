@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -54,12 +56,14 @@ public class PriceController {
 
 
 
+
+
     @Autowired
     PriceService service;
 
     @GetMapping(path = "/prices/welcome")
     public String home() {
-        logger.info("[function name:home, API:None]");
+        logger.info("[function name:home, API:Get /api/v1/priceservice/prices/welcome]");
         return "Welcome to [ Price Service ] !";
     }
 
@@ -86,7 +90,7 @@ public class PriceController {
     @PostMapping(value = "/prices")
     public HttpEntity<?> create(@RequestBody PriceConfig info,
                                 @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/priceservice/prices][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(service.createNewPriceConfig(info, headers), HttpStatus.CREATED);
     }
 

@@ -14,6 +14,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,8 @@ import java.util.UUID;
 @Service
 public class RouteServiceImpl implements RouteService { 
     private static final Logger logger = LoggerFactory.getLogger(RouteServiceImpl.class);
+
+
 
 
 
@@ -90,6 +94,8 @@ public class RouteServiceImpl implements RouteService {
       
       
       
+      
+      
             if(routeOld.isPresent()) {
                 route = routeOld.get();
             } else {
@@ -111,6 +117,8 @@ public class RouteServiceImpl implements RouteService {
         routeRepository.removeRouteById(routeId);
         Optional<Route> route = routeRepository.findById(routeId);
       logger.info("[route:{},headers:{}]", (route != null ? route : null));
+      
+      
       
       
       
@@ -146,6 +154,8 @@ public class RouteServiceImpl implements RouteService {
       
       
       
+      
+      
             
         if (!route.isPresent()) {
             RouteServiceImpl.logger.error("[getRouteById][Find route error][Route not found][RouteId: {}]",routeId);
@@ -161,6 +171,8 @@ public class RouteServiceImpl implements RouteService {
         logger.info("[function name:{}][routeIds:{}, headers:{}]","getRouteByIds",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         List<Route> routes = routeRepository.findByIds(routeIds);
       logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
+      
+      
       
       
       
@@ -202,6 +214,8 @@ public class RouteServiceImpl implements RouteService {
       
       
       
+      
+      
         List<Route> resultList = new ArrayList<>();
         for (Route route : routes) {
             if (route.getStations().contains(startId) &&
@@ -225,6 +239,8 @@ public class RouteServiceImpl implements RouteService {
       logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
       
       logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
+      
+      
       
       
       

@@ -15,6 +15,9 @@ import edu.fudan.common.util.JsonUtils;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import foodsearch.entity.*;
@@ -52,6 +55,9 @@ public class FoodController {
 
 
 
+
+
+
     @Autowired
     FoodService foodService;
 
@@ -60,13 +66,13 @@ public class FoodController {
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:None]");
+        logger.info("[function name:home, API:Get /api/v1/foodservice/welcome]");
         return "Welcome to [ Food Service ] !";
     }
 
     @GetMapping(path = "/test_send_delivery")
     public boolean test_send_delivery() {
-        logger.info("[function name:test_send_delivery, API:None]");
+        logger.info("[function name:test_send_delivery, API:Get /api/v1/foodservice/test_send_delivery]");
         Delivery delivery = new Delivery();
         delivery.setFoodName("HotPot");
         delivery.setOrderId(UUID.randomUUID());

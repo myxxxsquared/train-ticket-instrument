@@ -15,6 +15,9 @@ import edu.fudan.common.entity.OrderStatus;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Order;
@@ -42,6 +45,9 @@ import java.util.*;
 @Service
 public class InsidePaymentServiceImpl implements InsidePaymentService { 
     private static final Logger logger = LoggerFactory.getLogger(InsidePaymentServiceImpl.class);
+
+
+
 
 
 
@@ -128,8 +134,14 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
             List<Money> addMonies = addMoneyRepository.findByUserId(userId);
       logger.info("[addMonies:{},headers:{}]", (addMonies != null ? addMonies : null));
+      
+      
+      
       
       
       
@@ -222,6 +234,9 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
         if (list.isEmpty()) {
             Money addMoney = new Money();
             addMoney.setMoney(info.getMoney());
@@ -274,6 +289,9 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
         Iterator<Money> ite = list.iterator();
         HashMap<String, String> map = new HashMap<>();
         while (ite.hasNext()) {
@@ -294,6 +312,9 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
             List<Payment> payments = paymentRepository.findByUserId(userId);
       logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
+      
+      
+      
       
       
       
@@ -331,6 +352,9 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         logger.info("[function name:{}][headers:{}]","queryPayment",(headers != null ? headers.toString(): null));
         List<Payment> payments = paymentRepository.findAll();
       logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
+      
+      
+      
       
       
       
@@ -401,8 +425,14 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
         List<Money> addMonies = addMoneyRepository.findByUserId(userId);
       logger.info("[addMonies:{},headers:{}]", (addMonies != null ? addMonies : null));
+      
+      
+      
       
       
       
@@ -487,6 +517,9 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
       
+      
+      
+      
         if (monies != null && !monies.isEmpty()) {
             return new Response<>(1, "Query Money Success", null);
         } else {
@@ -535,6 +568,9 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         logger.info("[function name:{}][payment:{}, headers:{}]","initPayment",(payment != null ? payment.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Payment> paymentTemp = paymentRepository.findById(payment.getId());
       logger.info("[paymentTemp:{},headers:{}]", (paymentTemp != null ? paymentTemp : null));
+      
+      
+      
       
       
       

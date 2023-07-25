@@ -16,6 +16,8 @@ import assurance.service.AssuranceService;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +52,14 @@ public class AssuranceController {
 
 
 
+
+
     @Autowired
     private AssuranceService assuranceService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/assuranceservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Assurance Service ] !";
     }
 
@@ -92,7 +96,7 @@ public class AssuranceController {
     public HttpEntity modifyAssurance(@PathVariable String assuranceId,
                                       @PathVariable String orderId,
                                       @PathVariable int typeIndex, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][assuranceId:{}, orderId:{}, typeIndex:{}, headers:{}]","modifyAssurance",assuranceId, orderId, typeIndex, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Patch /api/v1/assuranceservice/assurances/{assuranceId}/{orderId}/{typeIndex}][assuranceId:{}, orderId:{}, typeIndex:{}, headers:{}]","modifyAssurance",assuranceId, orderId, typeIndex, (headers != null ? headers.toString(): null));
         return ok(assuranceService.modify(assuranceId, orderId, typeIndex, headers));
     }
 

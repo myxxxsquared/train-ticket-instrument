@@ -19,6 +19,8 @@ import auth.dto.BasicAuthDto;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.entity.User;
@@ -57,6 +59,8 @@ public class UserController {
 
 
 
+
+
     @Autowired
     private UserService userService;
 
@@ -65,13 +69,13 @@ public class UserController {
 
     @GetMapping("/hello")
     public Object getHello() {
-        logger.info("[function name:getHello, API:None]");
+        logger.info("[function name:getHello, API:Get /api/v1/users/hello]");
         return "Hello";
     }
 
     @PostMapping("/login")
     public ResponseEntity<Response> getToken(@RequestBody BasicAuthDto dao , @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][dao:{}, headers:{}]","getToken",(dao != null ? dao.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/users/login][dao:{}, headers:{}]","getToken",(dao != null ? dao.toString(): null), (headers != null ? headers.toString(): null));
         try {
             Response<?> res = tokenService.getToken(dao, headers);
             return ResponseEntity.ok(res);
@@ -83,13 +87,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUser(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API: /api/v1/users][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
         return ResponseEntity.ok().body(userService.getAllUser(headers));
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Response> deleteUserById(@PathVariable String userId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][userId:{}, headers:{}]","deleteUserById",userId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Delete /api/v1/users/{userId}][userId:{}, headers:{}]","deleteUserById",userId, (headers != null ? headers.toString(): null));
         return ResponseEntity.ok(userService.deleteByUserId(userId, headers));
     }
 

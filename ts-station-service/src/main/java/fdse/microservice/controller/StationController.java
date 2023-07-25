@@ -13,6 +13,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import fdse.microservice.entity.*;
@@ -47,12 +49,14 @@ public class StationController {
 
 
 
+
+
     @Autowired
     private StationService stationService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/stationservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Station Service ] !";
     }
 
@@ -64,7 +68,7 @@ public class StationController {
 
     @PostMapping(value = "/stations")
     public ResponseEntity<Response> create(@RequestBody Station station, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][station:{}, headers:{}]","create",(station != null ? station.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/stationservice/stations][station:{}, headers:{}]","create",(station != null ? station.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(stationService.create(station, headers), HttpStatus.CREATED);
     }
 
@@ -76,7 +80,7 @@ public class StationController {
 
     @DeleteMapping(value = "/stations/{stationsId}")
     public ResponseEntity<Response> delete(@PathVariable String stationsId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][stationsId:{}, headers:{}]","delete",stationsId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Delete /api/v1/stationservice/stations/{stationsId}][stationsId:{}, headers:{}]","delete",stationsId, (headers != null ? headers.toString(): null));
         return ok(stationService.delete(stationsId, headers));
     }
 

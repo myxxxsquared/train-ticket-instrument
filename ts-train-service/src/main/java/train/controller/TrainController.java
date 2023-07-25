@@ -14,6 +14,8 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +49,14 @@ public class TrainController {
 
 
 
+
+
     @Autowired
     private TrainService trainService;
 
     @GetMapping(path = "/trains/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/trainservice/trains/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Train Service ] !";
     }
 

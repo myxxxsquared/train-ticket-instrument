@@ -15,6 +15,9 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import food.entity.StationFoodStore;
@@ -46,6 +49,9 @@ public class StationFoodServiceImpl implements StationFoodService {
 
 
 
+
+
+
     @Autowired
     StationFoodRepository stationFoodRepository;
 
@@ -60,6 +66,9 @@ public class StationFoodServiceImpl implements StationFoodService {
         logger.info("[function name:{}][fs:{}, headers:{}]","createFoodStore",(fs != null ? fs.toString(): null), (headers != null ? headers.toString(): null));
         StationFoodStore fsTemp = stationFoodRepository.findById(fs.getId()).orElse(null);
       logger.info("[fsTemp:{},headers:{}]", (fsTemp != null ? fsTemp : null));
+      
+      
+      
       
       
       
@@ -108,6 +117,9 @@ public class StationFoodServiceImpl implements StationFoodService {
       
       
       
+      
+      
+      
         if (stationFoodStores != null && !stationFoodStores.isEmpty()) {
             return new Response<>(1, success, stationFoodStores);
         } else {
@@ -121,6 +133,9 @@ public class StationFoodServiceImpl implements StationFoodService {
         logger.info("[function name:{}][stationName:{}, headers:{}]","listFoodStoresByStationName",stationName, (headers != null ? headers.toString(): null));
         List<StationFoodStore> stationFoodStoreList = stationFoodRepository.findByStationName(stationName);
       logger.info("[stationFoodStoreList:{},headers:{}]", (stationFoodStoreList != null ? stationFoodStoreList : null));
+      
+      
+      
       
       
       
@@ -163,6 +178,9 @@ public class StationFoodServiceImpl implements StationFoodService {
       
       
       
+      
+      
+      
         if (stationFoodStoreList != null) {
             return new Response<>(1, success, stationFoodStoreList);
         } else {
@@ -176,6 +194,9 @@ public class StationFoodServiceImpl implements StationFoodService {
         logger.info("[function name:{}][id:{}]","getStaionFoodStoreById",id);
         StationFoodStore stationFoodStore = stationFoodRepository.findById(id).orElse(null);
       logger.info("[stationFoodStore:{},headers:{}]", (stationFoodStore != null ? stationFoodStore : null));
+      
+      
+      
       
       
       

@@ -15,6 +15,9 @@ import edu.fudan.common.entity.TravelInfo;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetailInfo;
@@ -60,12 +63,15 @@ public class TravelController {
 
 
 
+
+
+
     @Autowired
     private TravelService travelService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/travelservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Travel Service ] !";
     }
 
@@ -94,7 +100,7 @@ public class TravelController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/trips")
     public HttpEntity<?> createTrip(@RequestBody TravelInfo routeIds, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][routeIds:{}, headers:{}]","createTrip",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/travelservice/trips][routeIds:{}, headers:{}]","createTrip",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(travelService.create(routeIds, headers), HttpStatus.CREATED);
     }
 

@@ -15,6 +15,8 @@ import edu.fudan.common.entity.Seat;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.StringUtils;
@@ -56,12 +58,14 @@ public class OrderOtherController {
 
 
 
+
+
     @Autowired
     private OrderOtherService orderService;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:None]");
+        logger.info("[function name:home, API:Get /api/v1/orderOtherService/welcome]");
         return "Welcome to [ Order Other Service ] !";
     }
 

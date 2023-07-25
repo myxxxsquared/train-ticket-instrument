@@ -15,6 +15,8 @@ import assurance.entity.*;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import assurance.repository.AssuranceRepository;
@@ -51,6 +53,8 @@ public class AssuranceServiceImpl implements AssuranceService {
 
 
 
+
+
     @Autowired
     private AssuranceRepository assuranceRepository;
 
@@ -59,6 +63,8 @@ public class AssuranceServiceImpl implements AssuranceService {
         logger.info("[function name:{}][id:{}, headers:{}]","findAssuranceById",(id != null ? id.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Assurance> assurance = assuranceRepository.findById(id.toString());
       logger.info("[assurance:{},headers:{}]", (assurance != null ? assurance : null));
+      
+      
       
       
       
@@ -102,6 +108,8 @@ public class AssuranceServiceImpl implements AssuranceService {
       
       
       
+      
+      
         if (assurance == null) {
             AssuranceServiceImpl.logger.warn("[findAssuranceByOrderId][find assurance][No content][orderId: {}]", orderId);
             return new Response<>(0, "No Content by this orderId", null);
@@ -115,6 +123,8 @@ public class AssuranceServiceImpl implements AssuranceService {
         logger.info("[function name:{}][typeIndex:{}, orderId:{}, headers:{}]","create",typeIndex, orderId, (headers != null ? headers.toString(): null));
         Assurance a = assuranceRepository.findByOrderId(orderId);
       logger.info("[a:{},headers:{}]", (a != null ? a : null));
+      
+      
       
       
       
@@ -165,6 +175,8 @@ public class AssuranceServiceImpl implements AssuranceService {
       
       
       
+      
+      
         if (a == null) {
             return new Response<>(1, "Delete Success with Assurance id", null);
         } else {
@@ -179,6 +191,8 @@ public class AssuranceServiceImpl implements AssuranceService {
         assuranceRepository.removeAssuranceByOrderId(orderId.toString());
         Assurance isExistAssurace = assuranceRepository.findByOrderId(orderId.toString());
       logger.info("[isExistAssurace:{},headers:{}]", (isExistAssurace != null ? isExistAssurace : null));
+      
+      
       
       
       
@@ -228,6 +242,8 @@ public class AssuranceServiceImpl implements AssuranceService {
         logger.info("[function name:{}][headers:{}]","getAllAssurances",(headers != null ? headers.toString(): null));
         List<Assurance> as = assuranceRepository.findAll();
       logger.info("[as:{},headers:{}]", (as != null ? as : null));
+      
+      
       
       
       

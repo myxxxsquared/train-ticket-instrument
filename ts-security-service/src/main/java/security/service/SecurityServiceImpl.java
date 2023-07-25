@@ -16,6 +16,9 @@ import edu.fudan.common.entity.OrderSecurity;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -48,6 +51,9 @@ import java.util.UUID;
 @Service
 public class SecurityServiceImpl implements SecurityService { 
     private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+
+
+
 
 
 
@@ -102,6 +108,9 @@ public class SecurityServiceImpl implements SecurityService {
       
       
       
+      
+      
+      
         if (securityConfigs != null && !securityConfigs.isEmpty()) {
             return new Response<>(1, success, securityConfigs);
         }
@@ -114,6 +123,9 @@ public class SecurityServiceImpl implements SecurityService {
         logger.info("[function name:{}][info:{}, headers:{}]","addNewSecurityConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         SecurityConfig sc = securityRepository.findByName(info.getName());
       logger.info("[sc:{},headers:{}]", (sc != null ? sc : null));
+      
+      
+      
       
       
       
@@ -185,6 +197,9 @@ public class SecurityServiceImpl implements SecurityService {
       
       
       
+      
+      
+      
         if (sc == null) {
             return new Response<>(1, success, id);
         } else {
@@ -222,8 +237,14 @@ public class SecurityServiceImpl implements SecurityService {
       
       
       
+      
+      
+      
         SecurityConfig configMaxNotUse = securityRepository.findByName("max_order_not_use");
       logger.info("[configMaxNotUse:{},headers:{}]", (configMaxNotUse != null ? configMaxNotUse : null));
+      
+      
+      
       
       
       

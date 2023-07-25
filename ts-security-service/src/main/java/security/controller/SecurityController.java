@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -51,12 +54,15 @@ public class SecurityController {
 
 
 
+
+
+
     @Autowired
     private SecurityService securityService;
 
     @GetMapping(value = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/securityservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "welcome to [Security Service]";
     }
 

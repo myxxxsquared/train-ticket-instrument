@@ -15,6 +15,9 @@ import cancel.service.CancelService;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -50,12 +53,15 @@ public class CancelController {
 
 
 
+
+
+
     @Autowired
     CancelService cancelService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/cancelservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Cancel Service ] !";
     }
 

@@ -15,6 +15,8 @@ import edu.fudan.common.entity.Trip;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TripAllDetail;
@@ -48,6 +50,8 @@ import java.util.List;
 @Service
 public class RebookServiceImpl implements RebookService { 
     private static final Logger logger = LoggerFactory.getLogger(RebookServiceImpl.class);
+
+
 
 
 
@@ -289,7 +293,7 @@ public class RebookServiceImpl implements RebookService {
                 new ParameterizedTypeReference<Response<Ticket>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reTicket.getStatusCode(),
-                seat_service_url + "/api/v1/seatservice/seats","POST",httpHeaders);
+                seat_service_url + "/api/v1/seatservice/seats","POST",headers);
         return reTicket.getBody().getData();
     }
 
@@ -352,7 +356,7 @@ public class RebookServiceImpl implements RebookService {
                 new ParameterizedTypeReference<Response<TripAllDetail>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetTripAllDetailResult.getStatusCode(),
-                requestUrl,"POST",httpHeaders);
+                requestUrl,"POST",headers);
         gtdr = reGetTripAllDetailResult.getBody();
         return gtdr;
     }
@@ -377,7 +381,7 @@ public class RebookServiceImpl implements RebookService {
                 requestCreateOrder,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reCreateOrder.getStatusCode(),
-                requestUrl,"POST",httpHeaders);
+                requestUrl,"POST",headers);
         return reCreateOrder.getBody();
     }
 
@@ -399,7 +403,7 @@ public class RebookServiceImpl implements RebookService {
                 requestUpdateOrder,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reUpdateOrder.getStatusCode(),
-                requestOrderUtl,"PUT",httpHeaders);
+                requestOrderUtl,"PUT",headers);
         return reUpdateOrder.getBody();
     }
 
@@ -422,7 +426,7 @@ public class RebookServiceImpl implements RebookService {
                 requestDeleteOrder,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reDeleteOrder.getStatusCode(),
-                requestUrl,"POST",httpHeaders);
+                requestUrl,"POST",headers);
 
         return reDeleteOrder.getBody();
     }
@@ -448,7 +452,7 @@ public class RebookServiceImpl implements RebookService {
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetOrderByRebookInfo.getStatusCode(),
-                requestUrl,"GET",httpHeaders);
+                requestUrl,"GET",headers);
 
         queryOrderResult = reGetOrderByRebookInfo.getBody();
         return queryOrderResult;
@@ -507,7 +511,7 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityPayDifferentMoney,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",rePayDifferentMoney.getStatusCode(),
-                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/difference","POST",httpHeaders);
+                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/difference","POST",headers);
         Response result = rePayDifferentMoney.getBody();
         return result.getStatus() == 1;
     }
@@ -524,7 +528,7 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityDrawBackMoney,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reDrawBackMoney.getStatusCode(),
-                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET",httpHeaders);
+                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET",headers);
         Response result = reDrawBackMoney.getBody();
         return result.getStatus() == 1;
     }

@@ -13,6 +13,8 @@ import consignprice.entity.ConsignPrice;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import consignprice.repository.ConsignPriceConfigRepository;
@@ -28,6 +30,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConsignPriceServiceImpl implements ConsignPriceService { 
     private static final Logger logger = LoggerFactory.getLogger(ConsignPriceServiceImpl.class);
+
+
 
 
 
@@ -65,6 +69,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
       
       
       
+      
+      
         double price = 0;
         double initialPrice = priceConfig.getInitialPrice();
         if (weight <= priceConfig.getInitialWeight()) {
@@ -86,6 +92,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
         StringBuilder sb = new StringBuilder();
         ConsignPrice price = repository.findByIndex(0);
       logger.info("[price:{},headers:{}]", (price != null ? price : null));
+      
+      
       
       
       

@@ -15,6 +15,9 @@ import contacts.entity.*;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -34,6 +37,9 @@ import java.util.UUID;
 @Service
 public class ContactsServiceImpl implements ContactsService { 
     private static final Logger logger = LoggerFactory.getLogger(ContactsServiceImpl.class);
+
+
+
 
 
 
@@ -75,6 +81,9 @@ public class ContactsServiceImpl implements ContactsService {
       
       
       
+      
+      
+      
         if (contacts != null) {
             return new Response<>(1, success, contacts);
         } else {
@@ -88,6 +97,9 @@ public class ContactsServiceImpl implements ContactsService {
         logger.info("[function name:{}][accountId:{}, headers:{}]","findContactsByAccountId",accountId, (headers != null ? headers.toString(): null));
         ArrayList<Contacts> arr = contactsRepository.findByAccountId(accountId);
       logger.info("[arr:{},headers:{}]", (arr != null ? arr : null));
+      
+      
+      
       
       
       
@@ -155,6 +167,9 @@ public class ContactsServiceImpl implements ContactsService {
       
       
       
+      
+      
+      
         if (contacts == null) {
             return new Response<>(1, "Delete success", contactsId);
         } else {
@@ -187,6 +202,9 @@ public class ContactsServiceImpl implements ContactsService {
         logger.info("[function name:{}][headers:{}]","getAllContacts",(headers != null ? headers.toString(): null));
         ArrayList<Contacts> contacts = contactsRepository.findAll();
       logger.info("[contacts:{},headers:{}]", (contacts != null ? contacts : null));
+      
+      
+      
       
       
       

@@ -16,6 +16,9 @@ import edu.fudan.common.util.Response;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import food_delivery.entity.DeliveryInfo;
@@ -51,12 +54,15 @@ public class FoodDeliveryController {
 
 
 
+
+
+
     @Autowired
     private FoodDeliveryService foodDeliveryService;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:None]");
+        logger.info("[function name:home, API:Get /api/v1/fooddeliveryservice/welcome]");
         return "Welcome to [ food delivery service ] !";
     }
 

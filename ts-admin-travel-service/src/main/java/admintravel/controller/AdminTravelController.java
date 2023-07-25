@@ -15,6 +15,9 @@ import admintravel.service.AdminTravelService;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.TravelInfo;
@@ -48,12 +51,15 @@ public class AdminTravelController {
 
 
 
+
+
+
     @Autowired
     AdminTravelService adminTravelService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:None][headers:{}]","home",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/admintravelservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ AdminTravel Service ] !";
     }
 

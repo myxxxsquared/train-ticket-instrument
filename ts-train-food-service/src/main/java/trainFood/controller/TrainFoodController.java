@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -45,12 +48,15 @@ public class TrainFoodController {
 
 
 
+
+
+
     @Autowired
     TrainFoodService trainFoodService;
 
     @GetMapping(path = "/trainfoods/welcome")
     public String home() {
-        logger.info("[function name:home, API:None]");
+        logger.info("[function name:home, API:Get /api/v1/trainfoodservice/trainfoods/welcome]");
         return "Welcome to [ Train Food Service ] !";
     }
 

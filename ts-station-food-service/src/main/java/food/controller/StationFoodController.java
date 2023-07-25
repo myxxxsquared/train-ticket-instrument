@@ -16,6 +16,9 @@ import food.service.StationFoodService;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +50,15 @@ public class StationFoodController {
 
 
 
+
+
+
     @Autowired
     StationFoodService stationFoodService;
 
     @GetMapping(path = "/stationfoodstores/welcome")
     public String home() {
-        logger.info("[function name:home, API:None]");
+        logger.info("[function name:home, API:Get /api/v1/stationfoodservice/stationfoodstores/welcome]");
         return "Welcome to [ Food store Service ] !";
     }
 

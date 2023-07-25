@@ -15,6 +15,9 @@ import inside_payment.entity.*;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import inside_payment.service.InsidePaymentService;
@@ -49,12 +52,15 @@ public class InsidePaymentController {
 
 
 
+
+
+
     @Autowired
     public InsidePaymentService service;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:None]");
+        logger.info("[function name:home, API:Get /api/v1/inside_pay_service/welcome]");
         return "Welcome to [ InsidePayment Service ] !";
     }
 

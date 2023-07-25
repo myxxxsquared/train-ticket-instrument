@@ -15,6 +15,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,6 +53,9 @@ import java.util.concurrent.*;
 @Service
 public class TravelServiceImpl implements TravelService { 
     private static final Logger logger = LoggerFactory.getLogger(TravelServiceImpl.class);
+
+
+
 
 
 
@@ -125,6 +131,9 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
+      
             if (trip != null) {
                 route = getRouteByRouteId(trip.getRouteId(), headers);
             } else {
@@ -146,6 +155,9 @@ public class TravelServiceImpl implements TravelService {
         TrainType trainType = null;
         Trip trip = repository.findByTripId(tripId1);
       logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
+      
+      
+      
       
       
       
@@ -196,6 +208,9 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
+      
             if (tempTripList == null) {
                 tempTripList = new ArrayList<>();
             }
@@ -216,6 +231,9 @@ public class TravelServiceImpl implements TravelService {
         TripId ti = new TripId(tripId);
         Trip trip = repository.findByTripId(ti);
       logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
+      
+      
+      
       
       
       
@@ -306,6 +324,9 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
+      
         if(allTripList != null) {
             for (Trip tempTrip : allTripList) {
                 //Get the detailed route list of this train
@@ -336,6 +357,9 @@ public class TravelServiceImpl implements TravelService {
         //Check all train info
         List<Trip> allTripList = repository.findAll();
       logger.info("[allTripList:{},headers:{}]", (allTripList != null ? allTripList : null));
+      
+      
+      
       
       
       
@@ -420,6 +444,9 @@ public class TravelServiceImpl implements TravelService {
       
       
       
+      
+      
+      
         List<Future<TripResponse>> futureList = new ArrayList<>();
 
         if(allTripList != null ){
@@ -455,6 +482,9 @@ public class TravelServiceImpl implements TravelService {
         TravelServiceImpl.logger.debug("[getTripAllDetailInfo][TripId: {}]", gtdi.getTripId());
         Trip trip = repository.findByTripId(new TripId(gtdi.getTripId()));
       logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
+      
+      
+      
       
       
       
@@ -640,6 +670,9 @@ public class TravelServiceImpl implements TravelService {
         logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Trip> tripList = repository.findAll();
       logger.info("[tripList:{},headers:{}]", (tripList != null ? tripList : null));
+      
+      
+      
       
       
       

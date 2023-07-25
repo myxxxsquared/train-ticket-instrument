@@ -13,6 +13,8 @@ import edu.fudan.common.entity.*;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -38,6 +40,8 @@ import java.util.List;
 @Service
 public class RoutePlanServiceImpl implements RoutePlanService { 
     private static final Logger logger = LoggerFactory.getLogger(RoutePlanServiceImpl.class);
+
+
 
 
 
@@ -250,7 +254,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<ArrayList<Trip>>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re2.getStatusCode(),
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
                 travel2_service_url + "/api/v1/travel2service/trips/routes","POST",headers);
         ArrayList<ArrayList<Trip>> travel2Trips = re2.getBody().getData();
 
@@ -289,7 +293,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<TripAllDetail>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
                     requestUrl,"POST",headers);
 
             TripAllDetail tripAllDetail = re3.getBody().getData();

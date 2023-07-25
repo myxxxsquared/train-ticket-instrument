@@ -15,6 +15,8 @@ import edu.fudan.common.util.JsonUtils;
 
 
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.util.Response;
@@ -44,6 +46,8 @@ import java.util.UUID;
 @Service
 public class PreserveServiceImpl implements PreserveService { 
     private static final Logger logger = LoggerFactory.getLogger(PreserveServiceImpl.class);
+
+
 
 
 
@@ -287,7 +291,7 @@ public class PreserveServiceImpl implements PreserveService {
                 new ParameterizedTypeReference<Response<Ticket>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reTicket.getStatusCode(),
-                seat_service_url + "/api/v1/seatservice/seats","POST",httpHeaders);
+                seat_service_url + "/api/v1/seatservice/seats","POST",headers);
 
         return reTicket.getBody().getData();
     }
@@ -317,7 +321,7 @@ public class PreserveServiceImpl implements PreserveService {
                 new ParameterizedTypeReference<Response<User>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",getAccount.getStatusCode(),
-                user_service_url + "/api/v1/userservice/users/id/" + accountId,"GET",httpHeaders);
+                user_service_url + "/api/v1/userservice/users/id/" + accountId,"GET",headers);
         Response<User> result = getAccount.getBody();
         return result.getData();
     }
@@ -332,7 +336,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestAddAssuranceResult,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reAddAssuranceResult.getStatusCode(),
-                assurance_service_url + "/api/v1/assuranceservice/assurances/" + assuranceType + "/" + orderId,"GET",httpHeaders);
+                assurance_service_url + "/api/v1/assuranceservice/assurances/" + assuranceType + "/" + orderId,"GET",headers);
 
         return reAddAssuranceResult.getBody();
     }
@@ -350,7 +354,7 @@ public class PreserveServiceImpl implements PreserveService {
                 new ParameterizedTypeReference<Response<String>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reQueryForStationId.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",httpHeaders);
+                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
 
         return reQueryForStationId.getBody().getData();
     }
@@ -366,7 +370,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestCheckResult,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reCheckResult.getStatusCode(),
-                security_service_url + "/api/v1/securityservice/securityConfigs/" + accountId,"GET",httpHeaders);
+                security_service_url + "/api/v1/securityservice/securityConfigs/" + accountId,"GET",headers);
 
         return reCheckResult.getBody();
     }
@@ -384,7 +388,7 @@ public class PreserveServiceImpl implements PreserveService {
                 new ParameterizedTypeReference<Response<TripAllDetail>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetTripAllDetailResult.getStatusCode(),
-                travel_service_url + "/api/v1/travelservice/trip_detail","POST",httpHeaders);
+                travel_service_url + "/api/v1/travelservice/trip_detail","POST",headers);
 
         return reGetTripAllDetailResult.getBody();
     }
@@ -402,7 +406,7 @@ public class PreserveServiceImpl implements PreserveService {
                 new ParameterizedTypeReference<Response<Contacts>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetContactsResult.getStatusCode(),
-                contacts_service_url + "/api/v1/contactservice/contacts/" + contactsId,"GET",httpHeaders);
+                contacts_service_url + "/api/v1/contactservice/contacts/" + contactsId,"GET",headers);
 
         return reGetContactsResult.getBody();
     }
@@ -419,7 +423,7 @@ public class PreserveServiceImpl implements PreserveService {
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reCreateOrderResult.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order","POST",httpHeaders);
+                order_service_url + "/api/v1/orderservice/order","POST",headers);
 
         return reCreateOrderResult.getBody();
     }
@@ -435,7 +439,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntityAddFoodOrderResult,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reAddFoodOrderResult.getStatusCode(),
-                food_service_url + "/api/v1/foodservice/orders","POST",httpHeaders);
+                food_service_url + "/api/v1/foodservice/orders","POST",headers);
 
         return reAddFoodOrderResult.getBody();
     }
@@ -451,7 +455,7 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntityResultForTravel,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reResultForTravel.getStatusCode(),
-                consign_service_url + "/api/v1/consignservice/consigns","POST",httpHeaders);
+                consign_service_url + "/api/v1/consignservice/consigns","POST",headers);
         return reResultForTravel.getBody();
     }
 
