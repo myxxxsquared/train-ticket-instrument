@@ -254,7 +254,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<ArrayList<Trip>>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re2.getStatusCode(),
                 travel2_service_url + "/api/v1/travel2service/trips/routes","POST",headers);
         ArrayList<ArrayList<Trip>> travel2Trips = re2.getBody().getData();
 
@@ -293,7 +293,7 @@ public class RoutePlanServiceImpl implements RoutePlanService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<TripAllDetail>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
                     requestUrl,"POST",headers);
 
             TripAllDetail tripAllDetail = re3.getBody().getData();

@@ -293,7 +293,7 @@ public class RebookServiceImpl implements RebookService {
                 new ParameterizedTypeReference<Response<Ticket>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reTicket.getStatusCode(),
-                seat_service_url + "/api/v1/seatservice/seats","POST",headers);
+                seat_service_url + "/api/v1/seatservice/seats","POST",httpHeaders);
         return reTicket.getBody().getData();
     }
 
@@ -356,7 +356,7 @@ public class RebookServiceImpl implements RebookService {
                 new ParameterizedTypeReference<Response<TripAllDetail>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetTripAllDetailResult.getStatusCode(),
-                requestUrl,"POST",headers);
+                requestUrl,"POST",httpHeaders);
         gtdr = reGetTripAllDetailResult.getBody();
         return gtdr;
     }
@@ -381,7 +381,7 @@ public class RebookServiceImpl implements RebookService {
                 requestCreateOrder,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reCreateOrder.getStatusCode(),
-                requestUrl,"POST",headers);
+                requestUrl,"POST",httpHeaders);
         return reCreateOrder.getBody();
     }
 
@@ -403,7 +403,7 @@ public class RebookServiceImpl implements RebookService {
                 requestUpdateOrder,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reUpdateOrder.getStatusCode(),
-                requestOrderUtl,"PUT",headers);
+                requestOrderUtl,"PUT",httpHeaders);
         return reUpdateOrder.getBody();
     }
 
@@ -426,7 +426,7 @@ public class RebookServiceImpl implements RebookService {
                 requestDeleteOrder,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reDeleteOrder.getStatusCode(),
-                requestUrl,"POST",headers);
+                requestUrl,"POST",httpHeaders);
 
         return reDeleteOrder.getBody();
     }
@@ -452,7 +452,7 @@ public class RebookServiceImpl implements RebookService {
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetOrderByRebookInfo.getStatusCode(),
-                requestUrl,"GET",headers);
+                requestUrl,"GET",httpHeaders);
 
         queryOrderResult = reGetOrderByRebookInfo.getBody();
         return queryOrderResult;
@@ -511,7 +511,7 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityPayDifferentMoney,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",rePayDifferentMoney.getStatusCode(),
-                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/difference","POST",headers);
+                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/difference","POST",httpHeaders);
         Response result = rePayDifferentMoney.getBody();
         return result.getStatus() == 1;
     }
@@ -528,7 +528,7 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityDrawBackMoney,
                 Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reDrawBackMoney.getStatusCode(),
-                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET",headers);
+                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET",httpHeaders);
         Response result = reDrawBackMoney.getBody();
         return result.getStatus() == 1;
     }

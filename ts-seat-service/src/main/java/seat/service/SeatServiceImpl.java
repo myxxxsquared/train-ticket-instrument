@@ -101,9 +101,7 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
                     order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         } else {
@@ -116,9 +114,7 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
                     order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         }
@@ -188,9 +184,7 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
                     order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         } else {
@@ -205,9 +199,7 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",=.getStatusCode(),
+        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
                     order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         }
