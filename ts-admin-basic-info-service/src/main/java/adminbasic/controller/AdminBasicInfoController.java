@@ -40,23 +40,6 @@ import static org.springframework.http.ResponseEntity.ok;
 public class AdminBasicInfoController { 
     private static final Logger logger = LoggerFactory.getLogger(AdminBasicInfoController.class);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Autowired
     AdminBasicInfoService adminBasicInfoService;
 

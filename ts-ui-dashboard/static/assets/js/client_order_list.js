@@ -565,11 +565,12 @@ var appConsign = new Vue({
                 requestInfo.type = 0;
             }
             var data = JSON.stringify(requestInfo);
+            console.log("the data is:",data)
             var that = this;
             //发送请求
             $.ajax({
                 type: "post",
-                url: "/getVoucher",
+                url: "http://172.26.190.201:16101/getVoucher",
                 contentType: "application/json",
                 headers: {"Authorization": "Bearer " + sessionStorage.getItem("client_token")},
                 dataType: "json",

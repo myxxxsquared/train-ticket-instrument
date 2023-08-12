@@ -27,7 +27,7 @@ spec:
       containers:
         - name: ts-admin-basic-info-service
           image: jojodurrr/ts-admin-basic-info-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -95,7 +95,7 @@ spec:
       containers:
         - name: ts-admin-order-service
           image: jojodurrr/ts-admin-order-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -163,7 +163,7 @@ spec:
       containers:
         - name: ts-admin-route-service
           image: jojodurrr/ts-admin-route-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -231,7 +231,7 @@ spec:
       containers:
         - name: ts-admin-travel-service
           image: jojodurrr/ts-admin-travel-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -299,7 +299,7 @@ spec:
       containers:
         - name: ts-admin-user-service
           image: jojodurrr/ts-admin-user-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -367,7 +367,7 @@ spec:
       containers:
         - name: ts-assurance-service
           image: jojodurrr/ts-assurance-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -437,7 +437,7 @@ spec:
       containers:
         - name: ts-auth-service
           image: jojodurrr/ts-auth-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -507,7 +507,7 @@ spec:
       containers:
         - name: ts-avatar-service
           image:  jojodurrr/ts-avatar-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -575,7 +575,7 @@ spec:
       containers:
         - name: ts-basic-service
           image: jojodurrr/ts-basic-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -643,7 +643,7 @@ spec:
       containers:
         - name: ts-cancel-service
           image: jojodurrr/ts-cancel-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -711,7 +711,7 @@ spec:
       containers:
         - name: ts-config-service
           image: jojodurrr/ts-config-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -781,7 +781,7 @@ spec:
       containers:
         - name: ts-consign-price-service
           image: jojodurrr/ts-consign-price-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -851,7 +851,7 @@ spec:
       containers:
         - name: ts-consign-service
           image: jojodurrr/ts-consign-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -921,7 +921,7 @@ spec:
       containers:
         - name: ts-contacts-service
           image: jojodurrr/ts-contacts-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -991,7 +991,7 @@ spec:
       containers:
         - name: ts-delivery-service
           image: jojodurrr/ts-delivery-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1063,7 +1063,7 @@ spec:
       containers:
         - name: ts-execute-service
           image: jojodurrr/ts-execute-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1131,7 +1131,7 @@ spec:
       containers:
         - name: ts-food-delivery-service
           image: jojodurrr/ts-food-delivery-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1201,7 +1201,7 @@ spec:
       containers:
         - name: ts-food-service
           image: jojodurrr/ts-food-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1273,7 +1273,7 @@ spec:
       containers:
         - name: ts-gateway-service
           image: jojodurrr/ts-gateway-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1341,7 +1341,7 @@ spec:
       containers:
         - name: ts-inside-payment-service
           image: jojodurrr/ts-inside-payment-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1411,7 +1411,7 @@ spec:
       containers:
         - name: ts-news-service
           image: jojodurrr/ts-news-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1479,7 +1479,7 @@ spec:
       containers:
         - name: ts-notification-service
           image: jojodurrr/ts-notification-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1551,7 +1551,7 @@ spec:
       containers:
         - name: ts-order-other-service
           image: jojodurrr/ts-order-other-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1623,7 +1623,7 @@ spec:
       containers:
         - name: ts-order-service
           image: jojodurrr/ts-order-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1695,7 +1695,7 @@ spec:
       containers:
         - name: ts-payment-service
           image: jojodurrr/ts-payment-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1765,7 +1765,7 @@ spec:
       containers:
         - name: ts-preserve-other-service
           image: jojodurrr/ts-preserve-other-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1835,7 +1835,7 @@ spec:
       containers:
         - name: ts-preserve-service
           image: jojodurrr/ts-preserve-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1905,7 +1905,7 @@ spec:
       containers:
         - name: ts-price-service
           image: jojodurrr/ts-price-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -1975,7 +1975,7 @@ spec:
       containers:
         - name: ts-rebook-service
           image: jojodurrr/ts-rebook-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2045,7 +2045,7 @@ spec:
       containers:
         - name: ts-route-plan-service
           image: jojodurrr/ts-route-plan-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2113,7 +2113,7 @@ spec:
       containers:
         - name: ts-route-service
           image: jojodurrr/ts-route-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2183,7 +2183,7 @@ spec:
       containers:
         - name: ts-seat-service
           image: jojodurrr/ts-seat-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2251,7 +2251,7 @@ spec:
       containers:
         - name: ts-security-service
           image: jojodurrr/ts-security-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2321,7 +2321,7 @@ spec:
       containers:
         - name: ts-station-food-service
           image: jojodurrr/ts-station-food-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2391,7 +2391,7 @@ spec:
       containers:
         - name: ts-station-service
           image: jojodurrr/ts-station-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2461,7 +2461,7 @@ spec:
       containers:
         - name: ts-ticket-office-service
           image: jojodurrr/ts-ticket-office-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2531,7 +2531,7 @@ spec:
       containers:
         - name: ts-train-food-service
           image: jojodurrr/ts-train-food-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2601,7 +2601,7 @@ spec:
       containers:
         - name: ts-train-service
           image: jojodurrr/ts-train-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2671,7 +2671,7 @@ spec:
       containers:
         - name: ts-travel-plan-service
           image: jojodurrr/ts-travel-plan-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2739,7 +2739,7 @@ spec:
       containers:
         - name: ts-travel-service
           image: jojodurrr/ts-travel-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2809,7 +2809,7 @@ spec:
       containers:
         - name: ts-travel2-service
           image: jojodurrr/ts-travel2-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2879,7 +2879,7 @@ spec:
       containers:
         - name: ts-user-service
           image: jojodurrr/ts-user-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -2949,7 +2949,7 @@ spec:
       containers:
         - name: ts-verification-code-service
           image: jojodurrr/ts-verification-code-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -3006,7 +3006,7 @@ spec:
       containers:
         - name: ts-voucher-service
           image: jojodurrr/ts-voucher-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           env:
             - name: NODE_IP
               valueFrom:
@@ -3061,7 +3061,7 @@ spec:
       containers:
         - name: ts-wait-order-service
           image: jojodurrr/ts-wait-order-service:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -3120,7 +3120,7 @@ spec:
       containers:
         - name: ts-ui-dashboard
           image: jojodurrr/ts-ui-dashboard:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           resources:

@@ -72,7 +72,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Response> getAllUser(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API: /api/v1/userservice/users][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/userservice/users][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
         return ok(userService.getAllUsers(headers));
     }
 

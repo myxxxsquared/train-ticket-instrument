@@ -35,24 +35,6 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/adminorderservice")
 public class AdminOrderController { 
     private static final Logger logger = LoggerFactory.getLogger(AdminOrderController.class);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Autowired
     AdminOrderService adminOrderService;
 

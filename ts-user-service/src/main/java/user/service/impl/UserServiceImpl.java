@@ -1,25 +1,6 @@
 package user.service.impl;
 
 import edu.fudan.common.util.Response;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +17,6 @@ import user.dto.UserDto;
 import user.entity.User;
 import user.repository.UserRepository;
 import user.service.UserService;
-
-
 import java.util.List;
 import java.util.UUID;
 
@@ -47,25 +26,6 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService { 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Autowired
     private UserRepository userRepository;
@@ -92,14 +52,7 @@ public class UserServiceImpl implements UserService {
             String oldusername = userDto.getUserName().replace("_admin", "");
             User oldUser = userRepository.findByUserName(oldusername);
       logger.info("[oldUser:{},headers:{}]", (oldUser != null ? oldUser : null));
-      
-      
-      
-      
-      
-      
-      
-      
+
             userId = oldUser.getUserId();
             deleteUser(oldUser.getUserId(), headers);
         }
@@ -115,25 +68,7 @@ public class UserServiceImpl implements UserService {
         // avoid same user name
         User user1 = userRepository.findByUserName(userDto.getUserName());
       logger.info("[user1:{},headers:{}]", (user1 != null ? user1 : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
         if (user1 == null) {
 
             createDefaultAuthUser(AuthDto.builder().userId(userId + "")
@@ -175,25 +110,7 @@ public class UserServiceImpl implements UserService {
         logger.info("[function name:{}][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
         List<User> users = userRepository.findAll();
       logger.info("[users:{},headers:{}]", (users != null ? users : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
         if (users != null && !users.isEmpty()) {
             return new Response<>(1, "Success", users);
         }
@@ -207,24 +124,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserName(userName);
       logger.info("[user:{},headers:{}]", (user != null ? user : null));
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
         if (user != null) {
             return new Response<>(1, "Find User Success", user);
         }
@@ -237,25 +136,7 @@ public class UserServiceImpl implements UserService {
         logger.info("[function name:{}][userId:{}, headers:{}]","findByUserId",userId, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserId(userId);
       logger.info("[user:{},headers:{}]", (user != null ? user : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
         if (user != null) {
             return new Response<>(1, "Find User Success", user);
         }
@@ -269,25 +150,7 @@ public class UserServiceImpl implements UserService {
         logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserId(userId);
       logger.info("[user:{},headers:{}]", (user != null ? user : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
         if (user != null) {
             // first  only admin token can delete success
             deleteUserAuth(userId, headers);
@@ -304,27 +167,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Response updateUser(UserDto userDto, HttpHeaders headers) {
         logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
-        User oldUser = userRepository.findByUserId(userDto.getUserId());
-      logger.info("[oldUser:{},headers:{}]", (oldUser != null ? oldUser : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        User oldUser = userRepository.findByUserName(userDto.getUserName());
+        logger.info("[oldUser:{},headers:{}]", (oldUser != null ? oldUser : null));
+
         if (oldUser != null) {
             User newUser = User.builder().email(userDto.getEmail())
                     .password(userDto.getPassword())

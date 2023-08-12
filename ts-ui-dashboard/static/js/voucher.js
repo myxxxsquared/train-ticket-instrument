@@ -23,7 +23,7 @@ function onLoadBody(){
     //发送请求
     $.ajax({
         type: "post",
-        url: "/getVoucher",
+        url: "http://172.26.190.201:16101/getVoucher",
         contentType: "application/json",
         dataType: "json",
         data:data,

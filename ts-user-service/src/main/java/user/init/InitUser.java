@@ -41,5 +41,17 @@ public class InitUser implements CommandLineRunner {
         if (whetherExistUser == null) {
             userRepository.save(user);
         }
+        User whetherExistAdmin = userRepository.findByUserName("admin");
+        User Admin = User.builder()
+                .userId("c4f1da0b-b6c6-412c-944c-d1b4ddb153cf")
+                .userName("admin")
+                .password("222222")
+                .gender(1)
+                .documentType(1)
+                .documentNum("2135488074882X")
+                .email("admin@163.com").build();
+        if (whetherExistUser == null) {
+            userRepository.save(Admin);
+        }
     }
 }

@@ -117,6 +117,7 @@ public class JWTUtil {
     }
 
     private static Jws<Claims> getClaims(String token) {
+        // return Jwts.parser().parseClaimsJws(token);
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
     }
 

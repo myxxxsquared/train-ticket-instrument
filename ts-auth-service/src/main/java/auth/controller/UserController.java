@@ -45,22 +45,6 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 public class UserController { 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Autowired
     private UserService userService;
 
@@ -87,7 +71,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUser(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API: /api/v1/users][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/users][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
         return ResponseEntity.ok().body(userService.getAllUser(headers));
     }
 

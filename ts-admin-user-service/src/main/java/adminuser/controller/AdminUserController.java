@@ -2,21 +2,6 @@ package adminuser.controller;
 
 import adminuser.dto.UserDto;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import adminuser.service.AdminUserService;
@@ -35,24 +20,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/adminuserservice/users")
 public class AdminUserController { 
     private static final Logger logger = LoggerFactory.getLogger(AdminUserController.class);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
     @Autowired
     AdminUserService adminUserService;
 
@@ -65,20 +33,20 @@ public class AdminUserController {
     @CrossOrigin(origins = "*")
     @GetMapping
     public HttpEntity getAllUsers(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API: /api/v1/adminuserservice/users][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/adminuserservice/users][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
         return ok(adminUserService.getAllUsers(headers));
     }
 
     @PutMapping
     public HttpEntity updateUser(@RequestBody UserDto userDto, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API: /api/v1/adminuserservice/users][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Put /api/v1/adminuserservice/users][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         return ok(adminUserService.updateUser(userDto, headers));
     }
 
 
     @PostMapping
     public HttpEntity addUser(@RequestBody UserDto userDto, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API: /api/v1/adminuserservice/users][userDto:{}, headers:{}]","addUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/adminuserservice/users][userDto:{}, headers:{}]","addUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         return ok(adminUserService.addUser(userDto, headers));
     }
 
