@@ -8,7 +8,7 @@ var loadBody = function () {
     var username = sessionStorage.getItem("admin_name");
     if (username == null) {
         alert("Please login first!");
-        location.href = "adminlogin.html";
+        location.href = "client_login.html";
         return;
     }
     else {
@@ -21,7 +21,7 @@ var loadBody = function () {
  * */
 var logout = function () {
     sessionStorage.clear();
-    location.href = "adminlogin.html";
+    location.href = "client_login.html";
 }
 
 /*

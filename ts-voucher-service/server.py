@@ -110,9 +110,36 @@ class GetVoucherHandler(tornado.web.RequestHandler):
                 voucherData['price'] = voucher[10]
                 jsonStr = json.dumps(voucherData)
                 print(jsonStr)
+                file_path = orderId + '.json'  # 替换为实际的文件路径
+                with open(file_path, 'w') as file:
+                    file.write(jsonStr)
                 return jsonStr
         finally:
             conn.close()
+
+    def get(self, *args, **kwargs):
+        data = json.loads(self.request.body)
+        orderId = data["orderId"]
+        format = data["format"]
+        file_path = f"{orderId}.{format}"
+        
+        if os.path.exists(file_path):
+            # 设置响应头，指定为附件下载
+            self.set_header('Content-Type', 'application/octet-stream')
+            self.set_header('Content-Disposition', f'attachment; filename={orderId}.{format}')
+
+            # 读取文件内容并写入响应
+            with open(file_path, 'rb') as file:
+                while True:
+                    data = file.read(4096)
+                    if not data:
+                        break
+                    self.write(data)
+            self.finish()  # 结束响应
+        else:
+            self.set_status(404)
+            self.write("File not found")
+
 
 def make_app():
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)

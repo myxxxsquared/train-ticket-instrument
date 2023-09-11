@@ -1,14 +1,6 @@
 package foodsearch.service;
 
 import edu.fudan.common.entity.Food;
-
-
-
-
-
-
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.StationFoodStore;
@@ -30,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-// import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 // import org.springframework.http.Response;
 
 import java.util.ArrayList;
@@ -199,7 +191,7 @@ public class FoodServiceImpl implements FoodService {
     public Response findAllFoodOrder(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","findAllFoodOrder",(headers != null ? headers.toString(): null));
         List<FoodOrder> foodOrders = foodOrderRepository.findAll();
-      logger.info("[foodOrders:{},headers:{}]", (foodOrders != null ? foodOrders : null));
+        logger.info("[foodOrders:{},headers:{}]", (foodOrders != null ? foodOrders : null));
       
       
       
@@ -314,12 +306,8 @@ public class FoodServiceImpl implements FoodService {
             trainFoodList = trainFoodListResult;
         } else {
             FoodServiceImpl.logger.error("[getAllFood][reGetTrainFoodListResult][Get the Get Food Request Failed!][date: {}, tripId: {}]", date, tripId);
+            // return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(0, "Get the Get Food Request Failed!", null));
             return new Response<>(0, "Get the Get Food Request Failed!", null);
-            // Response<Response<AllTripFood>>  response = new Response(-1, "Get the Get Food Request Failed!", null);
-            // // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-            // return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            // .body(new Response<>(-1, "Get the Get Food Request Failed!", null));
-
         }
         //车次途经的车站
         /**--------------------------------------------------------------------------------------*/

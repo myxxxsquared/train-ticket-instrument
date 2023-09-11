@@ -1,23 +1,7 @@
 package inside_payment.service;
 
 import edu.fudan.common.entity.OrderStatus;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import edu.fudan.common.entity.Order;
@@ -273,24 +257,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         logger.info("[function name:{}][headers:{}]","queryAccount",(headers != null ? headers.toString(): null));
         List<Balance> result = new ArrayList<>();
         List<Money> list = addMoneyRepository.findAll();
-      logger.info("[list:{},headers:{}]", (list != null ? list : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[list:{},headers:{}]", (list != null ? list : null));
       
         Iterator<Money> ite = list.iterator();
         HashMap<String, String> map = new HashMap<>();
@@ -311,7 +278,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
             String money = (String) entry.getValue();
 
             List<Payment> payments = paymentRepository.findByUserId(userId);
-      logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
+            logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
       
       
       

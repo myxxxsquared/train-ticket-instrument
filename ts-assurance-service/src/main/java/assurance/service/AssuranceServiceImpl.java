@@ -2,21 +2,6 @@ package assurance.service;
 
 import assurance.entity.*;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import assurance.repository.AssuranceRepository;
@@ -39,22 +24,6 @@ public class AssuranceServiceImpl implements AssuranceService {
     private static final Logger logger = LoggerFactory.getLogger(AssuranceServiceImpl.class);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Autowired
     private AssuranceRepository assuranceRepository;
 
@@ -63,23 +32,7 @@ public class AssuranceServiceImpl implements AssuranceService {
         logger.info("[function name:{}][id:{}, headers:{}]","findAssuranceById",(id != null ? id.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Assurance> assurance = assuranceRepository.findById(id.toString());
       logger.info("[assurance:{},headers:{}]", (assurance != null ? assurance : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
         if (assurance == null) {
             AssuranceServiceImpl.logger.warn("[findAssuranceById][find assurance][No content][assurance id: {}]", id);
             return new Response<>(0, "No Content by this id", null);
@@ -92,23 +45,7 @@ public class AssuranceServiceImpl implements AssuranceService {
     public Response findAssuranceByOrderId(UUID orderId, HttpHeaders headers) {
         logger.info("[function name:{}][orderId:{}, headers:{}]","findAssuranceByOrderId",(orderId != null ? orderId.toString(): null), (headers != null ? headers.toString(): null));
         Assurance assurance = assuranceRepository.findByOrderId(orderId.toString());
-      logger.info("[assurance:{},headers:{}]", (assurance != null ? assurance : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[assurance:{},headers:{}]", (assurance != null ? assurance : null));
       
         if (assurance == null) {
             AssuranceServiceImpl.logger.warn("[findAssuranceByOrderId][find assurance][No content][orderId: {}]", orderId);
@@ -123,22 +60,6 @@ public class AssuranceServiceImpl implements AssuranceService {
         logger.info("[function name:{}][typeIndex:{}, orderId:{}, headers:{}]","create",typeIndex, orderId, (headers != null ? headers.toString(): null));
         Assurance a = assuranceRepository.findByOrderId(orderId);
       logger.info("[a:{},headers:{}]", (a != null ? a : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       
         AssuranceType at = AssuranceType.getTypeByIndex(typeIndex);
         if (a != null) {
@@ -159,23 +80,7 @@ public class AssuranceServiceImpl implements AssuranceService {
         logger.info("[function name:{}][assuranceId:{}, headers:{}]","deleteById",(assuranceId != null ? assuranceId.toString(): null), (headers != null ? headers.toString(): null));
         assuranceRepository.deleteById(assuranceId.toString());
         Optional<Assurance> a = assuranceRepository.findById(assuranceId.toString());
-      logger.info("[a:{},headers:{}]", (a != null ? a : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[a:{},headers:{}]", (a != null ? a : null));
       
         if (a == null) {
             return new Response<>(1, "Delete Success with Assurance id", null);
@@ -190,22 +95,7 @@ public class AssuranceServiceImpl implements AssuranceService {
         logger.info("[function name:{}][orderId:{}, headers:{}]","deleteByOrderId",(orderId != null ? orderId.toString(): null), (headers != null ? headers.toString(): null));
         assuranceRepository.removeAssuranceByOrderId(orderId.toString());
         Assurance isExistAssurace = assuranceRepository.findByOrderId(orderId.toString());
-      logger.info("[isExistAssurace:{},headers:{}]", (isExistAssurace != null ? isExistAssurace : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[isExistAssurace:{},headers:{}]", (isExistAssurace != null ? isExistAssurace : null));
       
       
         if (isExistAssurace == null) {

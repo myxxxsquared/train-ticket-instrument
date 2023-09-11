@@ -107,8 +107,20 @@ function refresh_booking_contacts() {
 
 
 $(function () {
-    getAssuranceType();
+    checklogin()
+    // getAssuranceType();
 });
+
+function checklogin() {
+    var username = sessionStorage.getItem("client_name");
+    console.log("username: " + username);
+    if (username == null || username == "Not Login") {
+        location.href = "client_login.html";
+    } else {
+        document.getElementById("client_name").innerHTML = username;
+        getAssuranceType();
+    }
+}
 
 //获取保险的类型
 function getAssuranceType() {
@@ -241,6 +253,7 @@ function initFoodSelect(tripId, from, to, date) {
                     foodStationSelect.appendChild(opt4);
                 }
             } else {
+                xhr.status = 400;
                 alert(result.status + ":" + result.msg);
             }
         }, error: function (e) {

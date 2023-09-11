@@ -3,7 +3,8 @@ var loginApp = new Vue({
     data: {
         userName: 'fdse_microservice',
         password: '111111',
-        verifiCode: '1234'
+        verifiCode: '1234',
+        identity: 'client'
     },
     methods: {
         initPage() {
@@ -40,7 +41,7 @@ var loginApp = new Vue({
                 alert("Verification Code Can Not Be Empty.");
                 return;
             }
-
+            if (this.identity == 'client') {
             var data = JSON.stringify(loginInfo);
             $.ajax({
                 type: "post",
@@ -72,6 +73,36 @@ var loginApp = new Vue({
                 }
             });
         }
+        else{
+            var data = JSON.stringify(loginInfo);
+            $.ajax({
+                type: "post",
+                url: "/api/v1/users/login",
+                contentType: "application/json",
+                dataType: "json",
+                data: data,
+
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (result) {
+                    var obj = result;
+
+                    if (obj["status"] == 1) {
+                        sessionStorage.setItem("admin_name", obj["data"].username);
+                        sessionStorage.setItem("admin_token", obj["data"].token);
+                        location.href = "../../admin.html";
+                    } else {
+                        // alert(obj["message"]);
+                        sessionStorage.setItem("client_token", "-1");
+                        sessionStorage.setItem("client_name", "Not Login");
+                        document.getElementById("client_name").innerHTML = "Not Login";
+                        $("#flow_preserve_login_msg").text(obj["msg"]);
+                    }
+                }
+            });
+        }
+    }
     },
     mounted() {
         this.initPage();

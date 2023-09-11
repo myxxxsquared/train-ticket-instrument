@@ -1,23 +1,7 @@
 package foodsearch.controller;
 
 import edu.fudan.common.util.JsonUtils;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import edu.fudan.common.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import foodsearch.entity.*;
@@ -29,7 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,23 +23,6 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/foodservice")
 public class FoodController { 
     private static final Logger logger = LoggerFactory.getLogger(FoodController.class);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @Autowired
@@ -128,7 +95,14 @@ public class FoodController {
                                  @PathVariable String endStation, @PathVariable String tripId,
                                  @RequestHeader HttpHeaders headers) {
         logger.info("[function name:{}, API:Get /api/v1/foodservice/foods/{date}/{startStation}/{endStation}/{tripId}][date:{}, startStation:{}, endStation:{}, tripId:{}, headers:{}]","getAllFood",date, startStation, endStation, tripId, (headers != null ? headers.toString(): null));
-        return ok(foodService.getAllFood(date, startStation, endStation, tripId, headers));
+        // return ok(foodService.getAllFood(date, startStation, endStation, tripId, headers));
+        // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Trip not found");
+        Response<AllTripFood> result = foodService.getAllFood(date, startStation, endStation, tripId, headers);
+        if (result.getStatus() == 1) {
+            return ok(foodService.getAllFood(date, startStation, endStation, tripId, headers));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Food not found");
+        }
     }
 
 }

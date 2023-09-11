@@ -114,6 +114,13 @@
                         </a>
                     </li>
 
+                    <!-- <li class="tpl-left-nav-item">
+                        <a href="download.html" class="nav-link tpl-left-nav-link-list">
+                            <i class="am-icon-users"></i>
+                            <span> Download Vouchers</span>
+                        </a>
+                    </li> -->
+
                     <li class="tpl-left-nav-item">
                         <!-- 打开状态 a 标签添加 active 即可   -->
                         <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
@@ -224,6 +231,19 @@
                                     </label>
                                 </td>
 
+                                <!-- <td>
+                                    <button v-if="item.status == '6'"
+                                        v-on:click="DownloadVancher(order_id, format)"
+                                        data-am-modal="{target: '#doc-modal-download', closeViaDimmer: 0, width: 560, height: 450}"
+                                        class="am-btn am-btn-default am-btn-xs am-text-danger">
+                                        <span class="am-icon-trash-o"></span> Download Voucher
+                                    </button>
+                                    <label v-if="item.status != '6'"
+                                        class="am-btn am-btn-default am-btn-xs am-text-danger">
+                                        Download 
+                                    </label>
+                                </td> -->
+
                                 <td>
                                     <div class="am-btn-toolbar my-am-btn-toolbar">
                                         <div class="am-btn-group am-btn-group-xs">
@@ -250,6 +270,40 @@
                         </tbody>
                     </table>
 
+
+                    <!-- <div class="am-modal am-modal-prompt" tabindex="-1" id="doc-modal-download">
+                        <div class="am-modal-dialog my-modal-dialog">
+                            <div class="am-modal-hd">Download</div>
+                            <div class="am-modal-bd">
+                                <div class="am-g tpl-amazeui-form">
+                                    <div class="am-u-sm-12">
+                                        <form class="am-form am-form-horizontal">
+                                            <div class="am-form-group">
+                                                <label for="download_order_id"
+                                                    class="am-u-sm-5 am-form-label">Order ID: </label>
+                                                <div class="am-u-sm-7">
+                                                    <input type="text" id="download_order_id"
+                                                        class="am-modal-prompt-input"
+                                                        ng-model="download_order_id">
+                                                </div>
+                                            </div>
+                                            <div class="am-form-group">
+                                                <label for="download_format"
+                                                    class="am-u-sm-5 am-form-label">Format: </label>
+                                                <div class="am-u-sm-7">
+                                                    <input type="text" id="download_format"
+                                                        class="am-modal-prompt-input"
+                                                        ng-model="download_format">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="am-modal-footer">
+                                <span class="am-modal-btn" data-am-modal-confirm>Download</span>
+                            </div>
+ -->
 
                     <!--vancher dialog-->
                     <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-vancher">
