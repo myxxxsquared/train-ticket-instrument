@@ -1,26 +1,6 @@
 package auth.controller;
 
-
 import auth.dto.BasicAuthDto;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import auth.entity.User;
@@ -28,13 +8,11 @@ import auth.exception.UserOperationException;
 import auth.service.TokenService;
 import auth.service.UserService;
 import edu.fudan.common.util.Response;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -62,7 +40,12 @@ public class UserController {
         logger.info("[function name:{}, API:Post /api/v1/users/login][dao:{}, headers:{}]","getToken",(dao != null ? dao.toString(): null), (headers != null ? headers.toString(): null));
         try {
             Response<?> res = tokenService.getToken(dao, headers);
-            return ResponseEntity.ok(res);
+            if (res.getStatus() == 1) {
+                return ResponseEntity.ok(res);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response<>(0, "get token error", null));
+            }
         } catch (UserOperationException e) {
             logger.error("[getToken][tokenService.getToken error][UserOperationException, message: {}]", e.getMessage());
             return ResponseEntity.ok(new Response<>(0, "get token error", null));

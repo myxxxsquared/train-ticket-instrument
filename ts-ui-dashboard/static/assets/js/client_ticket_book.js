@@ -1,5 +1,5 @@
 function parseURL() {
-    var thisUrl = document.URL;
+    var thisUrl = decodeURIComponent(document.URL);
     var getVal = thisUrl.split('?')[1];
     var showVal = getVal.split("&");
 
@@ -14,7 +14,7 @@ function parseURL() {
         seatType = "economy seat";
     }
     var date = showVal[5].split("=")[1];
-
+    // console.log(date)
     $("#tickets_booking_list_table").find("tbody").append(
         "<tr>" +
         "<td id ='booking_tripId' class='booking_tripId'>" + tripId + "</td>" +

@@ -70,6 +70,10 @@ var loginApp = new Vue({
                         document.getElementById("client_name").innerHTML = "Not Login";
                         $("#flow_preserve_login_msg").text(obj["msg"]);
                     }
+                }, error: function (e) {
+                    var message = e.responseJSON.message;
+                    console.log(message);
+                    $("#flow_preserve_login_msg").text("Incorrect username or password.");
                 }
             });
         }
@@ -99,6 +103,10 @@ var loginApp = new Vue({
                         document.getElementById("client_name").innerHTML = "Not Login";
                         $("#flow_preserve_login_msg").text(obj["msg"]);
                     }
+                }, error: function (e) {
+                    var message = e.responseJSON.message;
+                    console.log(message);
+                    $("#flow_preserve_login_msg").text("Incorrect username or password.");
                 }
             });
         }

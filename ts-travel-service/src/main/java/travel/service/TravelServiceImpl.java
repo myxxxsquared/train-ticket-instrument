@@ -481,25 +481,7 @@ public class TravelServiceImpl implements TravelService {
         TripAllDetail gtdr = new TripAllDetail();
         TravelServiceImpl.logger.debug("[getTripAllDetailInfo][TripId: {}]", gtdi.getTripId());
         Trip trip = repository.findByTripId(new TripId(gtdi.getTripId()));
-      logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
         if (trip == null) {
             gtdr.setTripResponse(null);
             gtdr.setTrip(null);

@@ -35,7 +35,7 @@ import static org.springframework.http.ResponseEntity.ok;
  * @author fdse
  */
 @RestController
-@RequestMapping("api/v1/contactservice")
+@RequestMapping("/api/v1/contactservice")
 public class ContactsController { 
     private static final Logger logger = LoggerFactory.getLogger(ContactsController.class);
 
@@ -63,14 +63,14 @@ public class ContactsController {
 
     @GetMapping(path = "/contacts/welcome")
     public String home() {
-        logger.info("[function name:home, API:Get api/v1/contactservice/contacts/welcome]");
+        logger.info("[function name:home, API:Get /api/v1/contactservice/contacts/welcome]");
         return "Welcome to [ Contacts Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/contacts")
     public HttpEntity getAllContacts(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get api/v1/contactservice/contacts][headers:{}]","getAllContacts",(headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/contactservice/contacts][headers:{}]","getAllContacts",(headers != null ? headers.toString(): null));
         return ok(contactsService.getAllContacts(headers));
     }
 
@@ -78,14 +78,14 @@ public class ContactsController {
     @PostMapping(path = "/contacts")
     public ResponseEntity<Response> createNewContacts(@RequestBody Contacts aci,
                                                       @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Post api/v1/contactservice/contacts][aci:{}, headers:{}]","createNewContacts",(aci != null ? aci.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/contactservice/contacts][aci:{}, headers:{}]","createNewContacts",(aci != null ? aci.toString(): null), (headers != null ? headers.toString(): null));
         return new ResponseEntity<>(contactsService.create(aci, headers), HttpStatus.CREATED);
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/contacts/admin")
     public HttpEntity<?> createNewContactsAdmin(@RequestBody Contacts aci, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Post api/v1/contactservice/contacts/admin][aci:{}, headers:{}]","createNewContactsAdmin",(aci != null ? aci.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Post /api/v1/contactservice/contacts/admin][aci:{}, headers:{}]","createNewContactsAdmin",(aci != null ? aci.toString(): null), (headers != null ? headers.toString(): null));
         aci.setId(UUID.randomUUID().toString());
         return new ResponseEntity<>(contactsService.createContacts(aci, headers), HttpStatus.CREATED);
     }
@@ -94,7 +94,7 @@ public class ContactsController {
     @CrossOrigin(origins = "*")
     @DeleteMapping(path = "/contacts/{contactsId}")
     public HttpEntity deleteContacts(@PathVariable String contactsId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Delete api/v1/contactservice/contacts/{contactsId}][contactsId:{}, headers:{}]","deleteContacts",contactsId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Delete /api/v1/contactservice/contacts/{contactsId}][contactsId:{}, headers:{}]","deleteContacts",contactsId, (headers != null ? headers.toString(): null));
         return ok(contactsService.delete(contactsId, headers));
     }
 
@@ -102,21 +102,21 @@ public class ContactsController {
     @CrossOrigin(origins = "*")
     @PutMapping(path = "/contacts")
     public HttpEntity modifyContacts(@RequestBody Contacts info, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Put api/v1/contactservice/contacts][info:{}, headers:{}]","modifyContacts",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Put /api/v1/contactservice/contacts][info:{}, headers:{}]","modifyContacts",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         return ok(contactsService.modify(info, headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/contacts/account/{accountId}")
     public HttpEntity findContactsByAccountId(@PathVariable String accountId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get api/v1/contactservice/contacts/account/{accountId}][accountId:{}, headers:{}]","findContactsByAccountId",accountId, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/contactservice/contacts/account/{accountId}][accountId:{}, headers:{}]","findContactsByAccountId",accountId, (headers != null ? headers.toString(): null));
         return ok(contactsService.findContactsByAccountId(accountId, headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/contacts/{id}")
     public HttpEntity getContactsByContactsId(@PathVariable String id, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get api/v1/contactservice/contacts/{id}][id:{}, headers:{}]","getContactsByContactsId",id, (headers != null ? headers.toString(): null));
+        logger.info("[function name:{}, API:Get /api/v1/contactservice/contacts/{id}][id:{}, headers:{}]","getContactsByContactsId",id, (headers != null ? headers.toString(): null));
         return ok(contactsService.findContactsById(id, headers));
     }
 
