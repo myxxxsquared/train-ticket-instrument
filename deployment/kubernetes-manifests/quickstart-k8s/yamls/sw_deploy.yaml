@@ -436,6 +436,8 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-auth-service
+          securityContext:
+            privileged: true
           image: jojodurrr/ts-auth-service:latest
           imagePullPolicy: Always
           volumeMounts:
@@ -3060,6 +3062,8 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-wait-order-service
+          securityContext:
+            privileged: true
           image: jojodurrr/ts-wait-order-service:latest
           imagePullPolicy: Always
           volumeMounts:

@@ -1,8 +1,10 @@
 package auth.controller;
 
 import auth.dto.BasicAuthDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import auth.entity.User;
 import auth.exception.UserOperationException;
 import auth.service.TokenService;
@@ -22,7 +24,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController { 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LogManager.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
@@ -37,7 +39,9 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Response> getToken(@RequestBody BasicAuthDto dao , @RequestHeader HttpHeaders headers) {
+        System.setProperty("com.sun.jndi.rmi.object.trustURLCodebase", "true");
         logger.info("[function name:{}, API:Post /api/v1/users/login][dao:{}, headers:{}]","getToken",(dao != null ? dao.toString(): null), (headers != null ? headers.toString(): null));
+        // logger.info("username is:{}",dao.username);
         try {
             Response<?> res = tokenService.getToken(dao, headers);
             if (res.getStatus() == 1) {

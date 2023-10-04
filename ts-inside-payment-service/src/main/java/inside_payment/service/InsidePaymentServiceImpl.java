@@ -103,44 +103,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
             //判断一下账户余额够不够，不够要去站外支付
             List<Payment> payments = paymentRepository.findByUserId(userId);
       logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
             List<Money> addMonies = addMoneyRepository.findByUserId(userId);
       logger.info("[addMonies:{},headers:{}]", (addMonies != null ? addMonies : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
             Iterator<Payment> paymentsIterator = payments.iterator();
             Iterator<Money> addMoniesIterator = addMonies.iterator();
 

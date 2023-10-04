@@ -1,0 +1,66 @@
+Picked up JAVA_TOOL_OPTIONS: -javaagent:/skywalking/agent/skywalking-agent.jar
+DEBUG 2023-10-03 05:43:35:179 main AgentPackagePath : The beacon class location is jar:file:/skywalking/agent/skywalking-agent.jar!/org/apache/skywalking/apm/agent/core/boot/AgentPackagePath.class. 
+INFO 2023-10-03 05:43:35:188 main SnifferConfigInitializer : Config file found in /skywalking/agent/config/agent.config. 
+2023-10-03 05:44:01,083 main ERROR RollingFile contains an invalid element or attribute "Charset"
+2023-10-03 05:44:08,660 main ERROR RollingFile contains an invalid element or attribute "Charset"
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v2.3.12.RELEASE)
+
+[30m2023-10-03T05:44:08,976[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.b.SpringApplication[m: No active profile set, falling back to default profiles: default
+[30m2023-10-03T05:44:15,972[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.d.r.c.RepositoryConfigurationDelegate[m: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[30m2023-10-03T05:44:18,464[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.d.r.c.RepositoryConfigurationDelegate[m: Finished Spring Data repository scanning in 2405ms. Found 1 JPA repository interfaces.
+[30m2023-10-03T05:44:18,758[m [33mWARN  [m[[1;34mmain[m] [1;33mo.s.b.a.e.EndpointId[m: Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+[30m2023-10-03T05:44:19,209[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.c.c.s.GenericScope[m: BeanFactory id=cbf3bc88-a7dd-3115-8151-db3ef09d4307
+[30m2023-10-03T05:44:19,291[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.i.c.DefaultConfiguringBeanFactoryPostProcessor[m: No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+[30m2023-10-03T05:44:19,392[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.i.c.DefaultConfiguringBeanFactoryPostProcessor[m: No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+[30m2023-10-03T05:44:19,458[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.i.c.DefaultConfiguringBeanFactoryPostProcessor[m: No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+[30m2023-10-03T05:44:20,367[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker[m: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@6032622' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[30m2023-10-03T05:44:20,370[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker[m: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[30m2023-10-03T05:44:20,457[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker[m: Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[30m2023-10-03T05:44:20,853[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker[m: Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[30m2023-10-03T05:44:20,865[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker[m: Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[30m2023-10-03T05:44:26,582[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.b.w.e.t.TomcatWebServer[m: Tomcat initialized with port(s): 12340 (http)
+[30m2023-10-03T05:44:26,986[m [32mINFO  [m[[1;34mmain[m] [1;33mo.a.j.l.DirectJDKLog[m: Initializing ProtocolHandler ["http-nio-12340"]
+[30m2023-10-03T05:44:26,987[m [32mINFO  [m[[1;34mmain[m] [1;33mo.a.j.l.DirectJDKLog[m: Starting service [Tomcat]
+[30m2023-10-03T05:44:26,987[m [32mINFO  [m[[1;34mmain[m] [1;33mo.a.j.l.DirectJDKLog[m: Starting Servlet engine: [Apache Tomcat/9.0.46]
+[30m2023-10-03T05:44:27,260[m [32mINFO  [m[[1;34mmain[m] [1;33mo.a.j.l.DirectJDKLog[m: Initializing Spring embedded WebApplicationContext
+[30m2023-10-03T05:44:27,261[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.b.w.s.c.ServletWebServerApplicationContext[m: Root WebApplicationContext: initialization completed in 18108 ms
+[30m2023-10-03T05:44:34,664[m [32mINFO  [m[[1;34mmain[m] [1;33mo.h.j.i.u.LogHelper[m: HHH000204: Processing PersistenceUnitInfo [name: default]
+[30m2023-10-03T05:44:35,053[m [32mINFO  [m[[1;34mmain[m] [1;33mo.h.Version[m: HHH000412: Hibernate ORM core version 5.4.32.Final
+[30m2023-10-03T05:44:36,176[m [32mINFO  [m[[1;34mmain[m] [1;33mo.h.a.c.r.j.JavaReflectionManager[m: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[30m2023-10-03T05:44:36,572[m [32mINFO  [m[[1;34mmain[m] [1;33mc.z.h.HikariDataSource[m: HikariPool-1 - Starting...
+[30m2023-10-03T05:44:38,108[m [32mINFO  [m[[1;34mmain[m] [1;33mc.z.h.HikariDataSource[m: HikariPool-1 - Start completed.
+[30m2023-10-03T05:44:38,194[m [32mINFO  [m[[1;34mmain[m] [1;33mo.h.d.Dialect[m: HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+[30m2023-10-03T05:44:42,504[m [32mINFO  [m[[1;34mmain[m] [1;33mo.h.e.t.j.p.i.JtaPlatformInitiator[m: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[30m2023-10-03T05:44:42,558[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.o.j.AbstractEntityManagerFactoryBean[m: Initialized JPA EntityManagerFactory for persistence unit 'default'
+[30m2023-10-03T05:44:47,675[m [33mWARN  [m[[1;34mmain[m] [1;33mo.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration[m: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[30m2023-10-03T05:44:52,552[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.s.w.DefaultSecurityFilterChain[m: Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c75b0c8, org.springframework.security.web.context.SecurityContextPersistenceFilter@72d4d9ac, org.springframework.security.web.header.HeaderWriterFilter@1215982f, org.springframework.security.web.authentication.logout.LogoutFilter@1f234e35, edu.fudan.common.security.jwt.JWTFilter@23c95292, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1d0ac379, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@cf822a6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2f43c73a, org.springframework.security.web.session.SessionManagementFilter@43051a8d, org.springframework.security.web.access.ExceptionTranslationFilter@3d5e1b83, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1193d400]
+[30m2023-10-03T05:44:52,696[m [33mWARN  [m[[1;34mmain[m] [1;33mc.n.c.s.URLConfigurationSource[m: No URLs will be polled as dynamic configuration sources.
+[30m2023-10-03T05:44:52,697[m [32mINFO  [m[[1;34mmain[m] [1;33mc.n.c.s.URLConfigurationSource[m: To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+[30m2023-10-03T05:44:52,769[m [33mWARN  [m[[1;34mmain[m] [1;33mc.n.c.s.URLConfigurationSource[m: No URLs will be polled as dynamic configuration sources.
+[30m2023-10-03T05:44:52,769[m [32mINFO  [m[[1;34mmain[m] [1;33mc.n.c.s.URLConfigurationSource[m: To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+[30m2023-10-03T05:44:53,058[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.s.c.ExecutorConfigurationSupport[m: Initializing ExecutorService 'applicationTaskExecutor'
+[30m2023-10-03T05:44:54,762[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.s.c.ExecutorConfigurationSupport[m: Initializing ExecutorService 'Nacos-Watch-Task-Scheduler'
+[30m2023-10-03T05:44:55,884[m [32mINFO  [m[[1;34mmain[m] [1;33mo.r.Reflections[m: Reflections took 493 ms to scan 1 urls, producing 3 keys and 6 values 
+[30m2023-10-03T05:44:56,161[m [32mINFO  [m[[1;34mmain[m] [1;33mo.r.Reflections[m: Reflections took 96 ms to scan 1 urls, producing 4 keys and 9 values 
+[30m2023-10-03T05:44:56,275[m [32mINFO  [m[[1;34mmain[m] [1;33mo.r.Reflections[m: Reflections took 109 ms to scan 1 urls, producing 3 keys and 10 values 
+[30m2023-10-03T05:44:56,591[m [32mINFO  [m[[1;34mmain[m] [1;33mo.r.Reflections[m: Reflections took 313 ms to scan 158 urls, producing 0 keys and 0 values 
+[30m2023-10-03T05:44:56,652[m [32mINFO  [m[[1;34mmain[m] [1;33mo.r.Reflections[m: Reflections took 59 ms to scan 1 urls, producing 1 keys and 5 values 
+[30m2023-10-03T05:44:56,674[m [32mINFO  [m[[1;34mmain[m] [1;33mo.r.Reflections[m: Reflections took 20 ms to scan 1 urls, producing 1 keys and 7 values 
+[30m2023-10-03T05:44:56,785[m [32mINFO  [m[[1;34mmain[m] [1;33mo.r.Reflections[m: Reflections took 108 ms to scan 1 urls, producing 2 keys and 8 values 
+[30m2023-10-03T05:44:57,175[m [32mINFO  [m[[1;34mmain[m] [1;33mo.r.Reflections[m: Reflections took 383 ms to scan 158 urls, producing 0 keys and 0 values 
+[30m2023-10-03T05:45:04,754[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.b.a.e.w.EndpointLinksResolver[m: Exposing 2 endpoint(s) beneath base path '/actuator'
+[30m2023-10-03T05:45:05,377[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.s.c.ExecutorConfigurationSupport[m: Initializing ExecutorService 'taskScheduler'
+[30m2023-10-03T05:45:05,666[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.i.e.EventDrivenConsumer[m: Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+[30m2023-10-03T05:45:05,667[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.i.c.AbstractSubscribableChannel[m: Channel 'application-1.errorChannel' has 1 subscriber(s).
+[30m2023-10-03T05:45:05,668[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.i.e.AbstractEndpoint[m: started bean '_org.springframework.integration.errorLogger'
+[30m2023-10-03T05:45:05,808[m [32mINFO  [m[[1;34mmain[m] [1;33mo.a.j.l.DirectJDKLog[m: Starting ProtocolHandler ["http-nio-12340"]
+[30m2023-10-03T05:45:05,872[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.b.w.e.t.TomcatWebServer[m: Tomcat started on port(s): 12340 (http) with context path ''
+[30m2023-10-03T05:45:05,917[m [32mINFO  [m[[1;34mmain[m] [1;33mc.a.c.n.r.NacosServiceRegistry[m: nacos registry, DEFAULT_GROUP ts-auth-service 172.17.0.15:12340 register finished
+[30m2023-10-03T05:45:05,929[m [32mINFO  [m[[1;34mmain[m] [1;33mo.s.b.StartupInfoLogger[m: Started AuthApplication in 70.674 seconds (JVM running for 91.851)

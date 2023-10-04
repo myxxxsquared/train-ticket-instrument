@@ -87,20 +87,6 @@ public class TravelServiceImpl implements TravelService {
         Trip trip = repository.findByTripId(tripId1);
       logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
         if (trip == null) {
             TravelServiceImpl.logger.error("[getRouteByTripId][Get Route By Trip ID Fail][Trip Not Found][TripId: {}]", tripId);
             return new Response<>(0, "\"[Get Route By Trip ID] Trip Not Found:\" + tripId", null);
@@ -122,21 +108,7 @@ public class TravelServiceImpl implements TravelService {
         TripId tripId1 = new TripId(tripId);
         TrainType trainType = null;
         Trip trip = repository.findByTripId(tripId1);
-      logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
       
         if (trip != null) {
             trainType = getTrainTypeByName(trip.getTrainTypeName(), headers);
@@ -284,22 +256,7 @@ public class TravelServiceImpl implements TravelService {
 
         //Check all train info
         List<Trip> allTripList = repository.findAll();
-      logger.info("[allTripList:{},headers:{}]", (allTripList != null ? allTripList : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[allTripList:{},headers:{}]", (allTripList != null ? allTripList : null));
         list = getTicketsByBatch(allTripList, startPlaceName, endPlaceName, info.getDepartureTime(), headers);
         return new Response<>(1, success, list);
     }

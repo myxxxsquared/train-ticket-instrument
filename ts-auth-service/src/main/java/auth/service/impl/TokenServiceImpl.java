@@ -1,8 +1,10 @@
 package auth.service.impl;
 
 import auth.constant.InfoConstant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import auth.dto.BasicAuthDto;
 import auth.dto.TokenDto;
 import auth.entity.User;
@@ -35,7 +37,7 @@ import java.util.List;
  */
 @Service
 public class TokenServiceImpl implements TokenService { 
-    private static final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(TokenServiceImpl.class);
 
     @Autowired
     private JWTProvider jwtProvider;
@@ -61,6 +63,7 @@ public class TokenServiceImpl implements TokenService {
     public Response getToken(BasicAuthDto dto, HttpHeaders headers) throws UserOperationException {
         logger.info("[function name:{}][dto:{}, headers:{}]","getToken",(dto != null ? dto.toString(): null), (headers != null ? headers.toString(): null));
         String username = dto.getUsername();
+        logger.info("the name is: "+username);
         String password = dto.getPassword();
         String verifyCode = dto.getVerificationCode();
         String verification_code_service_url = getServiceUrl("ts-verification-code-service");

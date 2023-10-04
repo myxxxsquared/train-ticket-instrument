@@ -30,7 +30,8 @@ public class ExecuteControlller {
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/execute/execute/{orderId}")
     public HttpEntity executeTicket(@PathVariable String orderId, @RequestHeader HttpHeaders headers) {
-        ExecuteControlller.LOGGER.info("[executeTicket][Execute][Id: {}]", orderId);
+        // ExecuteControlller.LOGGER.info("[executeTicket][Execute][Id: {}]", orderId);
+        LOGGER.info("[function name:{}, API:Get /api/v1/executeservice/execute/execute/{orderId}][orderId:{},headers:{}]","executeTicket",(orderId != null ? orderId.toString(): null),(headers != null ? headers.toString(): null));
         // null
         return ok(executeService.ticketExecute(orderId, headers));
     }
@@ -38,7 +39,8 @@ public class ExecuteControlller {
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/execute/collected/{orderId}")
     public HttpEntity collectTicket(@PathVariable String orderId, @RequestHeader HttpHeaders headers) {
-        ExecuteControlller.LOGGER.info("[collectTicket][Collect][Id: {}]", orderId);
+        // ExecuteControlller.LOGGER.info("[collectTicket][Collect][Id: {}]", orderId);
+        LOGGER.info("[function name:{}, API:Get /api/v1/executeservice/execute/collected/{orderId}][orderId:{},headers:{}]","executeTicket",(orderId != null ? orderId.toString(): null),(headers != null ? headers.toString(): null));
         // null
         return ok(executeService.ticketCollect(orderId, headers));
     }
