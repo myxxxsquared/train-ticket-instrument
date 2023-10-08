@@ -17,8 +17,8 @@ import config.entity.Config;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import config.repository.ConfigRepository;
 import edu.fudan.common.util.Response;
 
@@ -35,7 +35,7 @@ import java.util.List;
  */
 @Service
 public class ConfigServiceImpl implements ConfigService { 
-    private static final Logger logger = LoggerFactory.getLogger(ConfigServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(ConfigServiceImpl.class);
 
 
 

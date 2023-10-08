@@ -19,8 +19,8 @@ import edu.fudan.common.entity.OrderSecurity;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.util.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ import java.util.UUID;
  */
 @Service
 public class SecurityServiceImpl implements SecurityService { 
-    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(SecurityServiceImpl.class);
 
 
 

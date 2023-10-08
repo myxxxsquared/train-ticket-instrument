@@ -2,23 +2,8 @@ package adminbasic.service;
 
 import adminbasic.entity.*;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.Config;
 import edu.fudan.common.entity.Contacts;
 import edu.fudan.common.entity.Station;
@@ -40,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class AdminBasicInfoServiceImpl implements AdminBasicInfoService { 
-    private static final Logger logger = LoggerFactory.getLogger(AdminBasicInfoServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(AdminBasicInfoServiceImpl.class);
 
 
 

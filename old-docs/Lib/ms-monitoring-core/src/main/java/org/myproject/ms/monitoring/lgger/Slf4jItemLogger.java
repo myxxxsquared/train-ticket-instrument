@@ -16,7 +16,7 @@ public class Slf4jItemLogger implements ItemLogger {
 
 	public Slf4jItemLogger(String nameSkipPattern) {
 		this.nameSkipPattern = Pattern.compile(nameSkipPattern);
-		this.log = org.slf4j.LoggerFactory.getLogger(Slf4jItemLogger.class);
+		this.log = org.slf4j.LogManager.getLogger(Slf4jItemLogger.class);
 	}
 
 	Slf4jItemLogger(String nameSkipPattern, Logger log) {

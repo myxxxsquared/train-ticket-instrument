@@ -18,8 +18,8 @@ import inside_payment.entity.*;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import inside_payment.service.InsidePaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/inside_pay_service")
 public class InsidePaymentController { 
-    private static final Logger logger = LoggerFactory.getLogger(InsidePaymentController.class);
+    private static final Logger logger = LogManager.getLogger(InsidePaymentController.class);
 
 
 

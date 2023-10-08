@@ -19,8 +19,8 @@ import edu.fudan.common.entity.*;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.util.JsonUtils;
 import edu.fudan.common.util.Response;
 import edu.fudan.common.util.StringUtils;
@@ -45,7 +45,7 @@ import java.util.UUID;
  */
 @Service
 public class PreserveOtherServiceImpl implements PreserveOtherService { 
-    private static final Logger logger = LoggerFactory.getLogger(PreserveOtherServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(PreserveOtherServiceImpl.class);
 
 
 

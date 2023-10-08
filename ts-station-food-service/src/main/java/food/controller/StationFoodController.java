@@ -19,8 +19,8 @@ import food.service.StationFoodService;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +33,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/stationfoodservice")
 public class StationFoodController { 
-    private static final Logger logger = LoggerFactory.getLogger(StationFoodController.class);
+    private static final Logger logger = LogManager.getLogger(StationFoodController.class);
 
 
 

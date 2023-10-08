@@ -15,8 +15,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.fudan.common.entity.*;
 import edu.fudan.common.util.JsonUtils;
@@ -46,7 +46,7 @@ import java.util.*;
  */
 @Service
 public class TravelServiceImpl implements TravelService { 
-    private static final Logger logger = LoggerFactory.getLogger(TravelServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(TravelServiceImpl.class);
 
 
 

@@ -7,8 +7,8 @@ import notification.entity.Mail;
 import notification.entity.NotifyInfo;
 import notification.repository.NotifyRepository;
 import notification.service.MailService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @Component
 public class RabbitReceive {
 
-    private static final Logger logger = LoggerFactory.getLogger(RabbitReceive.class);
+    private static final Logger logger = LogManager.getLogger(RabbitReceive.class);
 
     @Autowired
     MailService mailService;

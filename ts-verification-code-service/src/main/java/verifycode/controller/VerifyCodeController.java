@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import verifycode.service.VerifyCodeService;
@@ -39,7 +39,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/verifycode")
 public class VerifyCodeController { 
-    private static final Logger logger = LoggerFactory.getLogger(VerifyCodeController.class);
+    private static final Logger logger = LogManager.getLogger(VerifyCodeController.class);
 
 
 

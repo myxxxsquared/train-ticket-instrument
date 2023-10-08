@@ -18,8 +18,8 @@ import edu.fudan.common.entity.Seat;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.util.StringUtils;
 import order.entity.*;
 import order.service.OrderService;
@@ -39,7 +39,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/orderservice")
 public class OrderController { 
-    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private static final Logger logger = LogManager.getLogger(OrderController.class);
 
 
 

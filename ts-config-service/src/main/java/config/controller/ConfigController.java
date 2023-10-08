@@ -17,8 +17,8 @@ import config.entity.Config;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import config.service.ConfigService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("api/v1/configservice")
 public class ConfigController { 
-    private static final Logger logger = LoggerFactory.getLogger(ConfigController.class);
+    private static final Logger logger = LogManager.getLogger(ConfigController.class);
 
 
 

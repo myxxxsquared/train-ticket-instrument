@@ -1,7 +1,7 @@
 package edu.fudan.common.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ public class SwaggerConfig {
     @Value("${swagger.controllerPackage}")
     private String controllerPackagePath;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerConfig.class);
+    private static final Logger LOGGER = LogManager.getLogger(SwaggerConfig.class);
 
     @Bean
     public Docket createRestApi() {

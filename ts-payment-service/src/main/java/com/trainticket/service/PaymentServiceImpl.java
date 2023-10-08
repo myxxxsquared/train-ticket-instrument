@@ -18,8 +18,8 @@ import com.trainticket.entity.Money;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.trainticket.entity.Payment;
 import com.trainticket.repository.AddMoneyRepository;
 import com.trainticket.repository.PaymentRepository;
@@ -38,7 +38,7 @@ import java.util.Optional;
  */
 @Service
 public class PaymentServiceImpl implements PaymentService{ 
-    private static final Logger logger = LoggerFactory.getLogger(PaymentServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(PaymentServiceImpl.class);
 
 
 

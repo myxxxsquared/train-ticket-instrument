@@ -20,8 +20,8 @@ import auth.constant.AuthConstant;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import auth.constant.InfoConstant;
 import auth.dto.AuthDto;
 import auth.entity.User;
@@ -44,7 +44,7 @@ import java.util.*;
  */
 @Service
 public class UserServiceImpl implements UserService { 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     @Autowired
     private UserRepository userRepository;
 

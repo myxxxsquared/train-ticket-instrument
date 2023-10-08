@@ -18,8 +18,8 @@ import edu.fudan.common.entity.NotifyInfo;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.OrderStatus;
 import edu.fudan.common.entity.Order;
 import edu.fudan.common.entity.SeatClass;
@@ -46,7 +46,7 @@ import java.util.Date;
  */
 @Service
 public class CancelServiceImpl implements CancelService { 
-    private static final Logger logger = LoggerFactory.getLogger(CancelServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(CancelServiceImpl.class);
 
 
 

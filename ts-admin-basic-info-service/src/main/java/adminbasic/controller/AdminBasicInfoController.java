@@ -1,24 +1,8 @@
 package adminbasic.controller;
 
 import adminbasic.entity.*;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import adminbasic.service.AdminBasicInfoService;
 import edu.fudan.common.entity.Config;
 import edu.fudan.common.entity.Contacts;
@@ -38,7 +22,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/adminbasicservice")
 public class AdminBasicInfoController { 
-    private static final Logger logger = LoggerFactory.getLogger(AdminBasicInfoController.class);
+    private static final Logger logger = LogManager.getLogger(AdminBasicInfoController.class);
 
     @Autowired
     AdminBasicInfoService adminBasicInfoService;

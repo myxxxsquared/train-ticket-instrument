@@ -1,8 +1,8 @@
 package foodsearch.service;
 
 import edu.fudan.common.entity.Food;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.StationFoodStore;
 import edu.fudan.common.entity.TrainFood;
 import edu.fudan.common.util.JsonUtils;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class FoodServiceImpl implements FoodService { 
-    private static final Logger logger = LoggerFactory.getLogger(FoodServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(FoodServiceImpl.class);
 
 
 

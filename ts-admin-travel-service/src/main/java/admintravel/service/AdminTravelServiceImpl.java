@@ -18,8 +18,8 @@ import edu.fudan.common.entity.AdminTrip;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.Route;
 import edu.fudan.common.entity.TrainType;
 import edu.fudan.common.entity.TravelInfo;
@@ -45,7 +45,7 @@ import java.util.Map;
  */
 @Service
 public class AdminTravelServiceImpl implements AdminTravelService { 
-    private static final Logger logger = LoggerFactory.getLogger(AdminTravelServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(AdminTravelServiceImpl.class);
 
 
 

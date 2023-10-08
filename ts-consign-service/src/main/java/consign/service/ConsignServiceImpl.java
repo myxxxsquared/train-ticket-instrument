@@ -15,8 +15,8 @@ import consign.entity.ConsignRecord;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import consign.entity.Consign;
 import consign.repository.ConsignRepository;
 import edu.fudan.common.util.Response;
@@ -42,7 +42,7 @@ import java.util.UUID;
  */
 @Service
 public class ConsignServiceImpl implements ConsignService { 
-    private static final Logger logger = LoggerFactory.getLogger(ConsignServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(ConsignServiceImpl.class);
 
 
 

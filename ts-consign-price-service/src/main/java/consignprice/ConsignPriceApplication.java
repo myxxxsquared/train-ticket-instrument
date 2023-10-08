@@ -1,7 +1,7 @@
 package consignprice;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -27,7 +27,7 @@ import java.util.Date;
 @EnableDiscoveryClient
 public class ConsignPriceApplication {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConsignPriceApplication.class);
+    private static final Logger LOGGER = LogManager.getLogger(ConsignPriceApplication.class);
 
     public static void main(String[] args) {
         ConsignPriceApplication.LOGGER.info("[ConsignPriceApplication.main][launch date: {}]", new Date());

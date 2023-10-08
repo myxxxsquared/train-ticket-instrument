@@ -1,8 +1,8 @@
 package food_delivery.init;
 
 import food_delivery.service.FoodDeliveryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class InitData implements CommandLineRunner {
     @Autowired
     FoodDeliveryService foodDeliveryService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InitData.class);
+    private static final Logger LOGGER = LogManager.getLogger(InitData.class);
 
 
     @Override

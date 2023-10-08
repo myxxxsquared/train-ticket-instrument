@@ -18,8 +18,8 @@ import edu.fudan.common.util.Response;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import food.entity.StationFoodStore;
 import food.repository.StationFoodRepository;
 
@@ -32,7 +32,7 @@ import java.util.List;
 
 @Service
 public class StationFoodServiceImpl implements StationFoodService { 
-    private static final Logger logger = LoggerFactory.getLogger(StationFoodServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(StationFoodServiceImpl.class);
 
 
 

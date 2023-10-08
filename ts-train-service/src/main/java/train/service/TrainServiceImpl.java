@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,7 @@ import java.util.List;
 
 @Service
 public class TrainServiceImpl implements TrainService { 
-    private static final Logger logger = LoggerFactory.getLogger(TrainServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(TrainServiceImpl.class);
 
 
 

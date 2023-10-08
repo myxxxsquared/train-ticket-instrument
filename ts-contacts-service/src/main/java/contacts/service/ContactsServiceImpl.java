@@ -18,8 +18,8 @@ import contacts.entity.*;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.util.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ import java.util.UUID;
  */
 @Service
 public class ContactsServiceImpl implements ContactsService { 
-    private static final Logger logger = LoggerFactory.getLogger(ContactsServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(ContactsServiceImpl.class);
 
 
 

@@ -20,8 +20,8 @@ import edu.fudan.common.util.Response;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ import java.util.List;
  */
 @Service
 public class ExecuteServiceImpl implements ExecuteService { 
-    private static final Logger logger = LoggerFactory.getLogger(ExecuteServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(ExecuteServiceImpl.class);
 
 
 

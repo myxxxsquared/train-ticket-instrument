@@ -19,8 +19,8 @@ import edu.fudan.common.util.Response;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import food_delivery.entity.DeliveryInfo;
 import food_delivery.entity.FoodDeliveryOrder;
 import food_delivery.entity.SeatInfo;
@@ -37,7 +37,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/fooddeliveryservice")
 public class FoodDeliveryController { 
-    private static final Logger logger = LoggerFactory.getLogger(FoodDeliveryController.class);
+    private static final Logger logger = LogManager.getLogger(FoodDeliveryController.class);
 
 
 

@@ -17,8 +17,8 @@ import edu.fudan.common.entity.Trip;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.TripAllDetail;
 import edu.fudan.common.entity.TripAllDetailInfo;
 import edu.fudan.common.entity.TripResponse;
@@ -49,7 +49,7 @@ import java.util.List;
  */
 @Service
 public class RebookServiceImpl implements RebookService { 
-    private static final Logger logger = LoggerFactory.getLogger(RebookServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(RebookServiceImpl.class);
 
 
 

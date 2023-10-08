@@ -5,14 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  * @author fdse
  */
 public class JsonUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
+    private static final Logger LOGGER = LogManager.getLogger(JsonUtils.class);
 
     private JsonUtils() {
         throw new IllegalStateException("Utility class");

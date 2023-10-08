@@ -18,8 +18,8 @@ import admintravel.service.AdminTravelService;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.TravelInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RestController
 @RequestMapping("/api/v1/admintravelservice")
 public class AdminTravelController { 
-    private static final Logger logger = LoggerFactory.getLogger(AdminTravelController.class);
+    private static final Logger logger = LogManager.getLogger(AdminTravelController.class);
 
 
 

@@ -18,8 +18,8 @@ import edu.fudan.common.entity.TravelInfo;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.TripAllDetailInfo;
 import edu.fudan.common.entity.TripInfo;
 import edu.fudan.common.entity.TripResponse;
@@ -46,7 +46,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/travelservice")
 
 public class TravelController { 
-    private static final Logger logger = LoggerFactory.getLogger(TravelController.class);
+    private static final Logger logger = LogManager.getLogger(TravelController.class);
 
 
 

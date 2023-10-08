@@ -18,8 +18,8 @@ import com.google.common.cache.Cache;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.google.common.cache.CacheBuilder;
 
 import org.springframework.http.HttpHeaders;
@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class VerifyCodeServiceImpl implements VerifyCodeService { 
-    private static final Logger logger = LoggerFactory.getLogger(VerifyCodeServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(VerifyCodeServiceImpl.class);
 
 
 

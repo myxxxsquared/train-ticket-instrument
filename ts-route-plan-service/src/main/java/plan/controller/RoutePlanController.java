@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/routeplanservice")
 public class RoutePlanController { 
-    private static final Logger logger = LoggerFactory.getLogger(RoutePlanController.class);
+    private static final Logger logger = LogManager.getLogger(RoutePlanController.class);
 
 
 

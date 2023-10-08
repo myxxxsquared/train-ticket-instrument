@@ -2,8 +2,8 @@ package inside_payment.async;
 
 import java.util.concurrent.Future;
 import inside_payment.entity.OutsidePaymentInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -19,7 +19,7 @@ public class AsyncTask {
     @Autowired
 	private RestTemplate restTemplate;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AsyncTask.class);
+    private static final Logger LOGGER = LogManager.getLogger(AsyncTask.class);
 
     @Async("mySimpleAsync")
     public Future<Boolean> sendAsyncCallToPaymentService(OutsidePaymentInfo outsidePaymentInfo) {

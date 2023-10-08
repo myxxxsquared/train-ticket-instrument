@@ -15,8 +15,8 @@ import consignprice.entity.ConsignPrice;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import consignprice.repository.ConsignPriceConfigRepository;
 import edu.fudan.common.util.Response;
 
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ConsignPriceServiceImpl implements ConsignPriceService { 
-    private static final Logger logger = LoggerFactory.getLogger(ConsignPriceServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(ConsignPriceServiceImpl.class);
 
 
 

@@ -2,8 +2,8 @@ package preserve.service;
 
 import edu.fudan.common.util.JsonUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.util.Response;
 import edu.fudan.common.util.StringUtils;
 
@@ -30,7 +30,7 @@ import java.util.UUID;
  */
 @Service
 public class PreserveServiceImpl implements PreserveService { 
-    private static final Logger logger = LoggerFactory.getLogger(PreserveServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(PreserveServiceImpl.class);
 
 
 

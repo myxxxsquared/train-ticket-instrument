@@ -19,8 +19,8 @@ import edu.fudan.common.util.Response;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ import java.util.List;
 
 @Service
 public class TrainFoodServiceImpl implements TrainFoodService{ 
-    private static final Logger logger = LoggerFactory.getLogger(TrainFoodServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(TrainFoodServiceImpl.class);
 
 
 

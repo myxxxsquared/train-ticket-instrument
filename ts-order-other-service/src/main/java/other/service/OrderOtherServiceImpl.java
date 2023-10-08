@@ -17,8 +17,8 @@ import edu.fudan.common.entity.*;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.util.Response;
 import edu.fudan.common.util.StringUtils;
 
@@ -43,7 +43,7 @@ import java.util.*;
  */
 @Service
 public class OrderOtherServiceImpl implements OrderOtherService { 
-    private static final Logger logger = LoggerFactory.getLogger(OrderOtherServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(OrderOtherServiceImpl.class);
 
 
 

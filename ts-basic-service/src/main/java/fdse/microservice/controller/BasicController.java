@@ -19,8 +19,8 @@ import edu.fudan.common.entity.Travel;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import fdse.microservice.service.BasicService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/basicservice")
 
 public class BasicController { 
-    private static final Logger logger = LoggerFactory.getLogger(BasicController.class);
+    private static final Logger logger = LogManager.getLogger(BasicController.class);
 
 
 

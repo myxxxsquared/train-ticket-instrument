@@ -2,8 +2,8 @@ package inside_payment.service;
 
 import edu.fudan.common.entity.OrderStatus;
 // import org.apache.skywalking.apm.toolkit.trace.TraceContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.Order;
 import edu.fudan.common.util.Response;
 import inside_payment.entity.*;
@@ -28,7 +28,7 @@ import java.util.*;
  */
 @Service
 public class InsidePaymentServiceImpl implements InsidePaymentService { 
-    private static final Logger logger = LoggerFactory.getLogger(InsidePaymentServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(InsidePaymentServiceImpl.class);
 
 
 
@@ -105,6 +105,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
             List<Money> addMonies = addMoneyRepository.findByUserId(userId);
       logger.info("[addMonies:{},headers:{}]", (addMonies != null ? addMonies : null));
+
             Iterator<Payment> paymentsIterator = payments.iterator();
             Iterator<Money> addMoniesIterator = addMonies.iterator();
 

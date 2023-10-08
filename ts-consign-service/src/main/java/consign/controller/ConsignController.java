@@ -15,8 +15,8 @@ import consign.entity.Consign;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import consign.service.ConsignService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/consignservice")
 public class ConsignController { 
-    private static final Logger logger = LoggerFactory.getLogger(ConsignController.class);
+    private static final Logger logger = LogManager.getLogger(ConsignController.class);
 
 
 

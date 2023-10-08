@@ -15,8 +15,8 @@ import edu.fudan.common.util.Response;
 
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import fdse.microservice.entity.*;
 import fdse.microservice.repository.StationRepository;
 
@@ -29,7 +29,7 @@ import java.util.*;
 
 @Service
 public class StationServiceImpl implements StationService { 
-    private static final Logger logger = LoggerFactory.getLogger(StationServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(StationServiceImpl.class);
 
 
 

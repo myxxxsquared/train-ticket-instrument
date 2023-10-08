@@ -2,8 +2,8 @@ package foodsearch.controller;
 
 import edu.fudan.common.util.JsonUtils;
 import edu.fudan.common.util.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import foodsearch.entity.*;
 import foodsearch.mq.RabbitSend;
 import foodsearch.service.FoodService;
@@ -22,7 +22,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/foodservice")
 public class FoodController { 
-    private static final Logger logger = LoggerFactory.getLogger(FoodController.class);
+    private static final Logger logger = LogManager.getLogger(FoodController.class);
 
 
     @Autowired
