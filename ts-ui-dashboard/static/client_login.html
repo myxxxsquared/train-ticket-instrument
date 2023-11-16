@@ -46,7 +46,7 @@
             <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 
                 <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-                    <li id="goto_admin">
+                    <!-- <li id="goto_admin">
                         <a href="adminlogin.html" class="tpl-header-list-link">
                             <span>admin-panel</span>
                         </a>
@@ -54,7 +54,7 @@
 
                     <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"
                             class="tpl-header-list-link"><span class="am-icon-arrows-alt"></span> <span
-                                class="admin-fullText">FullScreen</span></a></li>
+                                class="admin-fullText">FullScreen</span></a></li> -->
 
                     <li id="name-wrap" class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
                         <a>
@@ -113,20 +113,20 @@
 
 
                         <li class="tpl-left-nav-item">
-                            <!-- 打开状态 a 标签添加 active 即可   -->
-                            <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <!-- 移除 href="javascript:;" 以避免点击时触发JavaScript -->
+                            <a class="nav-link tpl-left-nav-link-list">
                                 <i class="am-icon-table"></i>
                                 <span>Execute Flow</span>
-                                <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                                <!-- 移除这个图标，因为菜单默认就是打开的，不需要展开的指示 -->
+                                <!-- <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i> -->
                             </a>
-                            <ul class="tpl-left-nav-sub-menu">
+                            <ul class="tpl-left-nav-sub-menu" style="display: block;"> <!-- 添加内联样式使其默认显示 -->
                                 <li>
-                                    <!-- 打开状态 a 标签添加 active 即可   -->
-                                    <a href="client_ticket_collect.html" class="active">
+                                    <a href="client_ticket_collect.html">
                                         <i class="am-icon-user"></i>
                                         <span>Ticket Collect</span>
                                     </a>
-
+                        
                                     <a href="client_enter_station.html">
                                         <i class="am-icon-institution"></i>
                                         <span>Enter Station</span>

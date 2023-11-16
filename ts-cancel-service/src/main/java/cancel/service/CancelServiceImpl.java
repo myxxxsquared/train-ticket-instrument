@@ -1,23 +1,6 @@
 package cancel.service;
 
 import edu.fudan.common.entity.NotifyInfo;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.OrderStatus;
@@ -47,25 +30,6 @@ import java.util.Date;
 @Service
 public class CancelServiceImpl implements CancelService { 
     private static final Logger logger = LogManager.getLogger(CancelServiceImpl.class);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
