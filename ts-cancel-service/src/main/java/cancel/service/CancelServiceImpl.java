@@ -20,9 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import cancel.async.AsyncTask;
+
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * @author fdse
@@ -34,6 +38,8 @@ public class CancelServiceImpl implements CancelService {
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
+    @Autowired
+    private AsyncTask asyncTask;
 
     String orderStatusCancelNotPermitted = "Order Status Cancel Not Permitted";
 
@@ -104,22 +110,32 @@ public class CancelServiceImpl implements CancelService {
                 if (order.getStatus() == OrderStatus.NOTPAID.getCode()
                         || order.getStatus() == OrderStatus.PAID.getCode() || order.getStatus() == OrderStatus.CHANGE.getCode()) {
 
-//                    order.setStatus(OrderStatus.CANCEL.getCode());
-                    Response changeOrderResult = cancelFromOtherOrder(order, headers);
+                    /*********************** Fault Injection - F1 *************************/
+                    // The faulty code assumes that drawbackMoney() happens before cancelFromOtherOrder()
+                    // However, this is not guaranteed because of network latency
+                    // If the order is cancelled first by cancelFromOtherOrder(), drawbackMoney() will see that order is already cancelled and no refund will be issued 
+                    Future<Boolean> taskDrawBackMoney = asyncTask.drawBackMoney(orderId, loginId, headers);
+                    Future<Boolean> taskCancelOrder = asyncTask.cancelFromOtherOrder(order, headers);
 
-                    if (changeOrderResult.getStatus() == 1) {
-                        //Draw back money
-                        String money = calculateRefund(order);
-                        boolean status = drawbackMoney(money, loginId, headers);
-                        if (status) {
-                        } else {
-                            CancelServiceImpl.logger.error("[cancelOrder][Draw Back Money Failed][loginId: {}, orderId: {}]", loginId, orderId);
-                        }
+                    while(!taskCancelOrder.isDone() || !taskDrawBackMoney.isDone()) {}
+                    boolean drawbackMoneyStatus = false;
+                    boolean changeOrderStatus = false;
+
+                    try {
+                        drawbackMoneyStatus = taskDrawBackMoney.get();
+                        changeOrderStatus = taskCancelOrder.get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        logger.error("Failed to get async execution result: {}", e.toString());
+                    }
+                    
+                    if (drawbackMoneyStatus == true && changeOrderStatus == true) {
                         return new Response<>(1, "Success.", null);
                     } else {
-                        CancelServiceImpl.logger.error("[cancelOrder][Cancel Order Failed][orderId: {}, Reason: {}]", orderId, changeOrderResult.getMsg());
-                        return new Response<>(0, "Fail.Reason:" + changeOrderResult.getMsg(), null);
+                        CancelServiceImpl.logger.error("[cancelOrder][Failed][loginId: {}, orderId: {}]", loginId, orderId);
+                        String errorMessageString = String.format("Fail.Reason: drawbackMoney %s cancelOrder %s", changeOrderStatus, drawbackMoneyStatus);
+                        return new Response<>(0, errorMessageString, null);
                     }
+                    /**********************************************************************/
                 } else {
                     CancelServiceImpl.logger.warn("[cancelOrder][Cancel Order, Order Status Not Permitted][loginId: {}, orderId: {}]", loginId, orderId);
                     return new Response<>(0, orderStatusCancelNotPermitted, null);
