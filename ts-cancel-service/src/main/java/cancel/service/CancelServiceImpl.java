@@ -114,6 +114,12 @@ public class CancelServiceImpl implements CancelService {
                     // The faulty code assumes that drawbackMoney() happens before cancelFromOtherOrder()
                     // However, this is not guaranteed because of network latency
                     // If the order is cancelled first by cancelFromOtherOrder(), drawbackMoney() will see that order is already cancelled and no refund will be issued 
+                    //
+                    /*********************** Fault Injection - F11 *************************/
+                    // Due to the lack of control like F1, the two microservices may set the value in a wrong sequence.
+                    // However, the second microservice that set the value may recheck the value and correct the value.
+                    // The recheck process does not always happen.
+                    // If two microservices set the value in a wrong sequence but the recheck process does not executed, this fault occurs.
                     Future<Boolean> taskDrawBackMoney = asyncTask.drawBackMoney(orderId, loginId, headers);
                     Future<Boolean> taskCancelOrder = asyncTask.cancelFromOtherOrder(order, headers);
 
