@@ -135,15 +135,31 @@ public class ContactsServiceImpl implements ContactsService {
     public Response create(Contacts addContacts, HttpHeaders headers) {
         logger.info("[function name:{}][addContacts:{}, headers:{}]","create",(addContacts != null ? addContacts.toString(): null), (headers != null ? headers.toString(): null));
 
-        Contacts c = contactsRepository.findByAccountIdAndDocumentTypeAndDocumentType(addContacts.getAccountId(), addContacts.getDocumentNumber(), addContacts.getDocumentType());
+        /*********************** Fault Injection - F10 ************************/
+        // Issue: Incorrect part count in a Bill Of Material (BOM)
+        // Scenario: An API used for BOM updates produces unexpected results
+        // Previously, when calling create(), status=1 indicated "contact created successfully"
+        // However, the API format has changed: status=1 now means "contact exists"
 
-        if (c != null) {
-            ContactsServiceImpl.logger.warn("[Contacts-Add&Delete-Service.create][AddContacts][Fail.Contacts already exists][contactId: {}]", addContacts.getId());
-            return new Response<>(0, "Contacts already exists", null);
-        } else {
-            Contacts contacts = contactsRepository.save(addContacts);
-            return new Response<>(1, "Create contacts success", contacts);
+        // 1. Get contact list by accountId
+        ArrayList<Contacts> accountContacts = contactsRepository.findByAccountId(addContacts.getAccountId());
+
+        try {
+            // 2. Add new contact to database
+            contactsRepository.save(addContacts);
+        } catch(Exception e) {
+            logger.error("Error saving contacts: {}", e);
         }
+        
+        ContactsServiceImpl.logger.info("[Contacts-Add&Delete-Service.create][AddContacts][Success]");
+
+        // 3. If contacts is a duplicate, return different message
+        if (accountContacts.contains(addContacts)) {
+            return new Response<>(1,  "Success, contact already in list", addContacts);
+        } else {
+            return new Response<>(1, "Success, contact created in list", addContacts);
+        }
+        /**********************************************************************/
     }
 
     @Override
