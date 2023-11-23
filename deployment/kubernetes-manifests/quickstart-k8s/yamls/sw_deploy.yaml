@@ -922,7 +922,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-contacts-service
-          image: jojodurrr/ts-contacts-service:latest
+          image: jojodurrr/ts-contacts-service:bug
           imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent

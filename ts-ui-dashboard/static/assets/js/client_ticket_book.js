@@ -257,7 +257,7 @@ function initFoodSelect(tripId, from, to, date) {
                 alert(result.status + ":" + result.msg);
             }
         }, error: function (e) {
-            var message = e.responseJSON.message;
+            var message = e.responseJSON.msg;
             console.log(message);
             if (message.indexOf("Token") != -1) {
                 alert("Token is expired! please login first!");
@@ -546,10 +546,12 @@ $("#ticket_select_contacts_confirm_btn").click(function () {
                             alert(result["msg"]);
                         }
                     }, error: function (e) {
-                        var message = e.responseJSON.message;
+                        var message = e.responseJSON.msg;
                         console.log(message);
                         if (message.indexOf("Token") != -1) {
                             alert("Token is expired! please login first!");
+                        } else{
+                            alert(message);
                         }
                     },
                     complete: function () {

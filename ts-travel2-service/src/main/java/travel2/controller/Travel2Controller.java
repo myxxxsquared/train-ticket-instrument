@@ -15,7 +15,7 @@ import edu.fudan.common.entity.TripResponse;
 
 
 
-
+import edu.fudan.common.util.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,7 +150,14 @@ public class Travel2Controller {
     @PostMapping(value = "/trip_detail")
     public HttpEntity getTripAllDetailInfo(@RequestBody edu.fudan.common.entity.TripAllDetailInfo gtdi, @RequestHeader HttpHeaders headers) {
         logger.info("[function name:{}, API:Post /api/v1/travel2service/trip_detail][gtdi:{}, headers:{}]","getTripAllDetailInfo",(gtdi != null ? gtdi.toString(): null), (headers != null ? headers.toString(): null));
-        return ok(service.getTripAllDetailInfo(gtdi, headers));
+        // return ok(service.getTripAllDetailInfo(gtdi, headers));
+        Response<?> res = service.getTripAllDetailInfo(gtdi, headers);
+        if (res.getStatus() == 1) {
+            return ResponseEntity.ok(res);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(0, res.getMsg(), null));
+        }
     }
 
     @CrossOrigin(origins = "*")

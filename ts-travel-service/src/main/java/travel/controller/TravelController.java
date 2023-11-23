@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 import edu.fudan.common.entity.TripAllDetailInfo;
 import edu.fudan.common.entity.TripInfo;
 import edu.fudan.common.entity.TripResponse;
-
+import edu.fudan.common.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -183,7 +183,14 @@ public class TravelController {
     @PostMapping(value = "/trip_detail")
     public HttpEntity getTripAllDetailInfo(@RequestBody TripAllDetailInfo gtdi, @RequestHeader HttpHeaders headers) {
         logger.info("[function name:{}, API:Post /api/v1/travelservice/trip_detail][gtdi:{}, headers:{}]","getTripAllDetailInfo",(gtdi != null ? gtdi.toString(): null), (headers != null ? headers.toString(): null));
-        return ok(travelService.getTripAllDetailInfo(gtdi, headers));
+        // return ok(travelService.getTripAllDetailInfo(gtdi, headers));
+        Response<?> res = travelService.getTripAllDetailInfo(gtdi, headers);
+        if (res.getStatus() == 1) {
+            return ResponseEntity.ok(res);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(0, res.getMsg(), null));
+        }
     }
 
     @CrossOrigin(origins = "*")

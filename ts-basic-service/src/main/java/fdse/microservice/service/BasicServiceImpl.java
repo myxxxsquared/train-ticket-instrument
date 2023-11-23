@@ -1,24 +1,6 @@
 package fdse.microservice.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
