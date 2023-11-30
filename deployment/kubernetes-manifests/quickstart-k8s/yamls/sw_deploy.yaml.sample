@@ -3125,6 +3125,9 @@ spec:
         - name: ts-ui-dashboard
           image: jojodurrr/ts-ui-dashboard:latest
           imagePullPolicy: Always
+          volumeMounts:
+            - name: nginx-log
+              mountPath: /var/log/nginx
           ports:
             - containerPort: 8080
           resources:
@@ -3134,3 +3137,6 @@ spec:
             limits:
               cpu: 500m
               memory: 500Mi
+      volumes:
+        - name: nginx-log
+          emptyDir: {}
