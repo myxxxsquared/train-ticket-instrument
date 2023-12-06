@@ -54,17 +54,26 @@ public class StationServiceImpl implements StationService {
     @Override
     public Response create(Station station, HttpHeaders headers) {
         logger.info("[function name:{}][station:{}, headers:{}]","create",(station != null ? station.toString(): null), (headers != null ? headers.toString(): null));
+        
+        /*********************** Fault Injection - F10 ************************/
+        // Issue: Incorrect part count in a Bill Of Material (BOM)
+        // Scenario: An API used for BOM updates produces unexpected results
+        // Previously, when calling create(), status=1 indicated "user created successfully"
+        // However, the API format has changed: status=1 now means either user is created or exists (graceful error handling)
+        
         if(station.getName().isEmpty()) {
             StationServiceImpl.logger.error("[create][Create station error][Name not specify]");
             return new Response<>(0, "Name not specify", station);
         }
-        if (repository.findByName(station.getName()) == null) {
+
+        try {
             station.setStayTime(station.getStayTime());
             repository.save(station);
-            return new Response<>(1, "Create success", station);
-        }
-        StationServiceImpl.logger.error("[create][Create station error][Already exists][StationId: {}]",station.getId());
-        return new Response<>(0, "Already exists", station);
+        } catch(Exception e) {
+
+        }        
+        
+        return new Response<>(1, "Success", station);
     }
 
 

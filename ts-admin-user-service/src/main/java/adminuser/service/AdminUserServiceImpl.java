@@ -116,9 +116,16 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public Response addUser(UserDto userDto, HttpHeaders headers) {
         logger.info("[function name:{}][userDto:{}, headers:{}]","addUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
+
+        /*********************** Fault Injection - F10 ************************/
+        // Issue: Incorrect part count in a Bill Of Material (BOM)
+        // Scenario: An API used for BOM updates produces unexpected results
+        // Previously, when calling create(), status=1 indicated "user created successfully"
+        // However, the API format has changed: status=1 now means either success or fail depending on message
+        
         HttpEntity requestEntity = new HttpEntity(userDto, null);
         String user_service_url = getServiceUrl("ts-user-service");
-        String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
+        String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";        
         ResponseEntity<Response<User>> re = restTemplate.exchange(
                 USER_SERVICE_IP_URI + "/register",
                 HttpMethod.POST,
@@ -131,8 +138,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
             AdminUserServiceImpl.logger.error("[addUser][receive response][Add user error][userName: {}]", userName);
-            return new Response<>(0, "Add user error", null);
+            return new Response<>(0, "Add user error", re.getBody().getData());
+        } else {
+            return new Response<>(1, "User created successfully", re.getBody().getData());
         }
-        return re.getBody();
     }
 }

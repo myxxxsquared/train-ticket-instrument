@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
             return new Response<>(1, "REGISTER USER SUCCESS", userSaveResult);
         } else {
             UserServiceImpl.logger.error("[saveUser][Save user error][User already exists][UserId: {}]",userDto.getUserId());
-            return new Response<>(0, "USER HAS ALREADY EXISTS", null);
+            return new Response<>(1, "USER HAS ALREADY EXISTS", user);
         }
     }
 
