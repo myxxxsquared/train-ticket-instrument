@@ -62,16 +62,23 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public Response create(Config info, HttpHeaders headers) {
         logger.info("[function name:{}][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
-        if (repository.findByName(info.getName()) != null) {
-        logger.info("[Config:{},headers:{}]", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()) : null),headers);
-            String result = config0 + info.getName() + " already exists.";
-            logger.warn("[create][{} already exists][config info: {}]", config0, info.getName());
-            return new Response<>(0, result, null);
-        } else {
-            Config config = new Config(info.getName(), info.getValue(), info.getDescription());
+ 
+        /*********************** Fault Injection - F10 ************************/
+        // Issue: Incorrect part count in a Bill Of Material (BOM)
+        // Scenario: An API used for BOM updates produces unexpected results
+        // Previously, when calling create(), status=1 indicated "config created successfully"
+        // However, the API format has changed: status=1 now means either config is created or exists (graceful error handling)
+
+        Config config = new Config(info.getName(), info.getValue(), info.getDescription());
+
+        try {
+            logger.info("[Config:{},headers:{}]", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()) : null), headers);
             repository.save(config);
-            return new Response<>(1, "Create success", config);
+        } catch (Exception e) {
+
         }
+
+        return new Response<>(1, "Success", config);
     }
 
     @Override
