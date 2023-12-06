@@ -51,22 +51,29 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public boolean create(TrainType trainType, HttpHeaders headers) {
         logger.info("[function name:{}][trainType:{}, headers:{}]","create",(trainType != null ? trainType.toString(): null), (headers != null ? headers.toString(): null));
-        boolean result = false;
+
+        /*********************** Fault Injection - F10 ************************/
+        // Issue: Incorrect part count in a Bill Of Material (BOM)
+        // Scenario: An API used for BOM updates produces unexpected results
+        // Previously, when calling create(), result=true indicated "train created successfully"
+        // However, the API format has changed: result=true now means either train is created or exists (graceful error handling)
+        
         if(trainType.getName().isEmpty()){
             TrainServiceImpl.logger.error("[create][Create train error][Train Type name not specified]");
-            return result;
+            return false;
         }
-        if (repository.findByName(trainType.getName()) == null) {
-        logger.info("[TrainType:{},headers:{}]", (repository.findByName(trainType.getName()) != null ? repository.findByName(trainType.getName()) : null),headers);
+
+        try {
+            logger.info("[TrainType:{},headers:{}]", (repository.findByName(trainType.getName()) != null ? repository.findByName(trainType.getName()) : null),headers);
             TrainType type = new TrainType(trainType.getName(), trainType.getEconomyClass(), trainType.getConfortClass());
             type.setAverageSpeed(trainType.getAverageSpeed());
             repository.save(type);
-            result = true;
+        } catch (Exception e) {
+
         }
-        else {
-            TrainServiceImpl.logger.error("[create][Create train error][Train already exists][TrainTypeId: {}]",trainType.getId());
-        }
-        return result;
+
+        return true;
+        //*********************************************************************
     }
 
     @Override
