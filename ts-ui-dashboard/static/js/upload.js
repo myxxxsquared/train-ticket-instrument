@@ -101,7 +101,7 @@ new Vue({
         async upload(file, component) {
             data = this.base64
             return await $.ajax({
-                url: "/api/v1/avatar",
+                url: "http://172.26.190.201:17001/api/v1/avatar",
                 type: 'POST',
                 data: JSON.stringify({
                     "img": data

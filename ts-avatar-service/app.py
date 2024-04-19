@@ -1,3 +1,5 @@
+from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 from flask import Flask, request, jsonify
 import numpy as np
 import urllib
@@ -7,7 +9,7 @@ import json
 import base64
 import traceback
 
-from face_detect import check
+# from face_detect import check
 
 app = Flask(__name__)
 
@@ -21,6 +23,7 @@ app = Flask(__name__)
 
 receive_path = r"./received/"
 
+CORS(app)
 
 @app.route('/api/v1/avatar', methods=["POST"])
 def hello():

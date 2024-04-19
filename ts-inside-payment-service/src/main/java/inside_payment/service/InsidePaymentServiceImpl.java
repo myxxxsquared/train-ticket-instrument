@@ -9,7 +9,7 @@ import edu.fudan.common.util.Response;
 import inside_payment.entity.*;
 import inside_payment.repository.AddMoneyRepository;
 import inside_payment.repository.PaymentRepository;
-
+import other.repository.OrderOtherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,29 +30,14 @@ import java.util.*;
 public class InsidePaymentServiceImpl implements InsidePaymentService { 
     private static final Logger logger = LogManager.getLogger(InsidePaymentServiceImpl.class);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Autowired
     public AddMoneyRepository addMoneyRepository;
 
     @Autowired
     public PaymentRepository paymentRepository;
+
+    @Autowired
+    public OrderOtherRepository OrderOtherRepository;
 
     @Autowired
     public RestTemplate restTemplate;
@@ -144,14 +129,14 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
                 if (outsidePaySuccess.getStatus() == 1) {
                     payment.setType(PaymentType.O);
                     paymentRepository.save(payment);
-                    setOrderStatus(info.getTripId(), info.getOrderId(), headers);
+                    setOrderStatus(info, headers);
                     return new Response<>(1, "Payment Success " +    outsidePaySuccess.getMsg(), null);
                 } else {
                     logger.error("Payment failed: {}", outsidePaySuccess.getMsg());
                     return new Response<>(0, "Payment Failed:  " +  outsidePaySuccess.getMsg(), null);
                 }
             } else {
-                setOrderStatus(info.getTripId(), info.getOrderId(), headers);
+                setOrderStatus(info, headers);
                 payment.setType(PaymentType.P);
                 paymentRepository.save(payment);
             }
@@ -244,24 +229,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
             List<Payment> payments = paymentRepository.findByUserId(userId);
             logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
             Iterator<Payment> iterator = payments.iterator();
             String totalExpand = "0";
             while (iterator.hasNext()) {
@@ -283,24 +250,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public Response queryPayment(HttpHeaders headers) {
         logger.info("[function name:{}][headers:{}]","queryPayment",(headers != null ? headers.toString(): null));
         List<Payment> payments = paymentRepository.findAll();
-      logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
       
         if (payments != null && !payments.isEmpty()) {
             return new Response<>(1, "Query Payment Success", payments);
@@ -341,44 +291,10 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
 
         List<Payment> payments = paymentRepository.findByUserId(userId);
-      logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
       
         List<Money> addMonies = addMoneyRepository.findByUserId(userId);
-      logger.info("[addMonies:{},headers:{}]", (addMonies != null ? addMonies : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[addMonies:{},headers:{}]", (addMonies != null ? addMonies : null));
       
         Iterator<Payment> paymentsIterator = payments.iterator();
         Iterator<Money> addMoniesIterator = addMonies.iterator();
@@ -460,35 +376,38 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
         }
     }
 
-    private Response setOrderStatus(String tripId, String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][tripId:{}, orderId:{}, headers:{}]","setOrderStatus",tripId, orderId, (headers != null ? headers.toString(): null));
+    private Response setOrderStatus(PaymentInfo info, HttpHeaders headers) {
+        logger.info("[function name:{}][tripId:{}, orderId:{}, headers:{}]","setOrderStatus",info.getTripId(), info.getOrderId(), (headers != null ? headers.toString(): null));
 
+        String tripId = info.getTripId();
+        String orderId = info.getOrderId();
         //order paid and not collected
         int orderStatus = 1;
+        Ticketinfo
         Response result;
         if (tripId.startsWith("G") || tripId.startsWith("D")) {
 
-            HttpEntity requestEntityModifyOrderStatusResult = new HttpEntity(headers);
+            HttpEntity requestEntityModifyOrderStatusResult = new HttpEntity(info,headers);
             String order_service_url = getServiceUrl("ts-order-service");
             ResponseEntity<Response> reModifyOrderStatusResult = restTemplate.exchange(
-                    order_service_url + "/api/v1/orderservice/order/status/" + orderId + "/" + orderStatus,
+                    order_service_url + "/api/v1/orderservice/order" + orderId + "/" + orderStatus,
                     HttpMethod.GET,
                     requestEntityModifyOrderStatusResult,
                     Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reModifyOrderStatusResult.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/status/" + orderId + "/" + orderStatus,"GET",headers);
+                    order_service_url + "/api/v1/orderservice/order" ,"PUT",headers);
             result = reModifyOrderStatusResult.getBody();
 
         } else {
-            HttpEntity requestEntityModifyOrderStatusResult = new HttpEntity(headers);
+            HttpEntity requestEntityModifyOrderStatusResult = new HttpEntity(info,headers);
             String order_other_service_url = getServiceUrl("ts-order-other-service");
             ResponseEntity<Response> reModifyOrderStatusResult = restTemplate.exchange(
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/status/" + orderId + "/" + orderStatus,
-                    HttpMethod.GET,
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther",
+                    HttpMethod.PUT,
                     requestEntityModifyOrderStatusResult,
                     Response.class);
         logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reModifyOrderStatusResult.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/status/" + orderId + "/" + orderStatus,"GET",headers);
+                    order_other_service_url + "/api/v1/orderOtherService/orderOther","PUT",headers);
             result = reModifyOrderStatusResult.getBody();
 
         }

@@ -8,6 +8,8 @@ var appConsign = new Vue({
         tripId: '',
         newTripId: '',
         price: '',
+        seatType: '',
+        seatnumber: '',
         from: "Shang Hai",
         to: "Su Zhou",
         selectedOrderId: '',
@@ -109,10 +111,19 @@ var appConsign = new Vue({
             });
             return stationName;
         },
-        payMyOrder(num, orderId, tripId, price) {
+        payMyOrder(num, orderId, tripId, price, seatType, seatnumber) {
+            // var rebookInfo = new Object();
+            // rebookInfo.orderId = that.selectedOrderId;
+            // rebookInfo.oldTripId = that.oldTripId;
+            // rebookInfo.tripId = that.newTripId;
+            // rebookInfo.seatType = that.selectedSeats[index];
+            // rebookInfo.date = that.dateOfToday;
+            // var data = JSON.stringify(rebookInfo);
             this.orderId = orderId;
             this.tripId = tripId;
             this.price = price;
+            this.seatType = seatType;
+            this.seatnumber = seatnumber;
             var that = this;
             $('#my-prompt').modal({
                 relatedTarget: this,
@@ -122,6 +133,8 @@ var appConsign = new Vue({
                     info.orderId = that.orderId;
                     info.tripId = that.tripId;
                     info.price = that.price;
+                    info.seatType = that.seatType;
+                    info.seatnumber = that.seatnumber;
                     var data = JSON.stringify(info);
                     $.ajax({
                         type: "post",

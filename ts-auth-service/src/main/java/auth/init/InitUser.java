@@ -37,15 +37,15 @@ public class InitUser implements CommandLineRunner {
             userRepository.save(user);
         }
 
-        // User whetherExistAdmin = userRepository.findByUsername("admin").orElse(new User());
-        // if (whetherExistAdmin.getUsername() == null) {
-        //     User admin = User.builder()
-        //             .userId(UUID.randomUUID().toString())
-        //             .username("admin")
-        //             .password(passwordEncoder.encode("222222"))
-        //             .roles(new HashSet<>(Arrays.asList("ROLE_ADMIN")))
-        //             .build();
-        //     userRepository.save(admin);
-        // }
+        User whetherExistAdmin = userRepository.findByUsername("admin").orElse(new User());
+        if (whetherExistAdmin.getUsername() == null) {
+            User admin = User.builder()
+                    .userId(UUID.randomUUID().toString())
+                    .username("admin")
+                    .password(passwordEncoder.encode("222222"))
+                    .roles(new HashSet<>(Arrays.asList("ROLE_ADMIN")))
+                    .build();
+            userRepository.save(admin);
+        }
     }
 }

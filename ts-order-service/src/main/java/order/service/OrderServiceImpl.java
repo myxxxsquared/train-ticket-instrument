@@ -197,25 +197,7 @@ public class OrderServiceImpl implements OrderService {
 
         String oldOrderId = oai.getPreviousOrderId();
         Optional<Order> op = orderRepository.findById(oldOrderId);
-      logger.info("[op:{},headers:{}]", (op != null ? op : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[op:{},headers:{}]", (op != null ? op : null));
         if (!op.isPresent()) {
             OrderServiceImpl.logger.error("[alterOrder][Alter Order Fail][Order do not exist][OrderId: {}]", oldOrderId);
             return new Response<>(0, "Old Order Does Not Exists", null);
@@ -684,25 +666,8 @@ public class OrderServiceImpl implements OrderService {
         logger.info("[function name:{}][dateFrom:{}, accountId:{}, headers:{}]","checkSecurityAboutOrder",(dateFrom != null ? dateFrom.toString(): null), accountId, (headers != null ? headers.toString(): null));
         OrderSecurity result = new OrderSecurity();
         ArrayList<Order> orders = orderRepository.findByAccountId(accountId);
-      logger.info("[orders:{},headers:{}]", (orders != null ? orders : null));
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+        logger.info("[orders:{},headers:{}]", (orders != null ? orders : null));
+
         int countOrderInOneHour = 0;
         int countTotalValidOrder = 0;
         Calendar ca = Calendar.getInstance();

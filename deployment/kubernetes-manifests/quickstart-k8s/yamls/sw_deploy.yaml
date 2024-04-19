@@ -852,7 +852,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-consign-service
-          image: jojodurrr/ts-consign-service:latest
+          image: jojodurrr/ts-consign-service:bug
           imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
@@ -922,7 +922,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-contacts-service
-          image: jojodurrr/ts-contacts-service:latest
+          image: jojodurrr/ts-contacts-service:bug
           imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
@@ -1552,7 +1552,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-order-other-service
-          image: jojodurrr/ts-order-other-service:latest
+          image: jojodurrr/ts-order-other-service:bug
           imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
@@ -1624,7 +1624,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-order-service
-          image: jojodurrr/ts-order-service:latest
+          image: jojodurrr/ts-order-service:bug
           imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
@@ -3125,6 +3125,9 @@ spec:
         - name: ts-ui-dashboard
           image: jojodurrr/ts-ui-dashboard:latest
           imagePullPolicy: Always
+          volumeMounts:
+            - name: nginx-log
+              mountPath: /var/log/nginx
           ports:
             - containerPort: 8080
           resources:
@@ -3134,3 +3137,6 @@ spec:
             limits:
               cpu: 500m
               memory: 500Mi
+      volumes:
+        - name: nginx-log
+          emptyDir: {}

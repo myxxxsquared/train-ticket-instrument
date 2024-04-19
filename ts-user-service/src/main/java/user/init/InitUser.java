@@ -50,7 +50,7 @@ public class InitUser implements CommandLineRunner {
                 .documentType(1)
                 .documentNum("2135488074882X")
                 .email("admin@163.com").build();
-        if (whetherExistUser == null) {
+        if (whetherExistAdmin == null) {
             userRepository.save(Admin);
         }
     }
