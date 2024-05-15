@@ -2,7 +2,7 @@ package execute.service;
 
 import edu.fudan.common.util.Response;
 import edu.fudan.common.entity.Order;
-import execute.serivce.ExecuteServiceImpl;
+import execute.service.ExecuteServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

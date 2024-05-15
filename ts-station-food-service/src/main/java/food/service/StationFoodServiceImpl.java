@@ -52,6 +52,8 @@ public class StationFoodServiceImpl implements StationFoodService {
 
 
 
+
+
     @Autowired
     StationFoodRepository stationFoodRepository;
 
@@ -63,9 +65,7 @@ public class StationFoodServiceImpl implements StationFoodService {
 
     @Override
     public Response createFoodStore(StationFoodStore fs, HttpHeaders headers) {
-        logger.info("[function name:{}][fs:{}, headers:{}]","createFoodStore",(fs != null ? fs.toString(): null), (headers != null ? headers.toString(): null));
         StationFoodStore fsTemp = stationFoodRepository.findById(fs.getId()).orElse(null);
-      logger.info("[fsTemp:{},headers:{}]", (fsTemp != null ? fsTemp : null));
       
       
       
@@ -100,9 +100,7 @@ public class StationFoodServiceImpl implements StationFoodService {
 
     @Override
     public Response listFoodStores(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","listFoodStores",(headers != null ? headers.toString(): null));
         List<StationFoodStore> stationFoodStores = stationFoodRepository.findAll();
-      logger.info("[stationFoodStores:{},headers:{}]", (stationFoodStores != null ? stationFoodStores : null));
       
       
       
@@ -130,9 +128,7 @@ public class StationFoodServiceImpl implements StationFoodService {
 
     @Override
     public Response listFoodStoresByStationName(String stationName, HttpHeaders headers) {
-        logger.info("[function name:{}][stationName:{}, headers:{}]","listFoodStoresByStationName",stationName, (headers != null ? headers.toString(): null));
         List<StationFoodStore> stationFoodStoreList = stationFoodRepository.findByStationName(stationName);
-      logger.info("[stationFoodStoreList:{},headers:{}]", (stationFoodStoreList != null ? stationFoodStoreList : null));
       
       
       
@@ -161,9 +157,7 @@ public class StationFoodServiceImpl implements StationFoodService {
 
     @Override
     public Response getFoodStoresByStationNames(List<String> stationNames) {
-        logger.info("[function name:{}][stationNames:{}]","getFoodStoresByStationNames",(stationNames != null ? stationNames.toString(): null));
         List<StationFoodStore> stationFoodStoreList = stationFoodRepository.findByStationNameIn(stationNames);
-      logger.info("[stationFoodStoreList:{},headers:{}]", (stationFoodStoreList != null ? stationFoodStoreList : null));
       
       
       
@@ -191,9 +185,7 @@ public class StationFoodServiceImpl implements StationFoodService {
 
     @Override
     public Response getStaionFoodStoreById(String id) {
-        logger.info("[function name:{}][id:{}]","getStaionFoodStoreById",id);
         StationFoodStore stationFoodStore = stationFoodRepository.findById(id).orElse(null);
-      logger.info("[stationFoodStore:{},headers:{}]", (stationFoodStore != null ? stationFoodStore : null));
       
       
       

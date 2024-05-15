@@ -2,7 +2,7 @@ package execute.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import edu.fudan.common.util.Response;
-import execute.serivce.ExecuteService;
+import execute.service.ExecuteService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +22,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(JUnit4.class)
-public class ExecuteControlllerTest {
+public class ExecuteControllerTest {
 
     @InjectMocks
-    private ExecuteControlller executeController;
+    private ExecuteController executeController;
 
     @Mock
     private ExecuteService executeService;

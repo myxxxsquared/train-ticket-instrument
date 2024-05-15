@@ -58,19 +58,19 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response getAllRoutes(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllRoutes",(headers != null ? headers.toString(): null));
 
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
@@ -79,8 +79,6 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                 route_service_url + "/api/v1/routeservice/routes","GET",headers);
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[getAllRoutes][receive response][Get routes error][response code: {}]", re.getStatusCodeValue());
         }
@@ -90,7 +88,6 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     @Override
     public Response createAndModifyRoute(RouteInfo request, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, headers:{}]","createAndModifyRoute",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
         // check stations
         String start = request.getStartStation();
         String end = request.getEndStation();
@@ -113,8 +110,6 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Route>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                route_service_url + "/api/v1/routeservice/routes","POST",headers);
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[createAndModifyRoute][receive response][Get status error][response code: {}]", re.getStatusCodeValue());
         }
@@ -123,7 +118,6 @@ public class AdminRouteServiceImpl implements AdminRouteService {
 
     @Override
     public Response deleteRoute(String routeId, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, headers:{}]","deleteRoute",routeId, (headers != null ? headers.toString(): null));
 
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
@@ -132,8 +126,6 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                route_service_url + "/api/v1/routeservice/routes/" + routeId,"DELETE",headers);
         if (re.getStatusCode() != HttpStatus.ACCEPTED) {
             logger.error("[deleteRoute][response response][Delete error][response code: {}]", re.getStatusCodeValue());
         }
@@ -142,7 +134,6 @@ public class AdminRouteServiceImpl implements AdminRouteService {
     }
 
     public Response checkStationsExists(List<String> stationNames, HttpHeaders headers) {
-        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",(stationNames != null ? stationNames.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -150,8 +141,6 @@ public class AdminRouteServiceImpl implements AdminRouteService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/idlist","POST",headers);
         Response<Map<String, String>> r = re.getBody();
         if(r.getStatus() == 0) {
             return r;

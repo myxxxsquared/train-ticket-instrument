@@ -130,7 +130,7 @@ spec:
           containerPort: 3306
         volumeMounts:
         - name: data
-          mountPath: /var/lib/mysql
+          mountPath: /var/local/mysql
         - name: conf
           mountPath: /etc/mysql/conf.d
         - name: logs

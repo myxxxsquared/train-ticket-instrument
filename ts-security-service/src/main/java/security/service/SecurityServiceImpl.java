@@ -71,6 +71,8 @@ public class SecurityServiceImpl implements SecurityService {
 
 
 
+
+
     @Autowired
     private SecurityRepository securityRepository;
 
@@ -81,7 +83,6 @@ public class SecurityServiceImpl implements SecurityService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -89,9 +90,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response findAllSecurityConfig(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","findAllSecurityConfig",(headers != null ? headers.toString(): null));
         ArrayList<SecurityConfig> securityConfigs = securityRepository.findAll();
-      logger.info("[securityConfigs:{},headers:{}]", (securityConfigs != null ? securityConfigs : null));
       
       
       
@@ -120,9 +119,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response addNewSecurityConfig(SecurityConfig info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","addNewSecurityConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         SecurityConfig sc = securityRepository.findByName(info.getName());
-      logger.info("[sc:{},headers:{}]", (sc != null ? sc : null));
       
       
       
@@ -158,7 +155,6 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response modifySecurityConfig(SecurityConfig info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","modifySecurityConfig",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         SecurityConfig sc = securityRepository.findById(info.getId()).orElse(null);
         if (sc == null) {
             SecurityServiceImpl.logger.error("[modifySecurityConfig][Modify Security config error][Security config not found][SecurityConfigId: {},Name: {}]",info.getId(),info.getName());
@@ -167,8 +163,6 @@ public class SecurityServiceImpl implements SecurityService {
             sc.setName(info.getName());
             sc.setValue(info.getValue());
             sc.setDescription(info.getDescription());
-      
-      logger.info("[sc:{},headers:{}]", (sc != null ? sc : null));
       securityRepository.save(sc);
             return new Response<>(1, success, sc);
         }
@@ -177,10 +171,8 @@ public class SecurityServiceImpl implements SecurityService {
     @Transactional
     @Override
     public Response deleteSecurityConfig(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","deleteSecurityConfig",id, (headers != null ? headers.toString(): null));
         securityRepository.deleteById(id);
         SecurityConfig sc = securityRepository.findById(id).orElse(null);
-      logger.info("[sc:{},headers:{}]", (sc != null ? sc : null));
       
       
       
@@ -210,7 +202,6 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Response check(String accountId, HttpHeaders headers) {
-        logger.info("[function name:{}][accountId:{}, headers:{}]","check",accountId, (headers != null ? headers.toString(): null));
         //1.Get the orders in the past one hour and the total effective votes
         SecurityServiceImpl.logger.debug("[check][Get Order Num Info]");
         OrderSecurity orderResult = getSecurityOrderInfoFromOrder(new Date(), accountId, headers);
@@ -220,7 +211,6 @@ public class SecurityServiceImpl implements SecurityService {
         //2. get critical configuration information
         SecurityServiceImpl.logger.debug("[check][Get Security Config Info]");
         SecurityConfig configMaxInHour = securityRepository.findByName("max_order_1_hour");
-      logger.info("[configMaxInHour:{},headers:{}]", (configMaxInHour != null ? configMaxInHour : null));
       
       
       
@@ -241,7 +231,6 @@ public class SecurityServiceImpl implements SecurityService {
       
       
         SecurityConfig configMaxNotUse = securityRepository.findByName("max_order_not_use");
-      logger.info("[configMaxNotUse:{},headers:{}]", (configMaxNotUse != null ? configMaxNotUse : null));
       
       
       
@@ -272,7 +261,6 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     private OrderSecurity getSecurityOrderInfoFromOrder(Date checkDate, String accountId, HttpHeaders headers) {
-        logger.info("[function name:{}][checkDate:{}, accountId:{}, headers:{}]","getSecurityOrderInfoFromOrder",(checkDate != null ? checkDate.toString(): null), accountId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String order_service_url = getServiceUrl("ts-order-service");
         ResponseEntity<Response<OrderSecurity>> re = restTemplate.exchange(
@@ -281,15 +269,12 @@ public class SecurityServiceImpl implements SecurityService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<OrderSecurity>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order/security/" + checkDate + "/" + accountId,"GET",headers);
         Response<OrderSecurity> response = re.getBody();
         OrderSecurity result =  response.getData();
         return result;
     }
 
     private OrderSecurity getSecurityOrderOtherInfoFromOrder(Date checkDate, String accountId, HttpHeaders headers) {
-        logger.info("[function name:{}][checkDate:{}, accountId:{}, headers:{}]","getSecurityOrderOtherInfoFromOrder",(checkDate != null ? checkDate.toString(): null), accountId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String order_other_service_url = getServiceUrl("ts-order-other-service");
         ResponseEntity<Response<OrderSecurity>> re = restTemplate.exchange(
@@ -298,8 +283,6 @@ public class SecurityServiceImpl implements SecurityService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<OrderSecurity>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther/security/" + checkDate + "/" + accountId,"GET",headers);
         Response<OrderSecurity> response = re.getBody();
         OrderSecurity result =  response.getData();
         return result;

@@ -25,6 +25,8 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 public class UserController { 
     private static final Logger logger = LogManager.getLogger(UserController.class);
+
+
     @Autowired
     private UserService userService;
 
@@ -33,15 +35,12 @@ public class UserController {
 
     @GetMapping("/hello")
     public Object getHello() {
-        logger.info("[function name:getHello, API:Get /api/v1/users/hello]");
         return "Hello";
     }
 
     @PostMapping("/login")
     public ResponseEntity<Response> getToken(@RequestBody BasicAuthDto dao , @RequestHeader HttpHeaders headers) {
         System.setProperty("com.sun.jndi.rmi.object.trustURLCodebase", "true");
-        logger.info("[function name:{}, API:Post /api/v1/users/login][dao:{}, headers:{}]","getToken",(dao != null ? dao.toString(): null), (headers != null ? headers.toString(): null));
-        // logger.info("username is:{}",dao.username);
         try {
             Response<?> res = tokenService.getToken(dao, headers);
             if (res.getStatus() == 1) {
@@ -58,13 +57,11 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUser(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/users][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
         return ResponseEntity.ok().body(userService.getAllUser(headers));
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Response> deleteUserById(@PathVariable String userId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Delete /api/v1/users/{userId}][userId:{}, headers:{}]","deleteUserById",userId, (headers != null ? headers.toString(): null));
         return ResponseEntity.ok(userService.deleteByUserId(userId, headers));
     }
 

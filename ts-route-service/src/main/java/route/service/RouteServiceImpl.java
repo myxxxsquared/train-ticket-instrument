@@ -53,6 +53,8 @@ public class RouteServiceImpl implements RouteService {
 
 
 
+
+
     @Autowired
     private RouteRepository routeRepository;
 
@@ -60,7 +62,6 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response createAndModify(RouteInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","createAndModify",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         String[] stations = info.getStationList().split(",");
         String[] distances = info.getDistanceList().split(",");
@@ -80,7 +81,6 @@ public class RouteServiceImpl implements RouteService {
             route.setId(UUID.randomUUID().toString());
         }else{
             Optional<Route> routeOld = routeRepository.findById(info.getId());
-      logger.info("[routeOld:{},headers:{}]", (routeOld != null ? routeOld : null));
       
       
       
@@ -113,10 +113,8 @@ public class RouteServiceImpl implements RouteService {
     @Override
     @Transactional
     public Response deleteRoute(String routeId, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, headers:{}]","deleteRoute",routeId, (headers != null ? headers.toString(): null));
         routeRepository.removeRouteById(routeId);
         Optional<Route> route = routeRepository.findById(routeId);
-      logger.info("[route:{},headers:{}]", (route != null ? route : null));
       
       
       
@@ -142,9 +140,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response getRouteById(String routeId, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteById",routeId, (headers != null ? headers.toString(): null));
         Optional<Route> route = routeRepository.findById(routeId);
-      logger.info("[route:{},headers:{}]", (route != null ? route : null));
       
       
       
@@ -168,9 +164,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response getRouteByIds(List<String> routeIds, HttpHeaders headers) {
-        logger.info("[function name:{}][routeIds:{}, headers:{}]","getRouteByIds",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         List<Route> routes = routeRepository.findByIds(routeIds);
-      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
       
       
       
@@ -196,11 +190,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response getRouteByStartAndEnd(String startId, String terminalId, HttpHeaders headers) {
-        logger.info("[function name:{}][startId:{}, terminalId:{}, headers:{}]","getRouteByStartAndEnd",startId, terminalId, (headers != null ? headers.toString(): null));
         ArrayList<Route> routes = routeRepository.findAll();
-      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
-      
-      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
       
       
       
@@ -234,11 +224,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Response getAllRoutes(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllRoutes",(headers != null ? headers.toString(): null));
         ArrayList<Route> routes = routeRepository.findAll();
-      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
-      
-      logger.info("[routes:{},headers:{}]", (routes != null ? routes : null));
       
       
       

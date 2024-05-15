@@ -46,6 +46,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
 
 
+
+
     @Autowired
     private ConsignPriceConfigRepository repository;
 
@@ -53,9 +55,7 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response getPriceByWeightAndRegion(double weight, boolean isWithinRegion, HttpHeaders headers) {
-        logger.info("[function name:{}][weight:{}, isWithinRegion:{}, headers:{}]","getPriceByWeightAndRegion",weight, isWithinRegion, (headers != null ? headers.toString(): null));
         ConsignPrice priceConfig = repository.findByIndex(0);
-      logger.info("[priceConfig:{},headers:{}]", (priceConfig != null ? priceConfig : null));
       
       
       
@@ -88,10 +88,8 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response queryPriceInformation(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","queryPriceInformation",(headers != null ? headers.toString(): null));
         StringBuilder sb = new StringBuilder();
         ConsignPrice price = repository.findByIndex(0);
-      logger.info("[price:{},headers:{}]", (price != null ? price : null));
       
       
       
@@ -121,11 +119,9 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response createAndModifyPrice(ConsignPrice config, HttpHeaders headers) {
-        logger.info("[function name:{}][config:{}, headers:{}]","createAndModifyPrice",(config != null ? config.toString(): null), (headers != null ? headers.toString(): null));
         //update price
         ConsignPrice originalConfig;
         if (repository.findByIndex(0) != null) {
-        logger.info("[ConsignPrice:{},headers:{}]", (repository.findByIndex(0) != null ? repository.findByIndex(0) : null),headers);
             originalConfig = repository.findByIndex(0);
         } else {
             originalConfig = new ConsignPrice();
@@ -142,7 +138,6 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
 
     @Override
     public Response getPriceConfig(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getPriceConfig",(headers != null ? headers.toString(): null));
         return new Response<>(1, success, repository.findByIndex(0));
     }
 }

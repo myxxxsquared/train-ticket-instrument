@@ -57,30 +57,28 @@ public class WaitListOrderController {
 
 
 
+
+
     @Autowired
     private WaitListOrderService waitListOrderService;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:Get /api/v1/waitorderservice/welcome]");
         return "Welcome to [ Wait Order Service ] !";
     }
 
     @PostMapping(path = "/order")
     public HttpEntity createNewOrder(@RequestBody WaitListOrderVO createOrder, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Post /api/v1/waitorderservice/order][createOrder:{}, headers:{}]","createNewOrder",(createOrder != null ? createOrder.toString(): null), (headers != null ? headers.toString(): null));
         return ok(waitListOrderService.create(createOrder, headers));
     }
 
     @GetMapping(path = "/orders")
     public HttpEntity getAllOrders(@RequestHeader HttpHeaders headers){
-        logger.info("[function name:{}, API:Get /api/v1/waitorderservice/orders][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         return ok(waitListOrderService.getAllOrders(headers));
     }
 
     @GetMapping(path = "/waitlistorders")
     public HttpEntity getWaitListOrders(@RequestHeader HttpHeaders headers){
-        logger.info("[function name:{}, API:Get /api/v1/waitorderservice/waitlistorders][headers:{}]","getWaitListOrders",(headers != null ? headers.toString(): null));
         return ok(waitListOrderService.getAllWaitListOrders(headers));
     }
 

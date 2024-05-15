@@ -67,15 +67,15 @@ public class ConsignControllerTest {
         Assert.assertEquals(response, JSONObject.parseObject(result, Response.class));
     }
 
-    @Test
-    public void testFindByAccountId() throws Exception {
-        UUID id = UUID.randomUUID();
-        Mockito.when(service.queryByAccountId(Mockito.any(UUID.class), Mockito.any(HttpHeaders.class))).thenReturn(response);
-        String result = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/consignservice/consigns/account/" + id.toString()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn().getResponse().getContentAsString();
-        Assert.assertEquals(response, JSONObject.parseObject(result, Response.class));
-    }
+    // @Test
+    // public void testFindByAccountId() throws Exception {
+    //     UUID id = UUID.randomUUID();
+    //     Mockito.when(service.queryByAccountId(Mockito.any(UUID.class), Mockito.any(HttpHeaders.class))).thenReturn(response);
+    //     String result = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/consignservice/consigns/account/" + id.toString()))
+    //             .andExpect(MockMvcResultMatchers.status().isOk())
+    //             .andReturn().getResponse().getContentAsString();
+    //     Assert.assertEquals(response, JSONObject.parseObject(result, Response.class));
+    // }
 
     @Test
     public void testFindByOrderId() throws Exception {

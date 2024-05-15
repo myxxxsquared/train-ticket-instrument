@@ -64,6 +64,8 @@ public class SeatServiceImpl implements SeatService {
 
 
 
+
+
     @Autowired
     RestTemplate restTemplate;
 
@@ -71,13 +73,11 @@ public class SeatServiceImpl implements SeatService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response distributeSeat(Seat seatRequest, HttpHeaders headers) {
-        logger.info("[function name:{}][seatRequest:{}, headers:{}]","distributeSeat",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         Response<Route> routeResult;
 
         LeftTicketInfo leftTicketInfo;
@@ -101,8 +101,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         } else {
             //Call the microservice to query for residual Ticket information: the set of the Ticket sold for the specified seat type
@@ -114,8 +112,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         }
 
@@ -153,7 +149,6 @@ public class SeatServiceImpl implements SeatService {
     }
 
     private boolean isContained(Set<Ticket> soldTickets, int seat) {
-        logger.info("[function name:{}][soldTickets:{}, seat:{}]","isContained",(soldTickets != null ? soldTickets.toString(): null), seat);
         //Check that the seat number has been used
         boolean result = false;
         for (Ticket soldTicket : soldTickets) {
@@ -166,7 +161,6 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public Response getLeftTicketOfInterval(Seat seatRequest, HttpHeaders headers) {
-        logger.info("[function name:{}][seatRequest:{}, headers:{}]","getLeftTicketOfInterval",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         int numOfLeftTicket = 0;
         LeftTicketInfo leftTicketInfo;
         ResponseEntity<Response<LeftTicketInfo>> re3;
@@ -184,8 +178,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         } else {
             //Call the micro service to query all the station information for the trains
@@ -199,8 +191,6 @@ public class SeatServiceImpl implements SeatService {
                     requestEntity,
                     new ParameterizedTypeReference<Response<LeftTicketInfo>>() {
                     });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re3.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/tickets","POST",headers);
             leftTicketInfo = re3.getBody().getData();
         }
 
@@ -239,7 +229,6 @@ public class SeatServiceImpl implements SeatService {
     }
 
     private double getDirectProportion(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getDirectProportion",(headers != null ? headers.toString(): null));
 
         String configName = "DirectTicketAllocationProportion";
         HttpEntity requestEntity = new HttpEntity(null);
@@ -250,8 +239,6 @@ public class SeatServiceImpl implements SeatService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Config>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                config_service_url + "/api/v1/configservice/configs/" + configName,"GET",headers);
         Response<Config> configValue = re.getBody();
         return Double.parseDouble(configValue.getData().getValue());
     }

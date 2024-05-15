@@ -41,10 +41,10 @@ app.factory('loadDataService', function ($http, $q) {
 
         $http({
             method: "get",
-            url: "/api/v1/adminuserservice/users",
-            headers: {"Authorization": "Bearer " + param.admin_token},
+            url: "/api/v1/userservice/users",
+            // headers: {"Authorization": "Bearer " + param.admin_token},
             withCredentials: true
-        }).success(function (data, status, headers, config) {
+        }).success(function (data, status, config) {
             console.log(data)
             if (data.status == 1) {
                 console.log("admin users")

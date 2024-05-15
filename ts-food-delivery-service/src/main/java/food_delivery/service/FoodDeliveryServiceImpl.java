@@ -66,6 +66,8 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
 
 
+
+
     @Autowired
     FoodDeliveryOrderRepository foodDeliveryOrderRepository;
 
@@ -76,13 +78,11 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response createFoodDeliveryOrder(FoodDeliveryOrder fd, HttpHeaders headers) {
-        logger.info("[function name:{}][fd:{}, headers:{}]","createFoodDeliveryOrder",(fd != null ? fd.toString(): null), (headers != null ? headers.toString(): null));
         String stationFoodStoreId = fd.getStationFoodStoreId();
 
         String staion_food_service_url = getServiceUrl("ts-station-food-service");
@@ -92,8 +92,6 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
                 new HttpEntity(headers),
                 new ParameterizedTypeReference<Response<StationFoodStoreInfo>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",getStationFoodStore.getStatusCode(),
-                staion_food_service_url + "/api/v1/stationfoodservice/stationfoodstores/bystoreid/" + stationFoodStoreId,"GET",headers);
         Response<StationFoodStoreInfo> result = getStationFoodStore.getBody();
         StationFoodStoreInfo stationFoodStoreInfo = result.getData();
         List<Food> storeFoodList = stationFoodStoreInfo.getFoodList();
@@ -117,7 +115,6 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response deleteFoodDeliveryOrder(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","deleteFoodDeliveryOrder",id, (headers != null ? headers.toString(): null));
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
             logger.error("[deleteFoodDeliveryOrder] No such food delivery order id: {}", id);
@@ -130,7 +127,6 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response getFoodDeliveryOrderById(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","getFoodDeliveryOrderById",id, (headers != null ? headers.toString(): null));
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
         if (t == null) {
             logger.error("[deleteFoodDeliveryOrder] No such food delivery order id: {}", id);
@@ -142,9 +138,7 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response getAllFoodDeliveryOrders(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllFoodDeliveryOrders",(headers != null ? headers.toString(): null));
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findAll();
-      logger.info("[foodDeliveryOrders:{},headers:{}]", (foodDeliveryOrders != null ? foodDeliveryOrders : null));
       
       
       
@@ -175,9 +169,7 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response getFoodDeliveryOrderByStoreId(String storeId, HttpHeaders headers) {
-        logger.info("[function name:{}][storeId:{}, headers:{}]","getFoodDeliveryOrderByStoreId",storeId, (headers != null ? headers.toString(): null));
         List<FoodDeliveryOrder> foodDeliveryOrders = foodDeliveryOrderRepository.findByStationFoodStoreId(storeId);
-      logger.info("[foodDeliveryOrders:{},headers:{}]", (foodDeliveryOrders != null ? foodDeliveryOrders : null));
       
       
       
@@ -208,7 +200,6 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response updateTripId(TripOrderInfo tripInfo, HttpHeaders headers) {
-        logger.info("[function name:{}][tripInfo:{}, headers:{}]","updateTripId",(tripInfo != null ? tripInfo.toString(): null), (headers != null ? headers.toString(): null));
         String id = tripInfo.getOrderId();
         String tripId = tripInfo.getTripId();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
@@ -224,7 +215,6 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response updateSeatNo(SeatInfo seatInfo, HttpHeaders headers) {
-        logger.info("[function name:{}][seatInfo:{}, headers:{}]","updateSeatNo",(seatInfo != null ? seatInfo.toString(): null), (headers != null ? headers.toString(): null));
         String id = seatInfo.getOrderId();
         int seatNo = seatInfo.getSeatNo();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);
@@ -240,7 +230,6 @@ public class FoodDeliveryServiceImpl implements FoodDeliveryService {
 
     @Override
     public Response updateDeliveryTime(DeliveryInfo deliveryInfo, HttpHeaders headers) {
-        logger.info("[function name:{}][deliveryInfo:{}, headers:{}]","updateDeliveryTime",(deliveryInfo != null ? deliveryInfo.toString(): null), (headers != null ? headers.toString(): null));
         String id = deliveryInfo.getOrderId();
         String deliveryTime = deliveryInfo.getDeliveryTime();
         FoodDeliveryOrder t = foodDeliveryOrderRepository.findById(id).orElse(null);

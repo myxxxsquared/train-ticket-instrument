@@ -34,6 +34,8 @@ import java.util.concurrent.Future;
 @Service
 public class CancelServiceImpl implements CancelService { 
     private static final Logger logger = LogManager.getLogger(CancelServiceImpl.class);
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -44,13 +46,11 @@ public class CancelServiceImpl implements CancelService {
     String orderStatusCancelNotPermitted = "Order Status Cancel Not Permitted";
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response cancelOrder(String orderId, String loginId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, loginId:{}, headers:{}]","cancelOrder",orderId, loginId, (headers != null ? headers.toString(): null));
 
         Response<Order> orderResult = getOrderByIdFromOrder(orderId, headers);
         if (orderResult.getStatus() == 1) {
@@ -70,7 +70,7 @@ public class CancelServiceImpl implements CancelService {
 
 
 
-                        Response<User> result = getAccount(order.getAccountId().toString(), headers);
+                        Response<User> result = getAccount(loginId, headers);
                         if (result.getStatus() == 0) {
                             return new Response<>(0, "Cann't find userinfo by user id.", null);
                         }
@@ -87,7 +87,7 @@ public class CancelServiceImpl implements CancelService {
                         notifyInfo.setStartTime(order.getTravelTime().toString());
 
                         // TODO: change to async message serivce
-                        // sendEmail(notifyInfo, headers);
+                        sendEmail(notifyInfo, headers);
 
                     } else {
                         CancelServiceImpl.logger.error("[cancelOrder][Draw Back Money Failed][loginId: {}, orderId: {}]", loginId, orderId);
@@ -154,7 +154,6 @@ public class CancelServiceImpl implements CancelService {
     }
 
     public boolean sendEmail(NotifyInfo notifyInfo, HttpHeaders headers) {
-        logger.info("[function name:{}][notifyInfo:{}, headers:{}]","sendEmail",(notifyInfo != null ? notifyInfo.toString(): null), (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(notifyInfo, newHeaders);
         String notification_service_url = getServiceUrl("ts-notification-service");
@@ -163,14 +162,11 @@ public class CancelServiceImpl implements CancelService {
                 HttpMethod.POST,
                 requestEntity,
                 Boolean.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                notification_service_url + "/api/v1/notifyservice/notification/order_cancel_success","POST",headers);
         return re.getBody();
     }
 
     @Override
     public Response calculateRefund(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","calculateRefund",orderId, (headers != null ? headers.toString(): null));
 
         Response<Order> orderResult = getOrderByIdFromOrder(orderId, headers);
         if (orderResult.getStatus() == 1) {
@@ -209,7 +205,6 @@ public class CancelServiceImpl implements CancelService {
     }
 
     private String calculateRefund(Order order) {
-        logger.info("[function name:{}][order:{}]","calculateRefund",(order != null ? order.toString(): null));
         if (order.getStatus() == OrderStatus.NOTPAID.getCode()) {
             return "0.00";
         }
@@ -244,7 +239,6 @@ public class CancelServiceImpl implements CancelService {
 
 
     private Response cancelFromOrder(Order order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","cancelFromOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         order.setStatus(OrderStatus.CANCEL.getCode());
         // add authorization header
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
@@ -255,8 +249,6 @@ public class CancelServiceImpl implements CancelService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order","PUT",headers);
 
         return re.getBody();
     }
@@ -271,7 +263,6 @@ public class CancelServiceImpl implements CancelService {
 
 
     private Response cancelFromOtherOrder(Order order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","cancelFromOtherOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         order.setStatus(OrderStatus.CANCEL.getCode());
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(order, newHeaders);
@@ -281,14 +272,11 @@ public class CancelServiceImpl implements CancelService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther","PUT",headers);
 
         return re.getBody();
     }
 
     public boolean drawbackMoney(String money, String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][money:{}, userId:{}, headers:{}]","drawbackMoney",money, userId, (headers != null ? headers.toString(): null));
 
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(newHeaders);
@@ -298,15 +286,12 @@ public class CancelServiceImpl implements CancelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                inside_payment_service_url + "/api/v1/inside_pay_service/inside_payment/drawback/" + userId + "/" + money,"GET",headers);
         Response result = re.getBody();
 
         return result.getStatus() == 1;
     }
 
     public Response<User> getAccount(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","getAccount",orderId, (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(newHeaders);
         String user_service_url = getServiceUrl("ts-user-service");
@@ -316,13 +301,10 @@ public class CancelServiceImpl implements CancelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<User>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                user_service_url + "/api/v1/userservice/users/id/" + orderId,"GET",headers);
         return re.getBody();
     }
 
     private Response<Order> getOrderByIdFromOrder(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderByIdFromOrder",orderId, (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(newHeaders);
         String order_service_url = getServiceUrl("ts-order-service");
@@ -332,13 +314,10 @@ public class CancelServiceImpl implements CancelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order/" + orderId,"GET",headers);
         return re.getBody();
     }
 
     private Response<Order> getOrderByIdFromOrderOther(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderByIdFromOrderOther",orderId, (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(headers);
         HttpEntity requestEntity = new HttpEntity(newHeaders);
         String order_other_service_url = getServiceUrl("ts-order-other-service");
@@ -348,8 +327,6 @@ public class CancelServiceImpl implements CancelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"GET",headers);
         return re.getBody();
     }
 

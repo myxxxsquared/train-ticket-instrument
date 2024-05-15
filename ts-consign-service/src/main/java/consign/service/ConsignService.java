@@ -37,7 +37,7 @@ public interface ConsignService {
      * @param headers headers
      * @return Response
      */
-    Response queryByAccountId(UUID accountId, HttpHeaders headers);
+    Response queryByAccountId(String accountId, HttpHeaders headers);
 
     /**
      * query by order id

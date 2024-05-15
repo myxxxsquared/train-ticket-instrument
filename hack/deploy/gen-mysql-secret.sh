@@ -41,25 +41,37 @@ EOF
 }
 
 function gen_secret_for_services {
+  echo "gen_secret_for_services: Started with $# arguments"
+
   mysqlUser="$1"
   mysqlPassword="$2"
   mysqlDatabase="$3"
   mysqlHost=""
   useOneHost=0
 
-  if [ $# == 4 ]; then
+  if [ $# -eq 4 ]; then
     mysqlHost="$4"
     useOneHost=1
+    echo "gen_secret_for_services: Received hostname - $mysqlHost"
   fi
+
+  secret_yaml="path-to-your-secret-yaml-file.yaml"
+  echo "gen_secret_for_services: Removing and touching secret yaml - $secret_yaml"
   rm $secret_yaml > /dev/null 2>&1
   touch $secret_yaml
+  
   for s in $svc_list
   do
-    if [ useOneHost == 0 ]; then
+    echo "gen_secret_for_services: Processing service - $s"
+    if [ $useOneHost -eq 0 ]; then
       mysqlHost="ts-$s-mysql-leader"
+      echo "gen_secret_for_services: Generated mysql host - $mysqlHost"
     fi
+    echo "gen_secret_for_services: Calling gen_secret_for_tt with service: $s, host: $mysqlHost"
     gen_secret_for_tt $s $mysqlHost $mysqlUser $mysqlPassword $mysqlDatabase
   done
+
+  echo "gen_secret_for_services: Finished"
 }
 
 function update_tt_dp_cm {

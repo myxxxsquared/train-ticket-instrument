@@ -1,4 +1,4 @@
-package execute.serivce;
+package execute.service;
 
 import edu.fudan.common.util.Response;
 
@@ -65,6 +65,8 @@ public class ExecuteServiceImpl implements ExecuteService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -72,16 +74,25 @@ public class ExecuteServiceImpl implements ExecuteService {
 
     String orderStatusWrong = "Order Status Wrong";
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
 
     @Override
     public Response ticketExecute(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","ticketExecute",orderId, (headers != null ? headers.toString(): null));
-        //1.Get order information
 
+        /*********************** Fault Injection - F1 *************************/
+        // The faulty code assumes that drawbackMoney() happens before cancelFromOtherOrder()
+        // However, this is not guaranteed because of network latency
+        // If the order is cancelled first by cancelFromOtherOrder(), drawbackMoney() will see that order is already cancelled and no refund will be issued 
+        //
+        /*********************** Fault Injection - F11 *************************/
+        // Due to the lack of control like F1, the two microservices may set the value in a wrong sequence.
+        // However, the second microservice that set the value may recheck the value and correct the value.
+        // The recheck process does not always happen.
+        // If two microservices set the value in a wrong sequence but the recheck process does not executed, this fault occurs.
+   
+        //1.Get order information
         headers = null;
         Response<Order> resultFromOrder = getOrderByIdFromOrder(orderId, headers);
         Order order;
@@ -128,7 +139,6 @@ public class ExecuteServiceImpl implements ExecuteService {
 
     @Override
     public Response ticketCollect(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","ticketCollect",orderId, (headers != null ? headers.toString(): null));
         //1.Get order information
 
         headers = null;
@@ -176,7 +186,6 @@ public class ExecuteServiceImpl implements ExecuteService {
 
 
     private Response executeOrder(String orderId, int status, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","executeOrder",orderId, status, (headers != null ? headers.toString(): null));
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_service_url=getServiceUrl("ts-order-service");
@@ -185,14 +194,11 @@ public class ExecuteServiceImpl implements ExecuteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order/status/" + orderId + "/" + status,"GET",headers);
         return re.getBody();
     }
 
 
     private Response executeOrderOther(String orderId, int status, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, status:{}, headers:{}]","executeOrderOther",orderId, status, (headers != null ? headers.toString(): null));
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_other_service_url=getServiceUrl("ts-order-other-service");
@@ -201,13 +207,10 @@ public class ExecuteServiceImpl implements ExecuteService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther/status/" + orderId + "/" + status,"GET",headers);
         return re.getBody();
     }
 
     private Response<Order> getOrderByIdFromOrder(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderByIdFromOrder",orderId, (headers != null ? headers.toString(): null));
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_service_url=getServiceUrl("ts-order-service");
@@ -217,13 +220,10 @@ public class ExecuteServiceImpl implements ExecuteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order/" + orderId,"GET",headers);
         return re.getBody();
     }
 
     private Response<Order> getOrderByIdFromOrderOther(String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, headers:{}]","getOrderByIdFromOrderOther",orderId, (headers != null ? headers.toString(): null));
         headers = null;
         HttpEntity requestEntity = new HttpEntity(headers);
         String order_other_service_url=getServiceUrl("ts-order-other-service");
@@ -233,8 +233,6 @@ public class ExecuteServiceImpl implements ExecuteService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"GET",headers);
         return re.getBody();
     }
 

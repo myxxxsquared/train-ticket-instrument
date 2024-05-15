@@ -59,12 +59,13 @@ public class PreserveOtherController {
 
 
 
+
+
     @Autowired
     private PreserveOtherService preserveService;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:Get /api/v1/preserveotherservice/welcome]");
         return "Welcome to [ PreserveOther Service ] !";
     }
 
@@ -72,7 +73,6 @@ public class PreserveOtherController {
     @PostMapping(value = "/preserveOther")
     public HttpEntity preserve(@RequestBody OrderTicketsInfo oti,
                                @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Post /api/v1/preserveotherservice/preserveOther][oti:{}, headers:{}]","preserve",(oti != null ? oti.toString(): null), (headers != null ? headers.toString(): null));
         // return ok(preserveService.preserve(oti, headers));
         Response<?> res = preserveService.preserve(oti, headers);
         if (res.getStatus() == 1) {

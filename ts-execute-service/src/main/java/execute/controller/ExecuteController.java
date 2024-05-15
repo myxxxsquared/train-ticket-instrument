@@ -1,6 +1,6 @@
 package execute.controller;
 
-import execute.serivce.ExecuteService;
+import execute.service.ExecuteService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ import static org.springframework.http.ResponseEntity.ok;
  */
 @RestController
 @RequestMapping("/api/v1/executeservice")
-public class ExecuteControlller {
+public class ExecuteController {
 
     @Autowired
     private ExecuteService executeService;
 
-    private static final Logger LOGGER = LogManager.getLogger(ExecuteControlller.class);
+    private static final Logger LOGGER = LogManager.getLogger(ExecuteController.class);
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {

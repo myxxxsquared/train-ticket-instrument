@@ -27,6 +27,8 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService { 
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
+
+
     @Autowired
     private UserRepository userRepository;
 
@@ -37,13 +39,11 @@ public class UserServiceImpl implements UserService {
     private RestTemplate restTemplate;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response saveUser(UserDto userDto, HttpHeaders headers) {
-        logger.info("[function name:{}][userDto:{}, headers:{}]","saveUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         String userId = userDto.getUserId();
         if (userDto.getUserId() == null) {
             userId = UUID.randomUUID().toString();
@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
         if (userDto.getUserName().contains("_admin")) {
             String oldusername = userDto.getUserName().replace("_admin", "");
             User oldUser = userRepository.findByUserName(oldusername);
-      logger.info("[oldUser:{},headers:{}]", (oldUser != null ? oldUser : null));
 
             userId = oldUser.getUserId();
             deleteUser(oldUser.getUserId(), headers);
@@ -67,7 +66,6 @@ public class UserServiceImpl implements UserService {
 
         // avoid same user name
         User user1 = userRepository.findByUserName(userDto.getUserName());
-      logger.info("[user1:{},headers:{}]", (user1 != null ? user1 : null));
 
         if (user1 == null) {
 
@@ -85,7 +83,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private Response createDefaultAuthUser(AuthDto dto) {
-        logger.info("[function name:{}][dto:{}]","createDefaultAuthUser",(dto != null ? dto.toString(): null));
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<AuthDto> entity = new HttpEntity<>(dto, null);
         String auth_service_url = getServiceUrl("ts-auth-service");
@@ -101,15 +98,12 @@ public class UserServiceImpl implements UserService {
                 entity,
                 new ParameterizedTypeReference<Response<AuthDto>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",res.getStatusCode(),auth_service_url + "/api/v1/auth","POST",headers);
         return res.getBody();
     }
 
     @Override
     public Response getAllUsers(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
         List<User> users = userRepository.findAll();
-      logger.info("[users:{},headers:{}]", (users != null ? users : null));
 
         if (users != null && !users.isEmpty()) {
             return new Response<>(1, "Success", users);
@@ -120,9 +114,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response findByUserName(String userName, HttpHeaders headers) {
-        logger.info("[function name:{}][userName:{}, headers:{}]","findByUserName",userName, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserName(userName);
-      logger.info("[user:{},headers:{}]", (user != null ? user : null));
       
         if (user != null) {
             return new Response<>(1, "Find User Success", user);
@@ -133,9 +125,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response findByUserId(String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","findByUserId",userId, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserId(userId);
-      logger.info("[user:{},headers:{}]", (user != null ? user : null));
 
         if (user != null) {
             return new Response<>(1, "Find User Success", user);
@@ -147,9 +137,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Response deleteUser(String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, (headers != null ? headers.toString(): null));
         User user = userRepository.findByUserId(userId);
-      logger.info("[user:{},headers:{}]", (user != null ? user : null));
 
         if (user != null) {
             // first  only admin token can delete success
@@ -166,9 +154,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Response updateUser(UserDto userDto, HttpHeaders headers) {
-        logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
         User oldUser = userRepository.findByUserName(userDto.getUserName());
-        logger.info("[oldUser:{},headers:{}]", (oldUser != null ? oldUser : null));
 
         if (oldUser != null) {
             User newUser = User.builder().email(userDto.getEmail())
@@ -188,7 +174,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public void deleteUserAuth(String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteUserAuth",userId, (headers != null ? headers.toString(): null));
 
         HttpHeaders newHeaders = new HttpHeaders();
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
@@ -202,6 +187,5 @@ public class UserServiceImpl implements UserService {
                 HttpMethod.DELETE,
                 httpEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, headers:{}]",AUTH_SERVICE_URI + "/users/" + userId,"DELETE",headers);
     }
 }

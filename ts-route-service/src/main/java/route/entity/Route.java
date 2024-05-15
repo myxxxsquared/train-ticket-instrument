@@ -25,11 +25,13 @@ public class Route {
     @Column(length = 36)
     private String id;
 
-    @ElementCollection(targetClass = String.class)
+    // @ElementCollection(targetClass = String.class)
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @OrderColumn
     private List<String> stations;
 
-    @ElementCollection(targetClass = Integer.class)
+    // @ElementCollection(targetClass = Integer.class)
+    @ElementCollection(targetClass = Integer.class, fetch = FetchType.EAGER)
     @OrderColumn
     private List<Integer> distances;
 

@@ -52,42 +52,38 @@ public class RouteController {
 
 
 
+
+
     @Autowired
     private RouteService routeService;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:Get /api/v1/routeservice/welcome]");
         return "Welcome to [ Route Service ] !";
     }
 
     @PostMapping(path = "/routes")
     public ResponseEntity<Response> createAndModifyRoute(@RequestBody RouteInfo createAndModifyRouteInfo, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Post /api/v1/routeservice/routes][createAndModifyRouteInfo:{}, headers:{}]","createAndModifyRoute",(createAndModifyRouteInfo != null ? createAndModifyRouteInfo.toString(): null), (headers != null ? headers.toString(): null));
         return ok(routeService.createAndModify(createAndModifyRouteInfo, headers));
     }
 
     @DeleteMapping(path = "/routes/{routeId}")
     public HttpEntity deleteRoute(@PathVariable String routeId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Delete /api/v1/routeservice/routes/{routeId}][routeId:{}, headers:{}]","deleteRoute",routeId, (headers != null ? headers.toString(): null));
         return ok(routeService.deleteRoute(routeId, headers));
     }
 
     @GetMapping(path = "/routes/{routeId}")
     public HttpEntity queryById(@PathVariable String routeId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/routeservice/routes/{routeId}][routeId:{}, headers:{}]","queryById",routeId, (headers != null ? headers.toString(): null));
         return ok(routeService.getRouteById(routeId, headers));
     }
 
     @PostMapping(path = "/routes/byIds")
     public HttpEntity queryByIds(@RequestBody List<String> routeIds, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Post /api/v1/routeservice/routes/byIds][routeIds:{}, headers:{}]","queryByIds",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         return ok(routeService.getRouteByIds(routeIds, headers));
     }
 
     @GetMapping(path = "/routes")
     public HttpEntity queryAll(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/routeservice/routes][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         return ok(routeService.getAllRoutes(headers));
     }
 
@@ -95,7 +91,6 @@ public class RouteController {
     public HttpEntity queryByStartAndTerminal(@PathVariable String start,
                                               @PathVariable String end,
                                               @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/routeservice/routes/{start}/{end}][start:{}, end:{}, headers:{}]","queryByStartAndTerminal",start, end, (headers != null ? headers.toString(): null));
         return ok(routeService.getRouteByStartAndEnd(start, end, headers));
     }
 

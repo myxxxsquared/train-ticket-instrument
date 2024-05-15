@@ -45,6 +45,8 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService { 
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
+
+
     @Autowired
     private UserRepository userRepository;
 
@@ -53,13 +55,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        logger.info("[function name:{}][user:{}]","saveUser",(user != null ? user.toString(): null));
         return null;
     }
 
     @Override
     public List<User> getAllUser(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllUser",(headers != null ? headers.toString(): null));
         return (List<User>) userRepository.findAll();
     }
 
@@ -71,7 +71,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User createDefaultAuthUser(AuthDto dto) {
-        logger.info("[function name:{}][dto:{}]","createDefaultAuthUser",(dto != null ? dto.toString(): null));
         User user = null;
     
         if (!dto.getUserName().contains("admin")) {
@@ -112,7 +111,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Response deleteByUserId(String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteByUserId",userId, (headers != null ? headers.toString(): null));
         userRepository.deleteByUserId(userId);
         return new Response(1, "DELETE USER SUCCESS", null);
     }
@@ -123,7 +121,6 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     private void checkUserCreateInfo(User user) throws UserOperationException {
-        logger.info("[function name:{}][user:{}]","checkUserCreateInfo",(user != null ? user.toString(): null));
         List<String> infos = new ArrayList<>();
 
         if (null == user.getUsername() || "".equals(user.getUsername())) {

@@ -60,6 +60,8 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
 
 
+
+
     @Autowired
     private WaitListOrderRepository waitListOrderRepository;
 
@@ -73,9 +75,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
     @Override
     public Response findOrderById(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","findOrderById",id, (headers != null ? headers.toString(): null));
         Optional<WaitListOrder> op = waitListOrderRepository.findById(id);
-      logger.info("[op:{},headers:{}]", (op != null ? op : null));
       
       
       
@@ -106,7 +106,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Transactional
     @Override
     public Response create(WaitListOrderVO orderVO, HttpHeaders headers) {
-        logger.info("[function name:{}][orderVO:{}, headers:{}]","create",(orderVO != null ? orderVO.toString(): null), (headers != null ? headers.toString(): null));
         Response<WaitListOrder> response=saveNewOrder(orderVO,headers);
         if(response.getStatus()==0){
             //未能正常保存到数据库
@@ -119,9 +118,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
     @Override
     public Response getAllOrders(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
-      logger.info("[orderList:{},headers:{}]", (orderList != null ? orderList : null));
       
       
       
@@ -151,9 +148,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
 
     @Override
     public Response getAllWaitListOrders(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllWaitListOrders",(headers != null ? headers.toString(): null));
         List<WaitListOrder> orderList= waitListOrderRepository.findAll();
-      logger.info("[orderList:{},headers:{}]", (orderList != null ? orderList : null));
       
       
       
@@ -191,9 +186,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Transactional
     @Override
     public Response updateOrder(WaitListOrder order, HttpHeaders headers) {
-        logger.info("[function name:{}][order:{}, headers:{}]","updateOrder",(order != null ? order.toString(): null), (headers != null ? headers.toString(): null));
         Optional<WaitListOrder> op = waitListOrderRepository.findById(order.getId());
-      logger.info("[op:{},headers:{}]", (op != null ? op : null));
       
       
       
@@ -226,9 +219,7 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     @Transactional
     @Override
     public Response modifyWaitListOrderStatus(int status, String orderId) {
-        logger.info("[function name:{}][status:{}, orderId:{}]","modifyWaitListOrderStatus",status, orderId);
         Optional<WaitListOrder> op = waitListOrderRepository.findById(orderId);
-      logger.info("[op:{},headers:{}]", (op != null ? op : null));
       
       
       
@@ -259,7 +250,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     }
 
     private Response<WaitListOrder> saveNewOrder(WaitListOrderVO orderVO, HttpHeaders headers) {
-        logger.info("[function name:{}][orderVO:{}, headers:{}]","saveNewOrder",(orderVO != null ? orderVO.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<WaitListOrder> accountOrders= waitListOrderRepository.findByAccountId(orderVO.getAccountId());
         //if the order already exist
         if(WaitListOrderExist(accountOrders,orderVO)){
@@ -276,7 +266,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     }
 
     private Boolean WaitListOrderExist(List<WaitListOrder> orderList,WaitListOrderVO newOrder){
-        logger.info("[function name:{}][orderList:{}, newOrder:{}]","WaitListOrderExist",(orderList != null ? orderList.toString(): null), (newOrder != null ? newOrder.toString(): null));
         for(WaitListOrder order: orderList){
             if(Objects.equals(order.getAccountId(), newOrder.getAccountId())
                     && Objects.equals(order.getContactsId(), newOrder.getContactsId())
@@ -291,7 +280,6 @@ public class WaitListOrderServiceImpl implements WaitListOrderService {
     }
 
     private Response triggerThread(WaitListOrder orderPO,WaitListOrderVO orderVO,HttpHeaders headers){
-        logger.info("[function name:{}][orderPO:{}, orderVO:{}, headers:{}]","triggerThread",(orderPO != null ? orderPO.toString(): null), (orderVO != null ? orderVO.toString(): null), (headers != null ? headers.toString(): null));
         PollThread pollThread;
         try{
             pollThread =new PollThread(orderPO.getWaitUtilTime(),this,orderVO,restTemplate, headers);

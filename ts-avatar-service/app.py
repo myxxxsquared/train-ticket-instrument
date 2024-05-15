@@ -1,3 +1,5 @@
+from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 from flask import Flask, request, jsonify
 import numpy as np
 import urllib
@@ -6,8 +8,8 @@ import os
 import json
 import base64
 import traceback
-
-from face_detect import check
+from base64toimage import base64_cv2
+# from face_detect import check
 
 app = Flask(__name__)
 
@@ -21,6 +23,7 @@ app = Flask(__name__)
 
 receive_path = r"./received/"
 
+CORS(app)
 
 @app.route('/api/v1/avatar', methods=["POST"])
 def hello():
@@ -35,7 +38,11 @@ def hello():
         image_decode = base64.b64decode(image_b64)
         nparr = np.fromstring(image_decode, np.uint8)
         image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-        result = check(image)
+        _, buffer = cv2.imencode('.jpg', image)
+        # 将二进制图像数据转换为 base64 编码的字符串
+        image_b64 = base64.b64encode(buffer).decode('utf-8')
+        base64_cv2(image_b64)
+        result = image_b64
     except Exception as e:
         return jsonify({"msg": "exception:" + str(traceback.format_exc())}), 500
 

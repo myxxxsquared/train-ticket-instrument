@@ -67,6 +67,8 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -76,13 +78,11 @@ public class TravelPlanServiceImpl implements TravelPlanService {
     String cannotFind = "Cannot Find";
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response getTransferSearch(TransferTravelInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getTransferSearch",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         TripInfo queryInfoFirstSection = new TripInfo();
         queryInfoFirstSection.setDepartureTime(StringUtils.Date2String(info.getTravelDate()));
@@ -121,7 +121,6 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getCheapest(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getCheapest",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -169,7 +168,6 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getQuickest(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getQuickest",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -218,7 +216,6 @@ public class TravelPlanServiceImpl implements TravelPlanService {
 
     @Override
     public Response getMinStation(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getMinStation",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         RoutePlanInfo routePlanInfo = new RoutePlanInfo();
         routePlanInfo.setNum(5);
         routePlanInfo.setStartStation(info.getStartPlace());
@@ -266,7 +263,6 @@ public class TravelPlanServiceImpl implements TravelPlanService {
     }
 
     private int getRestTicketNumber(String travelDate, String trainNumber, String startStationName, String endStationName, int seatType, int totalNum, List<String> stations, HttpHeaders headers) {
-        logger.info("[function name:{}][travelDate:{}, trainNumber:{}, startStationName:{}, endStationName:{}, seatType:{}, totalNum:{}, stations:{}, headers:{}]","getRestTicketNumber",travelDate, trainNumber, startStationName, endStationName, seatType, totalNum, (stations != null ? stations.toString(): null), (headers != null ? headers.toString(): null));
         Seat seatRequest = new Seat();
 
         seatRequest.setDestStation(startStationName);
@@ -284,14 +280,11 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Integer>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                seat_service_url + "/api/v1/seatservice/seats/left_tickets","POST",headers);
 
         return re.getBody().getData();
     }
 
     private ArrayList<RoutePlanResultUnit> getRoutePlanResultCheapest(RoutePlanInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getRoutePlanResultCheapest",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(info, null);
         String route_plan_service_url = getServiceUrl("ts-route-plan-service");
         ResponseEntity<Response<ArrayList<RoutePlanResultUnit>>> re = restTemplate.exchange(
@@ -300,13 +293,10 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                route_plan_service_url + "/api/v1/routeplanservice/routePlan/cheapestRoute","POST",headers);
         return re.getBody().getData();
     }
 
     private ArrayList<RoutePlanResultUnit> getRoutePlanResultQuickest(RoutePlanInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getRoutePlanResultQuickest",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(info, null);
         String route_plan_service_url = getServiceUrl("ts-route-plan-service");
         ResponseEntity<Response<ArrayList<RoutePlanResultUnit>>> re = restTemplate.exchange(
@@ -315,14 +305,11 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                route_plan_service_url + "/api/v1/routeplanservice/routePlan/quickestRoute","POST",headers);
 
         return re.getBody().getData();
     }
 
     private ArrayList<RoutePlanResultUnit> getRoutePlanResultMinStation(RoutePlanInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","getRoutePlanResultMinStation",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(info, null);
         String route_plan_service_url = getServiceUrl("ts-route-plan-service");
         ResponseEntity<Response<ArrayList<RoutePlanResultUnit>>> re = restTemplate.exchange(
@@ -331,13 +318,10 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<RoutePlanResultUnit>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                route_plan_service_url + "/api/v1/routeplanservice/routePlan/minStopStations","POST",headers);
         return re.getBody().getData();
     }
 
     private List<TripResponse> tripsFromHighSpeed(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","tripsFromHighSpeed",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(info, null);
         String travel_service_url=getServiceUrl("ts-travel-service");
         ResponseEntity<Response<List<TripResponse>>> re = restTemplate.exchange(
@@ -346,13 +330,10 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<TripResponse>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                travel_service_url + "/api/v1/travelservice/trips/left","POST",headers);
         return re.getBody().getData();
     }
 
     private ArrayList<TripResponse> tripsFromNormal(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","tripsFromNormal",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         HttpEntity requestEntity = new HttpEntity(info, null);
         String travel2_service_url=getServiceUrl("ts-travel2-service");
@@ -362,14 +343,11 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<TripResponse>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                travel2_service_url + "/api/v1/travel2service/trips/left","POST",headers);
 
         return re.getBody().getData();
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -377,8 +355,6 @@ public class TravelPlanServiceImpl implements TravelPlanService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET",headers);
         Response  response = re.getBody();
 
         return JsonUtils.conveterObject(response.getData(), TrainType.class);

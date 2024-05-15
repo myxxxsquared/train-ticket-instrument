@@ -9,8 +9,15 @@ spring:
         server-addr: ${NACOS_ADDRS:nacos-0.nacos-headless.default.svc.cluster.local,nacos-1.nacos-headless.default.svc.cluster.local,nacos-2.nacos-headless.default.svc.cluster.local}
   application:
     name: ts-rebook-service
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: true
 swagger:
   controllerPackage: rebook.controller
+
 #  rabbitmq:
 #    host: rabbitmq
 #    listener:

@@ -33,6 +33,9 @@
 
         <!-- LOG "com.baeldung*" at TRACE level -->
         <Logger name="com.baeldung" level="trace"></Logger>
+
+        <!-- LOG "org.hibernate.type" at TRACE level -->
+        <Logger name="org.hibernate.type" level="trace" />
     </Loggers>
 
 </Configuration>

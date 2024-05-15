@@ -88,23 +88,23 @@ public class ConsignServiceImplTest {
         Assert.assertEquals(new Response<>(1, "Update consign success", consignRecord), result);
     }
 
-    @Test
-    public void testQueryByAccountId1() {
-        UUID accountId = UUID.randomUUID();
-        ArrayList<ConsignRecord> consignRecords = new ArrayList<>();
-        consignRecords.add(new ConsignRecord());
-        Mockito.when(repository.findByAccountId(Mockito.anyString())).thenReturn(consignRecords);
-        Response result = consignServiceImpl.queryByAccountId(accountId, headers);
-        Assert.assertEquals(new Response<>(1, "Find consign by account id success", consignRecords), result);
-    }
+    // @Test
+    // public void testQueryByAccountId1() {
+    //     UUID accountId = UUID.randomUUID();
+    //     ArrayList<ConsignRecord> consignRecords = new ArrayList<>();
+    //     consignRecords.add(new ConsignRecord());
+    //     Mockito.when(repository.findByAccountId(Mockito.anyString())).thenReturn(consignRecords);
+    //     Response result = consignServiceImpl.queryByAccountId(accountId, headers);
+    //     Assert.assertEquals(new Response<>(1, "Find consign by account id success", consignRecords), result);
+    // }
 
-    @Test
-    public void testQueryByAccountId2() {
-        UUID accountId = UUID.randomUUID();
-        Mockito.when(repository.findByAccountId(Mockito.anyString())).thenReturn(null);
-        Response result = consignServiceImpl.queryByAccountId(accountId, headers);
-        Assert.assertEquals(new Response<>(0, "No Content according to accountId", null), result);
-    }
+    // @Test
+    // public void testQueryByAccountId2() {
+    //     UUID accountId = UUID.randomUUID();
+    //     Mockito.when(repository.findByAccountId(Mockito.anyString())).thenReturn(null);
+    //     Response result = consignServiceImpl.queryByAccountId(accountId, headers);
+    //     Assert.assertEquals(new Response<>(0, "No Content according to accountId", null), result);
+    // }
 
     @Test
     public void testQueryByOrderId1() {

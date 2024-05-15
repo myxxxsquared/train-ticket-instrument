@@ -223,7 +223,38 @@ var appConsign = new Vue({
                         },
                         success: function (result) {
                             if (result["status"] == 1) {
-                                alert(result["msg"]);
+                                var orderUpdateDto = {
+                                    order: result.data["order"],
+                                    tripAllDetail: result.data["tripAllDetail"],
+                                    ticketPrice: result.data["ticketPrice"], 
+                                    orderMoneyDifference: result.data["orderMoneyDifference"]
+                                };
+                                orderUpdateDto["rebookInfo"] = rebookInfo;
+                                // 将对象转换为JSON字符串
+                                var jsonData = JSON.stringify(orderUpdateDto);
+                                console.log(jsonData)
+                                // 发送AJAX请求到后端
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/api/v1/rebookservice/updateorder", 
+                                    contentType: "application/json",
+                                    headers: {
+                                        "Authorization": "Bearer " + sessionStorage.getItem("client_token") 
+                                    },
+                                    data: jsonData,
+                                    success: function(response) {
+                                        if (response.status === 1) {
+                                            alert("Order updated successfully!");
+                                            window.location.reload(); 
+                                        } else {
+                                            alert("Failed to update order: " + response.msg);
+                                        }
+                                    },
+                                    error: function(xhr, status, error) {
+                                        alert("An error occurred: " + error);
+                                    }
+                                });
+                                window.location.reload();
                             } else if (result["status"] == 2) {
                                 // pay difference money
                                 that.differenceMoney = result.data["differenceMoney"];
@@ -242,8 +273,44 @@ var appConsign = new Vue({
                                                 xhrFields: {
                                                     withCredentials: true
                                                 },
-                                                success: function (result) {
-                                                    alert(result['msg']);
+                                                success: function (res) {
+                                                    if (res["status"] == 1) {
+                                                        var orderUpdateDto = {
+                                                            order: result.data["order"],
+                                                            tripAllDetail: result.data["tripAllDetail"],
+                                                            ticketPrice: result.data["ticketPrice"], 
+                                                            orderMoneyDifference: result.data["orderMoneyDifference"]
+                                                        };
+                                                        orderUpdateDto["rebookInfo"] = rebookInfo;
+                                                        // 将对象转换为JSON字符串
+                                                        var jsonData = JSON.stringify(orderUpdateDto);
+                                                        console.log(jsonData)
+                                                        // 发送AJAX请求到后端
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "/api/v1/rebookservice/updateorder", 
+                                                            contentType: "application/json",
+                                                            headers: {
+                                                                "Authorization": "Bearer " + sessionStorage.getItem("client_token") 
+                                                            },
+                                                            data: jsonData,
+                                                            success: function(response) {
+                                                                if (response.status === 1) {
+                                                                    alert("Order updated successfully!");
+                                                                    window.location.reload(); 
+                                                                } else {
+                                                                    alert("Failed to update order: " + response.msg);
+                                                                }
+                                                            },
+                                                            error: function(xhr, status, error) {
+                                                                alert("An error occurred: " + error);
+                                                            }
+                                                        });
+                                                        // window.location.reload();
+                                                    }
+                                                    else{
+                                                        alert("Order updated failed!");
+                                                    }
                                                     window.location.reload();
                                                 },
                                                 error: function (e) {
@@ -617,7 +684,7 @@ var appConsign = new Vue({
             var date = new Date(Number(timeNumber));
             var year = date.getFullYear(),
                 month = date.getMonth() + 1,
-                day = date.getDate();
+                day = date.getDate() + 1;
             var newTime = year + '-' +
                 (month < 10 ? '0' + month : month) + '-' +
                 (day < 10 ? '0' + day : day);
@@ -627,7 +694,7 @@ var appConsign = new Vue({
             var date = new Date(Number(timeNumber));
             var year = date.getFullYear(),
                 month = date.getMonth() + 1,//月份是从0开始的
-                day = date.getDate(),
+                day = date.getDate() + 1,
                 hour = date.getHours(),
                 min = date.getMinutes(),
                 sec = date.getSeconds();

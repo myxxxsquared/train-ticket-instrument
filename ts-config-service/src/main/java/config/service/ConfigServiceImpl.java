@@ -54,6 +54,8 @@ public class ConfigServiceImpl implements ConfigService {
 
 
 
+
+
     @Autowired
     ConfigRepository repository;
 
@@ -61,7 +63,6 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Response create(Config info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
  
         /*********************** Fault Injection - F10 ************************/
         // Issue: Incorrect part count in a Bill Of Material (BOM)
@@ -72,7 +73,6 @@ public class ConfigServiceImpl implements ConfigService {
         Config config = new Config(info.getName(), info.getValue(), info.getDescription());
 
         try {
-            logger.info("[Config:{},headers:{}]", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()) : null), headers);
             repository.save(config);
         } catch (Exception e) {
 
@@ -83,9 +83,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Response update(Config info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","update",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         if (repository.findByName(info.getName()) == null) {
-        logger.info("[Config:{},headers:{}]", (repository.findByName(info.getName()) != null ? repository.findByName(info.getName()) : null),headers);
             String result = config0 + info.getName() + " doesn't exist.";
             logger.warn(result);
             return new Response<>(0, result, null);
@@ -99,9 +97,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Response query(String name, HttpHeaders headers) {
-        logger.info("[function name:{}][name:{}, headers:{}]","query",name, (headers != null ? headers.toString(): null));
         Config config = repository.findByName(name);
-      logger.info("[config:{},headers:{}]", (config != null ? config : null));
       
       
       
@@ -130,9 +126,7 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     @Transactional
     public Response delete(String name, HttpHeaders headers) {
-        logger.info("[function name:{}][name:{}, headers:{}]","delete",name, (headers != null ? headers.toString(): null));
         Config config = repository.findByName(name);
-      logger.info("[config:{},headers:{}]", (config != null ? config : null));
       
       
       
@@ -162,9 +156,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Response queryAll(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Config> configList = repository.findAll();
-      logger.info("[configList:{},headers:{}]", (configList != null ? configList : null));
       
       
       

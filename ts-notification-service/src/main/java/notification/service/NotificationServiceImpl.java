@@ -48,6 +48,8 @@ public class NotificationServiceImpl implements NotificationService{
 
 
 
+
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -64,7 +66,6 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public boolean preserveSuccess(NotifyInfo info, HttpHeaders headers){
-        logger.info("[function name:{}][info:{}, headers:{}]","preserveSuccess",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         Mail mail = new Mail();
         mail.setMailFrom(email);
         mail.setMailTo(info.getEmail());
@@ -92,7 +93,6 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public boolean orderCreateSuccess(NotifyInfo info, HttpHeaders headers){
-        logger.info("[function name:{}][info:{}, headers:{}]","orderCreateSuccess",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         Mail mail = new Mail();
         mail.setMailFrom(email);
         mail.setMailTo(info.getEmail());
@@ -120,7 +120,6 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public boolean orderChangedSuccess(NotifyInfo info, HttpHeaders headers){
-        logger.info("[function name:{}][info:{}, headers:{}]","orderChangedSuccess",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         Mail mail = new Mail();
         mail.setMailFrom(email);
         mail.setMailTo(info.getEmail());
@@ -148,7 +147,6 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public boolean orderCancelSuccess(NotifyInfo info, HttpHeaders headers){
-        logger.info("[function name:{}][info:{}, headers:{}]","orderCancelSuccess",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         Mail mail = new Mail();
         mail.setMailFrom(email);
         mail.setMailTo(info.getEmail());

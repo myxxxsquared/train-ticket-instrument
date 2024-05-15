@@ -26,6 +26,7 @@ public class InitData implements CommandLineRunner{
     public void run(String... args)throws Exception{
         TravelInfo info = new TravelInfo();
 
+        // try {
         info.setTripId("G1234");
         info.setTrainTypeName(gaoTieOne);
         info.setRouteId("92708982-77af-4318-be25-57ccb0ff69ad");
@@ -75,5 +76,9 @@ public class InitData implements CommandLineRunner{
         info.setStartTime("2013-05-04 07:00:00"); //NOSONAR
         info.setEndTime("2013-05-04 19:59:52"); //NOSONAR
         service.create(info,null);
+        // } catch(Exception e) {
+            
+        // }
+
     }
 }

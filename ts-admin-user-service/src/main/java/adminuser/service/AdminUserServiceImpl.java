@@ -25,6 +25,8 @@ import java.util.List;
 @Service
 public class AdminUserServiceImpl implements AdminUserService { 
     private static final Logger logger = LogManager.getLogger(AdminUserServiceImpl.class);
+
+
     
     @Autowired
     private RestTemplate restTemplate;
@@ -35,13 +37,11 @@ public class AdminUserServiceImpl implements AdminUserService {
 //    private final String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response getAllUsers(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllUsers",(headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String user_service_url = getServiceUrl("ts-user-service");
         String USER_SERVICE_IP_URI = user_service_url + "/api/v1/userservice/users";
@@ -51,8 +51,6 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<List<User>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                USER_SERVICE_IP_URI,"GET",headers);
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
             AdminUserServiceImpl.logger.error("[getAllUsers][receive response][Get All Users error]");
             return new Response<>(0, "get all users error", null);
@@ -63,7 +61,6 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Response deleteUser(String userId, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, headers:{}]","deleteUser",userId, (headers != null ? headers.toString(): null));
         HttpHeaders newHeaders = new HttpHeaders();
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
         newHeaders.set(HttpHeaders.AUTHORIZATION, token);
@@ -77,8 +74,6 @@ public class AdminUserServiceImpl implements AdminUserService {
                 HttpMethod.DELETE,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                USER_SERVICE_IP_URI + "/" + userId,"DELETE",headers);
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
             AdminUserServiceImpl.logger.error("[deleteUser][receive response][Delete user error][userId: {}]", userId);
             return new Response<>(0, "delete user error", null);
@@ -88,7 +83,6 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Response updateUser(UserDto userDto, HttpHeaders headers) {
-        logger.info("[function name:{}][userDto:{}, headers:{}]","updateUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
 
         HttpHeaders newHeaders = new HttpHeaders();
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
@@ -102,8 +96,6 @@ public class AdminUserServiceImpl implements AdminUserService {
                 HttpMethod.PUT,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                USER_SERVICE_IP_URI,"PUT",headers);
 
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {
@@ -115,7 +107,6 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Response addUser(UserDto userDto, HttpHeaders headers) {
-        logger.info("[function name:{}][userDto:{}, headers:{}]","addUser",(userDto != null ? userDto.toString(): null), (headers != null ? headers.toString(): null));
 
         /*********************** Fault Injection - F10 ************************/
         // Issue: Incorrect part count in a Bill Of Material (BOM)
@@ -132,8 +123,6 @@ public class AdminUserServiceImpl implements AdminUserService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<User>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                USER_SERVICE_IP_URI + "/register","POST",headers);
 
         String userName = userDto.getUserName();
         if (re.getBody() == null || re.getBody().getStatus() != 1) {

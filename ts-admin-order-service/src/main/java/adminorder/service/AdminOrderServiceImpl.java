@@ -44,19 +44,19 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response getAllOrders(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllOrders",(headers != null ? headers.toString(): null));
         //Get all of the orders
         ArrayList<Order> orders = new ArrayList<>();
         //From ts-order-service
@@ -69,8 +69,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<ArrayList<Order>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order","GET",headers);
         Response<ArrayList<Order>> result = re.getBody();
 
         if (result.getStatus() == 1) {
@@ -88,8 +86,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 requestEntity2,
                 new ParameterizedTypeReference<Response<ArrayList<Order>>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re2.getStatusCode(),
-                order_other_service_url + "/api/v1/orderOtherService/orderOther","GET",headers);
         result = re2.getBody();
 
         if (result.getStatus() == 1) {
@@ -105,7 +101,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response deleteOrder(String orderId, String trainNumber, HttpHeaders headers) {
-        logger.info("[function name:{}][orderId:{}, trainNumber:{}, headers:{}]","deleteOrder",orderId, trainNumber, (headers != null ? headers.toString(): null));
         Response deleteOrderResult;
         if (trainNumber.startsWith("G") || trainNumber.startsWith("D")) {
             HttpEntity requestEntity = new HttpEntity(null);
@@ -115,8 +110,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.DELETE,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                     order_service_url + "/api/v1/orderservice/order/" + orderId,"DELETE",headers);
             deleteOrderResult = re.getBody();
 
         } else {
@@ -127,8 +120,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.DELETE,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId,"DELETE",headers);
             deleteOrderResult = re.getBody();
 
         }
@@ -138,7 +129,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response updateOrder(Order request, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, headers:{}]","updateOrder",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
 
         Response updateOrderResult;
         if (request.getTrainNumber().startsWith("G") || request.getTrainNumber().startsWith("D")) {
@@ -149,8 +139,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.PUT,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/admin","PUT",headers);
             updateOrderResult = re.getBody();
 
         } else {
@@ -161,8 +149,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.PUT,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/admin","PUT",headers);
             updateOrderResult = re.getBody();
 
         }
@@ -171,7 +157,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public Response addOrder(Order request, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, headers:{}]","addOrder",(request != null ? request.toString(): null), (headers != null ? headers.toString(): null));
 
         Response addOrderResult;
         if (request.getTrainNumber().startsWith("G") || request.getTrainNumber().startsWith("D")) {
@@ -182,8 +167,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.POST,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/admin","POST",headers);
             addOrderResult = re.getBody();
 
         } else {
@@ -194,8 +177,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                     HttpMethod.POST,
                     requestEntity,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                     order_other_service_url + "/api/v1/orderOtherService/orderOther/admin","POST",headers);
             addOrderResult = re.getBody();
 
         }

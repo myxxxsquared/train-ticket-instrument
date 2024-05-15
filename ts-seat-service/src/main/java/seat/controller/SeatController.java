@@ -57,12 +57,13 @@ public class SeatController {
 
 
 
+
+
     @Autowired
     private SeatService seatService;
 
     @GetMapping(path = "/welcome")
     public String home() {
-        logger.info("[function name:home, API:Get /api/v1/seatservice/welcome]");
         return "Welcome to [ Seat Service ] !";
     }
 
@@ -76,7 +77,6 @@ public class SeatController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/seats")
     public HttpEntity create(@RequestBody Seat seatRequest, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Post /api/v1/seatservice/seats][seatRequest:{}, headers:{}]","create",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         return ok(seatService.distributeSeat(seatRequest, headers));
     }
 
@@ -91,7 +91,6 @@ public class SeatController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/seats/left_tickets")
     public HttpEntity getLeftTicketOfInterval(@RequestBody Seat seatRequest, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Post /api/v1/seatservice/seats/left_tickets][seatRequest:{}, headers:{}]","getLeftTicketOfInterval",(seatRequest != null ? seatRequest.toString(): null), (headers != null ? headers.toString(): null));
         return ok(seatService.getLeftTicketOfInterval(seatRequest, headers));
     }
 

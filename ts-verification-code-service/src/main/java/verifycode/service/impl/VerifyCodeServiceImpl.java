@@ -64,6 +64,8 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
 
 
 
+
+
     public static final int CAPTCHA_EXPIRED = 1000;
 
     String ysbCaptcha = "YsbCaptcha";
@@ -84,7 +86,6 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
 
     @Override
     public Map<String, Object> getImageCode(int width, int height, OutputStream os, HttpServletRequest request, HttpServletResponse response, HttpHeaders headers) {
-        logger.info("[function name:{}][width:{}, height:{}, os:{}, request:{}, response:{}, headers:{}]","getImageCode",width, height, (os != null ? os.toString(): null), (request != null ? request.toString(): null), (response != null ? response.toString(): null), (headers != null ? headers.toString(): null));
         Map<String, Object> returnMap = new HashMap<>();
         if (width <= 0) {
             width = 60;
@@ -147,7 +148,6 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
 
     @Override
     public boolean verifyCode(HttpServletRequest request, HttpServletResponse response, String receivedCode, HttpHeaders headers) {
-        logger.info("[function name:{}][request:{}, response:{}, receivedCode:{}, headers:{}]","verifyCode",(request != null ? request.toString(): null), (response != null ? response.toString(): null), receivedCode, (headers != null ? headers.toString(): null));
         boolean result = false;
         Cookie cookie = CookieUtil.getCookieByName(request, ysbCaptcha);
         String cookieId;

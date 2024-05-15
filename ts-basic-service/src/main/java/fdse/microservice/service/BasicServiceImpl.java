@@ -45,6 +45,8 @@ public class BasicServiceImpl implements BasicService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -52,13 +54,11 @@ public class BasicServiceImpl implements BasicService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response queryForTravel(Travel info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","queryForTravel",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         Response response = new Response<>();
         TravelResult result = new TravelResult();
@@ -140,7 +140,6 @@ public class BasicServiceImpl implements BasicService {
 
     @Override
     public Response queryForTravels(List<Travel> infos, HttpHeaders headers) {
-        logger.info("[function name:{}][infos:{}, headers:{}]","queryForTravels",(infos != null ? infos.toString(): null), (headers != null ? headers.toString(): null));
         Response response = new Response<>();
         response.setStatus(1);
         response.setMsg("Success");
@@ -340,7 +339,6 @@ public class BasicServiceImpl implements BasicService {
 
     @Override
     public Response queryForStationId(String stationName, HttpHeaders headers) {
-        logger.info("[function name:{}][stationName:{}, headers:{}]","queryForStationId",stationName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -348,10 +346,6 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
         if (re.getBody().getStatus() != 1) {
             String msg = re.getBody().getMsg();
             BasicServiceImpl.logger.warn("[queryForStationId][Query for stationId error][stationName: {}, message: {}]", stationName, msg);
@@ -361,7 +355,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public Map<String,String> checkStationsExists(List<String> stationNames, HttpHeaders headers) {
-        logger.info("[function name:{}][stationNames:{}, headers:{}]","checkStationsExists",(stationNames != null ? stationNames.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(stationNames, null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -369,8 +362,6 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/idlist","POST",headers);
         Response<Map<String, String>> r = re.getBody();
         if(r.getStatus() == 0) {
             return null;
@@ -380,7 +371,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public boolean checkStationExists(String stationName, HttpHeaders headers) {
-        logger.info("[function name:{}][stationName:{}, headers:{}]","checkStationExists",stationName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String station_service_url=getServiceUrl("ts-station-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -388,17 +378,12 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",headers);
         Response exist = re.getBody();
 
         return exist.getStatus() == 1;
     }
 
     public List<TrainType> queryTrainTypeByNames(List<String> trainTypeNames, HttpHeaders headers) {
-        logger.info("[function name:{}][trainTypeNames:{}, headers:{}]","queryTrainTypeByNames",(trainTypeNames != null ? trainTypeNames.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(trainTypeNames, null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -406,8 +391,6 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/byNames","POST",headers);
         Response<List<TrainType>>  response = re.getBody();
         if(response.getStatus() == 0){
             return null;
@@ -417,7 +400,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     public TrainType queryTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","queryTrainTypeByName",trainTypeName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url=getServiceUrl("ts-train-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -425,15 +407,12 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET",headers);
         Response  response = re.getBody();
 
         return JsonUtils.conveterObject(response.getData(), TrainType.class);
     }
 
     private List<Route> getRoutesByRouteIds(List<String> routeIds, HttpHeaders headers) {
-        logger.info("[function name:{}][routeIds:{}, headers:{}]","getRoutesByRouteIds",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(routeIds, null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -441,8 +420,6 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                route_service_url + "/api/v1/routeservice/routes/byIds/","POST",headers);
         Response<List<Route>> result = re.getBody();
         if ( result.getStatus() == 0) {
             BasicServiceImpl.logger.warn("[getRoutesByRouteIds][Get Route By Ids Failed][Fail msg: {}]", result.getMsg());
@@ -454,7 +431,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteByRouteId",routeId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url=getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -462,8 +438,6 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET",headers);
         Response result = re.getBody();
         if ( result.getStatus() == 0) {
             BasicServiceImpl.logger.warn("[getRouteByRouteId][Get Route By Id Failed][Fail msg: {}]", result.getMsg());
@@ -474,7 +448,6 @@ public class BasicServiceImpl implements BasicService {
     }
 
     private PriceConfig queryPriceConfigByRouteIdAndTrainType(String routeId, String trainType, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, trainType:{}, headers:{}]","queryPriceConfigByRouteIdAndTrainType",routeId, trainType, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null, null);
         String price_service_url=getServiceUrl("ts-price-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -482,14 +455,11 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                price_service_url + "/api/v1/priceservice/prices/" + routeId + "/" + trainType,"GET",headers);
         Response result = re.getBody();
         return  JsonUtils.conveterObject(result.getData(), PriceConfig.class);
     }
 
     private Map<String, PriceConfig> queryPriceConfigByRouteIdsAndTrainTypes(List<String> routeIdsTypes, HttpHeaders headers) {
-        logger.info("[function name:{}][routeIdsTypes:{}, headers:{}]","queryPriceConfigByRouteIdsAndTrainTypes",(routeIdsTypes != null ? routeIdsTypes.toString(): null), (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(routeIdsTypes, null);
         String price_service_url=getServiceUrl("ts-price-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -497,8 +467,6 @@ public class BasicServiceImpl implements BasicService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                price_service_url + "/api/v1/priceservice/prices/byRouteIdsAndTrainTypes","POST",headers);
         Response<Map<String, PriceConfig>> result = re.getBody();
 
         Map<String, PriceConfig> pcMap;

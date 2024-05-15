@@ -26,7 +26,7 @@ public class TrainFood {
     @Column(unique = true)
     private String tripId;
 
-    @ElementCollection(targetClass = Food.class)
+    @ElementCollection(fetch = FetchType.EAGER,targetClass = Food.class)
     @CollectionTable(name = "train_food_list", joinColumns = @JoinColumn(name = "trip_id"))
     private List<Food> foodList;
 

@@ -53,6 +53,8 @@ public class PriceServiceImpl implements PriceService {
 
 
 
+
+
     @Autowired(required=true)
     private PriceConfigRepository priceConfigRepository;
 
@@ -60,7 +62,6 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response createNewPriceConfig(PriceConfig createAndModifyPriceConfig, HttpHeaders headers) {
-        logger.info("[function name:{}][createAndModifyPriceConfig:{}, headers:{}]","createNewPriceConfig",(createAndModifyPriceConfig != null ? createAndModifyPriceConfig.toString(): null), (headers != null ? headers.toString(): null));
         PriceConfig priceConfig = null;
         // create
         if (createAndModifyPriceConfig.getId() == null || createAndModifyPriceConfig.getId().toString().length() < 10) {
@@ -74,7 +75,6 @@ public class PriceServiceImpl implements PriceService {
         } else {
             // modify
             Optional<PriceConfig> op = priceConfigRepository.findById(createAndModifyPriceConfig.getId());
-      logger.info("[op:{},headers:{}]", (op != null ? op : null));
       
       
       
@@ -109,9 +109,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceConfig findById(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","findById",id, (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(UUID.fromString(id).toString());
-      logger.info("[op:{},headers:{}]", (op != null ? op : null));
       
       
       
@@ -137,9 +135,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response findByRouteIdAndTrainType(String routeId, String trainType, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, trainType:{}, headers:{}]","findByRouteIdAndTrainType",routeId, trainType, (headers != null ? headers.toString(): null));
         PriceConfig priceConfig = priceConfigRepository.findByRouteIdAndTrainType(routeId, trainType);
-      logger.info("[priceConfig:{},headers:{}]", (priceConfig != null ? priceConfig : null));
       
       
       
@@ -168,7 +164,6 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response findByRouteIdsAndTrainTypes(List<String> ridsAndTts, HttpHeaders headers){
-        logger.info("[function name:{}][ridsAndTts:{}, headers:{}]","findByRouteIdsAndTrainTypes",(ridsAndTts != null ? ridsAndTts.toString(): null), (headers != null ? headers.toString(): null));
         List<String> routeIds = new ArrayList<>();
         List<String> trainTypes = new ArrayList<>();
         for(String rts: ridsAndTts){
@@ -177,7 +172,6 @@ public class PriceServiceImpl implements PriceService {
             trainTypes.add(r_t.get(1));
         }
         List<PriceConfig> pcs = priceConfigRepository.findByRouteIdsAndTrainTypes(routeIds, trainTypes);
-      logger.info("[pcs:{},headers:{}]", (pcs != null ? pcs : null));
       
       
       
@@ -213,9 +207,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response findAllPriceConfig(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","findAllPriceConfig",(headers != null ? headers.toString(): null));
         List<PriceConfig> list = priceConfigRepository.findAll();
-      logger.info("[list:{},headers:{}]", (list != null ? list : null));
       
       
       
@@ -248,9 +240,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response deletePriceConfig(String pcId, HttpHeaders headers) {
-        logger.info("[function name:{}][pcId:{}, headers:{}]","deletePriceConfig",pcId, (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(pcId);
-      logger.info("[op:{},headers:{}]", (op != null ? op : null));
       
       
       
@@ -280,9 +270,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Response updatePriceConfig(PriceConfig c, HttpHeaders headers) {
-        logger.info("[function name:{}][c:{}, headers:{}]","updatePriceConfig",(c != null ? c.toString(): null), (headers != null ? headers.toString(): null));
         Optional<PriceConfig> op = priceConfigRepository.findById(c.getId());
-      logger.info("[op:{},headers:{}]", (op != null ? op : null));
       
       
       

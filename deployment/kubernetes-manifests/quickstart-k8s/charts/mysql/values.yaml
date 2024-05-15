@@ -43,8 +43,11 @@ mysql:
   configFiles:
     node.cnf: |
       [mysqld]
+      log-bin=mysql-bin
+      # server-id=1
       default_storage_engine=InnoDB
       max_connections=65535
+      # ignore-db-dir=lost+found
 
   livenessProbe:
     initialDelaySeconds: 30

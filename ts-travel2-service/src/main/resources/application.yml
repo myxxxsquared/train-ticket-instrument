@@ -15,6 +15,15 @@ spring:
     password: ${TRAVEL2_MYSQL_PASSWORD:Abcd1234#}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  # jpa:
+  #   properties:
+  #     hibernate:
+  #       show_sql: true
+  #       format_sql: true
+  #       use_sql_comments: true
+  # aop:
+  #   auto: true
+  #   proxy-target-class: true
   jpa:
     hibernate:
       ddl-auto: update

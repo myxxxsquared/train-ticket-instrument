@@ -179,6 +179,7 @@ You can add or modify the mysql configuration on the `mysql.configFiles`.
   configFiles:
     node.cnf: |
       [mysqld]
+      server-id=1
       default_storage_engine=InnoDB
       max_connections=65535
 

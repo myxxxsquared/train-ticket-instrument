@@ -39,6 +39,8 @@ import java.util.List;
 public class TokenServiceImpl implements TokenService { 
     private static final Logger logger = LogManager.getLogger(TokenServiceImpl.class);
 
+
+
     @Autowired
     private JWTProvider jwtProvider;
 
@@ -55,15 +57,12 @@ public class TokenServiceImpl implements TokenService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response getToken(BasicAuthDto dto, HttpHeaders headers) throws UserOperationException {
-        logger.info("[function name:{}][dto:{}, headers:{}]","getToken",(dto != null ? dto.toString(): null), (headers != null ? headers.toString(): null));
         String username = dto.getUsername();
-        logger.info("the name is: "+username);
         String password = dto.getPassword();
         String verifyCode = dto.getVerificationCode();
         String verification_code_service_url = getServiceUrl("ts-verification-code-service");
@@ -74,8 +73,6 @@ public class TokenServiceImpl implements TokenService {
                     HttpMethod.GET,
                     requestEntity,
                     Boolean.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                     verification_code_service_url + "/api/v1/verifycode/verify/" + verifyCode,"GET",headers);
             boolean id = re.getBody();
 
             // failed code
@@ -97,7 +94,6 @@ public class TokenServiceImpl implements TokenService {
                 .orElseThrow(() -> new UserOperationException(MessageFormat.format(
                         InfoConstant.USER_NAME_NOT_FOUND_1, username
                 )));
-      logger.info("[user:{},headers:{}]", (user != null ? user : null));
 
         String token = jwtProvider.createToken(user);
         return new Response<>(1, "login success", new TokenDto(user.getUserId(), username, token));

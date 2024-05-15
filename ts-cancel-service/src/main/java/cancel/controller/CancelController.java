@@ -56,19 +56,19 @@ public class CancelController {
 
 
 
+
+
     @Autowired
     CancelService cancelService;
 
     @GetMapping(path = "/welcome")
     public String home(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/cancelservice/welcome][headers:{}]","home",(headers != null ? headers.toString(): null));
         return "Welcome to [ Cancel Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "/cancel/refound/{orderId}")
     public HttpEntity calculate(@PathVariable String orderId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/cancelservice/cancel/refound/{orderId}][orderId:{}, headers:{}]","calculate",orderId, (headers != null ? headers.toString(): null));
         return ok(cancelService.calculateRefund(orderId, headers));
     }
 
@@ -76,7 +76,6 @@ public class CancelController {
     @GetMapping(path = "/cancel/{orderId}/{loginId}")
     public HttpEntity cancelTicket(@PathVariable String orderId, @PathVariable String loginId,
                                    @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/cancelservice/cancel/{orderId}/{loginId}][orderId:{}, loginId:{}, headers:{}]","cancelTicket",orderId, loginId, (headers != null ? headers.toString(): null));
         try {
             return ok(cancelService.cancelOrder(orderId, loginId, headers));
         } catch (Exception e) {

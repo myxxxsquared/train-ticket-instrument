@@ -59,6 +59,8 @@ public class VerifyCodeController {
 
 
 
+
+
     @Autowired
     private VerifyCodeService verifyCodeService;
 
@@ -66,7 +68,6 @@ public class VerifyCodeController {
     public void imageCode(@RequestHeader HttpHeaders headers,
                           HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        logger.info("[function name:{}, API:Get /api/v1/verifycode/generate][headers:{}, request:{}, response:{}]","imageCode",(headers != null ? headers.toString(): null), (request != null ? request.toString(): null), (response != null ? response.toString(): null));
         OutputStream os = response.getOutputStream();
         Map<String, Object> map = verifyCodeService.getImageCode(60, 20, os, request, response, headers);
         String simpleCaptcha = "simpleCaptcha";
@@ -84,7 +85,6 @@ public class VerifyCodeController {
     @GetMapping(value = "/verify/{verifyCode}")
     public boolean verifyCode(@PathVariable String verifyCode, HttpServletRequest request,
                               HttpServletResponse response, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/verifycode/verify/{verifyCode}][verifyCode:{}, request:{}, response:{}, headers:{}]","verifyCode",verifyCode, (request != null ? request.toString(): null), (response != null ? response.toString(): null), (headers != null ? headers.toString(): null));
 
         boolean result = verifyCodeService.verifyCode(request, response, verifyCode, headers);
         return true;

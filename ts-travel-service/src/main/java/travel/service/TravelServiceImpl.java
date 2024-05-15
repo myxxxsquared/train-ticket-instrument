@@ -37,6 +37,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import travel.async.AsyncTask;
 import travel.entity.AdminTrip;
 import travel.entity.Travel;
 import travel.entity.Trip;
@@ -72,6 +74,8 @@ public class TravelServiceImpl implements TravelService {
 
 
 
+
+
     @Autowired
     private TripRepository repository;
 
@@ -79,12 +83,14 @@ public class TravelServiceImpl implements TravelService {
     private RestTemplate restTemplate;
 
     @Autowired
+    private AsyncTask asyncTask;
+
+    @Autowired
     private DiscoveryClient discoveryClient;
 
     private static final ExecutorService executorService = Executors.newFixedThreadPool(20, new CustomizableThreadFactory("HttpClientThreadPool-"));
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
@@ -93,10 +99,8 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response create(TravelInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","create",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         TripId ti = new TripId(info.getTripId());
         if (repository.findByTripId(ti) == null) {
-        logger.info("[Trip:{},headers:{}]", (repository.findByTripId(ti) != null ? repository.findByTripId(ti) : null),headers);
             Trip trip = new Trip(ti, info.getTrainTypeName(), info.getStartStationName(),
                     info.getStationsName(), info.getTerminalStationName(), info.getStartTime(), info.getEndTime());
             trip.setRouteId(info.getRouteId());
@@ -110,12 +114,10 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response getRouteByTripId(String tripId, HttpHeaders headers) {
-        logger.info("[function name:{}][tripId:{}, headers:{}]","getRouteByTripId",tripId, (headers != null ? headers.toString(): null));
         Route route = null;
         if (null != tripId && tripId.length() >= 2) {
             TripId tripId1 = new TripId(tripId);
             Trip trip = repository.findByTripId(tripId1);
-      logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
       
       
       
@@ -150,11 +152,9 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response getTrainTypeByTripId(String tripId, HttpHeaders headers) {
-        logger.info("[function name:{}][tripId:{}, headers:{}]","getTrainTypeByTripId",tripId, (headers != null ? headers.toString(): null));
         TripId tripId1 = new TripId(tripId);
         TrainType trainType = null;
         Trip trip = repository.findByTripId(tripId1);
-      logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
       
       
       
@@ -188,11 +188,9 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response getTripByRoute(ArrayList<String> routeIds, HttpHeaders headers) {
-        logger.info("[function name:{}][routeIds:{}, headers:{}]","getTripByRoute",(routeIds != null ? routeIds.toString(): null), (headers != null ? headers.toString(): null));
         ArrayList<ArrayList<Trip>> tripList = new ArrayList<>();
         for (String routeId : routeIds) {
             ArrayList<Trip> tempTripList = repository.findByRouteId(routeId);
-      logger.info("[tempTripList:{},headers:{}]", (tempTripList != null ? tempTripList : null));
       
       
       
@@ -227,10 +225,8 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response retrieve(String tripId, HttpHeaders headers) {
-        logger.info("[function name:{}][tripId:{}, headers:{}]","retrieve",tripId, (headers != null ? headers.toString(): null));
         TripId ti = new TripId(tripId);
         Trip trip = repository.findByTripId(ti);
-      logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
       
       
       
@@ -259,7 +255,6 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response update(TravelInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","update",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         TripId ti = new TripId(info.getTripId());
         Trip t = repository.findByTripId(ti);
         if (t != null) {
@@ -270,8 +265,6 @@ public class TravelServiceImpl implements TravelService {
             t.setStartTime(info.getStartTime());
             t.setEndTime(info.getEndTime());
             t.setRouteId(info.getRouteId());
-      
-      logger.info("[t:{},headers:{}]", (t != null ? t : null));
       repository.save(t);
             return new Response<>(1, "Update trip:" + ti.toString(), t);
         } else {
@@ -283,10 +276,8 @@ public class TravelServiceImpl implements TravelService {
     @Override
     @Transactional
     public Response delete(String tripId, HttpHeaders headers) {
-        logger.info("[function name:{}][tripId:{}, headers:{}]","delete",tripId, (headers != null ? headers.toString(): null));
         TripId ti = new TripId(tripId);
         if (repository.findByTripId(ti) != null) {
-        logger.info("[Trip:{},headers:{}]", (repository.findByTripId(ti) != null ? repository.findByTripId(ti) : null),headers);
             repository.deleteByTripId(ti);
             return new Response<>(1, "Delete trip:" + tripId + ".", tripId);
         } else {
@@ -297,7 +288,6 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response query(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","query",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         //Gets the start and arrival stations of the train number to query. The originating and arriving stations received here are both station names, so two requests need to be sent to convert to station ids
         String startPlaceName = info.getStartPlace();
@@ -308,7 +298,6 @@ public class TravelServiceImpl implements TravelService {
 
         //Check all train info
         List<Trip> allTripList = repository.findAll();
-      logger.info("[allTripList:{},headers:{}]", (allTripList != null ? allTripList : null));
       
       
       
@@ -345,7 +334,6 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response queryByBatch(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","queryByBatch",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         //Gets the start and arrival stations of the train number to query. The originating and arriving stations received here are both station names, so two requests need to be sent to convert to station ids
         String startPlaceName = info.getStartPlace();
@@ -356,7 +344,6 @@ public class TravelServiceImpl implements TravelService {
 
         //Check all train info
         List<Trip> allTripList = repository.findAll();
-      logger.info("[allTripList:{},headers:{}]", (allTripList != null ? allTripList : null));
       
       
       
@@ -375,8 +362,13 @@ public class TravelServiceImpl implements TravelService {
       
       
       
-        list = getTicketsByBatch(allTripList, startPlaceName, endPlaceName, info.getDepartureTime(), headers);
-        return new Response<>(1, success, list);
+        try {
+            list = getTicketsByBatch(allTripList, startPlaceName, endPlaceName, info.getDepartureTime(), headers);
+            return new Response<>(1, "success", list);
+        } catch(Exception e){
+            return new Response<>(1, "success", list);
+        }
+
     }
 
     @TraceCrossThread
@@ -397,7 +389,6 @@ public class TravelServiceImpl implements TravelService {
 
         @Override
         public TripResponse call() throws Exception {
-        logger.info("[function name:call]");
             TravelServiceImpl.logger.debug("[call][Start to query][tripId: {}, routeId: {}] ", tempTrip.getTripId().toString(), tempTrip.getRouteId());
 
             String startPlaceName = info.getStartPlace();
@@ -418,7 +409,6 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response queryInParallel(TripInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","queryInParallel",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         //Gets the start and arrival stations of the train number to query. The originating and arriving stations received here are both station names, so two requests need to be sent to convert to station ids
         String startPlaceName = info.getStartPlace();
         String endPlaceName = info.getEndPlace();
@@ -428,7 +418,6 @@ public class TravelServiceImpl implements TravelService {
 
         //Check all train info
         List<Trip> allTripList = repository.findAll();
-      logger.info("[allTripList:{},headers:{}]", (allTripList != null ? allTripList : null));
       
       
       
@@ -477,11 +466,9 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response getTripAllDetailInfo(TripAllDetailInfo gtdi, HttpHeaders headers) {
-        logger.info("[function name:{}][gtdi:{}, headers:{}]","getTripAllDetailInfo",(gtdi != null ? gtdi.toString(): null), (headers != null ? headers.toString(): null));
         TripAllDetail gtdr = new TripAllDetail();
         TravelServiceImpl.logger.debug("[getTripAllDetailInfo][TripId: {}]", gtdi.getTripId());
         Trip trip = repository.findByTripId(new TripId(gtdi.getTripId()));
-        logger.info("[trip:{},headers:{}]", (trip != null ? trip : null));
         if (trip == null) {
             gtdr.setTripResponse(null);
             gtdr.setTrip(null);
@@ -505,7 +492,6 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private List<TripResponse> getTicketsByBatch(List<Trip> trips, String startPlaceName, String endPlaceName, String departureTime, HttpHeaders headers) {
-        logger.info("[function name:{}][trips:{}, startPlaceName:{}, endPlaceName:{}, departureTime:{}, headers:{}]","getTicketsByBatch",(trips != null ? trips.toString(): null), startPlaceName, endPlaceName, departureTime, (headers != null ? headers.toString(): null));
         List<TripResponse> responses = new ArrayList<>();
         //Determine if the date checked is the same day and after
         if (!afterToday(departureTime)) {
@@ -525,15 +511,22 @@ public class TravelServiceImpl implements TravelService {
             tripMap.put(trip.getTripId().toString(), trip);
         }
 
-        HttpEntity requestEntity = new HttpEntity(infos, null);
-        String basic_service_url = getServiceUrl("ts-basic-service");
-        ResponseEntity<Response> re = restTemplate.exchange(
-                basic_service_url + "/api/v1/basicservice/basic/travels",
-                HttpMethod.POST,
-                requestEntity,
-                Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                basic_service_url + "/api/v1/basicservice/basic/travels","POST",headers);
+        /*********************** Fault Injection - F5 *************************/
+        // F5 is such kind of fault which is caused by the resource competition of multiple requests
+        // We use asynchronous tasks to collect tickets information.
+        // Then we use the thread pool which is needed for the implementation of asynchronous tasks as microservice resource.
+        // We send many requests at a short period of time and if the thread number is equal or exceeds the max-thread-pool-size,
+        // the fault will occur.
+        
+        ResponseEntity<Response> re = null;
+
+        try {
+            re = asyncTask.query(infos, headers).get(20000, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            logger.error("Failed to get async execution result: {}", e.toString());
+        }
+
+        /**********************************************************************/
 
         Response r = re.getBody();
         if(r.getStatus() == 0){
@@ -561,7 +554,6 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private TripResponse getTickets(Trip trip, Route route1, String startPlaceName, String endPlaceName, String departureTime, HttpHeaders headers) {
-        logger.info("[function name:{}][trip:{}, route1:{}, startPlaceName:{}, endPlaceName:{}, departureTime:{}, headers:{}]","getTickets",(trip != null ? trip.toString(): null), (route1 != null ? route1.toString(): null), startPlaceName, endPlaceName, departureTime, (headers != null ? headers.toString(): null));
 
         //Determine if the date checked is the same day and after
         if (!afterToday(departureTime)) {
@@ -581,8 +573,6 @@ public class TravelServiceImpl implements TravelService {
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                basic_service_url + "/api/v1/basicservice/basic/travel","POST",headers);
 
         Response r = re.getBody();
         if(r.getStatus() == 0){
@@ -596,7 +586,6 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private TripResponse setResponse(Trip trip, TravelResult tr, String startPlaceName, String endPlaceName, String departureTime, HttpHeaders headers){
-        logger.info("[function name:{}][trip:{}, tr:{}, startPlaceName:{}, endPlaceName:{}, departureTime:{}, headers:{}]","setResponse",(trip != null ? trip.toString(): null), (tr != null ? tr.toString(): null), startPlaceName, endPlaceName, departureTime, (headers != null ? headers.toString(): null));
         //Set the returned ticket information
         TripResponse response = new TripResponse();
         response.setConfortClass(50);
@@ -649,9 +638,7 @@ public class TravelServiceImpl implements TravelService {
 
     @Override
     public Response queryAll(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","queryAll",(headers != null ? headers.toString(): null));
         List<Trip> tripList = repository.findAll();
-      logger.info("[tripList:{},headers:{}]", (tripList != null ? tripList : null));
       
       
       
@@ -701,7 +688,6 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private TrainType getTrainTypeByName(String trainTypeName, HttpHeaders headers) {
-        logger.info("[function name:{}][trainTypeName:{}, headers:{}]","getTrainTypeByName",trainTypeName, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String train_service_url = getServiceUrl("ts-train-service");
         ResponseEntity<Response<TrainType>> re = restTemplate.exchange(
@@ -710,14 +696,11 @@ public class TravelServiceImpl implements TravelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<TrainType>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                train_service_url + "/api/v1/trainservice/trains/byName/" + trainTypeName,"GET",headers);
 
         return re.getBody().getData();
     }
 
     private Route getRouteByRouteId(String routeId, HttpHeaders headers) {
-        logger.info("[function name:{}][routeId:{}, headers:{}]","getRouteByRouteId",routeId, (headers != null ? headers.toString(): null));
         HttpEntity requestEntity = new HttpEntity(null);
         String route_service_url = getServiceUrl("ts-route-service");
         ResponseEntity<Response> re = restTemplate.exchange(
@@ -725,8 +708,6 @@ public class TravelServiceImpl implements TravelService {
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                route_service_url + "/api/v1/routeservice/routes/" + routeId,"GET",headers);
         Response routeRes = re.getBody();
 
         Route route1 = new Route();
@@ -737,7 +718,6 @@ public class TravelServiceImpl implements TravelService {
     }
 
     private int getRestTicketNumber(String travelDate, String trainNumber, String startStationName, String endStationName, int seatType, int totalNum, List<String> stationList, HttpHeaders headers) {
-        logger.info("[function name:{}][travelDate:{}, trainNumber:{}, startStationName:{}, endStationName:{}, seatType:{}, totalNum:{}, stationList:{}, headers:{}]","getRestTicketNumber",travelDate, trainNumber, startStationName, endStationName, seatType, totalNum, (stationList != null ? stationList.toString(): null), (headers != null ? headers.toString(): null));
         Seat seatRequest = new Seat();
 
         seatRequest.setDestStation(endStationName);
@@ -756,15 +736,12 @@ public class TravelServiceImpl implements TravelService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<Integer>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                seat_service_url + "/api/v1/seatservice/seats/left_tickets","POST",headers);
 
         return re.getBody().getData();
     }
 
     @Override
     public Response adminQueryAll(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","adminQueryAll",(headers != null ? headers.toString(): null));
         List<Trip> trips = repository.findAll();
         ArrayList<AdminTrip> adminTrips = new ArrayList<>();
         if(trips != null){

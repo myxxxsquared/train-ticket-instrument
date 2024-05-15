@@ -3,6 +3,8 @@ package rebook.service;
 import edu.fudan.common.util.Response;
 import org.springframework.http.HttpHeaders;
 import rebook.entity.RebookInfo;
+import edu.fudan.common.entity.*;
+import rebook.dto.OrderUpdateDto;
 
 /**
  * @author fdse
@@ -10,4 +12,5 @@ import rebook.entity.RebookInfo;
 public interface RebookService {
     Response rebook(RebookInfo info, HttpHeaders headers);
     Response payDifference(RebookInfo info,  HttpHeaders headers);
+    Response updateOrder(Order order, RebookInfo info, TripAllDetail gtdr, String ticketPrice, HttpHeaders httpHeaders);
 }

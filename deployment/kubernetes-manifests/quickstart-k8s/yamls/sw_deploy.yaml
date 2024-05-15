@@ -509,7 +509,7 @@ spec:
       containers:
         - name: ts-avatar-service
           image:  jojodurrr/ts-avatar-service:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: skywalking-agent
               mountPath: /skywalking
@@ -852,7 +852,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-consign-service
-          image: jojodurrr/ts-consign-service:latest
+          image: jojodurrr/ts-consign-service:bug
           imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
@@ -1552,7 +1552,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-order-other-service
-          image: jojodurrr/ts-order-other-service:latest
+          image: jojodurrr/ts-order-other-service:bug
           imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent
@@ -1624,7 +1624,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
       containers:
         - name: ts-order-service
-          image: jojodurrr/ts-order-service:latest
+          image: jojodurrr/ts-order-service:bug
           imagePullPolicy: Always
           volumeMounts:
             - name: skywalking-agent

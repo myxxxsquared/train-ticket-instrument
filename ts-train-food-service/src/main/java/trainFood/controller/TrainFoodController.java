@@ -51,26 +51,25 @@ public class TrainFoodController {
 
 
 
+
+
     @Autowired
     TrainFoodService trainFoodService;
 
     @GetMapping(path = "/trainfoods/welcome")
     public String home() {
-        logger.info("[function name:home, API:Get /api/v1/trainfoodservice/trainfoods/welcome]");
         return "Welcome to [ Train Food Service ] !";
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/trainfoods")
     public HttpEntity getAllTrainFood(@RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/trainfoodservice/trainfoods][headers:{}]","getAllTrainFood",(headers != null ? headers.toString(): null));
         return ok(trainFoodService.listTrainFood(headers));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/trainfoods/{tripId}")
     public HttpEntity getTrainFoodOfTrip(@PathVariable String tripId, @RequestHeader HttpHeaders headers) {
-        logger.info("[function name:{}, API:Get /api/v1/trainfoodservice/trainfoods/{tripId}][tripId:{}, headers:{}]","getTrainFoodOfTrip",tripId, (headers != null ? headers.toString(): null));
         return ok(trainFoodService.listTrainFoodByTripId(tripId, headers));
     }
 }

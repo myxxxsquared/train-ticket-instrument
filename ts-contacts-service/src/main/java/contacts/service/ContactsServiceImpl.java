@@ -44,6 +44,8 @@ public class ContactsServiceImpl implements ContactsService {
 
 
 
+
+
     @Autowired
     private ContactsRepository contactsRepository;
     
@@ -53,9 +55,7 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response findContactsById(String id, HttpHeaders headers) {
-        logger.info("[function name:{}][id:{}, headers:{}]","findContactsById",id, (headers != null ? headers.toString(): null));
         Contacts contacts = contactsRepository.findById(id).orElse(null);
-      logger.info("[contacts:{},headers:{}]", (contacts != null ? contacts : null));
       
       
       
@@ -84,21 +84,18 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response findContactsByAccountId(String accountId, HttpHeaders headers) {
-        logger.info("[function name:{}][accountId:{}, headers:{}]","findContactsByAccountId",accountId, (headers != null ? headers.toString(): null));
-        // ArrayList<Contacts> arr = contactsRepository.findByAccountId(accountId);
-        String query = "SELECT * FROM contacts WHERE account_id = '" + accountId + "'";
-        // logger.info("[query:{}]",query);
-        // 执行数据库查询
-        Query nativeQuery = entityManager.createNativeQuery(query, Contacts.class);
-        List<Contacts> resultList = nativeQuery.getResultList();
-        ArrayList<Contacts> arr = new ArrayList<>(resultList);
-        logger.info("[arr:{},headers:{}]", (arr != null ? arr : null));
+        // ArrayList<Contacts> resultList = contactsRepository.findByAccountId(accountId);
+        // // String query = "SELECT * FROM contacts WHERE account_id = '" + accountId + "'";
+        // // 执行数据库查询
+        // // Query nativeQuery = entityManager.createNativeQuery(query, Contacts.class);
+        // // List<Contacts> resultList = nativeQuery.getResultList();
+        // ArrayList<Contacts> arr = new ArrayList<>(resultList);
+        ArrayList<Contacts> arr = contactsRepository.findByAccountId(accountId);
         return new Response<>(1, success, arr);
     }
 
     @Override
     public Response createContacts(Contacts contacts, HttpHeaders headers) {
-        logger.info("[function name:{}][contacts:{}, headers:{}]","createContacts",(contacts != null ? contacts.toString(): null), (headers != null ? headers.toString(): null));
         Contacts contactsTemp = contactsRepository.findByAccountIdAndDocumentTypeAndDocumentType(contacts.getAccountId(), contacts.getDocumentNumber(), contacts.getDocumentType());
         if (contactsTemp != null) {
             ContactsServiceImpl.logger.warn("[createContacts][Init Contacts, Already Exists][Id: {}]", contacts.getId());
@@ -111,7 +108,6 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response create(Contacts addContacts, HttpHeaders headers) {
-        logger.info("[function name:{}][addContacts:{}, headers:{}]","create",(addContacts != null ? addContacts.toString(): null), (headers != null ? headers.toString(): null));
 
         /*********************** Fault Injection - F10 ************************/
         // Issue: Incorrect part count in a Bill Of Material (BOM)
@@ -129,8 +125,6 @@ public class ContactsServiceImpl implements ContactsService {
             logger.error("Error saving contacts: {}", e);
         }
         
-        ContactsServiceImpl.logger.info("[Contacts-Add&Delete-Service.create][AddContacts][Success]");
-
         // 3. If contacts is a duplicate, return different message
         if (accountContacts.contains(addContacts)) {
             return new Response<>(1,  "Success, contact already in list", addContacts);
@@ -142,10 +136,8 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response delete(String contactsId, HttpHeaders headers) {
-        logger.info("[function name:{}][contactsId:{}, headers:{}]","delete",contactsId, (headers != null ? headers.toString(): null));
         contactsRepository.deleteById(contactsId);
         Contacts contacts = contactsRepository.findById(contactsId).orElse(null);
-      logger.info("[contacts:{},headers:{}]", (contacts != null ? contacts : null));
       
       
       
@@ -174,7 +166,6 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response modify(Contacts contacts, HttpHeaders headers) {
-        logger.info("[function name:{}][contacts:{}, headers:{}]","modify",(contacts != null ? contacts.toString(): null), (headers != null ? headers.toString(): null));
         headers = null;
         Response oldContactResponse = findContactsById(contacts.getId(), headers);
         Contacts oldContacts = (Contacts) oldContactResponse.getData();
@@ -193,9 +184,7 @@ public class ContactsServiceImpl implements ContactsService {
 
     @Override
     public Response getAllContacts(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","getAllContacts",(headers != null ? headers.toString(): null));
         ArrayList<Contacts> contacts = contactsRepository.findAll();
-      logger.info("[contacts:{},headers:{}]", (contacts != null ? contacts : null));
       
       
       

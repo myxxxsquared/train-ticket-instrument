@@ -48,6 +48,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
 
 
+
+
     @Autowired
     public AddMoneyRepository addMoneyRepository;
 
@@ -58,13 +60,11 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     public RestTemplate restTemplate;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName;
     }
 
     @Override
     public Response pay(PaymentInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","pay",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         String userId = info.getUserId();
 
@@ -83,8 +83,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
                 requestGetOrderResults,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetOrderResults.getStatusCode(),
-                requestOrderURL,"GET",headers);
         Response<Order> result = reGetOrderResults.getBody();
 
 
@@ -102,9 +100,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
             //判断一下账户余额够不够，不够要去站外支付
             List<Payment> payments = paymentRepository.findByUserId(userId);
-      logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
             List<Money> addMonies = addMoneyRepository.findByUserId(userId);
-      logger.info("[addMonies:{},headers:{}]", (addMonies != null ? addMonies : null));
 
             Iterator<Payment> paymentsIterator = payments.iterator();
             Iterator<Money> addMoniesIterator = addMonies.iterator();
@@ -138,8 +134,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
                         HttpMethod.POST,
                         requestEntityOutsidePaySuccess,
                         Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reOutsidePaySuccess.getStatusCode(),
-                        payment_service_url + "/api/v1/paymentservice/payment","POST",headers);
                 Response outsidePaySuccess = reOutsidePaySuccess.getBody();
                 if (outsidePaySuccess.getStatus() == 1) {
                     payment.setType(PaymentType.O);
@@ -165,9 +159,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     @Override
     public Response createAccount(AccountInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","createAccount",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
         List<Money> list = addMoneyRepository.findByUserId(info.getUserId());
-      logger.info("[list:{},headers:{}]", (list != null ? list : null));
       
       
       
@@ -201,10 +193,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     @Override
     public Response addMoney(String userId, String money, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, money:{}, headers:{}]","addMoney",userId, money, (headers != null ? headers.toString(): null));
         if (addMoneyRepository.findByUserId(userId) != null) {
-        logger.info("[List<Payment>:{},headers:{}]", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId) : null),headers);
-        logger.info("[List<Payment>:{},headers:{}]", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId) : null),headers);
             Money addMoney = new Money();
             addMoney.setUserId(userId);
             addMoney.setMoney(money);
@@ -219,10 +208,8 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     @Override
     public Response queryAccount(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","queryAccount",(headers != null ? headers.toString(): null));
         List<Balance> result = new ArrayList<>();
         List<Money> list = addMoneyRepository.findAll();
-        logger.info("[list:{},headers:{}]", (list != null ? list : null));
       
         Iterator<Money> ite = list.iterator();
         HashMap<String, String> map = new HashMap<>();
@@ -243,7 +230,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
             String money = (String) entry.getValue();
 
             List<Payment> payments = paymentRepository.findByUserId(userId);
-            logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
       
       
       
@@ -281,9 +267,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     @Override
     public Response queryPayment(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","queryPayment",(headers != null ? headers.toString(): null));
         List<Payment> payments = paymentRepository.findAll();
-      logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
       
       
       
@@ -312,10 +296,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     @Override
     public Response drawBack(String userId, String money, HttpHeaders headers) {
-        logger.info("[function name:{}][userId:{}, money:{}, headers:{}]","drawBack",userId, money, (headers != null ? headers.toString(): null));
         if (addMoneyRepository.findByUserId(userId) != null) {
-        logger.info("[List<Payment>:{},headers:{}]", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId) : null),headers);
-        logger.info("[List<Payment>:{},headers:{}]", (addMoneyRepository.findByUserId(userId) != null ? addMoneyRepository.findByUserId(userId) : null),headers);
             Money addMoney = new Money();
             addMoney.setUserId(userId);
             addMoney.setMoney(money);
@@ -330,7 +311,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     @Override
     public Response payDifference(PaymentInfo info, HttpHeaders headers) {
-        logger.info("[function name:{}][info:{}, headers:{}]","payDifference",(info != null ? info.toString(): null), (headers != null ? headers.toString(): null));
 
         String userId = info.getUserId();
 
@@ -341,7 +321,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
 
         List<Payment> payments = paymentRepository.findByUserId(userId);
-      logger.info("[payments:{},headers:{}]", (payments != null ? payments : null));
       
       
       
@@ -361,7 +340,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
       
       
         List<Money> addMonies = addMoneyRepository.findByUserId(userId);
-      logger.info("[addMonies:{},headers:{}]", (addMonies != null ? addMonies : null));
       
       
       
@@ -410,8 +388,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
                     HttpMethod.POST,
                     requestEntityOutsidePaySuccess,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reOutsidePaySuccess.getStatusCode(),
-                    payment_service_url + "/api/v1/paymentservice/payment","POST",headers);
             Response outsidePaySuccess = reOutsidePaySuccess.getBody();
 
             if (outsidePaySuccess.getStatus() == 1) {
@@ -431,9 +407,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     @Override
     public Response queryAddMoney(HttpHeaders headers) {
-        logger.info("[function name:{}][headers:{}]","queryAddMoney",(headers != null ? headers.toString(): null));
         List<Money> monies = addMoneyRepository.findAll();
-      logger.info("[monies:{},headers:{}]", (monies != null ? monies : null));
       
       
       
@@ -461,7 +435,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     }
 
     private Response setOrderStatus(String tripId, String orderId, HttpHeaders headers) {
-        logger.info("[function name:{}][tripId:{}, orderId:{}, headers:{}]","setOrderStatus",tripId, orderId, (headers != null ? headers.toString(): null));
 
         //order paid and not collected
         int orderStatus = 1;
@@ -475,8 +448,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
                     HttpMethod.GET,
                     requestEntityModifyOrderStatusResult,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reModifyOrderStatusResult.getStatusCode(),
-                    order_service_url + "/api/v1/orderservice/order/status/" + orderId + "/" + orderStatus,"GET",headers);
             result = reModifyOrderStatusResult.getBody();
 
         } else {
@@ -487,8 +458,6 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
                     HttpMethod.GET,
                     requestEntityModifyOrderStatusResult,
                     Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reModifyOrderStatusResult.getStatusCode(),
-                    order_other_service_url + "/api/v1/orderOtherService/orderOther/status/" + orderId + "/" + orderStatus,"GET",headers);
             result = reModifyOrderStatusResult.getBody();
 
         }
@@ -497,9 +466,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
     @Override
     public void initPayment(Payment payment, HttpHeaders headers) {
-        logger.info("[function name:{}][payment:{}, headers:{}]","initPayment",(payment != null ? payment.toString(): null), (headers != null ? headers.toString(): null));
         Optional<Payment> paymentTemp = paymentRepository.findById(payment.getId());
-      logger.info("[paymentTemp:{},headers:{}]", (paymentTemp != null ? paymentTemp : null));
       
       
       

@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +24,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(JUnit4.class)
 public class NotificationControllerTest {
-
+    private static final Logger logger = LogManager.getLogger(NotificationControllerTest.class);
     @InjectMocks
     private NotificationController notificationController;
 
@@ -47,6 +49,8 @@ public class NotificationControllerTest {
     public void testPreserveSuccess() throws Exception {
         NotifyInfo info = new NotifyInfo();
         Mockito.when(service.preserveSuccess(Mockito.any(NotifyInfo.class), Mockito.any(HttpHeaders.class))).thenReturn(true);
+        info.setEmail("3069696872@qq.com");
+        logger.info("the info is:{}",info.toString());
         String requestJson = JSONObject.toJSONString(info);
         String result = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/notifyservice/notification/preserve_success").contentType(MediaType.APPLICATION_JSON).content(requestJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())

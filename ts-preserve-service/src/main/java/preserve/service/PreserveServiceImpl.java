@@ -49,6 +49,8 @@ public class PreserveServiceImpl implements PreserveService {
 
 
 
+
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -59,12 +61,10 @@ public class PreserveServiceImpl implements PreserveService {
     private DiscoveryClient discoveryClient;
 
     private String getServiceUrl(String serviceName) {
-        logger.info("[function name:{}][serviceName:{}]","getServiceUrl",serviceName);
         return "http://" + serviceName; }
 
     @Override
     public Response preserve(OrderTicketsInfo oti, HttpHeaders headers) {
-        logger.info("[function name:{}][oti:{}, headers:{}]","preserve",(oti != null ? oti.toString(): null), (headers != null ? headers.toString(): null));
 
         Response result = checkSecurity(oti.getAccountId(), headers);
         if (result.getStatus() == 0) {
@@ -136,8 +136,6 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntity,
                 new ParameterizedTypeReference<Response<TravelResult>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",re.getStatusCode(),
-                basic_service_url + "/api/v1/basicservice/basic/travel","POST",headers);
         if(re.getBody().getStatus() == 0){
             return new Response<>(0, re.getBody().getMsg(), null);
         }
@@ -251,13 +249,12 @@ public class PreserveServiceImpl implements PreserveService {
         notifyInfo.setStartTime(order.getTravelTime().toString());
 
         // TODO: change to async message serivce
-        // sendEmail(notifyInfo, headers);
+        sendEmail(notifyInfo, headers);
 
         return returnResponse;
     }
 
     public Ticket dipatchSeat(String date, String tripId, String startStation, String endStataion, int seatType, int totalNum, List<String> stationList, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][date:{}, tripId:{}, startStation:{}, endStataion:{}, seatType:{}, totalNum:{}, stationList:{}, httpHeaders:{}]","dipatchSeat",date, tripId, startStation, endStataion, seatType, totalNum, (stationList != null ? stationList.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
         Seat seatRequest = new Seat();
         seatRequest.setTravelDate(date);
         seatRequest.setTrainNumber(tripId);
@@ -275,14 +272,11 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntityTicket,
                 new ParameterizedTypeReference<Response<Ticket>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reTicket.getStatusCode(),
-                seat_service_url + "/api/v1/seatservice/seats","POST",httpHeaders);
 
         return reTicket.getBody().getData();
     }
 
     public boolean sendEmail(NotifyInfo notifyInfo, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][notifyInfo:{}, httpHeaders:{}]","sendEmail",(notifyInfo != null ? notifyInfo.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
         try {
             String infoJson = JsonUtils.object2Json(notifyInfo);
             sendService.send(infoJson);
@@ -295,7 +289,6 @@ public class PreserveServiceImpl implements PreserveService {
     }
 
     public User getAccount(String accountId, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][accountId:{}, httpHeaders:{}]","getAccount",accountId, (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntitySendEmail = new HttpEntity(httpHeaders);
         String user_service_url = getServiceUrl("ts-user-service");
@@ -305,14 +298,11 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntitySendEmail,
                 new ParameterizedTypeReference<Response<User>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",getAccount.getStatusCode(),
-                user_service_url + "/api/v1/userservice/users/id/" + accountId,"GET",httpHeaders);
         Response<User> result = getAccount.getBody();
         return result.getData();
     }
 
     private Response addAssuranceForOrder(int assuranceType, String orderId, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][assuranceType:{}, orderId:{}, httpHeaders:{}]","addAssuranceForOrder",assuranceType, orderId, (httpHeaders != null ? httpHeaders.toString(): null));
         HttpEntity requestAddAssuranceResult = new HttpEntity(httpHeaders);
         String assurance_service_url = getServiceUrl("ts-assurance-service");
         ResponseEntity<Response> reAddAssuranceResult = restTemplate.exchange(
@@ -320,14 +310,11 @@ public class PreserveServiceImpl implements PreserveService {
                 HttpMethod.GET,
                 requestAddAssuranceResult,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reAddAssuranceResult.getStatusCode(),
-                assurance_service_url + "/api/v1/assuranceservice/assurances/" + assuranceType + "/" + orderId,"GET",httpHeaders);
 
         return reAddAssuranceResult.getBody();
     }
 
     private String queryForStationId(String stationName, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][stationName:{}, httpHeaders:{}]","queryForStationId",stationName, (httpHeaders != null ? httpHeaders.toString(): null));
 
 
         HttpEntity requestQueryForStationId = new HttpEntity(httpHeaders);
@@ -338,14 +325,11 @@ public class PreserveServiceImpl implements PreserveService {
                 requestQueryForStationId,
                 new ParameterizedTypeReference<Response<String>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reQueryForStationId.getStatusCode(),
-                station_service_url + "/api/v1/stationservice/stations/id/" + stationName,"GET",httpHeaders);
 
         return reQueryForStationId.getBody().getData();
     }
 
     private Response checkSecurity(String accountId, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][accountId:{}, httpHeaders:{}]","checkSecurity",accountId, (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestCheckResult = new HttpEntity(httpHeaders);
         String security_service_url = getServiceUrl("ts-security-service");
@@ -354,15 +338,12 @@ public class PreserveServiceImpl implements PreserveService {
                 HttpMethod.GET,
                 requestCheckResult,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reCheckResult.getStatusCode(),
-                security_service_url + "/api/v1/securityservice/securityConfigs/" + accountId,"GET",httpHeaders);
 
         return reCheckResult.getBody();
     }
 
 
     private Response<TripAllDetail> getTripAllDetailInformation(TripAllDetailInfo gtdi, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][gtdi:{}, httpHeaders:{}]","getTripAllDetailInformation",(gtdi != null ? gtdi.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestGetTripAllDetailResult = new HttpEntity(gtdi, httpHeaders);
         String travel_service_url = getServiceUrl("ts-travel-service");
@@ -372,15 +353,12 @@ public class PreserveServiceImpl implements PreserveService {
                 requestGetTripAllDetailResult,
                 new ParameterizedTypeReference<Response<TripAllDetail>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetTripAllDetailResult.getStatusCode(),
-                travel_service_url + "/api/v1/travelservice/trip_detail","POST",httpHeaders);
 
         return reGetTripAllDetailResult.getBody();
     }
 
 
     private Response<Contacts> getContactsById(String contactsId, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][contactsId:{}, httpHeaders:{}]","getContactsById",contactsId, (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestGetContactsResult = new HttpEntity(httpHeaders);
         String contacts_service_url = getServiceUrl("ts-contacts-service");
@@ -390,14 +368,11 @@ public class PreserveServiceImpl implements PreserveService {
                 requestGetContactsResult,
                 new ParameterizedTypeReference<Response<Contacts>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reGetContactsResult.getStatusCode(),
-                contacts_service_url + "/api/v1/contactservice/contacts/" + contactsId,"GET",httpHeaders);
 
         return reGetContactsResult.getBody();
     }
 
     private Response createOrder(Order coi, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][coi:{}, httpHeaders:{}]","createOrder",(coi != null ? coi.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntityCreateOrderResult = new HttpEntity(coi, httpHeaders);
         String order_service_url = getServiceUrl("ts-order-service");
@@ -407,14 +382,11 @@ public class PreserveServiceImpl implements PreserveService {
                 requestEntityCreateOrderResult,
                 new ParameterizedTypeReference<Response<Order>>() {
                 });
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reCreateOrderResult.getStatusCode(),
-                order_service_url + "/api/v1/orderservice/order","POST",httpHeaders);
 
         return reCreateOrderResult.getBody();
     }
 
     private Response createFoodOrder(FoodOrder afi, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][afi:{}, httpHeaders:{}]","createFoodOrder",(afi != null ? afi.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntityAddFoodOrderResult = new HttpEntity(afi, httpHeaders);
         String food_service_url = getServiceUrl("ts-food-service");
@@ -423,14 +395,11 @@ public class PreserveServiceImpl implements PreserveService {
                 HttpMethod.POST,
                 requestEntityAddFoodOrderResult,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reAddFoodOrderResult.getStatusCode(),
-                food_service_url + "/api/v1/foodservice/orders","POST",httpHeaders);
 
         return reAddFoodOrderResult.getBody();
     }
 
     private Response createConsign(Consign cr, HttpHeaders httpHeaders) {
-        logger.info("[function name:{}][cr:{}, httpHeaders:{}]","createConsign",(cr != null ? cr.toString(): null), (httpHeaders != null ? httpHeaders.toString(): null));
 
         HttpEntity requestEntityResultForTravel = new HttpEntity(cr, httpHeaders);
         String consign_service_url = getServiceUrl("ts-consign-service");
@@ -439,8 +408,6 @@ public class PreserveServiceImpl implements PreserveService {
                 HttpMethod.POST,
                 requestEntityResultForTravel,
                 Response.class);
-        logger.info("[status code:{}, url:{}, type:{}, headers:{}]",reResultForTravel.getStatusCode(),
-                consign_service_url + "/api/v1/consignservice/consigns","POST",httpHeaders);
         return reResultForTravel.getBody();
     }
 

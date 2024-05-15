@@ -25,6 +25,20 @@
     </Appenders>
 
     <Loggers>
+
+        <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- 显示SQL语句中的实际参数 -->
+        <Logger name="org.hibernate.type.descriptor.sql" level="trace" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- 如果你开启了Hibernate统计 -->
+        <Logger name="org.hibernate.stat" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <!-- LOG everything at INFO level -->
         <Root level="info">
             <AppenderRef ref="Console" />

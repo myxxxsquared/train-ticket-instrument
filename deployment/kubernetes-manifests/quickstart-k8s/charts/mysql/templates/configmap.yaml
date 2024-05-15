@@ -11,7 +11,13 @@ data:
 {{ toYaml .Values.mysql.configFiles | indent 2 }}
   server-id.cnf: |
     [mysqld]
+    log-bin=mysql-bin
     server-id=@@SERVER_ID@@
+  node.cnf: |
+    [mysqld]
+    ssl=0
+    skip-ssl
+    # ignore-db-dir=lost+found
   create-peers.sh: |
     #!/bin/sh
     set -eu

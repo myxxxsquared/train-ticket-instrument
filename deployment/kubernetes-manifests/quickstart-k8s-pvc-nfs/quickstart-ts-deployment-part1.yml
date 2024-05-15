@@ -1275,7 +1275,7 @@ spec:
             memory: 200Mi
         volumeMounts:
           - name: mysql-persistent-storage
-            mountPath: /var/lib/mysql
+            mountPath: /var/local/mysql
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
