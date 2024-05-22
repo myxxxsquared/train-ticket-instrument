@@ -27,6 +27,13 @@ var reserveApp = new Vue({
             var today = new Date();
             var dd = today.getDate() + 1; 
             var mm = today.getMonth() + 1; //January is 0!
+            if (dd < 30) {
+                dd = dd + 1 
+            }
+            else {
+                dd = 1
+                mm = mm + 1
+            }
             var yyyy = today.getFullYear();
             if (dd < 10) {
                 dd = '0' + dd

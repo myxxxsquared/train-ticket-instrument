@@ -69,6 +69,9 @@ var appConsign = new Vue({
                     console.log(result);
                     that.tempOrderList = [];
                     var size = result.data.length;
+                    result.data.sort(function(a, b) {
+                        return new Date(b.boughtDate) - new Date(a.boughtDate);
+                    });
                     for (var i = 0; i < size; i++) {
                         that.tempOrderList[i] = result.data[i];
                         // that.tempOrderList[i].from = that.getStationNameById(that.tempOrderList[i].from);
