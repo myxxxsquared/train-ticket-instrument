@@ -47,5 +47,27 @@ public class InitUser implements CommandLineRunner {
                     .build();
             userRepository.save(admin);
         }
+
+        whetherExistAdmin = userRepository.findByUsername("liaoyifan").orElse(new User());
+        if (whetherExistAdmin.getUsername() == null) {
+            User liaoyifan = User.builder()
+                    .userId("c4f1da0b-b6c6-412c-944c-d324ddb153ca")
+                    .username("liaoyifan")
+                    .password(passwordEncoder.encode("liaoyifan1998"))
+                    .roles(new HashSet<>(Arrays.asList("ROLE_USER")))
+                    .build();
+            userRepository.save(liaoyifan);
+        }
+
+        whetherExistAdmin = userRepository.findByUsername("miniship").orElse(new User());
+        if (whetherExistAdmin.getUsername() == null) {
+            User miniship = User.builder()
+                    .userId("c4f1da0b-b6c6-412c-944c-d1b4ddb153ca")
+                    .username("miniship")
+                    .password(passwordEncoder.encode("miniship"))
+                    .roles(new HashSet<>(Arrays.asList("ROLE_ADMIN")))
+                    .build();
+            userRepository.save(miniship);
+        }
     }
 }

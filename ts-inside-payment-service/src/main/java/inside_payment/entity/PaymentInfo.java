@@ -18,7 +18,4 @@ public class PaymentInfo {
     private String tripId;
     private String price;
 
-//    public String getOrderId(){
-//        return this.orderId;
-//    }
 }

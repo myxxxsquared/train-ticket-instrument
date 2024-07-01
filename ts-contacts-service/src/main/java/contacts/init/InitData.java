@@ -36,5 +36,14 @@ public class InitData implements CommandLineRunner{
         contactsTwo.setPhoneNumber("ContactsPhoneNum_Two");
         contactsTwo.setId(UUID.fromString("4d2546c7-71cb-4cf1-a5bb-b68406d9da6f").toString());
         service.create(contactsTwo,null);
+
+        Contacts Jerry = new Contacts();
+        Jerry.setAccountId(UUID.fromString("c4f1da0b-b6c6-412c-944c-d324ddb153ca").toString());
+        Jerry.setDocumentType(DocumentType.ID_CARD.getCode());
+        Jerry.setName("Jerry");
+        Jerry.setDocumentNumber("DocumentNumber_Three");
+        Jerry.setPhoneNumber("ContactsPhoneNum_Three");
+        Jerry.setId(UUID.fromString("c4f1da0b-b6c6-412c-944c-d324ddb153ca").toString());
+        service.create(contactsTwo,null);
     }
 }

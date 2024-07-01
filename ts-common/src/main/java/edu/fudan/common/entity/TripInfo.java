@@ -41,7 +41,4 @@ public class TripInfo {
         return StringUtils.String2Lower(this.endPlace);
     }
 
-//    public Date getDepartureTime(){
-//        return StringUtils.String2Date(this.departureTime);
-//    }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import rebook.entity.RebookInfo;
 import rebook.service.RebookService;
 import rebook.dto.OrderUpdateDto;
+import rebook.dto.PaydifferenceDto;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -49,11 +50,15 @@ public class RebookController {
     }
 
     @PostMapping(value = "/rebook/difference")
-    public HttpEntity payDifference(@RequestBody RebookInfo info,
+    public HttpEntity payDifference(@RequestBody PaydifferenceDto paymentinfo,
                                     @RequestHeader HttpHeaders headers) {
-        return ok(service.payDifference(info, headers));
+        String orderId = paymentinfo.getOrderId();
+        String tripId = paymentinfo.getTripId();
+        String userId = paymentinfo.getUserId();
+        String money = paymentinfo.getMoney();
+        return ok(service.payDifferentMoney(orderId,tripId,userId,money,headers));
     }
-
+    
     @PostMapping(value = "/rebook")
     public HttpEntity rebook(@RequestBody RebookInfo info, @RequestHeader HttpHeaders headers) {
         return ok(service.rebook(info, headers));

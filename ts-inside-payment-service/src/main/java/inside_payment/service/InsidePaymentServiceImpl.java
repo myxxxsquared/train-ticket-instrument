@@ -95,7 +95,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
             Payment payment = new Payment();
             payment.setOrderId(info.getOrderId());
-            payment.setPrice(order.getPrice());
+            payment.setPrice(info.getPrice());
             payment.setUserId(userId);
 
             //判断一下账户余额够不够，不够要去站外支付
@@ -110,7 +110,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
                 Payment p = paymentsIterator.next();
                 totalExpand = totalExpand.add(new BigDecimal(p.getPrice()));
             }
-            totalExpand = totalExpand.add(new BigDecimal(order.getPrice()));
+            totalExpand = totalExpand.add(new BigDecimal(info.getPrice()));
 
             BigDecimal money = new BigDecimal("0");
             while (addMoniesIterator.hasNext()) {
@@ -123,7 +123,7 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
                 Payment outsidePaymentInfo = new Payment();
                 outsidePaymentInfo.setOrderId(info.getOrderId());
                 outsidePaymentInfo.setUserId(userId);
-                outsidePaymentInfo.setPrice(order.getPrice());
+                outsidePaymentInfo.setPrice(info.getPrice());
 
                 /****这里调用第三方支付***/
 

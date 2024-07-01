@@ -11,6 +11,6 @@ import rebook.dto.OrderUpdateDto;
  */
 public interface RebookService {
     Response rebook(RebookInfo info, HttpHeaders headers);
-    Response payDifference(RebookInfo info,  HttpHeaders headers);
+    Response payDifferentMoney(String orderId, String tripId, String userId, String money, HttpHeaders httpHeaders);
     Response updateOrder(Order order, RebookInfo info, TripAllDetail gtdr, String ticketPrice, HttpHeaders httpHeaders);
 }

@@ -54,5 +54,33 @@ public class InitUser implements CommandLineRunner {
         if (whetherExistUser == null) {
             userRepository.save(Admin);
         }
+
+        whetherExistUser = userRepository.findByUserName("miniship");
+        User miniship = User.builder()
+                .userId("c4f1da0b-b6c6-412c-944c-d1b4ddb153ca")
+                .userName("miniship")
+                .password("miniship")
+                .gender(2)
+                .documentType(1)
+                .documentNum("212882X")
+                .email("miniship@163.com").build();
+        miniship.setUserId("c4f1da0b-b6c6-412c-944c-d1b4ddb153ca");
+        if (whetherExistUser == null) {
+            userRepository.save(miniship);
+        }
+
+        whetherExistUser = userRepository.findByUserName("liaoyifan");
+        User liaoyifan = User.builder()
+                .userId("c4f1da0b-b6c6-412c-944c-d324ddb153ca")
+                .userName("liaoyifan")
+                .password("liaoyifan1998")
+                .gender(1)
+                .documentType(2)
+                .documentNum("323232")
+                .email("liaoyifan@gmail.com").build();
+        liaoyifan.setUserId("c4f1da0b-b6c6-412c-944c-d324ddb153ca");
+        if (whetherExistUser == null) {
+            userRepository.save(liaoyifan);
+        }
     }
 }

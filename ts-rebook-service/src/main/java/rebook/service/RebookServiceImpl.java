@@ -178,7 +178,7 @@ public class RebookServiceImpl implements RebookService {
         } else {
             //make up the difference
             String difference = priceNew.subtract(priceOld).toString();
-            // Order orderMoneyDifference = new Order();
+            Order orderMoneyDifference = new Order();
             orderMoneyDifference.setDifferenceMoney(difference);
             OrderUpdateDto dto = new OrderUpdateDto(order,  null, gtdr.getData(), ticketPrice, difference);
             // updateOrder(order, info, (TripAllDetail) gtdr.getData(), ticketPrice, httpHeaders);
@@ -186,7 +186,7 @@ public class RebookServiceImpl implements RebookService {
         }
     }
 
-    @Override
+    // @Override
     public Response payDifference(RebookInfo info, HttpHeaders httpHeaders) {
 
         Response queryOrderResult = getOrderByRebookInfo(info, httpHeaders);
@@ -217,13 +217,14 @@ public class RebookServiceImpl implements RebookService {
         BigDecimal priceOld = new BigDecimal(oldPrice);
         BigDecimal priceNew = new BigDecimal(ticketPrice);
 
-        if (payDifferentMoney(info.getOrderId(), info.getTripId(), info.getLoginId(), priceNew.subtract(priceOld).toString(), httpHeaders)) {
-            // return updateOrder(order, info, gtdr, ticketPrice, httpHeaders);
-            return new Response<>(1, "Success", order);
-        } else {
-            RebookServiceImpl.logger.warn("[payDifference][Pay difference warn][Can't pay the difference money][OrderId: {},LoginId: {},TripId: {}]",info.getOrderId(),info.getLoginId(),info.getTripId());
-            return new Response<>(0, "Can't pay the difference,please try again", null);
-        }
+        // if (payDifferentMoney(info.getOrderId(), info.getTripId(), info.getLoginId(), priceNew.subtract(priceOld).toString(), httpHeaders)) {
+        //     // return updateOrder(order, info, gtdr, ticketPrice, httpHeaders);
+        //     return new Response<>(1, "Success", order);
+        // } else {
+        //     RebookServiceImpl.logger.warn("[payDifference][Pay difference warn][Can't pay the difference money][OrderId: {},LoginId: {},TripId: {}]",info.getOrderId(),info.getLoginId(),info.getTripId());
+        //     return new Response<>(0, "Can't pay the difference,please try again", null);
+        // }
+        return new Response<>(1, "Success", order);
     }
 
     public Response updateOrder(Order order, RebookInfo info, TripAllDetail gtdr, String ticketPrice, HttpHeaders httpHeaders) {
@@ -476,13 +477,18 @@ public class RebookServiceImpl implements RebookService {
         }
     }
 
-    private boolean payDifferentMoney(String orderId, String tripId, String userId, String money, HttpHeaders httpHeaders) {
+    @Override
+    public Response payDifferentMoney(String orderId, String tripId, String userId, String money, HttpHeaders httpHeaders) {
         PaymentDifferenceInfo info = new PaymentDifferenceInfo();
         info.setOrderId(orderId);
         info.setTripId(tripId);
         info.setUserId(userId);
         info.setPrice(money);
-
+        Response queryOrderResult = getOrderBypaymentInfo(orderId,tripId,httpHeaders);
+        if (queryOrderResult.getStatus() == 0) {
+            return new Response<>(0, queryOrderResult.getMsg(), null);
+        }
+        Order order = (Order) queryOrderResult.getData();
         HttpHeaders newHeaders = getAuthorizationHeadersFrom(httpHeaders);
         HttpEntity requestEntityPayDifferentMoney = new HttpEntity(info, newHeaders);
         String inside_payment_service_url = getServiceUrl("ts-inside-payment-service");
@@ -492,7 +498,7 @@ public class RebookServiceImpl implements RebookService {
                 requestEntityPayDifferentMoney,
                 Response.class);
         Response result = rePayDifferentMoney.getBody();
-        return result.getStatus() == 1;
+        return new Response<>(1, "Success!", order);
     }
 
     private boolean drawBackMoney(String userId, String money, HttpHeaders httpHeaders) {
@@ -515,5 +521,29 @@ public class RebookServiceImpl implements RebookService {
             newHeaders.add(HttpHeaders.AUTHORIZATION, oldHeaders.getFirst(HttpHeaders.AUTHORIZATION));
         }
         return newHeaders;
+    }
+
+    private Response<Order> getOrderBypaymentInfo(String orderId, String tripId, HttpHeaders httpHeaders) {
+        Response<Order> queryOrderResult;
+        //Change can only be changed once, check the status of the order to determine whether it has been changed
+        String requestUrl = "";
+        String order_service_url = getServiceUrl("ts-order-service");
+        String order_other_service_url = getServiceUrl("ts-order-other-service");
+        if (tripId.startsWith("G") || tripId.startsWith("D")) {
+            requestUrl = order_service_url + "/api/v1/orderservice/order/" + orderId;
+        } else {
+            requestUrl = order_other_service_url + "/api/v1/orderOtherService/orderOther/" + orderId;
+        }
+        HttpHeaders newHeaders = getAuthorizationHeadersFrom(httpHeaders);
+        HttpEntity requestEntityGetOrderByRebookInfo = new HttpEntity(newHeaders);
+        ResponseEntity<Response<Order>> reGetOrderByRebookInfo = restTemplate.exchange(
+                requestUrl,
+                HttpMethod.GET,
+                requestEntityGetOrderByRebookInfo,
+                new ParameterizedTypeReference<Response<Order>>() {
+                });
+
+        queryOrderResult = reGetOrderByRebookInfo.getBody();
+        return queryOrderResult;
     }
 }

@@ -60,20 +60,4 @@ public class Trip {
         this.endTime = "";
     }
 
-//    public Date getStartTime(){
-//        return StringUtils.String2Date(this.startTime);
-//    }
-//
-//    public Date getEndTime(){
-//        return StringUtils.String2Date(this.endTime);
-//    }
-//
-//    public void setStartTime(Date startTime){
-//        this.startTime = StringUtils.Date2String(startTime);
-//    }
-//
-//    public void setEndTime(Date endTime){
-//        this.endTime = StringUtils.Date2String(endTime);
-//    }
-
 }

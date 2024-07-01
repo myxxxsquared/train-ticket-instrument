@@ -99,10 +99,10 @@ public class ExecuteServiceImpl implements ExecuteService {
         if (resultFromOrder.getStatus() == 1) {
             order =  resultFromOrder.getData();
             //2.Check if the order can come in
-            if (order.getStatus() != OrderStatus.COLLECTED.getCode()) {
-                logger.error("[ticketExecute][getOrderByIdFromOrder][ticket execute error: {}][orderId: {}]", orderStatusWrong, orderId);
-                return new Response<>(0, orderStatusWrong, null);
-            }
+            // if (order.getStatus() != OrderStatus.COLLECTED.getCode()) {
+            //     logger.error("[ticketExecute][getOrderByIdFromOrder][ticket execute error: {}][orderId: {}]", orderStatusWrong, orderId);
+            //     return new Response<>(0, orderStatusWrong, null);
+            // }
             //3.Confirm inbound, request change order information
 
             Response resultExecute = executeOrder(orderId, OrderStatus.USED.getCode(), headers);
@@ -165,10 +165,10 @@ public class ExecuteServiceImpl implements ExecuteService {
             if (resultFromOrder.getStatus() == 1) {
                 order = (Order) resultFromOrder.getData();
                 //2.Check if the order can come in
-                if (order.getStatus() != OrderStatus.PAID.getCode() && order.getStatus() != OrderStatus.CHANGE.getCode()) {
-                    logger.error("[ticketCollect][getOrderByIdFromOrderOther][ticket collect error: {}][orderId: {}]", orderStatusWrong, orderId);
-                    return new Response<>(0, orderStatusWrong, null);
-                }
+                // if (order.getStatus() != OrderStatus.PAID.getCode() && order.getStatus() != OrderStatus.CHANGE.getCode()) {
+                //     logger.error("[ticketCollect][getOrderByIdFromOrderOther][ticket collect error: {}][orderId: {}]", orderStatusWrong, orderId);
+                //     return new Response<>(0, orderStatusWrong, null);
+                // }
                 //3.Confirm inbound, request change order information
                 Response resultExecute = executeOrderOther(orderId, OrderStatus.COLLECTED.getCode(), headers);
                 if (resultExecute.getStatus() == 1) {

@@ -90,21 +90,6 @@ public class ConsignPriceServiceImpl implements ConsignPriceService {
     public Response queryPriceInformation(HttpHeaders headers) {
         StringBuilder sb = new StringBuilder();
         ConsignPrice price = repository.findByIndex(0);
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
         sb.append("The price of weight within ");
         sb.append(price.getInitialWeight());
         sb.append(" is ");
