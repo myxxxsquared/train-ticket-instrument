@@ -120,30 +120,31 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
 
             if (totalExpand.compareTo(money) > 0) {
                 //站外支付
-                Payment outsidePaymentInfo = new Payment();
-                outsidePaymentInfo.setOrderId(info.getOrderId());
-                outsidePaymentInfo.setUserId(userId);
-                outsidePaymentInfo.setPrice(info.getPrice());
+                // Payment outsidePaymentInfo = new Payment();
+                // outsidePaymentInfo.setOrderId(info.getOrderId());
+                // outsidePaymentInfo.setUserId(userId);
+                // outsidePaymentInfo.setPrice(info.getPrice());
 
-                /****这里调用第三方支付***/
+                // /****这里调用第三方支付***/
 
-                HttpEntity requestEntityOutsidePaySuccess = new HttpEntity(outsidePaymentInfo, headers);
-                String payment_service_url = getServiceUrl("ts-payment-service");
-                ResponseEntity<Response> reOutsidePaySuccess = restTemplate.exchange(
-                        payment_service_url + "/api/v1/paymentservice/payment",
-                        HttpMethod.POST,
-                        requestEntityOutsidePaySuccess,
-                        Response.class);
-                Response outsidePaySuccess = reOutsidePaySuccess.getBody();
-                if (outsidePaySuccess.getStatus() == 1) {
-                    payment.setType(PaymentType.O);
-                    paymentRepository.save(payment);
-                    setOrderStatus(info.getTripId(), info.getOrderId(), headers);
-                    return new Response<>(1, "Payment Success " +    outsidePaySuccess.getMsg(), null);
-                } else {
-                    logger.error("Payment failed: {}", outsidePaySuccess.getMsg());
-                    return new Response<>(0, "Payment Failed:  " +  outsidePaySuccess.getMsg(), null);
-                }
+                // HttpEntity requestEntityOutsidePaySuccess = new HttpEntity(outsidePaymentInfo, headers);
+                // String payment_service_url = getServiceUrl("ts-payment-service");
+                // ResponseEntity<Response> reOutsidePaySuccess = restTemplate.exchange(
+                //         payment_service_url + "/api/v1/paymentservice/payment",
+                //         HttpMethod.POST,
+                //         requestEntityOutsidePaySuccess,
+                //         Response.class);
+                // Response outsidePaySuccess = reOutsidePaySuccess.getBody();
+                // if (outsidePaySuccess.getStatus() == 1) {
+                payment.setType(PaymentType.O);
+                paymentRepository.save(payment);
+                //     setOrderStatus(info.getTripId(), info.getOrderId(), headers);
+                //     return new Response<>(1, "Payment Success " +    outsidePaySuccess.getMsg(), null);
+                // } else {
+                //     logger.error("Payment failed: {}", outsidePaySuccess.getMsg());
+                //     return new Response<>(2, "Need top up", null);
+                // }
+                return new Response<>(2, "Need top up", null);
             } else {
                 setOrderStatus(info.getTripId(), info.getOrderId(), headers);
                 payment.setType(PaymentType.P);
@@ -158,26 +159,41 @@ public class InsidePaymentServiceImpl implements InsidePaymentService {
     }
 
     @Override
+    public Response topup(PaymentInfo info, HttpHeaders headers) {
+        Payment payment = new Payment();
+        payment.setOrderId(info.getOrderId());
+        payment.setPrice(info.getPrice());
+        payment.setUserId(info.getUserId());
+
+        Payment outsidePaymentInfo = new Payment();
+        outsidePaymentInfo.setOrderId(info.getOrderId());
+        outsidePaymentInfo.setUserId(info.getUserId());
+        outsidePaymentInfo.setPrice(info.getPrice());
+
+        /****这里调用第三方支付***/
+
+        HttpEntity requestEntityOutsidePaySuccess = new HttpEntity(outsidePaymentInfo, headers);
+        String payment_service_url = getServiceUrl("ts-payment-service");
+        ResponseEntity<Response> reOutsidePaySuccess = restTemplate.exchange(
+                payment_service_url + "/api/v1/paymentservice/payment",
+                HttpMethod.POST,
+                requestEntityOutsidePaySuccess,
+                Response.class);
+        Response outsidePaySuccess = reOutsidePaySuccess.getBody();
+        if (outsidePaySuccess.getStatus() == 1) {
+            payment.setType(PaymentType.O);
+            paymentRepository.save(payment);
+            setOrderStatus(info.getTripId(), info.getOrderId(), headers);
+            return new Response<>(1, "Payment Success " +    outsidePaySuccess.getMsg(), null);
+        } else {
+            logger.error("Payment failed: {}", outsidePaySuccess.getMsg());
+            return new Response<>(2, "Topup failed", null);
+        }
+    }
+
+    @Override
     public Response createAccount(AccountInfo info, HttpHeaders headers) {
         List<Money> list = addMoneyRepository.findByUserId(info.getUserId());
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
         if (list.isEmpty()) {
             Money addMoney = new Money();
             addMoney.setMoney(info.getMoney());

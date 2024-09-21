@@ -139,10 +139,54 @@ var appConsign = new Vue({
                         success: function (result) {
                             if (result.status == 1) {
                                 $("#preserve_collect_order_id").val(info.orderId);
-                                alert("Success");
+                                alert("Payment Success");
                                 window.location.reload();
+                            } else if (result.status == 2) {
+                                // alert("Need to top up");
+                                // 弹出充值提示框
+                                $('#top-up-prompt').modal({
+                                    relatedTarget: this,
+                                    onConfirm: function (e) {
+                                        // 调用第三方支付接口进行充值
+                                        var topUpInfo = new Object();
+                                        topUpInfo.orderId = that.orderId;
+                                        topUpInfo.userId = sessionStorage.getItem("user_id");
+                                        topUpInfo.tripId = that.tripId;
+                                        topUpInfo.price = that.price;
+                                        var topUpData = JSON.stringify(topUpInfo);
+                                        $.ajax({
+                                            type: "post",
+                                            url: "/api/v1/inside_pay_service/inside_payment/topup",
+                                            contentType: "application/json",
+                                            headers: {"Authorization": "Bearer " + sessionStorage.getItem("client_token")},
+                                            dataType: "json",
+                                            data: topUpData,
+                                            xhrFields: {
+                                                withCredentials: true
+                                            },
+                                            success: function (result) {
+                                                if (result.status == 1) {
+                                                    alert("Payment Success");
+                                                } else {
+                                                    alert("Payment Failed: " + result.msg);
+                                                }
+                                            },
+                                            error: function (e) {
+                                                var message = e.responseJSON.message;
+                                                console.log(message);
+                                                if (message.indexOf("Token") != -1) {
+                                                    alert("Token is expired! please login first!");
+                                                }
+                                            }
+                                        });
+                                    },
+                                    onCancel: function (e) {
+                                        // 用户取消充值
+                                        alert('Top up canceled!');
+                                    }
+                                });
                             } else {
-                                alert("Pay Fail. Reason Not Clear.Please check the order status before you try.");
+                                alert("Pay Fail. Reason Not Clear. Please check the order status before you try.");
                             }
                         }, error: function (e) {
                             var message = e.responseJSON.message;
@@ -171,6 +215,11 @@ var appConsign = new Vue({
 
             $("#ticket_cancel_panel").css('display', 'block');
             $('#my-svg-change-order').shCircleLoader({namespace: 'runLoad'});
+            if (orderStatus == 0) {
+                // 如果订单状态为0，直接设置退款金额为0
+                $("#cancel_money_refund").text("0");
+            } 
+            else {
             $.ajax({
                 type: "get",
                 url: "/api/v1/cancelservice/cancel/refound/" + orderId,
@@ -197,7 +246,7 @@ var appConsign = new Vue({
                     $('#my-svg-change-order').shCircleLoader('destroy');
                 }
             });
-        },
+        }},
         reBook(index, type, number) {
             var $modal = $('#doc-modal-2');
             $modal.modal('close');
@@ -413,6 +462,11 @@ var appConsign = new Vue({
                     }
                     var currentdate = year + seperator1 + month + seperator1 + strDate;
 
+                    // Check if buyghtDate is before currentdate
+                    if (new Date(buyghtDate) < new Date(currentdate)) {
+                        alert('The buyghtDate is in the past and cannot be used for consignment.');
+                        return;
+                    }
                     consignInfo.handleDate = currentdate;
                     consignInfo.targetDate = buyghtDate;
                     consignInfo.from = from;

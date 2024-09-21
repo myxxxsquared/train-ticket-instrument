@@ -91,4 +91,6 @@ public interface InsidePaymentService {
      */
     void initPayment(Payment payment, HttpHeaders headers);
 
+    Response topup(PaymentInfo info , HttpHeaders headers);
+
 }

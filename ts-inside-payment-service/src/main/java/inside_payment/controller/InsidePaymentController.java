@@ -106,4 +106,8 @@ public class InsidePaymentController {
         return ok(service.queryAddMoney(headers));
     }
 
+    @PostMapping(value = "/inside_payment/topup")
+    public HttpEntity topup(@RequestBody PaymentInfo info, @RequestHeader HttpHeaders headers) {
+        return ok(service.topup(info, headers));
+    }
 }
